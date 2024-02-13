@@ -10,7 +10,7 @@ Currently I am working with [Chainlink Labs](https://chain.link/) to scale servi
 
 I am also currently sourcing great web3 startup for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space.
 
-Before my time at Chainlink Labs, I have had the privilege of working with some of the most respected companies in the Web3 space:
+Previously I have had the privilege of working with some of the most respected companies in the Web3 space:
 
 - [Spartan Labs](https://www.spartangroup.io/): Led smart contract projects and [thought leadership articles](https://medium.com/@spartanlabs).
 - [Nethermind](https://www.nethermind.io/): Security tooling using Forta Bots
