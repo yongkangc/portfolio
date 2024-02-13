@@ -6,7 +6,7 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently I am working with [Chainlink Labs](https://chain.link/) to scale services across multiple blockchains like Ethereum, Solana and Cosmos.
+Currently I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink services across multiple blockchains like Ethereum, Solana and Cosmos.
 
 I am also currently sourcing great web3 startup for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space.
 
