@@ -44,8 +44,12 @@ In my free time, I also enjoy contributing to open-source projects where I can l
 
 ## Writings
 
-| Article                                                                                                                     | Year |
-| --------------------------------------------------------------------------------------------------------------------------- | ---- |
-| [Building a Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b) | 2023 |
+| Article                                                                                                                                                                     | Year |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| [Building a Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                 | 2023 |
+| [How does Ethereum work under the hood?](https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63) | 2023 |
+| [Why Do We Need Modular Blockchains For Scalability?](https://medium.com/coinmonks/why-we-need-modular-blockchains-for-scalability-276f4d724b0e)                            | 2022 |
+
+---
 
 > To a great mind, nothing is little
