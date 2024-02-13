@@ -14,7 +14,7 @@ I am also currently sourcing great web3 startup for [Spartan Group](https://www.
 
 Before my time at Chainlink Labs, I have had the privilege of working with some of the most respected companies in the Web3 space:
 
-- [Spartan Labs](https://www.spartangroup.io/): Led smart contract development projects, enhancing security and functionality.
+- [Spartan Labs](https://www.spartangroup.io/): Led smart contract development projects and [thought leadership articles](https://medium.com/@spartanlabs).
 - [Nethermind](https://www.nethermind.io/): Security tooling using Forta Bots
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
 - [Velodrome](https://velodrome.finance/): Core smart contract dev for #1 Defi App on Optimism
@@ -48,6 +48,7 @@ In my free time, I also enjoy contributing to open-source projects where I can l
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
 | [Building a Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                 | 2023 |
 | [How does Ethereum work under the hood?](https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63) | 2023 |
+| [NFT Vesting](https://medium.com/the-spartan-group/nft-vesting-with-time-locks-b7932b186a6e)                                                                                | 2022 |
 | [Why Do We Need Modular Blockchains For Scalability?](https://medium.com/coinmonks/why-we-need-modular-blockchains-for-scalability-276f4d724b0e)                            | 2022 |
 
 ---
