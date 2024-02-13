@@ -8,11 +8,13 @@ title = "About"
 
 I have close to 5 years of experience in engineering, where 4 years have been deeply rooted in infrastructure, distributed systems, and smart contract development within the blockchain space.
 
-Currently I am working with [Chainlink Labs](https://chain.link/) to scale services across multiple blockchains like Ethereum, Solana and Cosmos. .I am also currently sourcing great web3 startup for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space.
+Currently I am working with [Chainlink Labs](https://chain.link/) to scale services across multiple blockchains like Ethereum, Solana and Cosmos.
+
+I am also currently sourcing great web3 startup for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space.
 
 Before my time at Chainlink Labs, I have had the privilege of working with some of the most respected companies in the Web3 space:
 
-- [Spartan Group](https://www.spartangroup.io/): Led smart contract development projects, enhancing security and functionality.
+- [Spartan Labs](https://www.spartangroup.io/): Led smart contract development projects, enhancing security and functionality.
 - [Nethermind](https://www.nethermind.io/): Security tooling using Forta Bots
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
 - [Velodrome](https://velodrome.finance/): Core smart contract dev for #1 Defi App on Optimism
