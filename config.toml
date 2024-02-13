@@ -4,16 +4,16 @@ theme = "researcher"
 disableKinds = ["taxonomy", "term"]
 enableEmoji = true
 math = false          # enable KaTeX (https://katex.org/) globally
-googleAnalytics = ""  # add your tracking id
+googleAnalytics = "G-D5HBRC62LK"  # add your tracking id
 
 [params]
-  author = "Olivier Roques"
+  author = "Chia Yong Kang"
   description = "welcome to my code"
   favicon = "favicon.ico"  # path to a .ico to use as favicon
   logo = ""  # url or path to a logo to put in the header
   [params.footer]
-    text = "By Olivier Roques"
-    url = "https://github.com/ojroques/hugo-researcher"
+    text = "Yong Kang"
+    url = "chiayong.com"
   [params.style]  # appearance options (can be omitted)
     fontFamily = "Inconsolata"
     fontSize = "14pt"
@@ -28,11 +28,11 @@ googleAnalytics = ""  # add your tracking id
   [[params.socialIcons]]
     icon = "fas fa-envelope"
     title = "E-mail"
-    url = "mailto:mail@example.com"
+    url = "mailto:chiayongkang@hotmail.com"
   [[params.socialIcons]]
-    icon = "ai ai-google-scholar"
-    title = "Scholar"
-    url = "https://scholar.google.com/"
+    icon = "fab fa-github"
+    title = "Github"
+    url = "https://github.com/ExtremelySunnyYK"
 
 [permalinks]
   "/" = "/:filename"
