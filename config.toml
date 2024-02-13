@@ -8,7 +8,7 @@ googleAnalytics = "G-D5HBRC62LK"  # add your tracking id
 
 [params]
   author = "Chia Yong Kang"
-  description = "welcome to my code"
+  description = "Web3 Engineer"
   favicon = "favicon.ico"  # path to a .ico to use as favicon
   logo = ""  # url or path to a logo to put in the header
   [params.footer]
