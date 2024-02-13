@@ -44,9 +44,10 @@ In my free time, I also enjoy contributing to open-source projects where I can l
 
 ## Writings
 
-| Article                                                                                                                                                                     | Year |
+| Articles                                                                                                                                                                    | Year |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
 | [Building a Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                 | 2023 |
+| [Zero Knowledge Soul Bound Token](https://medium.com/the-spartan-group/the-construction-of-the-soul-part-3-soulbound-token-with-zk-snark-implementation-900d808b9e79)       | 2023 |
 | [How does Ethereum work under the hood?](https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63) | 2023 |
 | [NFT Vesting](https://medium.com/the-spartan-group/nft-vesting-with-time-locks-b7932b186a6e)                                                                                | 2022 |
 | [Why Do We Need Modular Blockchains For Scalability?](https://medium.com/coinmonks/why-we-need-modular-blockchains-for-scalability-276f4d724b0e)                            | 2022 |
