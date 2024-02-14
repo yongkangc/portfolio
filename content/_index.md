@@ -8,7 +8,7 @@ title = "About"
 
 Currently I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink services across multiple blockchains like Ethereum, Solana and Cosmos.
 
-Also sourcing for amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
+I am also sourcing for amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
 
 Previously I have had the privilege of working with some of the most respected companies in the Web3 space:
 
