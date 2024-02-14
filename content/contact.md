@@ -2,7 +2,9 @@
 title = "Contact"
 +++
 
-I love working on projects that allow me to grow my Rust skills 🚀 and collaborate with the open-source community 🤝. If you have any cool Rust projects, I'd be happy to contribute!
+I am open to consulting work for blockchain and smart contract projects.
+
+If you have any cool Rust projects, I'd be happy to contribute!
 
 ---
 
