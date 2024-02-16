@@ -10,7 +10,7 @@ Currently I am working with [Chainlink Labs](https://chain.link/) to scale Chain
 
 I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
 
-I believe that blockchain, distributed systems, and cybersecurity are forging a transparent and secure decentralized future, challenging centralized power and corruption.
+I believe that blockchain and distributed systems are forging a transparent and secure decentralized future, challenging centralized power and corruption.
 
 ## Background
 
