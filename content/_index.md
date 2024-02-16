@@ -12,7 +12,7 @@ I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartan
 
 I believe that blockchain, distributed systems, and cybersecurity are forging a transparent and secure decentralized future, challenging centralized power and corruption.
 
-## My Experiences
+## Background
 
 Previously I have had the privilege of working with some of the most respected companies in the Web3 space:
 
