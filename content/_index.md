@@ -8,7 +8,11 @@ title = "About"
 
 Currently I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink services across multiple blockchains like Ethereum, Solana and Cosmos.
 
-I am also sourcing for amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
+I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
+
+I really believe that blockchain, distributed systems, and cybersecurity are forging a transparent and secure decentralized future, challenging centralized power and corruption.
+
+## My Experiences
 
 Previously I have had the privilege of working with some of the most respected companies in the Web3 space:
 
@@ -17,8 +21,6 @@ Previously I have had the privilege of working with some of the most respected c
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
 - [Velodrome](https://velodrome.finance/): Core smart contract dev for #1 Defi App on Optimism
 - [Treehouse Finance](https://www.treehouse.finance/): Innovated on DeFi analytics, working with smart contracts and on-chain data aggregation.
-
-I really believe that blockchain, distributed systems, and cybersecurity are forging a transparent and secure decentralized future, challenging centralized power and corruption.
 
 ## Projects
 
