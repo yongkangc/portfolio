@@ -10,7 +10,7 @@ Currently I am working with [Chainlink Labs](https://chain.link/) to scale Chain
 
 I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
 
-I believe that blockchain and distributed systems are forging a transparent and secure decentralized future, challenging centralized power and corruption.
+I believe that blockchain and distributed systems are forging a transparent decentralized future, challenging centralized power and corruption.
 
 ## Background
 
@@ -26,21 +26,26 @@ Previously I have had the privilege of working with some of the most respected c
 
 I love hackathons ❤️, and I have participated in several large hackathons, in which I have won over 10 hackathons. Some notable wins:
 
-- [Chainlink Hackathon](https://devpost.com/software/silas-avery-yong-kang) - Decentralised Data Marketplace
-- [Stanford Hackathon](https://devpost.com/software/controldb) - Cost effective Decentralised Database as Service
-- [Harvard Hackathon](https://www.notion.so/yongkangchia/Cross-chain-Insurance-Harvard-Blockchain-Hack-Winner-3aeb7eb48da4491b868c7d2ae69fd0a6) - Cross Chain Insurance
-- [Quora LLM Hackathon](https://poe.com/DataAnalyzer) - Data Analyzer Chatbot
-- [ETH Denver Hackathon](https://www.gelk.in/) - Zero Knowledge Machine Learning
-- [Crypto.com Hackathon](https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521&p=7c323fca064e44dba93912faa83dab85&pm=c) - Micro Financing
-- [Avalanche Hackathon](https://www.notion.so/yongkangchia/Derisk-AVAX-Hackathon-Winner-febf80966ec14c8984bfa848a0f4a2f7) - Wallet Tooling
+- 🏆 [Chainlink Hackathon](https://devpost.com/software/silas-avery-yong-kang) - Decentralised Data Marketplace
+- 🏆 [Stanford Hackathon](https://devpost.com/software/controldb) - Cost effective Decentralised Database as Service
+- 🏆 [Harvard Hackathon](https://www.notion.so/yongkangchia/Cross-chain-Insurance-Harvard-Blockchain-Hack-Winner-3aeb7eb48da4491b868c7d2ae69fd0a6) - Cross Chain Insurance
+- 🏆 [Quora LLM Hackathon](https://poe.com/DataAnalyzer) - Data Analyzer Chatbot
+- 🏆 [ETH Denver Hackathon](https://www.gelk.in/) - Zero Knowledge Machine Learning
+- 🏆 [Crypto.com Hackathon](https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521&p=7c323fca064e44dba93912faa83dab85&pm=c) - Micro Financing
+- 🏆 [Avalanche Hackathon](https://www.notion.so/yongkangchia/Derisk-AVAX-Hackathon-Winner-febf80966ec14c8984bfa848a0f4a2f7) - Wallet Tooling
 
 **See all my projects** [here](https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521)
 
 In my free time, I also enjoy contributing to open-source projects where I can lend my skills. Some of the projects I've started/contributed to include:
 
-- [Rust Telegram Client](https://crates.io/crates/rustygram) (>300 Downloads)
-- [Rust Binance Async Client](https://github.com/Igosuki/binance-rs-async) (Feature + Bug Fixes)
-- [Smart Contracts](https://github.com/SpartanLabsXyz/spartanlabs-contracts)
+<!-- | Projects                                                                                     | Contributions    |
+| -------------------------------------------------------------------------------------------- | ---------------- |
+| [Rust Solidity Gas Optimizooor](https://github.com/ExtremelySunnyYK/Solidity-Gas-Optimizoor) | Main Contributor |
+| [Rust Telegram Client (> 600 Downloads)](https://crates.io/crates/rustygram)                 | Main Contributor |
+| [Rust Binance Async Client](https://crates.io/crates/rustygram)                              | Features + Fixes |
+| [Smart Contracts](https://github.com/SpartanLabsXyz/spartanlabs-contracts)                   | Main Contributor | -->
+
+<style> .project-table { border-collapse: collapse; width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); } .project-table th, .project-table td { padding: 12px 15px; text-align: left; } .project-table th { background-color: #2196F3; color: white; text-transform: uppercase; } .project-table tr:nth-child(even) { background-color: #f2f2f2; } .project-table td { border-bottom: 1px solid #ddd; } </style> <table class="project-table"> <tr> <th>Projects</th> </tr> <tr> <td><a href="https://github.com/ExtremelySunnyYK/Solidity-Gas-Optimizoor">Rust Solidity Gas Optimizooor</a> - Main Contributor</td> </tr> <tr> <td><a href="https://crates.io/crates/rustygram">Rust Telegram Client (> 600 Downloads)</a> - Main Contributor</td> </tr> <tr> <td><a href="https://crates.io/crates/rustygram">Rust Binance Async Client</a> - Features + Fixes</td> </tr> <tr> <td><a href="https://github.com/SpartanLabsXyz/spartanlabs-contracts">Smart Contracts</a> - Main Contributor</td> </tr> </table>
 
 ## Writings
 
