@@ -35,7 +35,7 @@ googleAnalytics = "G-D5HBRC62LK"  # add your tracking id
     url = "https://github.com/yongkangc"
 
 [permalinks]
-  "/" = "chiayong.com"
+  "/" = "/:filename"
 
 [menu]
   [[menu.main]]
