@@ -32,7 +32,7 @@ googleAnalytics = "G-D5HBRC62LK"  # add your tracking id
   [[params.socialIcons]]
     icon = "fab fa-github"
     title = "Github"
-    url = "https://github.com/ExtremelySunnyYK"
+    url = "https://github.com/yongkangc"
 
 [permalinks]
   "/" = "chiayong.com"
