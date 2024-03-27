@@ -6,11 +6,11 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink services across multiple blockchains like Ethereum, Solana and Cosmos.
+Currently, I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink services across multiple blockchains like Ethereum, Solana and Cosmos.
 
-I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/) which is a leading venture capital firm in the Web3 space. Feel free to reach out!
+I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/), a leading venture capital firm in the Web3 space. Feel free to reach out!
 
-I believe that blockchain and distributed systems are forging a transparent decentralized future, challenging centralized power and corruption.
+Blockchain and distributed systems are forging a transparent decentralized future, challenging centralized power and corruption.
 
 ## Background
 
