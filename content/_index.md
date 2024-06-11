@@ -49,12 +49,13 @@ In my free time, I also enjoy contributing to **open-source projects** where I c
 
 | Articles                                                                                                                                                                    | Year |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
-| [Design Of Solidity AST Optimiser](https://medium.com/@extremelysunnyyk/from-idea-to-implementation-creating-a-solidity-gas-optimizer-for-smart-contracts-0a103c2bfd24?postPublishedType=repub)                                                                                                                                                      | 2023 |
+| [Design Of Solidity AST Optimiser](https://medium.com/@extremelysunnyyk/from-idea-to-implementation-creating-a-solidity-gas-optimizer-for-smart-contracts-0a103c2bfd24?postPublishedType=repub)                                                                                                                                                      | 2024 |
 | [Building a Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                 | 2023 |
 | [Zero Knowledge Soul Bound Token](https://medium.com/the-spartan-group/the-construction-of-the-soul-part-3-soulbound-token-with-zk-snark-implementation-900d808b9e79)       | 2023 |
 | [How does Ethereum work under the hood?](https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63) | 2023 |
 | [NFT Vesting](https://medium.com/the-spartan-group/nft-vesting-with-time-locks-b7932b186a6e)                                                                                | 2022 |
 | [Why Do We Need Modular Blockchains For Scalability?](https://medium.com/coinmonks/why-we-need-modular-blockchains-for-scalability-276f4d724b0e)                            | 2022 |
+| [Smart Contract Audit Primer](https://extremelysunnyyk.medium.com/preparing-for-a-comprehensive-smart-contract-audit-a-primer-56427c725b0b)                                 | 2024 |
 
 ---
 
