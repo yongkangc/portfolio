@@ -10,7 +10,7 @@ Currently, I am working with [Chainlink Labs](https://chain.link/) to scale Chai
 
 I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/), a leading venture capital firm in the Web3 space. Feel free to reach out!
 
-Blockchain and distributed systems are forging a transparent decentralized future, challenging centralized power and corruption.
+Building Non-Hierachical Systems with Blockchain & Distributed Systems. 
 
 ## Background
 
