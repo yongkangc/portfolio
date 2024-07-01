@@ -41,7 +41,7 @@ In my free time, I also enjoy contributing to **open-source projects** where I c
 | Projects                                                                                     | Contributions    |
 | -------------------------------------------------------------------------------------------- | ---------------- |
 | [Rust Solidity Gas Optimizooor](https://github.com/ExtremelySunnyYK/Solidity-Gas-Optimizoor) | Main Contributor |
-| [Rust Telegram Client (> **3000** Downloads)](https://crates.io/crates/rustygram)                 | Main Contributor |
+| [Rust Telegram Client (> **2000** Downloads)](https://crates.io/crates/rustygram)                 | Main Contributor |
 | [Rust Binance Async Client](https://crates.io/crates/rustygram)                              | Features + Fixes |
 | [Smart Contracts](https://github.com/SpartanLabsXyz/spartanlabs-contracts)                   | Main Contributor |
 
