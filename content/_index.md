@@ -6,7 +6,7 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently, I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink services across multiple blockchains like Ethereum, Solana and Cosmos.
+Currently, I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink products across multiple blockchains like Ethereum, Solana and Cosmos.
 
 I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/), a leading venture capital firm in the Web3 space. Feel free to reach out!
 
@@ -24,7 +24,9 @@ Previously I have had the privilege of working with some of the most respected c
 
 ## Projects
 
-I love hackathons ❤️, and I have participated in several large hackathons, in which I have won over 10 hackathons. Some notable wins:
+I love hackathons ❤️, and I have participated in several large hackathons, in which I have won over 10 hackathons. 
+
+Some notable wins:
 
 - 🏆 [Chainlink Hackathon](https://devpost.com/software/silas-avery-yong-kang) - Decentralised Data Marketplace
 - 🏆 [Stanford Hackathon](https://devpost.com/software/controldb) - Cost effective Decentralised Database as Service
@@ -41,7 +43,7 @@ In my free time, I also enjoy contributing to **open-source projects** where I c
 | Projects                                                                                     | Contributions    |
 | -------------------------------------------------------------------------------------------- | ---------------- |
 | [Rust Solidity Gas Optimizooor](https://github.com/ExtremelySunnyYK/Solidity-Gas-Optimizoor) | Main Contributor |
-| [Rust Telegram Client (> **2000** Downloads)](https://crates.io/crates/rustygram)                 | Main Contributor |
+| [Rust Telegram Client (> **4000** Downloads)](https://crates.io/crates/rustygram)                 | Main Contributor |
 | [Rust Binance Async Client](https://crates.io/crates/rustygram)                              | Features + Fixes |
 | [Smart Contracts](https://github.com/SpartanLabsXyz/spartanlabs-contracts)                   | Main Contributor |
 
