@@ -10,7 +10,7 @@ Currently deep in the Solana trenches building out low latency infrastructure fo
 
 Previously I was working with [Chainlink Labs](https://chain.link/) to scale Chainlink products across multiple blockchains including Ethereum, Solana and Aptos.
 
-Building Non-Hierachical Systems with Blockchain & Distributed Systems. 
+Building Non-Hierachical Systems with Blockchain & Distributed Systems. I love building in rust and currently diving deep into svm and agentic software.
 
 ## Background
 
