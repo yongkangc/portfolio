@@ -6,7 +6,7 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently deep in the Solana trenches building out low latency infrastructure for Ranger Finance to integrate Defi starting with Solana's first perps aggregator.
+Currently deep in the Solana trenches building out low latency infrastructure for [Ranger Finance](www.ranger.finance) to aggregate Defi starting with Solana's first perpetuals aggregator.
 
 Previously I was working with [Chainlink Labs](https://chain.link/) to scale Chainlink products across multiple blockchains including Ethereum, Solana and Aptos.
 
