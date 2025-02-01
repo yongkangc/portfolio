@@ -6,9 +6,9 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently, I am working with [Chainlink Labs](https://chain.link/) to scale Chainlink products across multiple blockchains like Ethereum, Solana and Cosmos.
+Currently deep in the Solana trenches building out low latency infrastructure for Ranger Finance to integrate Defi starting with Solana's first perps aggregator.
 
-I am also sourcing amazing web3 startups for [Spartan Group](https://www.spartangroup.io/), a leading venture capital firm in the Web3 space. Feel free to reach out!
+Previously I was working with [Chainlink Labs](https://chain.link/) to scale Chainlink products across multiple blockchains including Ethereum, Solana and Aptos.
 
 Building Non-Hierachical Systems with Blockchain & Distributed Systems. 
 
@@ -16,6 +16,7 @@ Building Non-Hierachical Systems with Blockchain & Distributed Systems.
 
 Previously I have had the privilege of working with some of the most respected companies in the Web3 space:
 
+- [tETH](https://docs.treehouse.finance/protocol/teth/introduction): Architected and led the development of tETH, a Liquid Staking Token that aggregates ETH yield that surpassed $300 million TVL on Ethereum.
 - [Spartan Labs](https://www.spartangroup.io/): Led smart contract projects and [thought leadership articles](https://medium.com/@spartanlabs).
 - [Nethermind](https://www.nethermind.io/): Security tooling using Forta Bots
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
