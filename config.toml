@@ -4,7 +4,10 @@ theme = "researcher"
 disableKinds = ["taxonomy", "term"]
 enableEmoji = true
 math = false          # enable KaTeX (https://katex.org/) globally
-googleAnalytics = "G-D5HBRC62LK"  # add your tracking id
+
+[services]
+  [services.googleAnalytics]
+    ID = "G-D5HBRC62LK"
 
 [params]
   author = "Chia Yong Kang"
