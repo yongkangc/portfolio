@@ -53,3 +53,13 @@ googleAnalytics = "G-D5HBRC62LK"  # add your tracking id
 
 [markup.goldmark.renderer]
   unsafe = true  # allow raw HTML in markdown files
+
+[markup]
+  [markup.highlight]
+    style = "github"
+    lineNos = true
+    lineNumbersInTable = false
+    noClasses = false
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      typographer = true
