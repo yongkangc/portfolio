@@ -1,17 +1,3 @@
 {{ define "main" }}
-<div class="container">
-  {{ .Content }} {{ if gt (len .Pages) 0 }}
-  <hr style="margin: 2rem 0" />
-  <h2>All Articles</h2>
-  <ul>
-    {{ range .Pages }}
-    <li>
-      <a href="{{ .Permalink }}"
-        >{{ .Date.Format "2006-01-02" }} | {{ .Title }}</a
-      >
-    </li>
-    {{ end }}
-  </ul>
-  {{ end }}
-</div>
+<div class="container">{{ .Content }}</div>
 {{ end }}
