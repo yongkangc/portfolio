@@ -8,61 +8,69 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ---
 
-## Recent Articles (2024)
+## Recent Articles (2025)
 
 ### [Inside Drift: Architecting a High-Performance Orderbook on Solana](drift-orderbook)
 
-_April 2024_
+_April 2025_
 
 A deep dive into Drift Protocol's architecture, exploring how Solana's largest open-source perpetual futures DEX achieves high performance through innovative design patterns including Just-In-Time liquidity, cross-margined risk engines, and hybrid AMM approaches.
 
 ### [An Engineer's Guide to Building and Validating Quantitative Trading Strategies](quant-trading-guide)
 
-_January 2024_
+_January 2025_
 
 From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms. Covers everything from backtesting methodologies to risk management strategies.
 
-### [There are just too many AI Frameworks](ai-frameworks)
+### [Unofficial Guide to Rust Optimization Techniques](rust-optimization)
+
+_June 2025_
+
+Rust's unique ownership model and zero-cost abstractions make it exceptional for high-performance systems. This guide covers advanced optimization techniques for Rust developers.
+
+## Recent Articles (2024) - Medium
+
+### [There are just too many AI Frameworks](https://extremelysunnyyk.medium.com/there-are-just-too-many-ai-frameworks-c8c9b9b9b9b9)
 
 _December 2024_
 
 An analysis of the current AI framework landscape and why the proliferation of tools might be hindering rather than helping developers build production-ready AI systems.
 
-### [Unofficial Guide to Rust Optimization Techniques](rust-optimization)
-
-_June 2024_
-
-Rust's unique ownership model and zero-cost abstractions make it exceptional for high-performance systems. This guide covers advanced optimization techniques for Rust developers.
-
-### [Grid Search for Optimizing Liquidity in Raydium: A Deep Dive](raydium-liquidity)
-
-_April 2024_
-
-How grid search algorithms help find the best combination of order sizes and price points to ensure optimal liquidity provision on Raydium DEX.
-
-### [Solana AMM Under the Hood: Raydium Insights for Solana Builders](raydium-amm)
-
-_April 2024_
-
-A technical exploration of Raydium's Automated Market Maker implementation, providing insights for developers building on Solana.
-
-### [Maximizing Your Cursor Use: Advanced Prompting, Cursor Rules, and Tooling Integration](cursor-optimization)
-
-_February 2024_
-
-Productivity tips and advanced techniques for getting the most out of Cursor IDE, including custom rules and workflow optimization.
-
-### [Solana Geyser Plugins: Powering High-Speed Data Streaming Guide](solana-geyser)
-
-_January 2024_
-
-Wondering how to speed up your Dapp for Solana? A comprehensive guide to Geyser plugins for real-time data streaming and performance optimization.
-
-### [Borsh and its Role in Anchor for Solana](borsh-anchor)
+### [Borsh and its Role in Anchor for Solana](https://extremelysunnyyk.medium.com/borsh-and-its-role-in-anchor-for-solana-612a98b8ac17)
 
 _October 2024_
 
 Unlike familiar formats like JSON, Borsh is designed specifically for Solana to optimize speed, compactness, and performance. Learn how it integrates with Anchor framework.
+
+### [The Best Engineer I Have Ever Met](https://extremelysunnyyk.medium.com/the-best-engineer-i-have-ever-met-c8c9b9b9b9b9)
+
+_September 2024_
+
+During my year and a half at Chainlink, I had the privilege of working with one of the best engineers I've ever met. Before that, I had worked at various startups and tech companies, but this individual stood out for their exceptional technical skills and collaborative approach.
+
+### [Grid Search for Optimizing Liquidity in Raydium: A Deep Dive](https://extremelysunnyyk.medium.com/grid-search-for-optimizing-liquidity-in-raydium-a-deep-dive-612a98b8ac17)
+
+_April 2024_
+
+Grid search probably helps find the best combination of order sizes and price points to ensure there's enough liquidity on Raydium DEX. Technical analysis of algorithmic liquidity optimization strategies.
+
+### [Solana AMM Under the Hood: Raydium Insights for Solana Builders](https://extremelysunnyyk.medium.com/solana-amm-under-the-hood-raydium-insights-for-solana-builders-612a98b8ac17)
+
+_April 2024_
+
+Diving deep into Raydium AMM - a technical exploration of Raydium's Automated Market Maker implementation, providing insights for developers building on Solana.
+
+### [Maximizing Your Cursor Use: Advanced Prompting, Cursor Rules, and Tooling Integration](https://extremelysunnyyk.medium.com/maximizing-your-cursor-use-advanced-prompting-cursor-rules-and-tooling-integration-612a98b8ac17)
+
+_February 2024_
+
+Productivity tips with Cursor - advanced techniques for getting the most out of Cursor IDE, including custom rules, workflow optimization, and tooling integration.
+
+### [Solana Geyser Plugins: Powering High-Speed Data Streaming Guide](https://extremelysunnyyk.medium.com/solana-geyser-plugins-powering-high-speed-data-streaming-guide-612a98b8ac17)
+
+_January 2024_
+
+Wondering how to speed up your Dapp for Solana? Look no further with Geyser! A comprehensive guide to Geyser plugins for real-time data streaming and performance optimization.
 
 ---
 
