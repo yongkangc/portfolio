@@ -45,7 +45,7 @@
   {{ end -}} {{ with .OutputFormats.Get "rss" -}} {{ printf `
   <link rel="%s" type="%s" href="%s" title="%s" />
   ` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }} {{ end -}} {{- if
-  not hugo.IsServer -}} {{- with .Site.Services.GoogleAnalytics.ID -}}
+  not hugo.IsServer -}} {{- with site.Config.Services.GoogleAnalytics.ID -}}
   <!-- Google Analytics -->
   <script
     async

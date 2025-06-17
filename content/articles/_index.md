@@ -133,3 +133,4 @@ Exploring modular blockchain architecture as a solution to the blockchain trilem
 ---
 
 _For the complete archive of my technical writings, visit my [Medium profile](https://extremelysunnyyk.medium.com/)._
+ 
