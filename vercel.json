@@ -3,37 +3,5 @@
     "env": {
       "HUGO_VERSION": "0.147.8"
     }
-  },
-  "buildCommand": "hugo --minify",
-  "outputDirectory": "public",
-  "installCommand": "yum install -y wget && wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz && tar -xzf hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz && mv hugo /usr/local/bin/",
-  "framework": null,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    },
-    {
-      "source": "/css/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ]
+  }
 }
