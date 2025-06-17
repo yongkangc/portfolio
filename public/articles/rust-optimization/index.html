@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang=""><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  <title>Unofficial Guide to Rust Optimization Techniques</title>
+  <meta name="description" content="Web3 Engineer" />
+  <meta name="author" content="Chia Yong Kang" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+    integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css"
+    integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="/sass/researcher.min.css" />
+  <link rel="icon" type="image/ico" href="http://localhost:1313/favicon.ico" />
+  </head>
+
+  <body><div class="container mt-5">
+    <nav class="navbar navbar-expand-sm flex-column flex-sm-row text-nowrap p-0">
+        <a class="navbar-brand mx-0 mr-sm-auto" href="http://localhost:1313/" title="Chia Yong Kang">
+          
+          Chia Yong Kang
+        </a>
+        <div class="navbar-nav flex-row flex-wrap justify-content-center">
+            
+                
+                
+                    <a class="nav-item nav-link" href="/" title="About">
+                        About
+                    </a>
+                    
+                        <span class="nav-item navbar-text mx-1">/</span>
+                    
+                
+                    <a class="nav-item nav-link" href="/articles" title="Articles">
+                        Articles
+                    </a>
+                    
+                        <span class="nav-item navbar-text mx-1">/</span>
+                    
+                
+                    <a class="nav-item nav-link" href="/contact" title="Contact">
+                        Contact
+                    </a>
+                    
+                
+            
+        </div>
+    </nav>
+</div>
+<hr>
+<div id="content">
+<div class="container">
+    <h1 id="unofficial-guide-to-rust-optimization-techniques">Unofficial Guide to Rust Optimization Techniques</h1>
+<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
+<p>Rust&rsquo;s unique ownership model and zero-cost abstractions make it an exceptional language for building high-performance systems. However, writing fast Rust code requires understanding both the language&rsquo;s performance characteristics and the underlying hardware. This guide covers advanced optimization techniques that can help you squeeze every bit of performance out of your Rust applications.</p>
+<h2 id="understanding-rusts-performance-model">Understanding Rust&rsquo;s Performance Model</h2>
+<h3 id="zero-cost-abstractions">Zero-Cost Abstractions</h3>
+<p>Rust&rsquo;s promise of zero-cost abstractions means that high-level constructs don&rsquo;t impose runtime overhead. However, this doesn&rsquo;t automatically make your code fast - it just means the abstractions won&rsquo;t slow you down.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// This iterator chain compiles to the same assembly as a hand-written loop
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> sum: <span style="color:#66d9ef">i32</span> <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">1_000_000</span>)
+</span></span><span style="display:flex;"><span>    .filter(<span style="color:#f92672">|&amp;</span>x<span style="color:#f92672">|</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    .map(<span style="color:#f92672">|</span>x<span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> x)
+</span></span><span style="display:flex;"><span>    .sum();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Equivalent optimized assembly:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// mov eax, 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// mov ecx, 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// loop_start:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   test ecx, 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   jne skip
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   mov edx, ecx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   imul edx, ecx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   add eax, edx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// skip:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   inc ecx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   cmp ecx, 1000000
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   jl loop_start
+</span></span></span></code></pre></div><h3 id="memory-layout-and-cache-efficiency">Memory Layout and Cache Efficiency</h3>
+<p>Understanding how Rust lays out data in memory is crucial for performance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Bad: Array of Structs (AoS) - poor cache locality
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    x: <span style="color:#66d9ef">f64</span>,
+</span></span><span style="display:flex;"><span>    y: <span style="color:#66d9ef">f64</span>,
+</span></span><span style="display:flex;"><span>    z: <span style="color:#66d9ef">f64</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> points: Vec<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">vec!</span>[<span style="color:#75715e">/* ... */</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Good: Struct of Arrays (SoA) - better cache locality
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Points</span> {
+</span></span><span style="display:flex;"><span>    x: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>    y: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>    z: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">f64</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Even better: Use SIMD-friendly layouts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[repr(C, packed)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point4</span> {
+</span></span><span style="display:flex;"><span>    x: [<span style="color:#66d9ef">f64</span>; <span style="color:#ae81ff">4</span>],
+</span></span><span style="display:flex;"><span>    y: [<span style="color:#66d9ef">f64</span>; <span style="color:#ae81ff">4</span>],
+</span></span><span style="display:flex;"><span>    z: [<span style="color:#66d9ef">f64</span>; <span style="color:#ae81ff">4</span>],
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="compiler-optimization-techniques">Compiler Optimization Techniques</h2>
+<h3 id="profile-guided-optimization-pgo">Profile-Guided Optimization (PGO)</h3>
+<p>PGO can provide significant performance improvements by optimizing for real-world usage patterns:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#75715e"># Cargo.toml</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">profile</span>.<span style="color:#a6e22e">release</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">lto</span> = <span style="color:#e6db74">&#34;fat&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">codegen-units</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">panic</span> = <span style="color:#e6db74">&#34;abort&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Build with PGO</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cargo</span> <span style="color:#a6e22e">rustc</span> <span style="color:#a6e22e">--release</span> <span style="color:#a6e22e">--</span> <span style="color:#a6e22e">-Cprofile-generate</span>=<span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">tmp</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">pgo-data</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Run your benchmarks/tests</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cargo</span> <span style="color:#a6e22e">rustc</span> <span style="color:#a6e22e">--release</span> <span style="color:#a6e22e">--</span> <span style="color:#a6e22e">-Cprofile-use</span>=<span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">tmp</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">pgo-data</span>
+</span></span></code></pre></div><h3 id="link-time-optimization-lto">Link-Time Optimization (LTO)</h3>
+<p>Enable LTO for cross-crate optimizations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// This enables the compiler to inline across crate boundaries
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// and eliminate dead code more aggressively
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[inline]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">hot_function</span>(x: <span style="color:#66d9ef">i32</span>) -&gt; <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">*</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="target-specific-optimizations">Target-Specific Optimizations</h3>
+<p>Optimize for specific CPU architectures:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Build for native CPU with all available features</span>
+</span></span><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-cpu=native&#34;</span> cargo build --release
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Or specify exact features</span>
+</span></span><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-feature=+avx2,+fma&#34;</span> cargo build --release
+</span></span></code></pre></div><h2 id="memory-management-optimizations">Memory Management Optimizations</h2>
+<h3 id="custom-allocators">Custom Allocators</h3>
+<p>For specific workloads, custom allocators can provide significant speedups:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> linked_hash_map::LinkedHashMap;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> bumpalo::Bump;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Arena allocator for short-lived objects
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">process_batch</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">u8</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> arena <span style="color:#f92672">=</span> Bump::new();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> cache <span style="color:#f92672">=</span> LinkedHashMap::new();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// All allocations go to the arena
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Freed all at once when arena is dropped
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> chunk <span style="color:#66d9ef">in</span> data.chunks(<span style="color:#ae81ff">1024</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> processed <span style="color:#f92672">=</span> arena.alloc_slice_fill_copy(chunk.len(), <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Process chunk...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cache.insert(chunk[<span style="color:#ae81ff">0</span>], processed);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Arena automatically freed here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Pool allocator for fixed-size objects
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> object_pool::Pool;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Connection</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Connection data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">lazy_static!</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">ref</span> <span style="color:#66d9ef">CONNECTION_POOL</span>: <span style="color:#a6e22e">Pool</span><span style="color:#f92672">&lt;</span>Connection<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Pool::new(<span style="color:#ae81ff">32</span>, <span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>        Connection::new()
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="memory-pool-patterns">Memory Pool Patterns</h3>
+<p>Pre-allocate memory to avoid runtime allocation overhead:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MemoryPool</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    pool: Vec<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>    in_use: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T: Default<span style="color:#f92672">&gt;</span> MemoryPool<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(capacity: <span style="color:#66d9ef">usize</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> pool <span style="color:#f92672">=</span> Vec::with_capacity(capacity);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> in_use <span style="color:#f92672">=</span> Vec::with_capacity(capacity);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>capacity {
+</span></span><span style="display:flex;"><span>            pool.push(Box::new(T::default()));
+</span></span><span style="display:flex;"><span>            in_use.push(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Self { pool, in_use }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">acquire</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; Option<span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i, available) <span style="color:#66d9ef">in</span> self.in_use.iter_mut().enumerate() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">!*</span>available {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">*</span>available <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Some(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self.pool[i]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        None
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">release</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, ptr: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> T) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i, item) <span style="color:#66d9ef">in</span> self.pool.iter().enumerate() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> item.as_ref() <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> T <span style="color:#f92672">==</span> ptr {
+</span></span><span style="display:flex;"><span>                self.in_use[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="simd-and-vectorization">SIMD and Vectorization</h2>
+<h3 id="manual-simd">Manual SIMD</h3>
+<p>Use platform-specific SIMD instructions for data-parallel operations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::arch::x86_64::<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[target_feature(enable = </span><span style="color:#e6db74">&#34;avx2&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_vectors_simd</span>(a: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">f32</span>], b: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">f32</span>], result: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> [<span style="color:#66d9ef">f32</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(a.len(), b.len());
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(a.len(), result.len());
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(a.len() <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">0</span>); <span style="color:#75715e">// AVX2 processes 8 f32s at once
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>a.len()).step_by(<span style="color:#ae81ff">8</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> va <span style="color:#f92672">=</span> _mm256_loadu_ps(a.as_ptr().add(i));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> vb <span style="color:#f92672">=</span> _mm256_loadu_ps(b.as_ptr().add(i));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> vr <span style="color:#f92672">=</span> _mm256_add_ps(va, vb);
+</span></span><span style="display:flex;"><span>        _mm256_storeu_ps(result.as_mut_ptr().add(i), vr);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Portable SIMD (experimental)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#![feature(portable_simd)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::simd::<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_vectors_portable</span>(a: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">f32</span>], b: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">f32</span>], result: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> [<span style="color:#66d9ef">f32</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (a_chunks, a_remainder) <span style="color:#f92672">=</span> a.as_chunks::<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (b_chunks, b_remainder) <span style="color:#f92672">=</span> b.as_chunks::<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (result_chunks, result_remainder) <span style="color:#f92672">=</span> result.as_chunks_mut::<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ((a_chunk, b_chunk), result_chunk) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        a_chunks.iter().zip(b_chunks).zip(result_chunks) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> va <span style="color:#f92672">=</span> f32x8::from_array(<span style="color:#f92672">*</span>a_chunk);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> vb <span style="color:#f92672">=</span> f32x8::from_array(<span style="color:#f92672">*</span>b_chunk);
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>result_chunk <span style="color:#f92672">=</span> (va <span style="color:#f92672">+</span> vb).to_array();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Handle remainder
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> ((a, b), result) <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>        a_remainder.iter().zip(b_remainder).zip(result_remainder) {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>result <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="auto-vectorization-hints">Auto-Vectorization Hints</h3>
+<p>Help the compiler vectorize your loops:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Use iterators when possible - they vectorize better
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">sum_squares</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">f64</span>]) -&gt; <span style="color:#66d9ef">f64</span> {
+</span></span><span style="display:flex;"><span>    data.iter().map(<span style="color:#f92672">|&amp;</span>x<span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> x).sum()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Ensure bounds are known at compile time
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">process_fixed_size</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">u8</span>; <span style="color:#ae81ff">1024</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">1024</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Compiler knows bounds, can vectorize aggressively
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        data[i].wrapping_mul(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Use slice::chunks_exact for better vectorization
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">process_chunked</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">f32</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> chunk <span style="color:#66d9ef">in</span> data.chunks_exact(<span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Process 4 elements at a time
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> sum: <span style="color:#66d9ef">f32</span> <span style="color:#f92672">=</span> chunk.iter().sum();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Use sum...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="async-and-concurrency-optimizations">Async and Concurrency Optimizations</h2>
+<h3 id="work-stealing-schedulers">Work-Stealing Schedulers</h3>
+<p>Configure Tokio for your workload:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// CPU-bound tasks
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> rt <span style="color:#f92672">=</span> tokio::runtime::Builder::new_multi_thread()
+</span></span><span style="display:flex;"><span>    .worker_threads(num_cpus::get())
+</span></span><span style="display:flex;"><span>    .enable_all()
+</span></span><span style="display:flex;"><span>    .build()<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// IO-bound tasks
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> rt <span style="color:#f92672">=</span> tokio::runtime::Builder::new_multi_thread()
+</span></span><span style="display:flex;"><span>    .worker_threads(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    .max_blocking_threads(<span style="color:#ae81ff">512</span>)
+</span></span><span style="display:flex;"><span>    .enable_all()
+</span></span><span style="display:flex;"><span>    .build()<span style="color:#f92672">?</span>;
+</span></span></code></pre></div><h3 id="lock-free-data-structures">Lock-Free Data Structures</h3>
+<p>Use lock-free structures for high-contention scenarios:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> crossbeam::queue::SegQueue;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::sync::Arc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Lock-free queue
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> queue: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>SegQueue<span style="color:#f92672">&lt;</span>Task<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">=</span> Arc::new(SegQueue::new());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Multiple producers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>num_cpus::get() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> queue <span style="color:#f92672">=</span> queue.clone();
+</span></span><span style="display:flex;"><span>    std::thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">1000</span> {
+</span></span><span style="display:flex;"><span>            queue.push(Task::new(i, j));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Single consumer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">let</span> Some(task) <span style="color:#f92672">=</span> queue.pop() {
+</span></span><span style="display:flex;"><span>    task.process();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="channel-optimization">Channel Optimization</h3>
+<p>Choose the right channel type for your use case:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// High-throughput, bounded
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> crossbeam::channel;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> channel::bounded(<span style="color:#ae81ff">1024</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Low-latency, unbounded
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> channel::unbounded();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Single producer, single consumer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> crossbeam::channel::spsc;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> spsc::bounded(<span style="color:#ae81ff">1024</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Multiple producer, single consumer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> flume;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> flume::unbounded();
+</span></span></code></pre></div><h2 id="hot-path-optimization">Hot Path Optimization</h2>
+<h3 id="branch-prediction">Branch Prediction</h3>
+<p>Help the CPU predict branches correctly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Use likely/unlikely hints
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[cold]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">handle_error</span>() -&gt; <span style="color:#f92672">!</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">panic!</span>(<span style="color:#e6db74">&#34;This should rarely happen&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">process_data</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">u8</span>]) -&gt; Result<span style="color:#f92672">&lt;</span>(), Error<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">&amp;</span>byte <span style="color:#66d9ef">in</span> data {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> likely(byte <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0xFF</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Hot path - common case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            process_normal_byte(byte);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Cold path - rare case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> Err(Error::SpecialByte);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Ok(())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Avoid unpredictable branches in hot loops
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">sum_positive</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">i32</span>]) -&gt; <span style="color:#66d9ef">i32</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Bad: unpredictable branch
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    data.iter().filter(<span style="color:#f92672">|&amp;&amp;</span>x<span style="color:#f92672">|</span> x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>).sum()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Better: branchless
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    data.iter().map(<span style="color:#f92672">|&amp;</span>x<span style="color:#f92672">|</span> <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> { x } <span style="color:#66d9ef">else</span> { <span style="color:#ae81ff">0</span> }).sum()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Even better: SIMD
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    data.iter().map(<span style="color:#f92672">|&amp;</span>x<span style="color:#f92672">|</span> x.max(<span style="color:#ae81ff">0</span>)).sum()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="inlining-strategy">Inlining Strategy</h3>
+<p>Control inlining for optimal performance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Force inlining for small, hot functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[inline(always)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fast_path</span>(x: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#66d9ef">u32</span> {
+</span></span><span style="display:flex;"><span>    x.wrapping_mul(<span style="color:#ae81ff">0x9e3779b9</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Prevent inlining for large functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[inline(never)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">slow_path</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Large function body
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Let compiler decide (default)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[inline]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">normal_function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Medium-sized function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h2 id="profiling-and-measurement">Profiling and Measurement</h2>
+<h3 id="performance-testing">Performance Testing</h3>
+<p>Use criterion for reliable benchmarks:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> criterion::{criterion_group, criterion_main, Criterion, BenchmarkId};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">bench_algorithms</span>(c: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Criterion) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> group <span style="color:#f92672">=</span> c.benchmark_group(<span style="color:#e6db74">&#34;sorting&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> size <span style="color:#66d9ef">in</span> [<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>].iter() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> data: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0</span><span style="color:#f92672">..*</span>size).rev().collect();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        group.bench_with_input(
+</span></span><span style="display:flex;"><span>            BenchmarkId::new(<span style="color:#e6db74">&#34;std_sort&#34;</span>, size),
+</span></span><span style="display:flex;"><span>            size,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">|</span>b, _<span style="color:#f92672">|</span> b.iter(<span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> data <span style="color:#f92672">=</span> data.clone();
+</span></span><span style="display:flex;"><span>                data.sort();
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        group.bench_with_input(
+</span></span><span style="display:flex;"><span>            BenchmarkId::new(<span style="color:#e6db74">&#34;unstable_sort&#34;</span>, size),
+</span></span><span style="display:flex;"><span>            size,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">|</span>b, _<span style="color:#f92672">|</span> b.iter(<span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> data <span style="color:#f92672">=</span> data.clone();
+</span></span><span style="display:flex;"><span>                data.sort_unstable();
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    group.finish();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">criterion_group!</span>(benches, bench_algorithms);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">criterion_main!</span>(benches);
+</span></span></code></pre></div><h3 id="profiling-tools">Profiling Tools</h3>
+<p>Use the right profiler for your needs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># CPU profiling with perf</span>
+</span></span><span style="display:flex;"><span>perf record --call-graph<span style="color:#f92672">=</span>dwarf ./target/release/my_app
+</span></span><span style="display:flex;"><span>perf report
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Heap profiling with valgrind</span>
+</span></span><span style="display:flex;"><span>valgrind --tool<span style="color:#f92672">=</span>massif ./target/release/my_app
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Rust-specific profiling</span>
+</span></span><span style="display:flex;"><span>cargo install cargo-flamegraph
+</span></span><span style="display:flex;"><span>cargo flamegraph --bin my_app
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Memory debugging</span>
+</span></span><span style="display:flex;"><span>cargo install cargo-valgrind
+</span></span><span style="display:flex;"><span>cargo valgrind run --bin my_app
+</span></span></code></pre></div><h2 id="advanced-techniques">Advanced Techniques</h2>
+<h3 id="compile-time-computation">Compile-Time Computation</h3>
+<p>Move work from runtime to compile time:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Const evaluation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fibonacci</span>(n: <span style="color:#66d9ef">usize</span>) -&gt; <span style="color:#66d9ef">usize</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">match</span> n {
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>        _ <span style="color:#f92672">=&gt;</span> fibonacci(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> fibonacci(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Pre-computed at compile time
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">FIB_10</span>: <span style="color:#66d9ef">usize</span> <span style="color:#f92672">=</span> fibonacci(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Procedural macros for code generation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> proc_macro::TokenStream;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[proc_macro]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">generate_lookup_table</span>(_input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> table <span style="color:#f92672">=</span> String::new();
+</span></span><span style="display:flex;"><span>    table.push_str(<span style="color:#e6db74">&#34;const LOOKUP: [u8; 256] = [&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">256</span> {
+</span></span><span style="display:flex;"><span>        table.push_str(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">format!</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">, &#34;</span>, expensive_function(i)));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    table.push_str(<span style="color:#e6db74">&#34;];&#34;</span>);
+</span></span><span style="display:flex;"><span>    table.parse().unwrap()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="assembly-integration">Assembly Integration</h3>
+<p>Drop to assembly for ultimate control:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::arch::asm;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fast_strlen</span>(s: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">u8</span>) -&gt; <span style="color:#66d9ef">usize</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> len: <span style="color:#66d9ef">usize</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">asm!</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;xor {len}, {len}&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;2:&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;cmp byte ptr [{s} + {len}], 0&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;je 3f&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;inc {len}&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;jmp 2b&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;3:&#34;</span>,
+</span></span><span style="display:flex;"><span>        s <span style="color:#f92672">=</span> <span style="color:#66d9ef">in</span>(reg) s,
+</span></span><span style="display:flex;"><span>        len <span style="color:#f92672">=</span> out(reg) len,
+</span></span><span style="display:flex;"><span>        options(nostack, preserves_flags)
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    len
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="performance-mindset">Performance Mindset</h2>
+<h3 id="measure-first">Measure First</h3>
+<p>Always profile before optimizing:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Use #[inline(never)] to ensure functions show up in profiles
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[inline(never)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">potentially_slow_function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Implementation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Add timing instrumentation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">timed_operation</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> start <span style="color:#f92672">=</span> std::time::Instant::now();
+</span></span><span style="display:flex;"><span>    do_work();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;Operation took: </span><span style="color:#e6db74">{:?}</span><span style="color:#e6db74">&#34;</span>, start.elapsed());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="optimize-the-right-things">Optimize the Right Things</h3>
+<p>Focus on algorithmic improvements first:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// O(n²) → O(n log n) is better than micro-optimizations
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Bad: O(n²)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">find_duplicates_slow</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">i32</span>]) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> duplicates <span style="color:#f92672">=</span> Vec::new();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i, <span style="color:#f92672">&amp;</span>x) <span style="color:#66d9ef">in</span> data.iter().enumerate() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">&amp;</span>y <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>data[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">..</span>] {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> x <span style="color:#f92672">==</span> y {
+</span></span><span style="display:flex;"><span>                duplicates.push(x);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    duplicates
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Good: O(n log n)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> std::collections::HashSet;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">find_duplicates_fast</span>(data: <span style="color:#66d9ef">&amp;</span>[<span style="color:#66d9ef">i32</span>]) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> seen <span style="color:#f92672">=</span> HashSet::new();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> duplicates <span style="color:#f92672">=</span> Vec::new();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">&amp;</span>x <span style="color:#66d9ef">in</span> data {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>seen.insert(x) {
+</span></span><span style="display:flex;"><span>            duplicates.push(x);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    duplicates
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Rust&rsquo;s performance potential is immense, but realizing it requires understanding both the language and the underlying system. Start with good algorithms, profile your code, and apply these optimization techniques where they matter most. Remember that premature optimization is the root of all evil - but informed optimization is the path to exceptional performance.</p>
+<p>The key is to maintain Rust&rsquo;s safety guarantees while pushing performance boundaries. These techniques should be applied judiciously, always with proper benchmarking and testing to ensure they actually improve performance in your specific use case.</p>
+<hr>
+<p><em>For more insights into systems programming and performance optimization, follow my work on <a href="https://extremelysunnyyk.medium.com/">Medium</a> and check out my <a href="https://github.com/yongkangc">Rust projects on GitHub</a>.</em></p>
+
+</div>
+</div><div id="footer" class="mb-5">
+    <hr>
+    
+    <div class="container text-center">
+        
+            <a href="https://twitter.com/" class="fab fa-twitter fa-1x" title="Twitter"></a>
+        
+            <a href="mailto:chiayongkang@hotmail.com" class="fas fa-envelope fa-1x" title="E-mail"></a>
+        
+            <a href="https://github.com/yongkangc" class="fab fa-github fa-1x" title="Github"></a>
+        
+    </div>
+    
+    
+        <div class="container text-center">
+            <a href="http://localhost:1313/chiayong.com" title="Yong Kang" ><small>Yong Kang</small></a>
+        </div>
+    
+</div>
+
+  </body>
+</html>

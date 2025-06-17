@@ -52,10 +52,10 @@ In my free time, I also enjoy contributing to **open-source projects** where I c
 
 | Articles                                                                                                                                                                                        | Year |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
-| [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)                                                                                                  | 2024 |
-| [An Engineer's Guide to Building and Validating Quantitative Trading Strategies](/articles/quant-trading-guide)                                                                                 | 2024 |
+| [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)                                                                                                  | 2025 |
+| [Guide to Building and Validating Quantitative Trading Strategies](/articles/quant-trading-guide)                                                                                               | 2025 |
 | [There are just too many AI Frameworks](/articles/ai-frameworks)                                                                                                                                | 2024 |
-| [Unofficial Guide to Rust Optimization Techniques](/articles/rust-optimization)                                                                                                                 | 2024 |
+| [Unofficial Guide to Rust Optimization Techniques](/articles/rust-optimization)                                                                                                                 | 2025 |
 | [Design Of Solidity AST Optimiser](https://medium.com/@extremelysunnyyk/from-idea-to-implementation-creating-a-solidity-gas-optimizer-for-smart-contracts-0a103c2bfd24?postPublishedType=repub) | 2024 |
 | [Smart Contract Audit Primer](https://extremelysunnyyk.medium.com/preparing-for-a-comprehensive-smart-contract-audit-a-primer-56427c725b0b)                                                     | 2024 |
 | [Grid Search for Optimizing Liquidity in Raydium: A Deep Dive](/articles/raydium-liquidity)                                                                                                     | 2024 |
