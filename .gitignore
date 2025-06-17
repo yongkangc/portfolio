@@ -1,0 +1,26 @@
+# Hugo build outputs
+public/
+resources/_gen/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Local development
+.hugo_build.lock
+
+# Node modules (if using npm)
+node_modules/
+
+# Vercel
+.vercel 
