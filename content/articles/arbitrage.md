@@ -23,6 +23,30 @@ Let's say we have two exchanges, ShitEx and MegaEx. MegaEx trades 500 billion US
 
 This is just the introduction so we'll avoid diving into too much of the advanced weeds but you can already see from this example that the textbook definition isn't quite what arbitrage trading looks like in practice. In today's article, I will take a walk through all the different forms of arbitrage trading and what it realistically looks like to trade these opportunities. Not simply taking the textbook approach, but showing how real money gets made by professional arbitrageurs.
 
+## Table of Contents
+
+1. [Types of Arbitrage](#types-of-arbitrage)
+2. [Where Can "I" Find Alpha?](#where-can-i-find-alpha)
+   - [Professional Alpha Sourcing Framework](#professional-alpha-sourcing-framework)
+   - [Professional Due Diligence for New Exchanges](#professional-due-diligence-for-new-exchanges)
+3. [Execution](#execution)
+4. [When Should You Hedge?](#when-should-you-hedge)
+5. [When You Have To Predict](#when-you-have-to-predict)
+6. [Incompletes](#incompletes)
+7. [Normalization](#normalization)
+8. [Reducing Trading Costs](#reducing-trading-costs)
+   - [Trading More Things](#trading-more-things)
+   - [Leverage & Borrowing](#leverage--borrowing)
+9. [Strategy Deep Dives](#strategy-deep-dives)
+   - [Funding Arbitrage](#funding-arbitrage)
+   - [Spot Arbitrage](#spot-arbitrage)
+   - [Perpetuals Arbitrage](#perpetuals-arbitrage)
+   - [Triangular Arbitrage](#triangular-arbitrage)
+     - [Professional Implementation Guide: Triangular Arbitrage Systems](#professional-implementation-guide-triangular-arbitrage-systems)
+   - [Geographic Arbitrage](#geographic-arbitrage)
+
+---
+
 # Types of Arbitrage
 
 There are many types of arbitrage outside of digital asset markets, but those tend to be quite complicated and require institutional levels of resources. The primary advantage of arbitrage in digital asset markets is the feasibility for even small teams / solo quants, something that is much rarer in traditional markets.
