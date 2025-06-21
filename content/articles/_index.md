@@ -10,6 +10,12 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ## Recent Articles (2025)
 
+### [Ultimate Arbitrage Strategies(arbitrage)
+
+_April 2025_
+
+A deep dive into arbitrage strategies in crypto.
+
 ### [Inside Drift: Architecting a High-Performance Orderbook on Solana](drift-orderbook)
 
 _April 2025_
