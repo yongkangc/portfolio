@@ -1,5 +1,189 @@
-<!doctype html><html lang><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>There are just too many AI Frameworks</title><meta name=description content="Web3 Engineer"><meta name=author content="Chia Yong Kang"><link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=/sass/researcher.min.css><link rel=stylesheet href=/css/syntax.css><link rel=icon type=image/ico href=https://chiayong.com/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-D5HBRC62LK"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-D5HBRC62LK")</script></head><body><div class="container mt-5"><nav class="navbar navbar-expand-sm flex-column flex-sm-row text-nowrap p-0"><a class="navbar-brand mx-0 mr-sm-auto" href=https://chiayong.com/ title="Chia Yong Kang">Chia Yong Kang</a><div class="navbar-nav flex-row flex-wrap justify-content-center"><a class="nav-item nav-link" href=/ title=About>About
-</a><span class="nav-item navbar-text mx-1">/</span>
-<a class="nav-item nav-link" href=/articles title=Articles>Articles
-</a><span class="nav-item navbar-text mx-1">/</span>
-<a class="nav-item nav-link" href=/contact title=Contact>Contact</a></div></nav></div><hr><div id=content><div class=container><h1 id=there-are-just-too-many-ai-frameworks>There are just too many AI Frameworks</h1><p><em>Originally published on <a href=https://extremelysunnyyk.medium.com/>Medium</a></em></p><p>We&rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.</p><h2 id=the-current-state-of-ai-framework-proliferation>The Current State of AI Framework Proliferation</h2><p>Walk into any AI conference, scroll through GitHub&rsquo;s trending repositories, or browse through the latest tech newsletters, and you&rsquo;ll be bombarded with a dizzying array of AI frameworks, each promising to be the solution to your machine learning problems.</p><p>We have:</p><ul><li><strong>Training frameworks</strong>: TensorFlow, PyTorch, JAX, MXNet, PaddlePaddle</li><li><strong>Inference frameworks</strong>: ONNX Runtime, TensorRT, OpenVINO, TensorFlow Lite</li><li><strong>MLOps frameworks</strong>: MLflow, Kubeflow, Metaflow, DVC, Weights & Biases</li><li><strong>AutoML frameworks</strong>: AutoKeras, H2O.ai, AutoML-Zero, NNI</li><li><strong>Specialized frameworks</strong>: Hugging Face Transformers, spaCy, OpenCV, scikit-learn</li><li><strong>End-to-end platforms</strong>: SageMaker, Vertex AI, Azure ML, Databricks</li></ul><p>And this is just scratching the surface. Each week brings new frameworks, new abstractions, and new promises of simplification.</p><h2 id=the-problem-with-choice-overload>The Problem with Choice Overload</h2><h3 id=decision-paralysis>Decision Paralysis</h3><p>When faced with dozens of viable options, developers spend more time evaluating frameworks than actually building solutions. The cognitive load of understanding the trade-offs between frameworks can be overwhelming, especially for teams new to AI.</p><h3 id=ecosystem-fragmentation>Ecosystem Fragmentation</h3><p>Unlike mature ecosystems where standards have emerged, the AI space remains highly fragmented. A model trained in one framework might not easily transfer to another. Libraries and tools often lock you into specific ecosystems, making it difficult to adopt best-of-breed solutions.</p><h3 id=learning-curve-multiplication>Learning Curve Multiplication</h3><p>Each framework comes with its own paradigms, APIs, and mental models. A developer might need to learn TensorFlow for training, ONNX for deployment, MLflow for experiment tracking, and Kubeflow for orchestration — each with its own learning curve.</p><h3 id=integration-complexity>Integration Complexity</h3><p>Real-world AI systems rarely use a single framework. Integrating multiple frameworks often requires writing substantial amounts of glue code, dealing with format conversions, and managing compatibility issues between versions.</p><h2 id=why-this-proliferation-happened>Why This Proliferation Happened</h2><h3 id=legitimate-technical-needs>Legitimate Technical Needs</h3><p>Different use cases genuinely require different approaches. Research environments need flexibility (PyTorch), production systems need optimization (TensorRT), and edge devices need efficiency (TensorFlow Lite). The technical diversity isn&rsquo;t entirely unnecessary.</p><h3 id=competitive-differentiation>Competitive Differentiation</h3><p>Every major tech company wants their own AI framework. Google has TensorFlow, Facebook has PyTorch, Microsoft has ONNX, Amazon has SageMaker. Competition drives innovation but also fragmentation.</p><h3 id=academic-research-culture>Academic Research Culture</h3><p>Academic institutions produce new frameworks as part of research output. While this drives innovation, it also means many frameworks are created to demonstrate concepts rather than solve production problems.</p><h3 id=open-source-momentum>Open Source Momentum</h3><p>The low barrier to entry for creating and distributing frameworks means that every novel approach can quickly become a new framework, regardless of whether the ecosystem needs it.</p><h2 id=the-hidden-costs-of-framework-proliferation>The Hidden Costs of Framework Proliferation</h2><h3 id=technical-debt>Technical Debt</h3><p>Teams often start with one framework and gradually add others to solve specific problems. Over time, this creates a complex web of dependencies that becomes increasingly difficult to maintain and update.</p><h3 id=talent-acquisition-challenges>Talent Acquisition Challenges</h3><p>When job descriptions list requirements for 5-10 different AI frameworks, the talent pool shrinks dramatically. Companies end up hiring specialists in specific frameworks rather than generalists who understand underlying principles.</p><h3 id=vendor-lock-in>Vendor Lock-in</h3><p>Despite being &ldquo;open source,&rdquo; many frameworks create subtle forms of vendor lock-in through cloud integrations, proprietary optimizations, or ecosystem dependencies that make switching costly.</p><h3 id=performance-overhead>Performance Overhead</h3><p>Using multiple frameworks in a single system often means loading multiple runtime environments, dealing with data serialization between systems, and accepting performance penalties for abstraction layers.</p><h2 id=lessons-from-other-technology-cycles>Lessons from Other Technology Cycles</h2><h3 id=the-javascript-framework-wars>The JavaScript Framework Wars</h3><p>The JavaScript ecosystem went through a similar phase with frameworks like Angular, React, Vue, Ember, Backbone, and dozens of others. Eventually, the ecosystem consolidated around a few dominant players, with React and Angular capturing most of the market share.</p><h3 id=the-database-renaissance>The Database Renaissance</h3><p>The NoSQL movement spawned hundreds of database solutions, each optimized for specific use cases. While some specialization remains valuable, the market has largely consolidated around a few major players (MongoDB, Cassandra, Redis) for most use cases.</p><h3 id=the-container-orchestration-battle>The Container Orchestration Battle</h3><p>Kubernetes emerged as the winner from a field that included Docker Swarm, Mesos, Nomad, and others. The consolidation brought stability and standardization to the ecosystem.</p><h2 id=what-the-ai-ecosystem-needs>What the AI Ecosystem Needs</h2><h3 id=standardization>Standardization</h3><p>We need more emphasis on interoperability standards like ONNX, which allows models to move between frameworks. Standards reduce the risk of framework lock-in and make it easier to adopt best-of-breed tools.</p><h3 id=consolidation-through-acquisition>Consolidation Through Acquisition</h3><p>Many smaller, specialized frameworks should be absorbed into larger ecosystems rather than maintaining independent existence. This would reduce fragmentation while preserving innovation.</p><h3 id=clear-use-case-differentiation>Clear Use Case Differentiation</h3><p>Instead of general-purpose frameworks competing on all dimensions, we need clear differentiation based on use cases: research vs. production, cloud vs. edge, specific domains like NLP or computer vision.</p><h3 id=better-abstraction-layers>Better Abstraction Layers</h3><p>High-level APIs that can work across multiple underlying frameworks would reduce the learning curve and switching costs. Projects like Keras (for TensorFlow/Theano) show how abstraction can simplify the ecosystem.</p><h2 id=the-path-forward>The Path Forward</h2><h3 id=for-individual-developers>For Individual Developers</h3><ul><li>Focus on learning underlying principles rather than framework-specific APIs</li><li>Choose frameworks based on long-term ecosystem health, not just features</li><li>Invest in tools and skills that work across multiple frameworks</li><li>Resist the urge to adopt every new framework that emerges</li></ul><h3 id=for-companies>For Companies</h3><ul><li>Standardize on a minimal set of frameworks across the organization</li><li>Invest in internal tooling that abstracts away framework-specific details</li><li>Consider total cost of ownership, including training and maintenance, when choosing frameworks</li><li>Contribute to open standards rather than building proprietary solutions</li></ul><h3 id=for-the-community>For the Community</h3><ul><li>Support interoperability standards and tools</li><li>Encourage consolidation through collaboration rather than competition</li><li>Focus on solving real problems rather than creating new abstractions</li><li>Document clear migration paths between frameworks</li></ul><h2 id=conclusion>Conclusion</h2><p>The proliferation of AI frameworks is a natural part of a rapidly evolving field, but we&rsquo;re reaching a point where the costs outweigh the benefits. Just as other technology ecosystems have matured through consolidation and standardization, the AI ecosystem needs to evolve beyond the current state of fragmentation.</p><p>The goal isn&rsquo;t to stifle innovation or reduce technical diversity, but to create a more sustainable ecosystem where developers can focus on solving problems rather than navigating framework complexity. This will require conscious effort from individuals, companies, and the broader community to prioritize interoperability, standardization, and consolidation over novelty and differentiation.</p><p>The future of AI development depends not just on better algorithms and more powerful hardware, but on creating development environments that enable rather than hinder progress. It&rsquo;s time to acknowledge that sometimes, less choice leads to more innovation.</p><hr><p><em>What do you think? Have you experienced framework fatigue in your AI projects? Share your thoughts on <a href=https://twitter.com/>Twitter</a> or connect with me on <a href=https://linkedin.com/in/chiayongkang>LinkedIn</a>.</em></p></div></div><div id=footer class=mb-5><hr><div class="container text-center"><a href=https://twitter.com/ class="fab fa-twitter fa-1x" title=Twitter></a><a href=mailto:chiayongkang@hotmail.com class="fas fa-envelope fa-1x" title=E-mail></a><a href=https://github.com/yongkangc class="fab fa-github fa-1x" title=Github></a></div><div class="container text-center"><a href=https://chiayong.com/chiayong.com title="Yong Kang"><small>Yong Kang</small></a></div></div></body></html>
+<!DOCTYPE html>
+<html lang=""><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  <title>There are just too many AI Frameworks</title>
+  <meta name="description" content="Web3 Engineer" />
+  <meta name="author" content="Chia Yong Kang" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+    integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css"
+    integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="/sass/researcher.min.css" />
+
+  
+  <link rel="stylesheet" href="/css/syntax.css" /> <link rel="icon" type="image/ico" href="http://localhost:1313/favicon.ico" />
+  </head>
+
+  <body><div class="container mt-5">
+    <nav class="navbar navbar-expand-sm flex-column flex-sm-row text-nowrap p-0">
+        <a class="navbar-brand mx-0 mr-sm-auto" href="http://localhost:1313/" title="Chia Yong Kang">
+          
+          Chia Yong Kang
+        </a>
+        <div class="navbar-nav flex-row flex-wrap justify-content-center">
+            
+                
+                
+                    <a class="nav-item nav-link" href="/" title="About">
+                        About
+                    </a>
+                    
+                        <span class="nav-item navbar-text mx-1">/</span>
+                    
+                
+                    <a class="nav-item nav-link" href="/articles" title="Articles">
+                        Articles
+                    </a>
+                    
+                        <span class="nav-item navbar-text mx-1">/</span>
+                    
+                
+                    <a class="nav-item nav-link" href="/contact" title="Contact">
+                        Contact
+                    </a>
+                    
+                
+            
+        </div>
+    </nav>
+</div>
+<hr>
+<div id="content">
+<div class="container">
+    <h1 id="there-are-just-too-many-ai-frameworks">There are just too many AI Frameworks</h1>
+<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
+<p>We&rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.</p>
+<h2 id="the-current-state-of-ai-framework-proliferation">The Current State of AI Framework Proliferation</h2>
+<p>Walk into any AI conference, scroll through GitHub&rsquo;s trending repositories, or browse through the latest tech newsletters, and you&rsquo;ll be bombarded with a dizzying array of AI frameworks, each promising to be the solution to your machine learning problems.</p>
+<p>We have:</p>
+<ul>
+<li><strong>Training frameworks</strong>: TensorFlow, PyTorch, JAX, MXNet, PaddlePaddle</li>
+<li><strong>Inference frameworks</strong>: ONNX Runtime, TensorRT, OpenVINO, TensorFlow Lite</li>
+<li><strong>MLOps frameworks</strong>: MLflow, Kubeflow, Metaflow, DVC, Weights &amp; Biases</li>
+<li><strong>AutoML frameworks</strong>: AutoKeras, H2O.ai, AutoML-Zero, NNI</li>
+<li><strong>Specialized frameworks</strong>: Hugging Face Transformers, spaCy, OpenCV, scikit-learn</li>
+<li><strong>End-to-end platforms</strong>: SageMaker, Vertex AI, Azure ML, Databricks</li>
+</ul>
+<p>And this is just scratching the surface. Each week brings new frameworks, new abstractions, and new promises of simplification.</p>
+<h2 id="the-problem-with-choice-overload">The Problem with Choice Overload</h2>
+<h3 id="decision-paralysis">Decision Paralysis</h3>
+<p>When faced with dozens of viable options, developers spend more time evaluating frameworks than actually building solutions. The cognitive load of understanding the trade-offs between frameworks can be overwhelming, especially for teams new to AI.</p>
+<h3 id="ecosystem-fragmentation">Ecosystem Fragmentation</h3>
+<p>Unlike mature ecosystems where standards have emerged, the AI space remains highly fragmented. A model trained in one framework might not easily transfer to another. Libraries and tools often lock you into specific ecosystems, making it difficult to adopt best-of-breed solutions.</p>
+<h3 id="learning-curve-multiplication">Learning Curve Multiplication</h3>
+<p>Each framework comes with its own paradigms, APIs, and mental models. A developer might need to learn TensorFlow for training, ONNX for deployment, MLflow for experiment tracking, and Kubeflow for orchestration — each with its own learning curve.</p>
+<h3 id="integration-complexity">Integration Complexity</h3>
+<p>Real-world AI systems rarely use a single framework. Integrating multiple frameworks often requires writing substantial amounts of glue code, dealing with format conversions, and managing compatibility issues between versions.</p>
+<h2 id="why-this-proliferation-happened">Why This Proliferation Happened</h2>
+<h3 id="legitimate-technical-needs">Legitimate Technical Needs</h3>
+<p>Different use cases genuinely require different approaches. Research environments need flexibility (PyTorch), production systems need optimization (TensorRT), and edge devices need efficiency (TensorFlow Lite). The technical diversity isn&rsquo;t entirely unnecessary.</p>
+<h3 id="competitive-differentiation">Competitive Differentiation</h3>
+<p>Every major tech company wants their own AI framework. Google has TensorFlow, Facebook has PyTorch, Microsoft has ONNX, Amazon has SageMaker. Competition drives innovation but also fragmentation.</p>
+<h3 id="academic-research-culture">Academic Research Culture</h3>
+<p>Academic institutions produce new frameworks as part of research output. While this drives innovation, it also means many frameworks are created to demonstrate concepts rather than solve production problems.</p>
+<h3 id="open-source-momentum">Open Source Momentum</h3>
+<p>The low barrier to entry for creating and distributing frameworks means that every novel approach can quickly become a new framework, regardless of whether the ecosystem needs it.</p>
+<h2 id="the-hidden-costs-of-framework-proliferation">The Hidden Costs of Framework Proliferation</h2>
+<h3 id="technical-debt">Technical Debt</h3>
+<p>Teams often start with one framework and gradually add others to solve specific problems. Over time, this creates a complex web of dependencies that becomes increasingly difficult to maintain and update.</p>
+<h3 id="talent-acquisition-challenges">Talent Acquisition Challenges</h3>
+<p>When job descriptions list requirements for 5-10 different AI frameworks, the talent pool shrinks dramatically. Companies end up hiring specialists in specific frameworks rather than generalists who understand underlying principles.</p>
+<h3 id="vendor-lock-in">Vendor Lock-in</h3>
+<p>Despite being &ldquo;open source,&rdquo; many frameworks create subtle forms of vendor lock-in through cloud integrations, proprietary optimizations, or ecosystem dependencies that make switching costly.</p>
+<h3 id="performance-overhead">Performance Overhead</h3>
+<p>Using multiple frameworks in a single system often means loading multiple runtime environments, dealing with data serialization between systems, and accepting performance penalties for abstraction layers.</p>
+<h2 id="lessons-from-other-technology-cycles">Lessons from Other Technology Cycles</h2>
+<h3 id="the-javascript-framework-wars">The JavaScript Framework Wars</h3>
+<p>The JavaScript ecosystem went through a similar phase with frameworks like Angular, React, Vue, Ember, Backbone, and dozens of others. Eventually, the ecosystem consolidated around a few dominant players, with React and Angular capturing most of the market share.</p>
+<h3 id="the-database-renaissance">The Database Renaissance</h3>
+<p>The NoSQL movement spawned hundreds of database solutions, each optimized for specific use cases. While some specialization remains valuable, the market has largely consolidated around a few major players (MongoDB, Cassandra, Redis) for most use cases.</p>
+<h3 id="the-container-orchestration-battle">The Container Orchestration Battle</h3>
+<p>Kubernetes emerged as the winner from a field that included Docker Swarm, Mesos, Nomad, and others. The consolidation brought stability and standardization to the ecosystem.</p>
+<h2 id="what-the-ai-ecosystem-needs">What the AI Ecosystem Needs</h2>
+<h3 id="standardization">Standardization</h3>
+<p>We need more emphasis on interoperability standards like ONNX, which allows models to move between frameworks. Standards reduce the risk of framework lock-in and make it easier to adopt best-of-breed tools.</p>
+<h3 id="consolidation-through-acquisition">Consolidation Through Acquisition</h3>
+<p>Many smaller, specialized frameworks should be absorbed into larger ecosystems rather than maintaining independent existence. This would reduce fragmentation while preserving innovation.</p>
+<h3 id="clear-use-case-differentiation">Clear Use Case Differentiation</h3>
+<p>Instead of general-purpose frameworks competing on all dimensions, we need clear differentiation based on use cases: research vs. production, cloud vs. edge, specific domains like NLP or computer vision.</p>
+<h3 id="better-abstraction-layers">Better Abstraction Layers</h3>
+<p>High-level APIs that can work across multiple underlying frameworks would reduce the learning curve and switching costs. Projects like Keras (for TensorFlow/Theano) show how abstraction can simplify the ecosystem.</p>
+<h2 id="the-path-forward">The Path Forward</h2>
+<h3 id="for-individual-developers">For Individual Developers</h3>
+<ul>
+<li>Focus on learning underlying principles rather than framework-specific APIs</li>
+<li>Choose frameworks based on long-term ecosystem health, not just features</li>
+<li>Invest in tools and skills that work across multiple frameworks</li>
+<li>Resist the urge to adopt every new framework that emerges</li>
+</ul>
+<h3 id="for-companies">For Companies</h3>
+<ul>
+<li>Standardize on a minimal set of frameworks across the organization</li>
+<li>Invest in internal tooling that abstracts away framework-specific details</li>
+<li>Consider total cost of ownership, including training and maintenance, when choosing frameworks</li>
+<li>Contribute to open standards rather than building proprietary solutions</li>
+</ul>
+<h3 id="for-the-community">For the Community</h3>
+<ul>
+<li>Support interoperability standards and tools</li>
+<li>Encourage consolidation through collaboration rather than competition</li>
+<li>Focus on solving real problems rather than creating new abstractions</li>
+<li>Document clear migration paths between frameworks</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>The proliferation of AI frameworks is a natural part of a rapidly evolving field, but we&rsquo;re reaching a point where the costs outweigh the benefits. Just as other technology ecosystems have matured through consolidation and standardization, the AI ecosystem needs to evolve beyond the current state of fragmentation.</p>
+<p>The goal isn&rsquo;t to stifle innovation or reduce technical diversity, but to create a more sustainable ecosystem where developers can focus on solving problems rather than navigating framework complexity. This will require conscious effort from individuals, companies, and the broader community to prioritize interoperability, standardization, and consolidation over novelty and differentiation.</p>
+<p>The future of AI development depends not just on better algorithms and more powerful hardware, but on creating development environments that enable rather than hinder progress. It&rsquo;s time to acknowledge that sometimes, less choice leads to more innovation.</p>
+<hr>
+<p><em>What do you think? Have you experienced framework fatigue in your AI projects? Share your thoughts on <a href="https://twitter.com/">Twitter</a> or connect with me on <a href="https://linkedin.com/in/chiayongkang">LinkedIn</a>.</em></p>
+
+</div>
+</div><div id="footer" class="mb-5">
+    <hr>
+    
+    <div class="container text-center">
+        
+            <a href="https://twitter.com/" class="fab fa-twitter fa-1x" title="Twitter"></a>
+        
+            <a href="mailto:chiayongkang@hotmail.com" class="fas fa-envelope fa-1x" title="E-mail"></a>
+        
+            <a href="https://github.com/yongkangc" class="fab fa-github fa-1x" title="Github"></a>
+        
+    </div>
+    
+    
+        <div class="container text-center">
+            <a href="http://localhost:1313/chiayong.com" title="Yong Kang" ><small>Yong Kang</small></a>
+        </div>
+    
+</div>
+
+  </body>
+</html>
