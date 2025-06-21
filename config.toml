@@ -3,7 +3,8 @@ baseURL = "https://chiayong.com"
 theme = "researcher"
 disableKinds = ["taxonomy", "term"]
 enableEmoji = true
-math = false          # enable KaTeX (https://katex.org/) globally
+math = true          # enable KaTeX (https://katex.org/) globally
+mermaid = true
 
 [services]
   [services.googleAnalytics]
@@ -66,3 +67,6 @@ math = false          # enable KaTeX (https://katex.org/) globally
   [markup.goldmark]
     [markup.goldmark.extensions]
       typographer = true
+
+[build]
+  writeStats = true

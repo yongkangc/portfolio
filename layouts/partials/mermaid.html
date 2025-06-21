@@ -1,0 +1,21 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+      securityLevel: "loose",
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+      },
+    });
+
+    // Force re-render for any existing mermaid elements
+    const mermaidElements = document.querySelectorAll(".mermaid");
+    if (mermaidElements.length > 0) {
+      mermaid.run();
+    }
+  });
+</script>
