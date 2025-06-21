@@ -476,6 +476,29 @@ class CrossExchangeRiskManager:
 - **Exchange Native Margin**: Cross-margin vs isolated margin optimization
 - **Repo Markets**: Overnight and term funding for large positions
 
+#### Applying the Kelly Criterion for Optimal Sizing
+
+While leverage can amplify returns, it also amplifies risk. A systematic approach to position sizing is crucial to avoid the risk of ruin. This is where the Kelly Criterion comes in. Originally developed for gambling, it's a formula used to determine the optimal size for a series of bets to maximize the long-term growth rate of capital.
+
+For investing and trading, a common form of the Kelly formula is:
+
+`Kelly % = E / V`
+
+Where:
+
+- **E** is the expected return of the strategy.
+- **V** is the variance of the returns (which is the volatility squared).
+
+In the context of arbitrage, each opportunity can be seen as a positive expectancy "bet". The Kelly Criterion helps answer the critical question: "How much of my capital should I allocate to this specific arbitrage opportunity to maximize my growth without going broke?"
+
+#### Adapting Kelly for Crypto Arbitrage
+
+The pure, unadjusted Kelly Criterion can be dangerously aggressive, especially in a market like crypto which is known for its "fat-tailed" distributions—meaning, extreme price swings happen far more often than a normal statistical distribution would predict. A full Kelly bet implicitly assumes you know the exact probabilities and payouts, which is never the case in real-world trading. A small error in estimating your edge or volatility could lead to catastrophic losses.
+
+Because of this, professional traders almost always use a **Fractional Kelly**. This means betting a fraction (e.g., 50%, 25%, or even 10%) of the position size that the full Kelly formula suggests. This approach reduces portfolio volatility and lowers drawdowns, making the strategy more robust at the cost of a slightly lower (but safer) long-term growth rate.
+
+This conservative adaptation is what you see in professional sizing algorithms. The goal is not just to maximize returns, but to ensure survival and consistency over the long run, which is paramount in trading.
+
 **Dynamic Leverage Sizing:**
 
 ```python
