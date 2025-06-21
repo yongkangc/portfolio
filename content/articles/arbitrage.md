@@ -266,7 +266,7 @@ class ExecutionEngine:
 
 **Infrastructure Considerations:**
 
-- **Co-location**: Essential for tier-1 exchanges (Binance, FTX, etc.)
+- **Co-location**: Essential for tier-1 exchanges (Binance, Bybit, OKX, etc.)
 - **Multiple Geographic Regions**: Redundancy and latency optimization
 - **Dedicated Hardware**: FPGA for ultra-low latency, high-end CPUs for complex strategies
 - **Network Optimization**: Direct exchange connections, premium bandwidth providers\*\*
@@ -434,7 +434,7 @@ class CrossExchangeRiskManager:
         self.max_leverage = 5.0  # Conservative for cross-exchange
         self.margin_buffers = {
             'binance': 0.15,    # 15% buffer above maintenance margin
-            'ftx': 0.20,        # 20% buffer for less liquid exchanges
+            'okx': 0.20,        # 20% buffer for less liquid exchanges
             'bybit': 0.18
         }
         self.correlation_matrix = self.load_correlation_matrix()
