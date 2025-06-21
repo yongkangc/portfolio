@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Params.lang }}">
   {{- partial "head.html" . -}} {{ if or (.Params.math) (.Site.Params.math) }}
-  {{- partial "math.html" . -}} {{ end }} {{ if or (.Params.mermaid)
-  (.Site.Params.mermaid) }} {{- partial "mermaid.html" . -}} {{ end }}
+  {{- partial "math.html" . -}} {{ end }}
   <body>
     {{- partial "header.html" . -}}
     <div id="content">{{- block "main" . }}{{- end }}</div>
-    {{- partial "footer.html" . -}} {{ if and (not hugo.IsServer)
-    .Site.Data.consent }} {{- partial "consent.html" . -}} {{ end }}
+    {{- partial "footer.html" . -}} {{ if or (.Params.mermaid)
+    (.Site.Params.mermaid) }} {{- partial "mermaid.html" . -}} {{ end }} {{ if
+    and (not hugo.IsServer) .Site.Data.consent }} {{- partial "consent.html" .
+    -}} {{ end }}
   </body>
 </html>
