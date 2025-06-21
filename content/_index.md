@@ -52,6 +52,7 @@ In my free time, I also enjoy contributing to **open-source projects** where I c
 
 | Articles                                                                                                                                                                                        | Year |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| [Ultimate Arbitrage Strategies](/articles/arbitrage)                                                                                                                                            | 2025 |
 | [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)                                                                                                  | 2025 |
 | [Guide to Building and Validating Quantitative Trading Strategies](/articles/quant-trading-guide)                                                                                               | 2025 |
 | [There are just too many AI Frameworks](/articles/ai-frameworks)                                                                                                                                | 2024 |
