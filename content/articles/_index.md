@@ -10,7 +10,7 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ## Recent Articles (2025)
 
-### [Ultimate Arbitrage Strategies(arbitrage)
+### [Ultimate Arbitrage Strategies](arbitrage)
 
 _April 2025_
 
