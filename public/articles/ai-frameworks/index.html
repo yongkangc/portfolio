@@ -11,7 +11,7 @@
   <meta name="author" content="Chia Yong Kang" />
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap"
     rel="stylesheet"
   />
   <link
@@ -23,8 +23,8 @@
   />
   <link
     rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
@@ -36,46 +36,101 @@
     referrerpolicy="no-referrer"
   />
   <link rel="stylesheet" href="/sass/researcher.min.css" />
-
-  
-  <link rel="stylesheet" href="/css/syntax.css" /> <link rel="icon" type="image/ico" href="http://localhost:1313/favicon.ico" />
+  <link rel="icon" type="image/ico" href="http://localhost:1313/favicon.ico" />
   </head>
 
-  <body><div class="container mt-5">
-    <nav class="navbar navbar-expand-sm flex-column flex-sm-row text-nowrap p-0">
-        <a class="navbar-brand mx-0 mr-sm-auto" href="http://localhost:1313/" title="Chia Yong Kang">
-          
-          Chia Yong Kang
-        </a>
-        <div class="navbar-nav flex-row flex-wrap justify-content-center">
-            
-                
-                
-                    <a class="nav-item nav-link" href="/" title="About">
-                        About
-                    </a>
-                    
-                        <span class="nav-item navbar-text mx-1">/</span>
-                    
-                
-                    <a class="nav-item nav-link" href="/articles" title="Articles">
-                        Articles
-                    </a>
-                    
-                        <span class="nav-item navbar-text mx-1">/</span>
-                    
-                
-                    <a class="nav-item nav-link" href="/contact" title="Contact">
-                        Contact
-                    </a>
-                    
-                
-            
-        </div>
-    </nav>
+  <body><div class="container-fluid site-header">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="http://localhost:1313/">Chia Yong Kang</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:1313/">About</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:1313/articles">Articles</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:1313/contact">Contact</a>
+        </li>
+        
+        <li class="nav-item">
+          <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="theme-toggle">
+              <input type="checkbox" id="theme-toggle" />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </div>
-<hr>
-<div id="content">
+
+<style>
+  .theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+  .theme-switch {
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    width: 50px;
+  }
+  .theme-switch input {
+    display: none;
+  }
+  .slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: 0.4s;
+  }
+  .slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 16px;
+    left: 4px;
+    position: absolute;
+    transition: 0.4s;
+    width: 16px;
+  }
+  input:checked + .slider {
+    background-color: var(--accent);
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  .slider.round {
+    border-radius: 34px;
+  }
+  .slider.round:before {
+    border-radius: 50%;
+  }
+</style>
+<div class="main-content">
+      <div id="content">
 <div class="container">
     <h1 id="there-are-just-too-many-ai-frameworks">There are just too many AI Frameworks</h1>
 <p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
@@ -165,7 +220,8 @@
 <p><em>What do you think? Have you experienced framework fatigue in your AI projects? Share your thoughts on <a href="https://twitter.com/">Twitter</a> or connect with me on <a href="https://linkedin.com/in/chiayongkang">LinkedIn</a>.</em></p>
 
 </div>
-</div><div id="footer" class="mb-5">
+</div>
+    </div><div id="footer" class="mb-5">
     <hr>
     
     <div class="container text-center">
@@ -184,6 +240,16 @@
         </div>
     
 </div>
- 
+
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js" integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="http://localhost:1313/js/theme-toggle.js"></script>
   </body>
 </html>

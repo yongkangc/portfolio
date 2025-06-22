@@ -4,10 +4,20 @@
   {{- partial "math.html" . -}} {{ end }}
   <body>
     {{- partial "header.html" . -}}
-    <div id="content">{{- block "main" . }}{{- end }}</div>
-    {{- partial "footer.html" . -}} {{ if or (.Params.mermaid)
-    (.Site.Params.mermaid) }} {{- partial "mermaid.html" . -}} {{ end }} {{ if
-    and (not hugo.IsServer) .Site.Data.consent }} {{- partial "consent.html" .
-    -}} {{ end }}
+    <div class="main-content">
+      <div id="content">{{- block "main" . }}{{- end }}</div>
+    </div>
+    {{- partial "footer.html" . -}} {{ if and (not hugo.IsServer)
+    .Site.Data.consent }} {{- partial "consent.html" . -}} {{ end }}
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js" integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="{{ "js/theme-toggle.js" | absURL }}"></script>
   </body>
 </html>

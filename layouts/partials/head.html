@@ -10,7 +10,7 @@
   <meta name="author" content="{{ .Site.Params.author }}" />
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap"
     rel="stylesheet"
   />
   <link
@@ -22,8 +22,8 @@
   />
   <link
     rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
@@ -37,29 +37,13 @@
   {{ $style := resources.Get "sass/researcher.scss" |
   resources.ExecuteAsTemplate "sass/researcher.scss" . | toCSS | minify -}}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
-
-  <!-- Syntax highlighting CSS -->
-  <link rel="stylesheet" href="{{ "css/syntax.css" | relURL }}" /> {{ with
-  .Site.Params.favicon -}}
+  {{ with .Site.Params.favicon -}}
   <link rel="icon" type="image/ico" href="{{ . | absURL }}" />
   {{ end -}} {{ with .OutputFormats.Get "rss" -}} {{ printf `
   <link rel="%s" type="%s" href="%s" title="%s" />
   ` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }} {{ end -}} {{- if
-  not hugo.IsServer -}} {{- with site.Config.Services.GoogleAnalytics.ID -}}
-  <!-- Google Analytics -->
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id={{ . }}"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", "{{ . }}");
-  </script>
-  {{- end -}} {{- end -}} {{ if .Params.noindex -}}
+  not hugo.IsServer -}} {{- partial "googleanalytics.html" . -}} {{- end -}} {{
+  if .Params.noindex -}}
   <meta name="robots" content="noindex" />
   {{ end -}}
 </head>
