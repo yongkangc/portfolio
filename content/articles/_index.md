@@ -10,25 +10,25 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ## Recent Articles (2025)
 
-### [Ultimate Arbitrage Strategies](arbitrage)
+### [Ultimate Arbitrage Strategies](/articles/arbitrage)
 
 _April 2025_
 
 A deep dive into arbitrage strategies in crypto.
 
-### [Inside Drift: Architecting a High-Performance Orderbook on Solana](drift-orderbook)
+### [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)
 
 _April 2025_
 
 A deep dive into Drift Protocol's architecture, exploring how Solana's largest open-source perpetual futures DEX achieves high performance through innovative design patterns including Just-In-Time liquidity, cross-margined risk engines, and hybrid AMM approaches.
 
-### [An Engineer's Guide to Building and Validating Quantitative Trading Strategies](quant-trading-guide)
+### [An Engineer's Guide to Building and Validating Quantitative Trading Strategies](/articles/quant-trading-guide)
 
 _January 2025_
 
 From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms. Covers everything from backtesting methodologies to risk management strategies.
 
-### [Unofficial Guide to Rust Optimization Techniques](rust-optimization)
+### [Unofficial Guide to Rust Optimization Techniques](/articles/rust-optimization)
 
 _June 2025_
 
@@ -139,4 +139,3 @@ Exploring modular blockchain architecture as a solution to the blockchain trilem
 ---
 
 _For the complete archive of my technical writings, visit my [Medium profile](https://extremelysunnyyk.medium.com/)._
- 
