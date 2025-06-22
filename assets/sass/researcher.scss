@@ -1,0 +1,214 @@
+// Sizes
+$max-width: {{ .Param "style.pageWidth" | default "750px;" }};
+$avatar-size: {{ .Param "style.avatarSize" | default "90px;" }};
+
+// Colors - New Palette for modern, readable design
+$background: #fdfdfd;
+$text: #1a1a1a;
+$subtle-gray: #757575;
+$accent: #007aff; // Apple-like blue
+$border-color: #e5e5e5;
+$code-bg: #f5f5f5;
+
+// Font - System UI font stack for a native feel
+$font-family: {{ .Param "style.fontFamily" | default "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'" }};
+$mono-font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+$font-size: {{ .Param "style.fontSize" | default "18px" }};
+$line-height: 1.7;
+
+// Margins
+$y-small: 0.8rem;
+$y-medium: 1.5rem;
+
+// Placeholders
+%link-default {
+    color: $accent;
+    text-decoration: none;
+    & * {
+        color: $accent;
+    }
+    &:hover {
+        text-decoration: underline;
+    }
+}
+%link-dark {
+    color: $text;
+    text-decoration: none;
+    & * {
+        color: $text;
+    }
+    &:hover {
+        color: $accent;
+        text-decoration: none;
+    }
+}
+%table-cell {
+    border: 1px solid $border-color;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+// Global Style Overrides
+body {
+    background-color: $background;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// Style
+* {
+    color: $text;
+    font-family: $font-family;
+    font-size: $font-size;
+    line-height: $line-height;
+}
+.container {
+    max-width: $max-width;
+}
+.navbar {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.navbar-brand {
+    @extend %link-dark;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.nav-link {
+    @extend %link-default;
+    font-size: 1rem;
+    color: $subtle-gray;
+    &:hover {
+        color: $accent;
+    }
+}
+#content {
+    a {
+        @extend %link-default;
+    }
+    p {
+        margin-bottom: $y-medium;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+        margin: 2.5rem 0 $y-medium 0;
+        line-height: 1.3;
+    }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.75rem; }
+    h4 { font-size: 1.5rem; }
+    h5 { font-size: 1.25rem; }
+    h6 { font-size: 1rem; font-weight: 600; color: $subtle-gray; }
+
+    img {
+        display: block;
+        margin: $y-medium auto;
+        max-width: 100%;
+        border-radius: 8px;
+    }
+    .avatar > img {
+        border-radius: 50%;
+        float: right;
+        margin: -8px 0 0 16px;
+        height: $avatar-size;
+        width: $avatar-size;
+    }
+    ol {
+        counter-reset: list;
+        list-style: none;
+        padding-left: 2rem;
+        & > li {
+            display: table-row;
+        }
+        & > li:before {
+            content: "[" counter(list, decimal) "] ";
+            counter-increment: list;
+            display: table-cell;
+            text-align: right;
+            padding-right: .5em;
+        }
+    }
+    .container > ol, .footnotes > ol {
+        padding-left: 0;
+    }
+    ul {
+        list-style: disc;
+        padding-left: 2rem;
+        & > li {
+            list-style-position: outside;
+            margin-left: 1em;
+            padding-left: 0.5em;
+        }
+    }
+    .container > ul, .footnotes > ul {
+        padding-left: 0;
+        margin: $y-medium auto;
+        width: 100%;
+        border-collapse: collapse;
+        & th {
+            @extend %table-cell;
+            font-weight: 600;
+        }
+        & td {
+            @extend %table-cell;
+        }
+        & tr:nth-child(2n) {
+            background-color: $code-bg;
+        }
+    }
+    table {
+        margin: $y-medium auto;
+        width: 100%;
+        & th {
+            @extend %table-cell;
+            font-weight: bold;
+        }
+        & td {
+            @extend %table-cell;
+        }
+        & tr:nth-child(2n) {
+            background-color: #f8f8f8;
+        }
+    }
+    blockquote {
+        border-left: 3px solid $accent;
+        color: $subtle-gray;
+        font-style: normal;
+        margin: $y-medium 0;
+        padding: 8px 24px;
+        & > p {
+            margin-bottom: 0;
+        }
+    }
+    code {
+        font-family: $mono-font-family;
+        background-color: $code-bg;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        color: $text;
+        font-size: 0.85em;
+        padding: .2em .4em;
+    }
+    pre code {
+        all: unset;
+    }
+    .highlight {
+        background-color: $code-bg;
+        border: 1px solid $border-color;
+        border-radius: 8px;
+        margin: $y-medium auto;
+        font-size: 0.9em;
+        & > pre {
+            padding: 1rem;
+        }
+    }
+}
+#footer {
+    a {
+        @extend %link-dark;
+    }
+    color: $subtle-gray;
+    font-size: 0.9rem;
+    padding: 2rem 0;
+}
