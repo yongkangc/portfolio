@@ -6,8 +6,15 @@
     <description>Recent content in About on Chia Yong Kang</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Arbitrage Trading Guide</title>
+      <link>http://localhost:1313/articles/arbitrage/</link>
+      <pubDate>Sat, 21 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/articles/arbitrage/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s start with the textbook basics - the definition. What is arbitrage afterall? Well, the dictionary will give you this definition:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;the simultaneous buying and selling of securities, currency, or commodities in different markets or in derivative forms in order to take advantage of differing prices for the same asset.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;I&amp;rsquo;d say this is a fairly good definition for arbitrage in the traditional sense, but in the modern sense&amp;hellip; I&amp;rsquo;m not really sure this is true. Most advanced arbitrage trading doesn&amp;rsquo;t hedge the other side of the trade simultaneously at all. If you are in and out of the position in a couple seconds, then why would you even care about being hedged? Especially if you know that the side you are trading is the one doing all the moving.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>There are just too many AI Frameworks</title>
       <link>http://localhost:1313/articles/ai-frameworks/</link>
@@ -35,13 +42,6 @@
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/articles/quant-trading-guide/</guid>
       <description>&lt;h1 id=&#34;an-engineers-guide-to-building-and-validating-quantitative-trading-strategies&#34;&gt;An Engineer&amp;rsquo;s Guide to Building and Validating Quantitative Trading Strategies&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;Originally published on &lt;a href=&#34;https://extremelysunnyyk.medium.com/&#34;&gt;Medium&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms.&lt;/p&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Quantitative trading has evolved from a niche discipline practiced by a few Wall Street firms to a democratized field accessible to individual developers. However, the gap between a profitable backtest and a live trading system remains vast. This guide provides a systematic approach to building, validating, and deploying quantitative trading strategies that can survive the transition from theory to practice.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/articles/arbitrage/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/articles/arbitrage/</guid>
-      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s start with the textbook basics - the definition. What is arbitrage afterall? Well, the dictionary will give you this definition:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;the simultaneous buying and selling of securities, currency, or commodities in different markets or in derivative forms in order to take advantage of differing prices for the same asset.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;I&amp;rsquo;d say this is a fairly good definition for arbitrage in the traditional sense, but in the modern sense&amp;hellip; I&amp;rsquo;m not really sure this is true. Most advanced arbitrage trading doesn&amp;rsquo;t hedge the other side of the trade simultaneously at all. If you are in and out of the position in a couple seconds, then why would you even care about being hedged? Especially if you know that the side you are trading is the one doing all the moving.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Contact</title>

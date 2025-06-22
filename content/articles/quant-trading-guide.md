@@ -122,9 +122,15 @@ class BacktestEngine:
 
 ## Statistical Validation
 
+A profitable backtest can be misleading. Rigorous statistical validation is necessary to ensure a strategy's edge is genuine and not a result of overfitting or luck.
+
 ### Walk-Forward Analysis
 
-Essential for understanding out-of-sample performance:
+A simple train/test split is a good first step, but it's not robust. A strategy might perform well on a single, arbitrary test set by chance. Furthermore, once a test set is used—even once—it is no longer truly "out-of-sample." If you test multiple ideas and pick the one that does best on the test set, you introduce selection bias, effectively overfitting to your test set.
+
+Walk-forward analysis provides a more rigorous approach by simulating how a strategy would actually be traded. It involves iteratively training the model on a window of past data and testing it on a subsequent window of unseen data. This process is repeated, "walking" through the entire dataset.
+
+This method tests the strategy's robustness across different market regimes and ensures the results do not benefit from data mining bias in the same way a single test set would. It's essential for understanding true out-of-sample performance.
 
 ```python
 def walk_forward_analysis(strategy, data, train_window=252, test_window=63):
@@ -147,23 +153,82 @@ def walk_forward_analysis(strategy, data, train_window=252, test_window=63):
     return pd.DataFrame(results)
 ```
 
-### Monte Carlo Simulation
+### Permutation Testing for Data Mining Bias
 
-Understanding the distribution of possible outcomes:
+An optimization process is designed to find the best parameters. This means it can often find a seemingly profitable strategy even in pure random noise. This is called **data mining bias**. How do we know if our strategy has a real edge or if we've just overfit the historical data?
+
+The null hypothesis should be that our strategy is worthless and its performance is due to data mining bias. The permutation test is a powerful Monte Carlo technique to challenge this hypothesis.
+
+The process is as follows:
+
+1.  **Optimize on Real Data**: Run your optimization process on the true historical data to find the best parameters and record the performance (e.g., Sharpe Ratio).
+2.  **Generate Permutations**: Create many (e.g., 1000+) "permuted" datasets. A good permutation algorithm will shuffle the sequence of price changes, destroying any temporal patterns (the "alpha") while preserving the data's core statistical properties like mean, standard deviation, and overall trend.
+3.  **Optimize on Permuted Data**: Run the _exact same optimization process_ on each permuted (random) dataset. This creates a distribution of the best possible performance you could expect to find in noise.
+4.  **Compare and Validate**: Compare the performance from the real data against the distribution of performances from the permuted data. If the real performance is an extreme outlier (e.g., better than 99% of the random results, giving a p-value of < 0.01), you can reject the null hypothesis. This provides strong evidence that your strategy captured a genuine market pattern, not just noise.
 
 ```python
-def monte_carlo_simulation(strategy, n_simulations=1000):
-    results = []
+def permutation_test(strategy_optimizer, data, n_permutations=1000):
+    # 1. Optimize on real data
+    real_performance = strategy_optimizer(data)
 
-    for i in range(n_simulations):
-        synthetic_data = bootstrap_data(original_data)
-        performance = strategy.backtest(synthetic_data)
-        results.append(performance['total_return'])
+    # 2. Optimize on permuted data
+    permuted_performances = []
+    better_count = 0
+    for _ in range(n_permutations):
+        permuted_data = create_price_permutation(data)
+        permuted_perf = strategy_optimizer(permuted_data)
+        permuted_performances.append(permuted_perf)
+        if permuted_perf >= real_performance:
+            better_count += 1
+
+    # 3. Calculate p-value
+    p_value = better_count / n_permutations
 
     return {
-        'mean_return': np.mean(results),
-        'confidence_intervals': np.percentile(results, [5, 25, 50, 75, 95]),
-        'probability_of_loss': np.mean(np.array(results) < 0)
+        'real_performance': real_performance,
+        'p_value': p_value,
+        'permuted_distribution': permuted_performances
+    }
+```
+
+### Walk-Forward Permutation Testing
+
+Passing an in-sample permutation test is a great sign, and having a positive walk-forward backtest is even better. But to achieve the highest level of confidence, we can combine these two techniques. The goal is to answer: "Could my positive walk-forward results have been achieved by pure luck?"
+
+The process isolates the out-of-sample periods of a walk-forward test and checks if their performance is statistically significant.
+
+1.  **Run Walk-Forward**: Perform a standard walk-forward analysis on the real data to get your baseline out-of-sample performance.
+2.  **Permute Future Data**: For each simulation, create a new dataset where the initial training period is left intact, but the data _after_ it is permuted. This simulates a world where the future has no exploitable patterns.
+3.  **Run Walk-Forward on Permuted Data**: Run the _exact same walk-forward process_ on this mixed dataset. The strategy is optimized on real historical data and then tested on the permuted, patternless future data.
+4.  **Compare and Validate**: This generates a distribution of walk-forward results from worthless strategies. If your real walk-forward performance is significantly better than this distribution, you have very strong evidence that your strategy is robust and its performance is not just a fluke.
+
+This test is computationally intensive but provides one of the strongest guards against deploying a strategy that is subtly overfit or was simply lucky in out-of-sample testing.
+
+```python
+def walk_forward_permutation_test(strategy, data, train_window, test_window, n_permutations=200):
+    # 1. Run walk-forward on real data
+    real_results = walk_forward_analysis(strategy, data, train_window, test_window)
+    real_performance = calculate_aggregate_performance(real_results)
+
+    # 2. Run on permuted data
+    permuted_performances = []
+    for _ in range(n_permutations):
+        # Permute data *after* the first training period
+        permuted_data = data.copy()
+        permuted_test_data = create_price_permutation(data.iloc[train_window:])
+        permuted_data.iloc[train_window:] = permuted_test_data.values
+
+        permuted_results = walk_forward_analysis(strategy, permuted_data, train_window, test_window)
+        permuted_perf = calculate_aggregate_performance(permuted_results)
+        permuted_performances.append(permuted_perf)
+
+    # 3. Calculate p-value
+    p_value = sum(p >= real_performance for p in permuted_performances) / n_permutations
+
+    return {
+        'real_performance': real_performance,
+        'p_value': p_value,
+        'permuted_distribution': permuted_performances
     }
 ```
 

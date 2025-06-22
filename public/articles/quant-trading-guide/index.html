@@ -40,7 +40,7 @@
   
   <link rel="stylesheet" href="/css/syntax.css" /> <link rel="icon" type="image/ico" href="http://localhost:1313/favicon.ico" />
   </head>
- 
+
   <body><div class="container mt-5">
     <nav class="navbar navbar-expand-sm flex-column flex-sm-row text-nowrap p-0">
         <a class="navbar-brand mx-0 mr-sm-auto" href="http://localhost:1313/" title="Chia Yong Kang">
@@ -166,8 +166,11 @@
 </span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cash</span> <span class="o">-=</span> <span class="p">(</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">price</span> <span class="o">+</span> <span class="n">transaction_cost</span><span class="p">)</span>
 </span></span><span class="line"><span class="ln">23</span><span class="cl">        <span class="k">return</span> <span class="kc">True</span>
 </span></span></code></pre></div><h2 id="statistical-validation">Statistical Validation</h2>
+<p>A profitable backtest can be misleading. Rigorous statistical validation is necessary to ensure a strategy&rsquo;s edge is genuine and not a result of overfitting or luck.</p>
 <h3 id="walk-forward-analysis">Walk-Forward Analysis</h3>
-<p>Essential for understanding out-of-sample performance:</p>
+<p>A simple train/test split is a good first step, but it&rsquo;s not robust. A strategy might perform well on a single, arbitrary test set by chance. Furthermore, once a test set is used—even once—it is no longer truly &ldquo;out-of-sample.&rdquo; If you test multiple ideas and pick the one that does best on the test set, you introduce selection bias, effectively overfitting to your test set.</p>
+<p>Walk-forward analysis provides a more rigorous approach by simulating how a strategy would actually be traded. It involves iteratively training the model on a window of past data and testing it on a subsequent window of unseen data. This process is repeated, &ldquo;walking&rdquo; through the entire dataset.</p>
+<p>This method tests the strategy&rsquo;s robustness across different market regimes and ensures the results do not benefit from data mining bias in the same way a single test set would. It&rsquo;s essential for understanding true out-of-sample performance.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">walk_forward_analysis</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">train_window</span><span class="o">=</span><span class="mi">252</span><span class="p">,</span> <span class="n">test_window</span><span class="o">=</span><span class="mi">63</span><span class="p">):</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl">
@@ -186,21 +189,73 @@
 </span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="p">})</span>
 </span></span><span class="line"><span class="ln">17</span><span class="cl">
 </span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-</span></span></code></pre></div><h3 id="monte-carlo-simulation">Monte Carlo Simulation</h3>
-<p>Understanding the distribution of possible outcomes:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">monte_carlo_simulation</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">n_simulations</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_simulations</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">        <span class="n">synthetic_data</span> <span class="o">=</span> <span class="n">bootstrap_data</span><span class="p">(</span><span class="n">original_data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="n">performance</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">.</span><span class="n">backtest</span><span class="p">(</span><span class="n">synthetic_data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">performance</span><span class="p">[</span><span class="s1">&#39;total_return&#39;</span><span class="p">])</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="k">return</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="s1">&#39;mean_return&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="s1">&#39;confidence_intervals&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">95</span><span class="p">]),</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="s1">&#39;probability_of_loss&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><h3 id="permutation-testing-for-data-mining-bias">Permutation Testing for Data Mining Bias</h3>
+<p>An optimization process is designed to find the best parameters. This means it can often find a seemingly profitable strategy even in pure random noise. This is called <strong>data mining bias</strong>. How do we know if our strategy has a real edge or if we&rsquo;ve just overfit the historical data?</p>
+<p>The null hypothesis should be that our strategy is worthless and its performance is due to data mining bias. The permutation test is a powerful Monte Carlo technique to challenge this hypothesis.</p>
+<p>The process is as follows:</p>
+<ol>
+<li><strong>Optimize on Real Data</strong>: Run your optimization process on the true historical data to find the best parameters and record the performance (e.g., Sharpe Ratio).</li>
+<li><strong>Generate Permutations</strong>: Create many (e.g., 1000+) &ldquo;permuted&rdquo; datasets. A good permutation algorithm will shuffle the sequence of price changes, destroying any temporal patterns (the &ldquo;alpha&rdquo;) while preserving the data&rsquo;s core statistical properties like mean, standard deviation, and overall trend.</li>
+<li><strong>Optimize on Permuted Data</strong>: Run the <em>exact same optimization process</em> on each permuted (random) dataset. This creates a distribution of the best possible performance you could expect to find in noise.</li>
+<li><strong>Compare and Validate</strong>: Compare the performance from the real data against the distribution of performances from the permuted data. If the real performance is an extreme outlier (e.g., better than 99% of the random results, giving a p-value of &lt; 0.01), you can reject the null hypothesis. This provides strong evidence that your strategy captured a genuine market pattern, not just noise.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">permutation_test</span><span class="p">(</span><span class="n">strategy_optimizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="c1"># 1. Optimize on real data</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="n">real_performance</span> <span class="o">=</span> <span class="n">strategy_optimizer</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="c1"># 2. Optimize on permuted data</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">permuted_performances</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">better_count</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">):</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="n">permuted_data</span> <span class="o">=</span> <span class="n">create_price_permutation</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">permuted_perf</span> <span class="o">=</span> <span class="n">strategy_optimizer</span><span class="p">(</span><span class="n">permuted_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="n">permuted_performances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">permuted_perf</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="k">if</span> <span class="n">permuted_perf</span> <span class="o">&gt;=</span> <span class="n">real_performance</span><span class="p">:</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">            <span class="n">better_count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="c1"># 3. Calculate p-value</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">p_value</span> <span class="o">=</span> <span class="n">better_count</span> <span class="o">/</span> <span class="n">n_permutations</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="s1">&#39;real_performance&#39;</span><span class="p">:</span> <span class="n">real_performance</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">        <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">        <span class="s1">&#39;permuted_distribution&#39;</span><span class="p">:</span> <span class="n">permuted_performances</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><h3 id="walk-forward-permutation-testing">Walk-Forward Permutation Testing</h3>
+<p>Passing an in-sample permutation test is a great sign, and having a positive walk-forward backtest is even better. But to achieve the highest level of confidence, we can combine these two techniques. The goal is to answer: &ldquo;Could my positive walk-forward results have been achieved by pure luck?&rdquo;</p>
+<p>The process isolates the out-of-sample periods of a walk-forward test and checks if their performance is statistically significant.</p>
+<ol>
+<li><strong>Run Walk-Forward</strong>: Perform a standard walk-forward analysis on the real data to get your baseline out-of-sample performance.</li>
+<li><strong>Permute Future Data</strong>: For each simulation, create a new dataset where the initial training period is left intact, but the data <em>after</em> it is permuted. This simulates a world where the future has no exploitable patterns.</li>
+<li><strong>Run Walk-Forward on Permuted Data</strong>: Run the <em>exact same walk-forward process</em> on this mixed dataset. The strategy is optimized on real historical data and then tested on the permuted, patternless future data.</li>
+<li><strong>Compare and Validate</strong>: This generates a distribution of walk-forward results from worthless strategies. If your real walk-forward performance is significantly better than this distribution, you have very strong evidence that your strategy is robust and its performance is not just a fluke.</li>
+</ol>
+<p>This test is computationally intensive but provides one of the strongest guards against deploying a strategy that is subtly overfit or was simply lucky in out-of-sample testing.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">walk_forward_permutation_test</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">train_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="c1"># 1. Run walk-forward on real data</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="n">real_results</span> <span class="o">=</span> <span class="n">walk_forward_analysis</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">train_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="n">real_performance</span> <span class="o">=</span> <span class="n">calculate_aggregate_performance</span><span class="p">(</span><span class="n">real_results</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="c1"># 2. Run on permuted data</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">permuted_performances</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">):</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="c1"># Permute data *after* the first training period</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">permuted_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="n">permuted_test_data</span> <span class="o">=</span> <span class="n">create_price_permutation</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_window</span><span class="p">:])</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="n">permuted_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_window</span><span class="p">:]</span> <span class="o">=</span> <span class="n">permuted_test_data</span><span class="o">.</span><span class="n">values</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl">        <span class="n">permuted_results</span> <span class="o">=</span> <span class="n">walk_forward_analysis</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">permuted_data</span><span class="p">,</span> <span class="n">train_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="n">permuted_perf</span> <span class="o">=</span> <span class="n">calculate_aggregate_performance</span><span class="p">(</span><span class="n">permuted_results</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="n">permuted_performances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">permuted_perf</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="c1"># 3. Calculate p-value</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">p_value</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">&gt;=</span> <span class="n">real_performance</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">permuted_performances</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_permutations</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="s1">&#39;real_performance&#39;</span><span class="p">:</span> <span class="n">real_performance</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">        <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">        <span class="s1">&#39;permuted_distribution&#39;</span><span class="p">:</span> <span class="n">permuted_performances</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><h2 id="risk-management">Risk Management</h2>
 <h3 id="position-sizing">Position Sizing</h3>
 <p>Often more important than the signal itself:</p>
@@ -298,6 +353,6 @@
         </div>
     
 </div>
-
+ 
   </body>
 </html>
