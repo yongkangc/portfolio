@@ -15,14 +15,9 @@
       themeToggle.checked = true;
     }
   } else {
-    // Check for system preference
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      themeToggle.checked = true;
-    }
+    // Always default to dark mode for new visitors
+    document.documentElement.setAttribute("data-theme", "dark");
+    themeToggle.checked = true;
   }
 
   function switchTheme(e) {
