@@ -35,34 +35,6 @@ $line-height: 1.7;
 $y-small: 0.8rem;
 $y-medium: 1.5rem;
 
-// Placeholders
-%link-default {
-    color: var(--accent);
-    text-decoration: none;
-    & * {
-        color: var(--accent);
-    }
-    &:hover {
-        text-decoration: underline;
-    }
-}
-%link-dark {
-    color: var(--text);
-    text-decoration: none;
-    & * {
-        color: var(--text);
-    }
-    &:hover {
-        color: var(--accent);
-        text-decoration: none;
-    }
-}
-%table-cell {
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    text-align: left;
-}
-
 // Global Style Overrides
 body {
     background-color: var(--background);
@@ -73,19 +45,14 @@ body {
 }
 
 .main-content {
-    padding-top: 80px; // Adjust this value to match header height
+    padding-top: 80px; 
 }
 
-// Style
-* {
-    color: var(--text);
-    font-family: $font-family;
-    font-size: $font-size;
-    line-height: $line-height;
-}
 .container {
     max-width: $max-width;
 }
+
+// Header and Navigation
 .site-header {
     position: fixed;
     top: 0;
@@ -102,26 +69,37 @@ body {
         padding-bottom: 0.5rem;
     }
 }
+
 .navbar {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding: 1rem 0;
 }
+
 .navbar-brand {
-    @extend %link-dark;
     font-size: 1.5rem;
     font-weight: 600;
-}
-.nav-link {
-    @extend %link-default;
-    font-size: 1rem;
-    color: var(--subtle-gray);
+    color: var(--text);
     &:hover {
         color: var(--accent);
+        text-decoration: none;
     }
 }
+
+.nav-link {
+    font-size: 1rem;
+    color: var(--subtle-gray) !important; // Override bootstrap black
+    &:hover {
+        color: var(--accent) !important;
+        text-decoration: none;
+    }
+}
+
+// Main Content
 #content {
     a {
-        @extend %link-default;
+        color: var(--accent);
+        &:hover {
+            text-decoration: underline;
+        }
     }
     p {
         margin-bottom: $y-medium;
@@ -145,6 +123,7 @@ body {
         max-width: 100%;
         border-radius: 8px;
     }
+    
     .avatar > img {
         border-radius: 50%;
         float: right;
@@ -152,24 +131,7 @@ body {
         height: $avatar-size;
         width: $avatar-size;
     }
-    ol {
-        counter-reset: list;
-        list-style: none;
-        padding-left: 2rem;
-        & > li {
-            display: table-row;
-        }
-        & > li:before {
-            content: "[" counter(list, decimal) "] ";
-            counter-increment: list;
-            display: table-cell;
-            text-align: right;
-            padding-right: .5em;
-        }
-    }
-    .container > ol, .footnotes > ol {
-        padding-left: 0;
-    }
+    
     ul {
         list-style: disc;
         padding-left: 2rem;
@@ -179,36 +141,24 @@ body {
             padding-left: 0.5em;
         }
     }
-    .container > ul, .footnotes > ul {
-        padding-left: 0;
-        margin: $y-medium auto;
-        width: 100%;
-        border-collapse: collapse;
-        & th {
-            @extend %table-cell;
-            font-weight: 600;
-        }
-        & td {
-            @extend %table-cell;
-        }
-        & tr:nth-child(2n) {
-            background-color: var(--code-bg);
-        }
-    }
+
     table {
         margin: $y-medium auto;
         width: 100%;
-        & th {
-            @extend %table-cell;
-            font-weight: bold;
+        border-collapse: collapse;
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            text-align: left;
         }
-        & td {
-            @extend %table-cell;
+        th {
+            font-weight: 600;
         }
-        & tr:nth-child(2n) {
-            background-color: #f8f8f8;
+        tr:nth-child(2n) {
+            background-color: var(--code-bg);
         }
     }
+
     blockquote {
         border-left: 3px solid var(--accent);
         color: var(--subtle-gray);
@@ -219,6 +169,7 @@ body {
             margin-bottom: 0;
         }
     }
+    
     code {
         font-family: $mono-font-family;
         background-color: var(--code-bg);
@@ -228,9 +179,11 @@ body {
         font-size: 0.85em;
         padding: .2em .4em;
     }
+
     pre code {
         all: unset;
     }
+
     .highlight {
         background-color: var(--code-bg);
         border: 1px solid var(--border-color);
@@ -242,9 +195,39 @@ body {
         }
     }
 }
+
+// Homepage article list table
+.article-list {
+    tr {
+        background-color: transparent !important;
+    }
+    td {
+        border: none;
+        padding: 0.75rem 0;
+        color: var(--text) !important;
+        &:first-child {
+            padding-right: 1rem;
+        }
+    }
+    a {
+        color: var(--accent) !important;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .text-right {
+        color: var(--subtle-gray) !important;
+    }
+}
+
+// Footer
 #footer {
     a {
-        @extend %link-dark;
+        color: var(--text);
+        &:hover {
+            color: var(--accent);
+        }
     }
     color: var(--subtle-gray);
     font-size: 0.9rem;
@@ -256,14 +239,72 @@ body {
     body {
         font-size: 16px;
     }
-
     .main-content {
         padding-top: 70px;
     }
-    
     #content {
         h1 { font-size: 2rem; }
         h2 { font-size: 1.75rem; }
         h3 { font-size: 1.5rem; }
+    }
+}
+
+// --- Fix for dark mode visibility issues ---
+// Force navigation links to be visible in dark mode
+.navbar-nav .nav-link {
+    color: var(--subtle-gray) !important;
+    &:hover {
+        color: var(--accent) !important;
+    }
+}
+
+// Ensure all text elements use theme colors
+* {
+    color: var(--text);
+    font-family: $font-family;
+    font-size: $font-size;
+    line-height: $line-height;
+}
+
+// Override any remaining Bootstrap defaults
+.navbar-brand {
+    color: var(--text) !important;
+    &:hover {
+        color: var(--accent) !important;
+        text-decoration: none !important;
+    }
+}
+
+// Fix article list specifically
+.article-list {
+    background-color: transparent !important;
+    
+    tr {
+        background-color: transparent !important;
+        border: none !important;
+    }
+    
+    td {
+        background-color: transparent !important;
+        border: none !important;
+        color: var(--text) !important;
+        padding: 0.75rem 0;
+        
+        &:first-child {
+            padding-right: 1rem;
+        }
+    }
+    
+    a {
+        color: var(--accent) !important;
+        text-decoration: none !important;
+        
+        &:hover {
+            text-decoration: underline !important;
+        }
+    }
+    
+    .text-right {
+        color: var(--subtle-gray) !important;
     }
 }

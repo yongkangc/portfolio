@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="container">
+  {{ .Content }}
+  <table class="article-list">
+    {{ range .Site.RegularPages.ByDate.Reverse }} {{ if .Params.hidden }} {{
+    else }}
+    <tr>
+      <td>
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+      </td>
+      <td class="text-right">{{ .Date.Format "2006" }}</td>
+    </tr>
+    {{ end }} {{ end }}
+  </table>
+</div>
+{{ end }}

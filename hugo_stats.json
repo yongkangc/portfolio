@@ -43,6 +43,7 @@
       "ul"
     ],
     "classes": [
+      "article-list",
       "avatar",
       "card",
       "card-body",
@@ -84,6 +85,7 @@
       "slider",
       "text-center",
       "text-muted",
+      "text-right",
       "theme-switch",
       "theme-switch-wrapper"
     ],
