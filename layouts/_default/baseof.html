@@ -16,8 +16,14 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js" integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <script src="{{ "js/theme-toggle.js" | absURL }}"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"
+      integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    {{ if .Site.Params.showConsent -}} {{- partial "consent.html" . -}} {{ end
+    }}
   </body>
 </html>

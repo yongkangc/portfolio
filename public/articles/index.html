@@ -70,67 +70,10 @@
           <a class="nav-link" href="http://localhost:1313/contact">Contact</a>
         </li>
         
-        <li class="nav-item">
-          <div class="theme-switch-wrapper">
-            <label class="theme-switch" for="theme-toggle">
-              <input type="checkbox" id="theme-toggle" />
-              <span class="slider round"></span>
-            </label>
-          </div>
-        </li>
       </ul>
     </div>
   </nav>
 </div>
-
-<style>
-  .theme-switch-wrapper {
-    display: flex;
-    align-items: center;
-    margin-left: 1rem;
-  }
-  .theme-switch {
-    display: inline-block;
-    height: 24px;
-    position: relative;
-    width: 50px;
-  }
-  .theme-switch input {
-    display: none;
-  }
-  .slider {
-    background-color: #ccc;
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: 0.4s;
-  }
-  .slider:before {
-    background-color: #fff;
-    bottom: 4px;
-    content: "";
-    height: 16px;
-    left: 4px;
-    position: absolute;
-    transition: 0.4s;
-    width: 16px;
-  }
-  input:checked + .slider {
-    background-color: var(--accent);
-  }
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  .slider.round {
-    border-radius: 34px;
-  }
-  .slider.round:before {
-    border-radius: 50%;
-  }
-</style>
 <div class="main-content">
       <div id="content">
 <div class="container">
@@ -330,8 +273,13 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js" integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"
+      integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
     
-    <script src="http://localhost:1313/js/theme-toggle.js"></script>
   </body>
 </html>
