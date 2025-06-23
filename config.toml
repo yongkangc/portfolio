@@ -55,16 +55,15 @@ mermaid = true
     url = "/contact"
     weight = 3
 
-[markup.goldmark.renderer]
-  unsafe = true  # allow raw HTML in markdown files
-
 [markup]
   [markup.highlight]
-    style = "github"
+    style = "dracula"
     lineNos = true
     lineNumbersInTable = false
     noClasses = false
   [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
     [markup.goldmark.extensions]
       typographer = true
 

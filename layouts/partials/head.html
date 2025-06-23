@@ -34,8 +34,9 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  {{ $style := resources.Get "sass/researcher.scss" |
-  resources.ExecuteAsTemplate "sass/researcher.scss" . | toCSS | minify -}}
+  <link rel="stylesheet" href="{{ "/css/syntax.css" | relURL }}"> {{ $style :=
+  resources.Get "sass/researcher.scss" | resources.ExecuteAsTemplate
+  "sass/researcher.scss" . | toCSS | minify -}}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
   {{ with .Site.Params.favicon -}}
   <link rel="icon" type="image/ico" href="{{ . | absURL }}" />

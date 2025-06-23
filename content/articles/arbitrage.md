@@ -1,7 +1,6 @@
 ---
 title: "Arbitrage Trading Guide"
 date: 2025-06-21
-mermaid: true
 ---
 
 # Introduction
@@ -100,18 +99,18 @@ Dated Futures Arbitrage involves taking a position in spot (long/short) and then
 
 Perpetuals Arbitrage is between two perpetuals and bets on their convergence. It is technically a form of statistical arbitrage because you can't actually reconcile the positions, and they are completely different assets with different contract specifications and index prices. That said, they'll still converge as if they're the exact same asset in most cases. There are still mechanisms which keep them in place even if they are a bit more complicated than spot:
 
-{{< mermaid >}}
+```mermaid
 graph TD
 BPerp[Binance Perp] -->|Funding Rate| BSpot[Binance Spot]
 OPerp[Okx Perp] -->|Funding Rate| OSpot[Okx Spot]
 BSpot -- Spot arbitrage --> OSpot
-{{< /mermaid >}}
+```
 
 So they can't stay apart forever, but you also may have to face the margin man if you get blown out of your position. Typically this isn't too much of a worry as these trades tend to be fairly rapid and the size you can actually put on is a very small fraction of your portfolio.
 
 Triangular Arbitrage or more technically circular arbitrage, is any conversion of spot assets that ends up back where you started and with more money. I call it circular arbitrage because you do not necessarily need 3 legs, you can have N legs s.t. N >= 3. I used to run this on Binance and it was very profitable for a while until the bear market hit and liquidity / volumes dried up in small caps.
 
-{{< mermaid >}}
+```mermaid
 graph LR
 A(1 BTC)
 B(14 ETH)
@@ -120,8 +119,7 @@ C(45,000 USDC)
     A -- BTC/ETH --> B
     B -- ETH/USDC --> C
     C -- USDC/BTC --> A
-
-{{< /mermaid >}}
+```
 
 Geographic arbitrage is basically spot arbitrage but for foreign exchange markets where you arbitrage local vs international markets for that currency. The reason it is technically a crypto strategy is because you usually buy up the currency on their local crypto exchanges because there is usually a really large imbalance of pricing there due to people using crypto to pull money out of the economy (when it may be quite a pain to do normally). This one is mostly an operational challenge and isn't an edge I'd recommend unless you love paperwork and arguing with foreign bureaucrats.
 
