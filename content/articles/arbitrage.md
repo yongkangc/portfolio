@@ -18,8 +18,8 @@ I'd say this is a fairly good definition for arbitrage in the traditional sense,
 
 The mathematical foundation for this approach involves modeling the price impact function for each venue:
 
-```
-ΔP_i = α_i * (Volume/AverageVolume)^β_i * σ_i
+```ΔP_i = α_i * (Volume/AverageVolume)^β_i * σ_i
+
 ```
 
 Where ΔP_i is the expected price impact on venue i, α_i and β_i are venue-specific parameters, and σ_i is the recent volatility. Professional systems calibrate these parameters in real-time using recursive least squares or Kalman filtering.
@@ -94,6 +94,37 @@ STRATEGY_REQUIREMENTS = {
 Funding Arbitrage involves profiting from the funding payments paid out by perpetual contracts in order to keep them aligned with their index price. Typically it is done with a spot (long/short) position against the opposite position in the perpetual, this then accrues funding payments whilst they remain apart. It can also be done using a perpetual against another perpetual, this is less common and typically has more room for return, but also is harder to pull off. Especially when doing spot vs perp, funding arb is perhaps the simplest of all the arbitrage strategies to pull off and deliver a return with, but it is also one of the most capped in terms of profit potential. The returns will be broadly similar for all people running the strategy, especially when running it with serious size. Funding arbitrage is generally treated as the cash benchmark for most multi-strategy funds because it offers a reasonable return at a very high Sharpe. It's also fairly easy to rotate spare cash into, and doesn't require a lot of research to develop a sufficient strategy for.
 
 Spot Arbitrage on the other hand is more competitive. It involves buying on one exchange and selling on another, earning the difference of those prices. You'll typically need to withdraw from one exchange and transfer to the other exchange in order to reconcile, meaning you may not be able to buy & sell at the same time on each. In some cases you may be able to get borrowing margin, but this is generally quite rare.
+
+```mermaid
+sequenceDiagram
+    participant Trader
+    participant "Exchange A (Price: $60k)"
+    participant "Exchange B (Price: $60.1k)"
+
+    Trader->>Exchange A: Buy 1 BTC
+    activate Exchange A
+    Exchange A-->>Trader: 1 BTC Bought
+    deactivate Exchange A
+
+    Trader->>Exchange B: Sell 1 BTC
+    activate Exchange B
+    Exchange B-->>Trader: 1 BTC Sold
+    deactivate Exchange B
+
+    Note over Trader: Position: +1 BTC on A, -1 BTC on B<br/>Profit: $100 (unrealized)
+
+    loop Reconciliation
+        Trader->>Exchange A: Withdraw BTC
+        activate Exchange A
+        Exchange A-->>Trader: BTC Sent
+        deactivate Exchange A
+
+        Trader->>Exchange B: Deposit BTC
+        activate Exchange B
+        Exchange B-->>Trader: BTC Received
+        deactivate Exchange B
+    end
+```
 
 Dated Futures Arbitrage involves taking a position in spot (long/short) and then taking the opposite position in a dated future, and waiting until expiry (or convergence) to exit. It's fairly rare as the returns compared to funding arbitrage are typically worse and they tend to give higher volatility, however, in some circumstances the return can be quite exceptional. There are also concerns about the lack of liquidity with dated futures so it is only really relevant for smaller book sizes.
 
@@ -371,6 +402,40 @@ These are just a handful, but they can make a big difference on your PnL. In fac
 
 Incompletes are when one leg of your trade fills, but the other doesn't. This can end up being quite the expense if the rate of incompletes rises too much. Obviously, if you aren't hedging then there isn't a leg to be incomplete, but for spot arbitrages and triangular arbitrages you will almost always have to reconcile the other end. There's no partially doing a triangular arbitrage or you'll end up in some random currency you don't want.
 
+```mermaid
+sequenceDiagram
+    participant Trader
+    participant "Exchange A"
+    participant "Exchange B"
+
+    alt Successful Arbitrage
+        Trader->>Exchange A: Send Buy Order (Leg 1)
+        activate Exchange A
+        Exchange A-->>Trader: Leg 1 Filled
+        deactivate Exchange A
+
+        Trader->>Exchange B: Send Sell Order (Leg 2)
+        activate Exchange B
+        Exchange B-->>Trader: Leg 2 Filled
+        deactivate Exchange B
+
+        Note over Trader: Profit Secured
+    else Incomplete Trade
+        Trader->>Exchange A: Send Buy Order (Leg 1)
+        activate Exchange A
+        Exchange A-->>Trader: Leg 1 Filled
+        deactivate Exchange A
+
+        Trader->>Exchange B: Send Sell Order (Leg 2)
+        activate Exchange B
+        Note over Exchange B: Price moves away
+        Exchange B-->>Trader: Leg 2 Not Filled
+        deactivate Exchange B
+
+        Note over Trader: Unhedged Position Risk!
+    end
+```
+
 As we discussed in the prediction section, you will need to predict when incompletes occurred. When I was trading arbitrages, I had to model on which exchanges and which types of trades and even which symbols incompletes occurred the most on. This reveals some staggeringly large concentrations in my incompletes that meant some traders were losers on average, and thus avoidable by not trading those types of setups.
 
 Not just that, when we dug into how the incompletes were forming we realized that often stale data was causing us to miss legs, and after some system changes we resolved a large amount of incompletes in the system. These sorts of investigations that help you to optimize your PnL, and milk more from the arbitrages you are trading.
@@ -382,6 +447,16 @@ Normalization is relevant specifically for funding arbitrages and perpetual arbi
 Using Binance's perpetual prices directly is not optimal, especially for platforms with shorter perpetual durations, like hourly ones on DEXs. This is because perpetual prices tend to converge towards the spot price in a pattern that resembles descending stairs until a funding payment occurs, which then causes a jump. We don't want to make trades that get us into a bad position on funding payments.
 
 An alternative approach of relying solely on spot prices is also flawed. It may lead to imbalanced positions, favouring underperforming coins while shorting the surging ones. A potential solution is to "clean" the perpetual prices from a platform like Binance by accounting for accrued but unpaid funding payments, adjusting for rate differences, and then subtracting the accrued coupon for the specific platform you're converting to.
+
+```mermaid
+graph TD
+    subgraph "Perpetual Price Normalization"
+        A[Raw Perp Price] --> B("Adjust for Accrued Funding<br/>on Source Exchange")
+        B --> C("Adjust for Funding<br/>Rate Differences")
+        C --> D("Subtract Accrued Coupon<br/>for Target Exchange")
+        D --> E[Normalized Price]
+    end
+```
 
 This method is only moderately effective due to various challenges:
 
