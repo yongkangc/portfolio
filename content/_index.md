@@ -39,7 +39,7 @@ Some notable wins:
 
 **See all my projects** [here](https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521)
 
-In my free time, I also enjoy contributing to **open-source projects** where I can lend my skills. Some of the projects I've started/contributed to include:
+In my free time, I also enjoy contributing to **open-source projects** which have over 100k+ downloads on [crates.io](https://crates.io/users/yongkangc). Some of the projects I've worked on include:
 
 | Projects                                                                                     | Contributions    |
 | -------------------------------------------------------------------------------------------- | ---------------- |
