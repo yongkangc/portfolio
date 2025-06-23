@@ -11,11 +11,5 @@
         htmlLabels: true,
       },
     });
-
-    // Force re-render for any existing mermaid elements
-    const mermaidElements = document.querySelectorAll(".mermaid");
-    if (mermaidElements.length > 0) {
-      mermaid.run();
-    }
   });
 </script>

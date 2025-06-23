@@ -159,6 +159,7 @@ body {
         }
     }
     
+    // For INLINE code, not code blocks
     code {
         font-family: $mono-font-family;
         background-color: var(--code-bg);
@@ -169,18 +170,14 @@ body {
         padding: .2em .4em;
     }
 
-    pre code {
-        all: unset;
-    }
-
+    // The container for code blocks. Let syntax.css handle the background/colors.
     .highlight {
-        background-color: var(--code-bg);
-        border: 1px solid var(--border-color);
         border-radius: 8px;
         margin: $y-medium auto;
         font-size: 0.9em;
         & > pre {
             padding: 1rem;
+            border-radius: 8px; // Match container radius
         }
     }
 }
