@@ -13,23 +13,29 @@ $avatar-size: {{ .Param "style.avatarSize" | default "90px;" }};
   --header-bg: rgba(18, 18, 18, 0.85);
 }
 
-// Font - System UI font stack for a native feel
-$font-family: {{ .Param "style.fontFamily" | default "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'" }};
-$heading-font-family: 'Lora', serif;
-$mono-font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-$font-size: {{ .Param "style.fontSize" | default "18px" }};
-$line-height: 1.7;
+// Enhanced Font Stack - Better readability and modern feel
+$font-family: {{ .Param "style.fontFamily" | default "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }};
+$heading-font-family: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+$mono-font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+$font-size: {{ .Param "style.fontSize" | default "16px" }};
+$line-height: 1.6;
 
-// Margins
-$y-small: 0.8rem;
-$y-medium: 1.5rem;
+// Enhanced spacing variables
+$y-small: 0.75rem;
+$y-medium: 1.25rem;
+$y-large: 2rem;
+$y-xl: 3rem;
 
 // Global Style Overrides
 body {
     background-color: var(--background);
     color: var(--text);
+    font-family: $font-family;
+    font-size: $font-size;
+    line-height: $line-height;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
@@ -75,40 +81,94 @@ body {
 
 .nav-link {
     font-size: 1rem;
-    color: var(--subtle-gray) !important; // Override bootstrap black
+    color: var(--subtle-gray) !important;
     &:hover {
         color: var(--accent) !important;
         text-decoration: none;
     }
 }
 
-// Main Content
+// Main Content with improved typography
 #content {
     a {
         color: var(--accent);
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
         &:hover {
+            color: var(--accent);
             text-decoration: underline;
         }
     }
+    
+    // Enhanced paragraph styling
     p {
         margin-bottom: $y-medium;
+        line-height: $line-height;
+        
+        // Improve readability for longer paragraphs
+        &:not(:last-child) {
+            margin-bottom: $y-medium;
+        }
+        
+        // Better spacing after headings
+        h1 + &, h2 + &, h3 + &, h4 + &, h5 + &, h6 + & {
+            margin-top: $y-small;
+        }
     }
+    
+    // Enhanced heading hierarchy
     h1, h2, h3, h4, h5, h6 {
         font-family: $heading-font-family;
-        font-weight: 700;
-        margin: 2.5rem 0 $y-medium 0;
-        line-height: 1.3;
+        font-weight: 600;
+        line-height: 1.25;
+        margin-top: $y-xl;
+        margin-bottom: $y-medium;
+        color: var(--text);
+        
+        // First heading shouldn't have top margin
+        &:first-child {
+            margin-top: 0;
+        }
+        
+        // Better spacing between consecutive headings
+        & + h1, & + h2, & + h3, & + h4, & + h5, & + h6 {
+            margin-top: $y-large;
+        }
     }
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.75rem; }
-    h4 { font-size: 1.5rem; }
-    h5 { font-size: 1.25rem; }
-    h6 { font-size: 1rem; font-weight: 600; color: var(--subtle-gray); }
+    
+    h1 { 
+        font-size: 2.25rem; 
+        font-weight: 700;
+        margin-top: $y-xl;
+        margin-bottom: $y-large;
+    }
+    h2 { 
+        font-size: 1.875rem; 
+        font-weight: 600;
+        margin-top: $y-xl;
+    }
+    h3 { 
+        font-size: 1.5rem; 
+        margin-top: $y-large;
+    }
+    h4 { 
+        font-size: 1.25rem; 
+        margin-top: $y-large;
+    }
+    h5 { 
+        font-size: 1.125rem; 
+        margin-top: $y-medium;
+    }
+    h6 { 
+        font-size: 1rem; 
+        font-weight: 600; 
+        color: var(--subtle-gray);
+        margin-top: $y-medium;
+    }
 
     img {
         display: block;
-        margin: $y-medium auto;
+        margin: $y-large auto;
         max-width: 100%;
         border-radius: 8px;
     }
@@ -121,64 +181,113 @@ body {
         width: $avatar-size;
     }
     
+    // Enhanced list styling
+    ul, ol {
+        margin-bottom: $y-medium;
+        padding-left: 1.5rem;
+        
+        li {
+            margin-bottom: $y-small;
+            line-height: $line-height;
+            
+            // Nested lists
+            ul, ol {
+                margin-top: $y-small;
+                margin-bottom: $y-small;
+            }
+        }
+    }
+    
     ul {
         list-style: disc;
-        padding-left: 2rem;
+        
         & > li {
             list-style-position: outside;
-            margin-left: 1em;
-            padding-left: 0.5em;
         }
     }
 
     table {
-        margin: $y-medium auto;
+        margin: $y-large auto;
         width: 100%;
         border-collapse: collapse;
+        font-size: 0.9em;
+        
         th, td {
             border: 1px solid var(--border-color);
-            padding: 8px 12px;
+            padding: 0.75rem 1rem;
             text-align: left;
+            line-height: 1.4;
         }
         th {
             font-weight: 600;
+            background-color: var(--code-bg);
         }
         tr:nth-child(2n) {
-            background-color: var(--code-bg);
+            background-color: rgba(255, 255, 255, 0.02);
         }
     }
 
     blockquote {
-        border-left: 3px solid var(--accent);
-        color: var(--subtle-gray);
+        border-left: 4px solid var(--accent);
+        background-color: rgba(255, 255, 255, 0.02);
+        color: var(--text);
         font-style: normal;
-        margin: $y-medium 0;
-        padding: 8px 24px;
+        margin: $y-large 0;
+        padding: $y-medium $y-large;
+        border-radius: 0 4px 4px 0;
+        
         & > p {
             margin-bottom: 0;
+            
+            &:not(:last-child) {
+                margin-bottom: $y-small;
+            }
         }
     }
     
-    // For INLINE code, not code blocks
+    // Enhanced inline code styling
     code {
         font-family: $mono-font-family;
         background-color: var(--code-bg);
         border: 1px solid var(--border-color);
         border-radius: 4px;
         color: var(--text);
-        font-size: 0.85em;
-        padding: .2em .4em;
+        font-size: 0.875em;
+        padding: 0.2em 0.4em;
+        font-weight: 500;
     }
 
-    // The container for code blocks. Let syntax.css handle the background/colors.
+    // Enhanced code block styling
     .highlight {
         border-radius: 8px;
-        margin: $y-medium auto;
-        font-size: 0.9em;
+        margin: $y-large 0;
+        font-size: 0.875em;
+        overflow-x: auto;
+        
         & > pre {
-            padding: 1rem;
-            border-radius: 8px; // Match container radius
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 0;
+            line-height: 1.5;
         }
+    }
+    
+    // Better spacing for various elements
+    hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: $y-xl 0;
+    }
+    
+    // Enhanced emphasis styling
+    strong {
+        font-weight: 600;
+        color: var(--text);
+    }
+    
+    em {
+        font-style: italic;
+        color: var(--text);
     }
 }
 
@@ -220,36 +329,57 @@ body {
     padding: 2rem 0;
 }
 
-// --- Mobile Responsiveness ---
+// --- Enhanced Mobile Responsiveness ---
 @media (max-width: 768px) {
     body {
-        font-size: 16px;
+        font-size: 15px;
+        line-height: 1.55;
     }
+    
     .main-content {
         padding-top: 70px;
     }
+    
     #content {
-        h1 { font-size: 2rem; }
-        h2 { font-size: 1.75rem; }
-        h3 { font-size: 1.5rem; }
+        h1 { 
+            font-size: 1.875rem;
+            margin-top: $y-large;
+        }
+        h2 { 
+            font-size: 1.625rem;
+            margin-top: $y-large;
+        }
+        h3 { 
+            font-size: 1.375rem;
+            margin-top: $y-medium;
+        }
+        h4 { 
+            font-size: 1.125rem;
+        }
+        
+        // Adjust spacing for mobile
+        p {
+            margin-bottom: $y-small;
+        }
+        
+        blockquote {
+            padding: $y-small $y-medium;
+            margin: $y-medium 0;
+        }
+        
+        .highlight {
+            margin: $y-medium 0;
+            font-size: 0.8em;
+        }
     }
 }
 
 // --- Fix for dark mode visibility issues ---
-// Force navigation links to be visible in dark mode
 .navbar-nav .nav-link {
     color: var(--subtle-gray) !important;
     &:hover {
         color: var(--accent) !important;
     }
-}
-
-// Ensure all text elements use theme colors
-* {
-    color: var(--text);
-    font-family: $font-family;
-    font-size: $font-size;
-    line-height: $line-height;
 }
 
 // Override any remaining Bootstrap defaults
