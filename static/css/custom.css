@@ -2,3 +2,46 @@
 .article-content {
   font-size: 14pt;
 }
+
+/* Styles for articles list page */
+.article-item {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.article-item:last-child {
+  border-bottom: none;
+}
+
+.article-item h3 {
+  margin-bottom: 0.5rem;
+}
+
+.article-item h3 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-item h3 a:hover {
+  text-decoration: underline;
+}
+
+.article-meta {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 0.5rem;
+}
+
+.article-item p {
+  margin-bottom: 0.5rem;
+}
+
+.article-item a[href$="/"]:not(h3 a) {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.article-item a[href$="/"]:not(h3 a):hover {
+  text-decoration: underline;
+}
