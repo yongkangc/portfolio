@@ -9,15 +9,16 @@
   padding-top: 0;
 }
 
-/* Reduce top spacing on homepage content */
+/* Add proper spacing for the About Me heading */
 .index-content h2:first-child {
   margin-top: 0;
-  padding-top: 0;
+  padding-top: 30px;
 }
 
 /* Additional spacing fixes for homepage */
 .index-content > *:first-child {
   margin-top: 0 !important;
+  padding-top: 30px !important;
 }
 
 /* Styles for articles list page */
