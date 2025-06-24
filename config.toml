@@ -12,7 +12,7 @@ mermaid = true
 
 [params]
   author = "Chia Yong Kang"
-  description = "Web3 Engineer"
+  description = "Blockchain Engineer"
   favicon = "crab.svg"  # path to a .ico to use as favicon
   logo = ""  # url or path to a logo to put in the header
   [params.footer]
