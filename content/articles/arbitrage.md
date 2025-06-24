@@ -98,31 +98,31 @@ Spot Arbitrage on the other hand is more competitive. It involves buying on one 
 ```mermaid
 sequenceDiagram
     participant Trader
-    participant "Exchange A (Price: $60k)"
-    participant "Exchange B (Price: $60.1k)"
+    participant A as "Exchange A (Price: $60k)"
+    participant B as "Exchange B (Price: $60.1k)"
 
-    Trader->>Exchange A: Buy 1 BTC
-    activate Exchange A
-    Exchange A-->>Trader: 1 BTC Bought
-    deactivate Exchange A
+    Trader->>A: Buy 1 BTC (Long Position)
+    activate A
+    A-->>Trader: 1 BTC Bought
+    deactivate A
 
-    Trader->>Exchange B: Sell 1 BTC
-    activate Exchange B
-    Exchange B-->>Trader: 1 BTC Sold
-    deactivate Exchange B
+    Trader->>B: Sell 1 BTC (Short Position)
+    activate B
+    B-->>Trader: 1 BTC Sold (Short)
+    deactivate B
 
-    Note over Trader: Position: +1 BTC on A, -1 BTC on B<br/>Profit: $100 (unrealized)
+    Note over Trader: Position: +1 BTC on Exchange A, -1 BTC on Exchange B<br/>Profit: $100 (unrealized, pending short cover)
 
-    loop Reconciliation
-        Trader->>Exchange A: Withdraw BTC
-        activate Exchange A
-        Exchange A-->>Trader: BTC Sent
-        deactivate Exchange A
+    loop Reconciliation (Covering Short Position)
+        Trader->>A: Withdraw 1 BTC
+        activate A
+        A-->>Trader: 1 BTC Sent
+        deactivate A
 
-        Trader->>Exchange B: Deposit BTC
-        activate Exchange B
-        Exchange B-->>Trader: BTC Received
-        deactivate Exchange B
+        Trader->>B: Deposit 1 BTC (to cover short)
+        activate B
+        B-->>Trader: 1 BTC Received (Short Covered)
+        deactivate B
     end
 ```
 
