@@ -20,7 +20,7 @@ mermaid = true
     url = "chiayong.com"
   [params.style]  # appearance options (can be omitted)
     fontFamily = "monospace"
-    fontSize = "14pt"
+    fontSize = "12pt"
     pageWidth = "750px"
     avatarSize = "90px"
     colorBlack = "#222222"
