@@ -8,7 +8,9 @@ title = "About"
 
 Currently deep in the Perps trenches building out low latency infrastructure for [Ranger Finance](https://www.ranger.finance) - Worlds's first crosschain svm - evm perpetuals aggregator. 
 
-I'm a big fan of building non-hierachical systems with blockchain & distributed systems. I love building in rust 🦀 currently diving deep into quantatitive mechanism design.
+I'm a big fan of building non-hierachical systems with blockchain & distributed systems. I love building in rust and open source software 🦀 
+
+Currently diving deep into quantatitive mechanism design.
 
 ## Background
 
