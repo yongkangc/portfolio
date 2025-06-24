@@ -5,43 +5,79 @@
 
 /* Styles for articles list page */
 .article-item {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 3rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #333;
+  transition: all 0.2s ease;
 }
 
 .article-item:last-child {
   border-bottom: none;
+  margin-bottom: 0;
+}
+
+.article-item:hover {
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
 }
 
 .article-item h3 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.4em;
+  line-height: 1.3;
 }
 
 .article-item h3 a {
   text-decoration: none;
-  color: inherit;
+  color: #4a9eff;
+  transition: color 0.2s ease;
 }
 
 .article-item h3 a:hover {
-  text-decoration: underline;
-}
-
-.article-meta {
-  color: #666;
-  font-size: 0.9em;
-  margin-bottom: 0.5rem;
-}
-
-.article-item p {
-  margin-bottom: 0.5rem;
-}
-
-.article-item a[href$="/"]:not(h3 a) {
-  color: #007acc;
+  color: #66b3ff;
   text-decoration: none;
 }
 
-.article-item a[href$="/"]:not(h3 a):hover {
-  text-decoration: underline;
+.article-meta {
+  color: #888;
+  font-size: 0.85em;
+  margin-bottom: 1rem;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.article-item p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.article-item a[href*="/"]:not(h3 a) {
+  color: #4a9eff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9em;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.article-item a[href*="/"]:not(h3 a):hover {
+  color: #66b3ff;
+  border-bottom-color: #66b3ff;
+}
+
+/* Add some visual enhancement to the main heading */
+.container h1 {
+  border-bottom: 2px solid #4a9eff;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Style the section heading */
+.container h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
 }
