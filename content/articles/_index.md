@@ -108,7 +108,7 @@ Preparing for a comprehensive smart contract audit - a primer covering security 
 
 _October 2023_
 
-My experience building RustyGram, a Rust library that garnered over 4000 downloads on crates.io. Lessons learned in Rust ecosystem development.
+My experience building RustyGram, a Rust library that garnered over 6000 downloads on crates.io. Lessons learned in Rust ecosystem development.
 
 #### [Zero Knowledge Soul Bound Token](https://medium.com/the-spartan-group/the-construction-of-the-soul-part-3-soulbound-token-with-zk-snark-implementation-900d808b9e79)
 
