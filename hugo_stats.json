@@ -41,7 +41,7 @@
       "ul"
     ],
     "classes": [
-      "article-list",
+      "article-content",
       "avatar",
       "card",
       "card-body",
@@ -78,10 +78,14 @@
       "navbar-toggler",
       "navbar-toggler-icon",
       "row",
+      "single",
+      "single-date",
+      "single-header",
+      "single-meta",
+      "single-title",
       "site-header",
       "text-center",
-      "text-muted",
-      "text-right"
+      "text-muted"
     ],
     "ids": [
       "2022-articles",
