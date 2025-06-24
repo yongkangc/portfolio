@@ -6,19 +6,18 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently deep in the Solana trenches building out low latency infrastructure for [Ranger Finance](https://www.ranger.finance) - Solana's first perpetuals aggregator.
+Currently deep in the Perps trenches building out low latency infrastructure for [Ranger Finance](https://www.ranger.finance) - Worlds's first crosschain svm - evm perpetuals aggregator. 
 
-Previously I was working with [Chainlink Labs](https://chain.link/) to scale Chainlink products across multiple blockchains including Ethereum, Solana and Aptos.
-
-Building Non-Hierachical Systems with Blockchain & Distributed Systems. I love building in rust 🦀 currently diving deep into svm and agentic software.
+I'm a big fan of building non-hierachical systems with blockchain & distributed systems. I love building in rust 🦀 currently diving deep into quantatitive mechanism design.
 
 ## Background
 
 Previously I have had the privilege of working with some of the most respected companies in the Web3 space:
 
+- [Chainlink Labs](https://chain.link/): Scaling Chainlink oracles and keepers across multiple blockchains including Ethereum, Solana and Aptos.
 - [tETH](https://docs.treehouse.finance/protocol/teth/introduction): Architected and led the development of tETH, a Liquid Staking Token that aggregates ETH yield, surpassing $200 million TVL on Ethereum.
 - [Spartan Labs](https://www.spartangroup.io/): Led smart contract projects and [thought leadership articles](https://medium.com/@spartanlabs).
-- [Nethermind](https://www.nethermind.io/): Security tooling using Forta Bots
+- [Nethermind](https://www.nethermind.io/): Security tooling for top protocols like Aave using Forta Bots
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
 - [Velodrome](https://velodrome.finance/): Core smart contract dev for #1 Defi App on Optimism
 - [Treehouse Finance](https://www.treehouse.finance/): Innovated on DeFi analytics, working with smart contracts and on-chain data aggregation.
