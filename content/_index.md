@@ -21,8 +21,8 @@ Previously I have had the privilege of working with some of the most respected c
 - [Spartan Labs](https://www.spartangroup.io/): Led smart contract projects and [thought leadership articles](https://medium.com/@spartanlabs).
 - [Nethermind](https://www.nethermind.io/): Security tooling for top protocols like Aave using Forta Bots
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
-- [Velodrome](https://velodrome.finance/): Core smart contract dev for #1 Defi App on Optimism
-- [Treehouse Finance](https://www.treehouse.finance/): Innovated on DeFi analytics, working with smart contracts and on-chain data aggregation.
+- [Velodrome](https://velodrome.finance/): Core protocol dev for #1 liquidity marketplace on Optimism
+- [Treehouse Finance](https://www.treehouse.finance/): Innovated on cross-chain DeFi analytics, smart contracts and data aggregation.
 
 ## Projects
 
