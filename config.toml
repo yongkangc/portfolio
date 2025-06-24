@@ -13,13 +13,13 @@ mermaid = true
 [params]
   author = "Chia Yong Kang"
   description = "Web3 Engineer"
-  favicon = "favicon.ico"  # path to a .ico to use as favicon
+  favicon = "crab.svg"  # path to a .ico to use as favicon
   logo = ""  # url or path to a logo to put in the header
   [params.footer]
     text = "Yong Kang"
     url = "chiayong.com"
   [params.style]  # appearance options (can be omitted)
-    fontFamily = "Inconsolata"
+    fontFamily = "monospace"
     fontSize = "14pt"
     pageWidth = "750px"
     avatarSize = "90px"
