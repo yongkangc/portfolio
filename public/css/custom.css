@@ -4,12 +4,13 @@
 }
 
 /* Fix top padding for homepage */
-body.home .content {
-  padding-top: 0;
+.index-content {
   margin-top: -20px;
+  padding-top: 0;
 }
 
-body.home .index-content {
+/* Reduce top spacing on homepage content */
+.index-content h2:first-child {
   margin-top: 0;
   padding-top: 0;
 }
