@@ -6,9 +6,9 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently deep in the Perps trenches building out low latency infrastructure for [Ranger Finance](https://www.ranger.finance) - Worlds's first crosschain svm - evm perpetuals aggregator. 
+Currently deep in the Perps trenches building out low latency infrastructure for [Ranger Finance](https://www.ranger.finance) - Worlds's first crosschain svm - evm perpetuals aggregator.
 
-I'm a big fan of building non-hierachical systems with blockchain & distributed systems. I love building in rust and open source software 🦀 
+I'm a big fan of building non-hierachical systems with blockchain & distributed systems. I love building in rust and open source software 🦀 I write greatly about my thoughts building software here at [articles](/articles).
 
 Currently diving deep into quantatitive mechanism design.
 
