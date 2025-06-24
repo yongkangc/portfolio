@@ -62,14 +62,13 @@ In my free time, I also enjoy contributing to **open-source projects** which hav
 | [Smart Contract Audit Primer](https://extremelysunnyyk.medium.com/preparing-for-a-comprehensive-smart-contract-audit-a-primer-56427c725b0b)                                                     | 2024 |
 | [Grid Search for Optimizing Liquidity in Raydium: A Deep Dive](/articles/raydium-liquidity)                                                                                                     | 2024 |
 | [Solana AMM Under the Hood: Raydium Insights for Solana Builders](/articles/raydium-amm)                                                                                                        | 2024 |
-| [Maximizing Your Cursor Use: Advanced Prompting, Cursor Rules, and Tooling Integration](/articles/cursor-optimization)                                                                          | 2024 |
+
 | [Solana Geyser Plugins: Powering High-Speed Data Streaming Guide](/articles/solana-geyser)                                                                                                      | 2024 |
 | [Borsh and its Role in Anchor for Solana](/articles/borsh-anchor)                                                                                                                               | 2024 |
-| [Building a Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                                     | 2023 |
+| [Building a High Performance Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                                     | 2023 |
 | [Zero Knowledge Soul Bound Token](https://medium.com/the-spartan-group/the-construction-of-the-soul-part-3-soulbound-token-with-zk-snark-implementation-900d808b9e79)                           | 2023 |
 | [How does Ethereum work under the hood?](https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63)                     | 2023 |
 | [NFT Vesting](https://medium.com/the-spartan-group/nft-vesting-with-time-locks-b7932b186a6e)                                                                                                    | 2022 |
-| [Why Do We Need Modular Blockchains For Scalability?](https://medium.com/coinmonks/why-we-need-modular-blockchains-for-scalability-276f4d724b0e)                                                | 2022 |
 
 **[View all articles →](/articles)**
 
