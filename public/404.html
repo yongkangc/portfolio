@@ -113,7 +113,7 @@
       integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 
 <style>
   .mermaid-container {
@@ -124,6 +124,9 @@
     border-radius: 8px;
     padding: 1rem;
     overflow: visible;
+     
+    box-sizing: border-box;
+    contain: layout;
   }
 
   .mermaid-controls {
@@ -238,6 +241,11 @@
     background: transparent !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       sans-serif !important;
+     
+    transform-origin: center center !important;
+     
+    shape-rendering: geometricPrecision !important;
+    text-rendering: geometricPrecision !important;
   }
 
    
@@ -257,6 +265,8 @@
     color: #e5e5e5 !important;
     fill: #e5e5e5 !important;
     text-anchor: middle !important;
+     
+    vector-effect: non-scaling-stroke !important;
   }
 
    
@@ -276,11 +286,14 @@
   .mermaid svg polyline {
     stroke: #888888 !important;
     stroke-width: 2px !important;
+     
+    vector-effect: non-scaling-stroke !important;
   }
 
    
   .mermaid svg marker path {
     fill: #888888 !important;
+    vector-effect: non-scaling-stroke !important;
   }
 
   .mermaid svg .edgeLabel {
@@ -301,6 +314,7 @@
     fill: #2a2a2a !important;
     stroke: #555555 !important;
     stroke-width: 2px !important;
+    vector-effect: non-scaling-stroke !important;
   }
 
   .mermaid-fullscreen-content svg {
@@ -317,7 +331,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false, 
       theme: "base",
       themeVariables: {
         
@@ -400,12 +414,16 @@
     });
 
     
-    setTimeout(function () {
+    function initializeMermaidControls() {
       document
         .querySelectorAll(".mermaid")
         .forEach(function (mermaidDiv, index) {
           const svg = mermaidDiv.querySelector("svg");
           if (!svg) return;
+
+          
+          if (svg.hasAttribute("data-mermaid-initialized")) return;
+          svg.setAttribute("data-mermaid-initialized", "true");
 
           
           const container = document.createElement("div");
@@ -429,20 +447,87 @@
           container.appendChild(controls);
 
           
-          svg.zoomState = { scale: 1, translateX: 0, translateY: 0 };
+          let originalViewBox;
+          try {
+            originalViewBox = svg.viewBox.baseVal;
+          } catch (e) {
+            console.warn("Could not access viewBox:", e);
+            return;
+          }
+
+          
+          if (!originalViewBox || originalViewBox.width === 0) {
+            try {
+              const bbox = svg.getBBox();
+              if (bbox.width > 0 && bbox.height > 0) {
+                svg.setAttribute(
+                  "viewBox",
+                  `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
+                );
+                const newViewBox = svg.viewBox.baseVal;
+                svg.zoomState = {
+                  scale: 1,
+                  translateX: 0,
+                  translateY: 0,
+                  originalViewBox: {
+                    x: newViewBox.x,
+                    y: newViewBox.y,
+                    width: newViewBox.width,
+                    height: newViewBox.height,
+                  },
+                };
+              } else {
+                console.warn("Invalid bounding box for SVG");
+                return;
+              }
+            } catch (e) {
+              console.warn("Could not get bounding box:", e);
+              return;
+            }
+          } else {
+            svg.zoomState = {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+          }
 
           
           function updateTransform(targetSvg = svg) {
-            const g = targetSvg.querySelector("g");
-            if (g) {
-              const state = targetSvg.zoomState || {
-                scale: 1,
-                translateX: 0,
-                translateY: 0,
-              };
-              g.style.transform = `translate(${state.translateX}px, ${state.translateY}px) scale(${state.scale})`;
-              g.style.transformOrigin = "center center";
-            }
+            const state = targetSvg.zoomState || {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+
+            
+            const newWidth = state.originalViewBox.width / state.scale;
+            const newHeight = state.originalViewBox.height / state.scale;
+
+            
+            const translateFactorX = -state.translateX / state.scale;
+            const translateFactorY = -state.translateY / state.scale;
+
+            
+            const newX = state.originalViewBox.x + translateFactorX;
+            const newY = state.originalViewBox.y + translateFactorY;
+
+            targetSvg.setAttribute(
+              "viewBox",
+              `${newX} ${newY} ${newWidth} ${newHeight}`
+            );
           }
 
           
@@ -500,7 +585,19 @@
             
             const clonedSvg = originalSvg.cloneNode(true);
             clonedSvg.id = svgId + "-fullscreen";
-            clonedSvg.zoomState = { scale: 1, translateX: 0, translateY: 0 };
+            
+            const originalViewBox = originalSvg.viewBox.baseVal;
+            clonedSvg.zoomState = {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
 
             
             modal
@@ -515,17 +612,25 @@
             let isDragging = false;
             let dragStartX = 0;
             let dragStartY = 0;
+            let startTranslateX = 0;
+            let startTranslateY = 0;
 
             clonedSvg.addEventListener("mousedown", function (e) {
               isDragging = true;
-              dragStartX = e.clientX - clonedSvg.zoomState.translateX;
-              dragStartY = e.clientY - clonedSvg.zoomState.translateY;
+              dragStartX = e.clientX;
+              dragStartY = e.clientY;
+              startTranslateX = clonedSvg.zoomState.translateX;
+              startTranslateY = clonedSvg.zoomState.translateY;
             });
 
             document.addEventListener("mousemove", function (e) {
               if (isDragging && clonedSvg.zoomState) {
-                clonedSvg.zoomState.translateX = e.clientX - dragStartX;
-                clonedSvg.zoomState.translateY = e.clientY - dragStartY;
+                
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+
+                clonedSvg.zoomState.translateX = startTranslateX + deltaX;
+                clonedSvg.zoomState.translateY = startTranslateY + deltaY;
                 updateTransform(clonedSvg);
               }
             });
@@ -580,7 +685,49 @@
             updateTransform();
           });
         });
-    }, 500);
+    }
+
+    
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function tryInitialize() {
+      initializeMermaidControls();
+      attempts++;
+
+      
+      const uninitializedDiagrams = document.querySelectorAll(
+        ".mermaid svg:not([data-mermaid-initialized])"
+      );
+
+      if (uninitializedDiagrams.length > 0 && attempts < maxAttempts) {
+        setTimeout(tryInitialize, 200);
+      }
+    }
+
+    
+    if (typeof mermaid !== "undefined") {
+      
+      const mermaidElements = document.querySelectorAll(".mermaid");
+      if (mermaidElements.length > 0) {
+        mermaid
+          .run({
+            nodes: mermaidElements,
+          })
+          .then(() => {
+            
+            setTimeout(initializeMermaidControls, 100);
+          })
+          .catch((error) => {
+            console.error("Mermaid rendering failed:", error);
+            
+            setTimeout(tryInitialize, 500);
+          });
+      }
+    } else {
+      
+      setTimeout(tryInitialize, 500);
+    }
   });
 </script>
 

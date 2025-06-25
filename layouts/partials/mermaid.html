@@ -1,4 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 
 <style>
   .mermaid-container {
@@ -9,6 +9,9 @@
     border-radius: 8px;
     padding: 1rem;
     overflow: visible;
+    /* Ensure container is stable across browser zoom levels */
+    box-sizing: border-box;
+    contain: layout;
   }
 
   .mermaid-controls {
@@ -123,6 +126,11 @@
     background: transparent !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       sans-serif !important;
+    /* Prevent browser zoom from affecting SVG scaling */
+    transform-origin: center center !important;
+    /* Ensure consistent rendering across zoom levels */
+    shape-rendering: geometricPrecision !important;
+    text-rendering: geometricPrecision !important;
   }
 
   /* Isolate ALL text elements in Mermaid from global styles */
@@ -142,6 +150,8 @@
     color: #e5e5e5 !important;
     fill: #e5e5e5 !important;
     text-anchor: middle !important;
+    /* Prevent text from being affected by browser zoom */
+    vector-effect: non-scaling-stroke !important;
   }
 
   /* Specific styling for different text types */
@@ -155,17 +165,20 @@
     font-weight: 500 !important;
   }
 
-  /* Ensure lines and paths are visible */
+  /* Ensure lines and paths are visible and consistent */
   .mermaid svg path,
   .mermaid svg line,
   .mermaid svg polyline {
     stroke: #888888 !important;
     stroke-width: 2px !important;
+    /* Maintain consistent stroke width across zoom levels */
+    vector-effect: non-scaling-stroke !important;
   }
 
   /* Arrowhead marker color */
   .mermaid svg marker path {
     fill: #888888 !important;
+    vector-effect: non-scaling-stroke !important;
   }
 
   .mermaid svg .edgeLabel {
@@ -186,6 +199,7 @@
     fill: #2a2a2a !important;
     stroke: #555555 !important;
     stroke-width: 2px !important;
+    vector-effect: non-scaling-stroke !important;
   }
 
   .mermaid-fullscreen-content svg {
@@ -202,7 +216,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     // Initialize Mermaid with corrected dark theme
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false, // We'll manually trigger rendering
       theme: "base",
       themeVariables: {
         // Background colors
@@ -285,12 +299,16 @@
     });
 
     // Wait for Mermaid to render, then add controls
-    setTimeout(function () {
+    function initializeMermaidControls() {
       document
         .querySelectorAll(".mermaid")
         .forEach(function (mermaidDiv, index) {
           const svg = mermaidDiv.querySelector("svg");
           if (!svg) return;
+
+          // Skip if already initialized
+          if (svg.hasAttribute("data-mermaid-initialized")) return;
+          svg.setAttribute("data-mermaid-initialized", "true");
 
           // Wrap mermaid in container
           const container = document.createElement("div");
@@ -313,21 +331,88 @@
         `;
           container.appendChild(controls);
 
-          // Initialize zoom state
-          svg.zoomState = { scale: 1, translateX: 0, translateY: 0 };
+          // Initialize zoom state and store original viewBox
+          let originalViewBox;
+          try {
+            originalViewBox = svg.viewBox.baseVal;
+          } catch (e) {
+            console.warn("Could not access viewBox:", e);
+            return;
+          }
 
-          // Apply transform function
-          function updateTransform(targetSvg = svg) {
-            const g = targetSvg.querySelector("g");
-            if (g) {
-              const state = targetSvg.zoomState || {
-                scale: 1,
-                translateX: 0,
-                translateY: 0,
-              };
-              g.style.transform = `translate(${state.translateX}px, ${state.translateY}px) scale(${state.scale})`;
-              g.style.transformOrigin = "center center";
+          // If no viewBox exists, create one from the SVG's bounding box
+          if (!originalViewBox || originalViewBox.width === 0) {
+            try {
+              const bbox = svg.getBBox();
+              if (bbox.width > 0 && bbox.height > 0) {
+                svg.setAttribute(
+                  "viewBox",
+                  `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
+                );
+                const newViewBox = svg.viewBox.baseVal;
+                svg.zoomState = {
+                  scale: 1,
+                  translateX: 0,
+                  translateY: 0,
+                  originalViewBox: {
+                    x: newViewBox.x,
+                    y: newViewBox.y,
+                    width: newViewBox.width,
+                    height: newViewBox.height,
+                  },
+                };
+              } else {
+                console.warn("Invalid bounding box for SVG");
+                return;
+              }
+            } catch (e) {
+              console.warn("Could not get bounding box:", e);
+              return;
             }
+          } else {
+            svg.zoomState = {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+          }
+
+          // Apply transform function using viewBox manipulation for browser zoom stability
+          function updateTransform(targetSvg = svg) {
+            const state = targetSvg.zoomState || {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+
+            // Calculate new viewBox dimensions based on zoom
+            const newWidth = state.originalViewBox.width / state.scale;
+            const newHeight = state.originalViewBox.height / state.scale;
+
+            // Calculate translation in viewBox coordinates
+            const translateFactorX = -state.translateX / state.scale;
+            const translateFactorY = -state.translateY / state.scale;
+
+            // Apply new viewBox
+            const newX = state.originalViewBox.x + translateFactorX;
+            const newY = state.originalViewBox.y + translateFactorY;
+
+            targetSvg.setAttribute(
+              "viewBox",
+              `${newX} ${newY} ${newWidth} ${newHeight}`
+            );
           }
 
           // Global zoom functions
@@ -385,7 +470,19 @@
             // Clone SVG
             const clonedSvg = originalSvg.cloneNode(true);
             clonedSvg.id = svgId + "-fullscreen";
-            clonedSvg.zoomState = { scale: 1, translateX: 0, translateY: 0 };
+            // Copy the original viewBox state for consistent behavior
+            const originalViewBox = originalSvg.viewBox.baseVal;
+            clonedSvg.zoomState = {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
 
             // Add to modal
             modal
@@ -400,17 +497,25 @@
             let isDragging = false;
             let dragStartX = 0;
             let dragStartY = 0;
+            let startTranslateX = 0;
+            let startTranslateY = 0;
 
             clonedSvg.addEventListener("mousedown", function (e) {
               isDragging = true;
-              dragStartX = e.clientX - clonedSvg.zoomState.translateX;
-              dragStartY = e.clientY - clonedSvg.zoomState.translateY;
+              dragStartX = e.clientX;
+              dragStartY = e.clientY;
+              startTranslateX = clonedSvg.zoomState.translateX;
+              startTranslateY = clonedSvg.zoomState.translateY;
             });
 
             document.addEventListener("mousemove", function (e) {
               if (isDragging && clonedSvg.zoomState) {
-                clonedSvg.zoomState.translateX = e.clientX - dragStartX;
-                clonedSvg.zoomState.translateY = e.clientY - dragStartY;
+                // Calculate movement in screen coordinates, then convert to viewBox coordinates
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+
+                clonedSvg.zoomState.translateX = startTranslateX + deltaX;
+                clonedSvg.zoomState.translateY = startTranslateY + deltaY;
                 updateTransform(clonedSvg);
               }
             });
@@ -465,6 +570,48 @@
             updateTransform();
           });
         });
-    }, 500);
+    }
+
+    // Try multiple times to initialize controls as Mermaid renders asynchronously
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function tryInitialize() {
+      initializeMermaidControls();
+      attempts++;
+
+      // Check if we still have uninitialized mermaid diagrams
+      const uninitializedDiagrams = document.querySelectorAll(
+        ".mermaid svg:not([data-mermaid-initialized])"
+      );
+
+      if (uninitializedDiagrams.length > 0 && attempts < maxAttempts) {
+        setTimeout(tryInitialize, 200);
+      }
+    }
+
+    // Manually render Mermaid diagrams first, then add controls
+    if (typeof mermaid !== "undefined") {
+      // Find all mermaid elements and render them
+      const mermaidElements = document.querySelectorAll(".mermaid");
+      if (mermaidElements.length > 0) {
+        mermaid
+          .run({
+            nodes: mermaidElements,
+          })
+          .then(() => {
+            // After rendering is complete, add controls
+            setTimeout(initializeMermaidControls, 100);
+          })
+          .catch((error) => {
+            console.error("Mermaid rendering failed:", error);
+            // Fallback: try the old initialization method
+            setTimeout(tryInitialize, 500);
+          });
+      }
+    } else {
+      // Fallback if mermaid is not available
+      setTimeout(tryInitialize, 500);
+    }
   });
 </script>
