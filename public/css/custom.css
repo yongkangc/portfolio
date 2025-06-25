@@ -93,3 +93,10 @@ figure figcaption {
   text-align: center;
   margin-top: 0.5rem;
 }
+
+figure figcaption h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  font-style: normal;
+  margin: 0.5rem 0;
+}
