@@ -424,3 +424,39 @@ body {
         color: var(--subtle-gray) !important;
     }
 }
+
+// === Figure Styling (Images with Hugo figure shortcode) ===
+figure {
+  margin: $y-large auto;
+  text-align: center;
+
+  img {
+    display: block;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  figcaption {
+    margin-top: $y-medium;
+    text-align: left;
+
+    .title,
+    .figure-title {
+      display: block;
+      font-family: $heading-font-family;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    p,
+    .caption,
+    .figure-caption {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--subtle-gray);
+      margin: 0;
+    }
+  }
+}

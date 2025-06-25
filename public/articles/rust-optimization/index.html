@@ -590,13 +590,476 @@
       integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    ></script>
+    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-    <script>
-      mermaid.initialize({ startOnLoad: true, theme: "dark" });
-    </script>
+<style>
+  .mermaid-container {
+    position: relative;
+    margin: 2rem 0;
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow: visible;
+  }
+
+  .mermaid-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    display: flex;
+    gap: 4px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+
+  .mermaid-container:hover .mermaid-controls {
+    opacity: 1;
+  }
+
+  .mermaid-btn {
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+  }
+
+  .mermaid-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .mermaid-fullscreen-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .mermaid-fullscreen-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--code-bg);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .mermaid-fullscreen-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+  }
+
+  .mermaid-fullscreen-btn {
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+  }
+
+  .mermaid-fullscreen-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .mermaid-close-btn {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+  }
+
+  .mermaid-close-btn:hover {
+    background: #c82333;
+    border-color: #c82333;
+  }
+
+   
+  .mermaid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
+
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+    background: transparent !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif !important;
+  }
+
+   
+  .mermaid svg text,
+  .mermaid svg tspan,
+  .mermaid svg foreignObject,
+  .mermaid svg foreignObject div,
+  .mermaid svg .nodeLabel,
+  .mermaid svg .edgeLabel,
+  .mermaid svg .cluster-label,
+  .mermaid svg .titleText {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    line-height: 1.2 !important;
+    color: #e5e5e5 !important;
+    fill: #e5e5e5 !important;
+    text-anchor: middle !important;
+  }
+
+   
+  .mermaid svg .titleText {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+  }
+
+  .mermaid svg .cluster-label {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+  }
+
+   
+  .mermaid svg path,
+  .mermaid svg line,
+  .mermaid svg polyline {
+    stroke: #888888 !important;
+    stroke-width: 2px !important;
+  }
+
+   
+  .mermaid svg marker path {
+    fill: #888888 !important;
+  }
+
+  .mermaid svg .edgeLabel {
+    background-color: var(--code-bg) !important;
+    color: var(--text) !important;
+  }
+
+   
+  .mermaid svg * {
+    box-sizing: content-box !important;
+  }
+
+   
+  .mermaid svg .node rect,
+  .mermaid svg .node circle,
+  .mermaid svg .node ellipse,
+  .mermaid svg .node polygon {
+    fill: #2a2a2a !important;
+    stroke: #555555 !important;
+    stroke-width: 2px !important;
+  }
+
+  .mermaid-fullscreen-content svg {
+    cursor: grab;
+    user-select: none;
+  }
+
+  .mermaid-fullscreen-content svg:active {
+    cursor: grabbing;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      themeVariables: {
+        
+        background: "#1e1e1e",
+        mainBkg: "#1e1e1e",
+        secondBkg: "#2a2a2a",
+        tertiaryBkg: "#333333",
+
+        
+        primaryColor: "#333333",
+        primaryBorderColor: "#555555",
+        primaryTextColor: "#e5e5e5",
+
+        
+        secondaryColor: "#2a2a2a",
+        secondaryBorderColor: "#444444",
+        secondaryTextColor: "#cccccc",
+
+        
+        tertiaryColor: "#1e1e1e",
+        tertiaryBorderColor: "#333333",
+        tertiaryTextColor: "#aaaaaa",
+
+        
+        lineColor: "#888888",
+
+        
+        noteBkgColor: "#2a2a2a",
+        noteTextColor: "#e5e5e5",
+        noteBorderColor: "#555555",
+
+        
+        activationBkgColor: "#0a84ff",
+        activationBorderColor: "#0a84ff",
+
+        
+        sequenceNumberColor: "#ffffff",
+
+        
+        sectionBkgColor: "#2a2a2a",
+        altSectionBkgColor: "#333333",
+
+        
+        gridColor: "#555555",
+
+        
+        fillType0: "#2a2a2a",
+        fillType1: "#333333",
+        fillType2: "#3a3a3a",
+        fillType3: "#444444",
+        fillType4: "#4a4a4a",
+        fillType5: "#555555",
+        fillType6: "#606060",
+        fillType7: "#6a6a6a",
+
+        
+        cScale0: "#0a84ff",
+        cScale1: "#30a46c",
+        cScale2: "#ff6b35",
+        cScale3: "#ffd23f",
+        cScale4: "#ee46bc",
+        cScale5: "#06b6d4",
+        cScale6: "#8b5cf6",
+        cScale7: "#f59e0b",
+        cScale8: "#ef4444",
+        cScale9: "#84cc16",
+      },
+      securityLevel: "loose",
+      flowchart: {
+        useMaxWidth: false,
+        htmlLabels: true,
+        curve: "basis",
+      },
+      sequence: {
+        useMaxWidth: false,
+      },
+      gantt: {
+        useMaxWidth: false,
+      },
+    });
 
     
+    setTimeout(function () {
+      document
+        .querySelectorAll(".mermaid")
+        .forEach(function (mermaidDiv, index) {
+          const svg = mermaidDiv.querySelector("svg");
+          if (!svg) return;
+
+          
+          const container = document.createElement("div");
+          container.className = "mermaid-container";
+          mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+          container.appendChild(mermaidDiv);
+
+          
+          const diagramId = "mermaid-diagram-" + index;
+          svg.id = diagramId;
+
+          
+          const controls = document.createElement("div");
+          controls.className = "mermaid-controls";
+          controls.innerHTML = `
+          <button class="mermaid-btn" onclick="zoomMermaidIn('${diagramId}')">+</button>
+          <button class="mermaid-btn" onclick="zoomMermaidOut('${diagramId}')">−</button>
+          <button class="mermaid-btn" onclick="resetMermaidZoom('${diagramId}')">Reset</button>
+          <button class="mermaid-btn" onclick="openMermaidFullscreen('${diagramId}')">⛶</button>
+        `;
+          container.appendChild(controls);
+
+          
+          svg.zoomState = { scale: 1, translateX: 0, translateY: 0 };
+
+          
+          function updateTransform(targetSvg = svg) {
+            const g = targetSvg.querySelector("g");
+            if (g) {
+              const state = targetSvg.zoomState || {
+                scale: 1,
+                translateX: 0,
+                translateY: 0,
+              };
+              g.style.transform = `translate(${state.translateX}px, ${state.translateY}px) scale(${state.scale})`;
+              g.style.transformOrigin = "center center";
+            }
+          }
+
+          
+          window.zoomMermaidIn = function (svgId) {
+            const targetSvg = document.getElementById(svgId);
+            if (targetSvg && targetSvg.zoomState) {
+              targetSvg.zoomState.scale = Math.min(
+                targetSvg.zoomState.scale * 1.2,
+                5
+              );
+              updateTransform(targetSvg);
+            }
+          };
+
+          window.zoomMermaidOut = function (svgId) {
+            const targetSvg = document.getElementById(svgId);
+            if (targetSvg && targetSvg.zoomState) {
+              targetSvg.zoomState.scale = Math.max(
+                targetSvg.zoomState.scale / 1.2,
+                0.1
+              );
+              updateTransform(targetSvg);
+            }
+          };
+
+          window.resetMermaidZoom = function (svgId) {
+            const targetSvg = document.getElementById(svgId);
+            if (targetSvg && targetSvg.zoomState) {
+              targetSvg.zoomState.scale = 1;
+              targetSvg.zoomState.translateX = 0;
+              targetSvg.zoomState.translateY = 0;
+              updateTransform(targetSvg);
+            }
+          };
+
+          
+          window.openMermaidFullscreen = function (svgId) {
+            const originalSvg = document.getElementById(svgId);
+            if (!originalSvg) return;
+
+            
+            const modal = document.createElement("div");
+            modal.className = "mermaid-fullscreen-modal";
+            modal.innerHTML = `
+            <div class="mermaid-fullscreen-content">
+              <div class="mermaid-fullscreen-controls">
+                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidIn('${svgId}-fullscreen')">+</button>
+                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidOut('${svgId}-fullscreen')">−</button>
+                <button class="mermaid-fullscreen-btn" onclick="resetMermaidZoom('${svgId}-fullscreen')">Reset</button>
+                <button class="mermaid-fullscreen-btn mermaid-close-btn" onclick="closeMermaidFullscreen()">✕</button>
+              </div>
+            </div>
+          `;
+
+            
+            const clonedSvg = originalSvg.cloneNode(true);
+            clonedSvg.id = svgId + "-fullscreen";
+            clonedSvg.zoomState = { scale: 1, translateX: 0, translateY: 0 };
+
+            
+            modal
+              .querySelector(".mermaid-fullscreen-content")
+              .appendChild(clonedSvg);
+            document.body.appendChild(modal);
+
+            
+            modal.style.display = "block";
+
+            
+            let isDragging = false;
+            let dragStartX = 0;
+            let dragStartY = 0;
+
+            clonedSvg.addEventListener("mousedown", function (e) {
+              isDragging = true;
+              dragStartX = e.clientX - clonedSvg.zoomState.translateX;
+              dragStartY = e.clientY - clonedSvg.zoomState.translateY;
+            });
+
+            document.addEventListener("mousemove", function (e) {
+              if (isDragging && clonedSvg.zoomState) {
+                clonedSvg.zoomState.translateX = e.clientX - dragStartX;
+                clonedSvg.zoomState.translateY = e.clientY - dragStartY;
+                updateTransform(clonedSvg);
+              }
+            });
+
+            document.addEventListener("mouseup", function () {
+              isDragging = false;
+            });
+
+            
+            clonedSvg.addEventListener("wheel", function (e) {
+              e.preventDefault();
+              const delta = e.deltaY > 0 ? 0.9 : 1.1;
+              clonedSvg.zoomState.scale = Math.max(
+                0.1,
+                Math.min(5, clonedSvg.zoomState.scale * delta)
+              );
+              updateTransform(clonedSvg);
+            });
+
+            
+            const escapeHandler = function (e) {
+              if (e.key === "Escape") {
+                closeMermaidFullscreen();
+                document.removeEventListener("keydown", escapeHandler);
+              }
+            };
+            document.addEventListener("keydown", escapeHandler);
+
+            
+            modal.addEventListener("click", function (e) {
+              if (e.target === modal) {
+                closeMermaidFullscreen();
+              }
+            });
+          };
+
+          window.closeMermaidFullscreen = function () {
+            const modal = document.querySelector(".mermaid-fullscreen-modal");
+            if (modal) {
+              modal.remove();
+            }
+          };
+
+          
+          svg.addEventListener("wheel", function (e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            svg.zoomState.scale = Math.max(
+              0.1,
+              Math.min(5, svg.zoomState.scale * delta)
+            );
+            updateTransform();
+          });
+        });
+    }, 500);
+  });
+</script>
+
   </body>
 </html>
