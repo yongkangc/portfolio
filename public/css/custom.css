@@ -100,3 +100,84 @@ figure figcaption h4 {
   font-style: normal;
   margin: 0.5rem 0;
 }
+
+/* Site title styling */
+h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Navigation styling */
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #3498db;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #2c3e50;
+}
+
+/* Content styling */
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+/* Code styling */
+code {
+  background-color: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: "Courier New", monospace;
+}
+
+pre {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+/* Figure and caption styling */
+figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+figure figcaption {
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+figure figcaption h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  font-style: normal;
+  margin: 0.5rem 0;
+}
+
+/* Simple Mermaid container styling */
+.mermaid {
+  margin: 1rem 0;
+  text-align: center;
+}

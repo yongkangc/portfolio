@@ -1,19 +1,132 @@
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     mermaid.initialize({
       startOnLoad: true,
-      theme: "default",
+      theme: "base",
+      themeVariables: {
+        background: "#ffffff",
+        primaryColor: "#ffffff",
+        primaryTextColor: "#000000",
+        primaryBorderColor: "#cccccc",
+        lineColor: "#333333",
+        secondaryColor: "#f0f0f0",
+        tertiaryColor: "#ffffff",
+      },
       securityLevel: "loose",
       flowchart: {
-        useMaxWidth: true,
+        useMaxWidth: false,
         htmlLabels: true,
-        panZoom: true,
       },
-      graph: {
-        panZoom: true,
+      sequence: {
+        useMaxWidth: false,
+      },
+      gantt: {
+        useMaxWidth: false,
       },
     });
+
+    // Enable zoom and pan for all mermaid diagrams after they are rendered
+    setTimeout(function () {
+      document.querySelectorAll(".mermaid svg").forEach(function (svg, index) {
+        // Add unique ID if not present
+        if (!svg.id) {
+          svg.id = "mermaid-svg-" + index;
+        }
+
+        // Create zoom controls container
+        const container = svg.parentElement;
+        container.style.position = "relative";
+        container.style.border = "1px solid #ddd";
+        container.style.borderRadius = "4px";
+        container.style.background = "#ffffff";
+        container.style.padding = "10px";
+
+        // Add zoom controls
+        const controls = document.createElement("div");
+        controls.innerHTML = `
+          <div style="position: absolute; top: 10px; right: 10px; z-index: 1000; background: white; border: 1px solid #ccc; border-radius: 4px; padding: 5px; font-family: Arial, sans-serif; font-size: 12px;">
+            <button onclick="zoomIn('${svg.id}')" style="margin: 2px; padding: 4px 8px; border: 1px solid #ccc; background: white; cursor: pointer;">+</button>
+            <button onclick="zoomOut('${svg.id}')" style="margin: 2px; padding: 4px 8px; border: 1px solid #ccc; background: white; cursor: pointer;">-</button>
+            <button onclick="resetZoom('${svg.id}')" style="margin: 2px; padding: 4px 8px; border: 1px solid #ccc; background: white; cursor: pointer;">Reset</button>
+          </div>
+        `;
+        container.appendChild(controls);
+
+        // Set up zoom and pan functionality
+        let scale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+
+        // Apply transform
+        function updateTransform() {
+          const g = svg.querySelector("g");
+          if (g) {
+            g.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            g.style.transformOrigin = "0 0";
+          }
+        }
+
+        // Zoom functions
+        window.zoomIn = function (svgId) {
+          if (svgId === svg.id) {
+            scale = Math.min(scale * 1.2, 5);
+            updateTransform();
+          }
+        };
+
+        window.zoomOut = function (svgId) {
+          if (svgId === svg.id) {
+            scale = Math.max(scale / 1.2, 0.1);
+            updateTransform();
+          }
+        };
+
+        window.resetZoom = function (svgId) {
+          if (svgId === svg.id) {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+          }
+        };
+
+        // Mouse wheel zoom
+        svg.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          const delta = e.deltaY > 0 ? 0.9 : 1.1;
+          scale = Math.max(0.1, Math.min(5, scale * delta));
+          updateTransform();
+        });
+
+        // Pan functionality
+        svg.addEventListener("mousedown", function (e) {
+          isDragging = true;
+          dragStartX = e.clientX - translateX;
+          dragStartY = e.clientY - translateY;
+          svg.style.cursor = "grabbing";
+        });
+
+        document.addEventListener("mousemove", function (e) {
+          if (isDragging) {
+            translateX = e.clientX - dragStartX;
+            translateY = e.clientY - dragStartY;
+            updateTransform();
+          }
+        });
+
+        document.addEventListener("mouseup", function () {
+          isDragging = false;
+          svg.style.cursor = "grab";
+        });
+
+        svg.style.cursor = "grab";
+        svg.style.userSelect = "none";
+      });
+    }, 100);
   });
 </script>

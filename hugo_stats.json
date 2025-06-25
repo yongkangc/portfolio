@@ -18,6 +18,7 @@
       "head",
       "hr",
       "html",
+      "iframe",
       "img",
       "li",
       "link",
@@ -28,6 +29,7 @@
       "pre",
       "script",
       "small",
+      "source",
       "span",
       "strong",
       "table",
@@ -37,7 +39,8 @@
       "thead",
       "title",
       "tr",
-      "ul"
+      "ul",
+      "video"
     ],
     "classes": [
       "article-content",
@@ -55,6 +58,7 @@
       "fab",
       "fas",
       "highlight",
+      "imgur-embed-pub",
       "main-content",
       "mb-5",
       "mermaid",
@@ -90,7 +94,6 @@
       "advanced-risk-management-and-position-sizing",
       "advanced-techniques",
       "alpenglow-a-look-at-solana",
-      "alpenglow-a-look-at-solanas-landmark-upgrade-for-near-instant-finality",
       "alpenglows-key-innovations",
       "an-engineer",
       "an-engineers-guide-to-building-and-validating-quantitative-trading-strategies",

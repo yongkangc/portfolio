@@ -10,6 +10,11 @@ description = "A summary of Alpenglow, Solana's landmark upgrade for near-instan
 
 This article summarizes Alpenglow, Solana's most significant upgrade, designed to slash transaction finality time. Alpenglow replaces legacy components like Tower BFT and Proof of History (PoH) to achieve block finality up to 100 times faster, targeting a median time of just 150 milliseconds.
 
+<video width="100%" controls>
+  <source src="/videos/alpen-sim.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ### High-Level Changes
 
 The diagram below shows the core architectural shift from Solana's legacy components to the new Alpenglow protocol.
