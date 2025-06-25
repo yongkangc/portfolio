@@ -3,14 +3,6 @@
   font-size: 14pt;
 }
 
-/* Add top padding for homepage */
-body.home .index-content {
-  padding-top: 60px;
-}
-body.home .index-content > *:first-child {
-  margin-top: 0;
-}
-
 /* Styles for articles list page */
 .article-item {
   margin-bottom: 3rem;
@@ -31,9 +23,10 @@ body.home .index-content > *:first-child {
 }
 
 .article-item h3 {
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
   font-size: 1.4em;
   line-height: 1.3;
+  color: #fff;
 }
 
 .article-item h3 a {
