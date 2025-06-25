@@ -3,22 +3,12 @@
   font-size: 14pt;
 }
 
-/* Fix top padding for homepage */
-.index-content {
-  margin-top: -40px;
-  padding-top: 0;
-}
-
-/* Add proper spacing for the About Me heading */
-.index-content h2:first-child {
-  margin-top: 0;
+/* Add top padding for homepage */
+body.home .index-content {
   padding-top: 60px;
 }
-
-/* Additional spacing fixes for homepage */
-.index-content > *:first-child {
-  margin-top: 0 !important;
-  padding-top: 60px !important;
+body.home .index-content > *:first-child {
+  margin-top: 0;
 }
 
 /* Styles for articles list page */
@@ -37,6 +27,7 @@
 .article-item:hover {
   transform: translateY(-2px);
   transition: all 0.2s ease;
+  color: #fff;
 }
 
 .article-item h3 {
