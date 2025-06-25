@@ -143,3 +143,7 @@ Simulations of Alpenglow show remarkable results:
 - **Throughput:** With consensus no longer a bottleneck, the network can support an average throughput of **~4,000 TPS** and peaks of up to **65,000 TPS**.
 
 This landmark upgrade was led by renowned distributed systems researcher Professor Roger Wattenhofer (ETH Zurich), alongside his PhD students Jakub "Kobi" Sliwinski and Quentin Kniep at Anza. Their research positions Solana at the forefront of network latency innovation, aiming to deliver a user experience where transactions feel truly instantaneous.
+
+---
+
+Read the full white paper [here](https://drive.google.com/file/d/1y_7ddr8oNOknTQYHzXeeMD2ProQ0WjMs/view).
