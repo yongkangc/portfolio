@@ -460,3 +460,110 @@ figure {
     }
   }
 }
+
+// === Dark Theme Compatibility Overrides ===
+// Ensure all text elements are properly visible on dark background
+* {
+  // Override any potential light backgrounds with light text
+  &:not(.chroma):not(.highlight) {
+    // Ensure text is always visible
+    color: inherit;
+  }
+}
+
+// Fix any remaining light background issues
+.content, .article-content, .main-content {
+  // Ensure all text within content areas uses proper colors
+  color: var(--text);
+  
+  // Override any potential problematic inline styles
+  * {
+    &:not(code):not(pre):not(.chroma) {
+      background-color: transparent !important;
+    }
+  }
+}
+
+// Specific fixes for common markdown elements
+blockquote {
+  // Ensure blockquote text is always visible
+  color: var(--text) !important;
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+// Fix any table styling issues
+table {
+  color: var(--text) !important;
+  
+  th, td {
+    color: var(--text) !important;
+    background-color: transparent !important;
+    
+    &:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.02) !important;
+    }
+  }
+  
+  th {
+    background-color: var(--code-bg) !important;
+  }
+}
+
+// === Additional Text Visibility Fixes ===
+// Force all text to be visible on dark backgrounds
+p, span, div, li, td, th, h1, h2, h3, h4, h5, h6 {
+  &:not(.chroma):not(.highlight) {
+    color: var(--text);
+  }
+}
+
+// Ensure links remain properly styled
+a {
+  color: var(--accent) !important;
+  
+  &:hover {
+    color: var(--accent) !important;
+    opacity: 0.8;
+  }
+}
+
+// Fix any potential issues with Hugo's built-in styling
+.highlight {
+  // Ensure syntax highlighting works properly
+  background-color: var(--code-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border-color);
+}
+
+// Override any Bootstrap or theme conflicts
+.text-muted {
+  color: var(--subtle-gray) !important;
+}
+
+.text-light {
+  color: var(--text) !important;
+}
+
+.bg-light {
+  background-color: var(--code-bg) !important;
+}
+
+// === KaTeX Styling Fixes ===
+// Isolate KaTeX from global styles to prevent layout issues.
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.75em 0;
+}
+
+.katex {
+  font-size: 1.21em !important;
+  line-height: 1.2;
+  text-indent: 0;
+  white-space: nowrap;
+}
+
+// Ensure proper alignment and prevent inheritance issues
+.katex .base {
+  white-space: nowrap;
+}

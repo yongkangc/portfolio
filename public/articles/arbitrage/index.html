@@ -39,7 +39,43 @@
   rel="stylesheet" href="/css/custom.css" /> <link rel="stylesheet" href="/sass/researcher.min.css" />
 
   <link rel="icon" type="image/ico" href="http://localhost:1313/crab.svg" />
-  </head>
+   
+</head>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+  integrity="sha384-n8MVd4RsNIU0KOVEMeaMurDc6z2IzYKLHVEYjHI8rwlK3+zv+s/g9yr52+bmGNEF"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+  integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      
+      throwOnError: false,
+    });
+  });
+</script>
 
   <body><div class="container-fluid site-header">
   <nav class="navbar navbar-expand-lg navbar-light">
@@ -96,7 +132,8 @@
 <li><strong>Flow toxicity detection</strong>: Identifying when large players are moving markets versus normal retail flow</li>
 </ul>
 <p>The mathematical foundation for this approach involves modeling the price impact function for each venue:</p>
-<pre tabindex="0"><code class="language-ΔP_i" data-lang="ΔP_i"></code></pre><p>Where ΔP_i is the expected price impact on venue i, α_i and β_i are venue-specific parameters, and σ_i is the recent volatility. Professional systems calibrate these parameters in real-time using recursive least squares or Kalman filtering.</p>
+<p>$$ \Delta P_i = \alpha_i \cdot \left(\frac{\text{Volume}}{\text{AverageVolume}}\right)^{\beta_i} \cdot \sigma_i $$</p>
+<p>Where ΔP_i is the expected price impact on venue i, α_i and β_i are venue-specific parameters, and σ_i is the recent volatility. Professional systems calibrate these parameters in real-time using recursive least squares or Kalman filtering.</p>
 <p>Let&rsquo;s say we have two exchanges, ShitEx and MegaEx. MegaEx trades 500 billion USD a day. ShitEx trades about 500 million USD a day. If they diverge do you really expect that MegaEx and ShitEx will both meet in the middle? Probably not&hellip; In fact, ShitEx will do almost all of the moving, which we can round to 100% of the moving when we consider that we really only care about moves that occur in excess of our cost to trade (which is very non-trivial for this kind of trading).</p>
 <p>This is just the introduction so we&rsquo;ll avoid diving into too much of the advanced weeds but you can already see from this example that the textbook definition isn&rsquo;t quite what arbitrage trading looks like in practice. In today&rsquo;s article, I will take a walk through all the different forms of arbitrage trading and what it realistically looks like to trade these opportunities. Not simply taking the textbook approach, but showing how real money gets made by professional arbitrageurs.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
@@ -183,7 +220,7 @@
     B-->>Trader: 1 BTC Sold (Short)
     deactivate B
 
-    Note over Trader: Position: +1 BTC on Exchange A, -1 BTC on Exchange B<br/>Profit: $100 (unrealized, pending short cover)
+    Note over Trader: Position +1 BTC on Exchange A, -1 BTC on Exchange B<br/>Profit $100 (unrealized, pending short cover)
 
     loop Reconciliation (Covering Short Position)
         Trader->>A: Withdraw 1 BTC
@@ -1061,7 +1098,7 @@ C(45,000 USDC)
       integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 
 <style>
   .mermaid-container {
@@ -1280,94 +1317,20 @@ C(45,000 USDC)
     
     mermaid.initialize({
       startOnLoad: true,
-      theme: "base",
-      themeVariables: {
-        
-        background: "#1e1e1e",
-        mainBkg: "#1e1e1e",
-        secondBkg: "#2a2a2a",
-        tertiaryBkg: "#333333",
-
-        
-        primaryColor: "#333333",
-        primaryBorderColor: "#555555",
-        primaryTextColor: "#e5e5e5",
-
-        
-        secondaryColor: "#2a2a2a",
-        secondaryBorderColor: "#444444",
-        secondaryTextColor: "#cccccc",
-
-        
-        tertiaryColor: "#1e1e1e",
-        tertiaryBorderColor: "#333333",
-        tertiaryTextColor: "#aaaaaa",
-
-        
-        lineColor: "#888888",
-
-        
-        noteBkgColor: "#2a2a2a",
-        noteTextColor: "#e5e5e5",
-        noteBorderColor: "#555555",
-
-        
-        activationBkgColor: "#0a84ff",
-        activationBorderColor: "#0a84ff",
-
-        
-        sequenceNumberColor: "#ffffff",
-
-        
-        sectionBkgColor: "#2a2a2a",
-        altSectionBkgColor: "#333333",
-
-        
-        gridColor: "#555555",
-
-        
-        fillType0: "#2a2a2a",
-        fillType1: "#333333",
-        fillType2: "#3a3a3a",
-        fillType3: "#444444",
-        fillType4: "#4a4a4a",
-        fillType5: "#555555",
-        fillType6: "#606060",
-        fillType7: "#6a6a6a",
-
-        
-        cScale0: "#0a84ff",
-        cScale1: "#30a46c",
-        cScale2: "#ff6b35",
-        cScale3: "#ffd23f",
-        cScale4: "#ee46bc",
-        cScale5: "#06b6d4",
-        cScale6: "#8b5cf6",
-        cScale7: "#f59e0b",
-        cScale8: "#ef4444",
-        cScale9: "#84cc16",
-      },
-      securityLevel: "loose",
-      flowchart: {
-        useMaxWidth: false,
-        htmlLabels: true,
-        curve: "basis",
-      },
-      sequence: {
-        useMaxWidth: false,
-      },
-      gantt: {
-        useMaxWidth: false,
-      },
+      theme: "dark",
     });
 
     
-    setTimeout(function () {
+    function initializeMermaidControls() {
       document
         .querySelectorAll(".mermaid")
         .forEach(function (mermaidDiv, index) {
           const svg = mermaidDiv.querySelector("svg");
           if (!svg) return;
+
+          
+          if (svg.hasAttribute("data-mermaid-initialized")) return;
+          svg.setAttribute("data-mermaid-initialized", "true");
 
           
           const container = document.createElement("div");
@@ -1391,26 +1354,43 @@ C(45,000 USDC)
           container.appendChild(controls);
 
           
-          const originalViewBox = svg.viewBox.baseVal;
+          let originalViewBox;
+          try {
+            originalViewBox = svg.viewBox.baseVal;
+          } catch (e) {
+            console.warn("Could not access viewBox:", e);
+            return;
+          }
+
           
           if (!originalViewBox || originalViewBox.width === 0) {
-            const bbox = svg.getBBox();
-            svg.setAttribute(
-              "viewBox",
-              `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
-            );
-            const newViewBox = svg.viewBox.baseVal;
-            svg.zoomState = {
-              scale: 1,
-              translateX: 0,
-              translateY: 0,
-              originalViewBox: {
-                x: newViewBox.x,
-                y: newViewBox.y,
-                width: newViewBox.width,
-                height: newViewBox.height,
-              },
-            };
+            try {
+              const bbox = svg.getBBox();
+              if (bbox.width > 0 && bbox.height > 0) {
+                svg.setAttribute(
+                  "viewBox",
+                  `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
+                );
+                const newViewBox = svg.viewBox.baseVal;
+                svg.zoomState = {
+                  scale: 1,
+                  translateX: 0,
+                  translateY: 0,
+                  originalViewBox: {
+                    x: newViewBox.x,
+                    y: newViewBox.y,
+                    width: newViewBox.width,
+                    height: newViewBox.height,
+                  },
+                };
+              } else {
+                console.warn("Invalid bounding box for SVG");
+                return;
+              }
+            } catch (e) {
+              console.warn("Could not get bounding box:", e);
+              return;
+            }
           } else {
             svg.zoomState = {
               scale: 1,
@@ -1612,7 +1592,49 @@ C(45,000 USDC)
             updateTransform();
           });
         });
-    }, 500);
+    }
+
+    
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function tryInitialize() {
+      initializeMermaidControls();
+      attempts++;
+
+      
+      const uninitializedDiagrams = document.querySelectorAll(
+        ".mermaid svg:not([data-mermaid-initialized])"
+      );
+
+      if (uninitializedDiagrams.length > 0 && attempts < maxAttempts) {
+        setTimeout(tryInitialize, 200);
+      }
+    }
+
+    
+    if (typeof mermaid !== "undefined") {
+      
+      const mermaidElements = document.querySelectorAll(".mermaid");
+      if (mermaidElements.length > 0) {
+        mermaid
+          .run({
+            nodes: mermaidElements,
+          })
+          .then(() => {
+            
+            setTimeout(initializeMermaidControls, 100);
+          })
+          .catch((error) => {
+            console.error("Mermaid rendering failed:", error);
+            
+            setTimeout(tryInitialize, 500);
+          });
+      }
+    } else {
+      
+      setTimeout(tryInitialize, 500);
+    }
   });
 </script>
 

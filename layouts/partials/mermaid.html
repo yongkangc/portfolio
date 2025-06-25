@@ -214,88 +214,10 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Initialize Mermaid with corrected dark theme
+    // Initialize Mermaid with the official dark theme for proper contrast
     mermaid.initialize({
-      startOnLoad: false, // We'll manually trigger rendering
-      theme: "base",
-      themeVariables: {
-        // Background colors
-        background: "#1e1e1e",
-        mainBkg: "#1e1e1e",
-        secondBkg: "#2a2a2a",
-        tertiaryBkg: "#333333",
-
-        // Primary colors
-        primaryColor: "#333333",
-        primaryBorderColor: "#555555",
-        primaryTextColor: "#e5e5e5",
-
-        // Secondary colors
-        secondaryColor: "#2a2a2a",
-        secondaryBorderColor: "#444444",
-        secondaryTextColor: "#cccccc",
-
-        // Tertiary colors
-        tertiaryColor: "#1e1e1e",
-        tertiaryBorderColor: "#333333",
-        tertiaryTextColor: "#aaaaaa",
-
-        // Line and border colors
-        lineColor: "#888888",
-
-        // Note colors
-        noteBkgColor: "#2a2a2a",
-        noteTextColor: "#e5e5e5",
-        noteBorderColor: "#555555",
-
-        // Activity colors
-        activationBkgColor: "#0a84ff",
-        activationBorderColor: "#0a84ff",
-
-        // Sequence colors
-        sequenceNumberColor: "#ffffff",
-
-        // Section colors
-        sectionBkgColor: "#2a2a2a",
-        altSectionBkgColor: "#333333",
-
-        // Grid color
-        gridColor: "#555555",
-
-        // Fill colors for different node types
-        fillType0: "#2a2a2a",
-        fillType1: "#333333",
-        fillType2: "#3a3a3a",
-        fillType3: "#444444",
-        fillType4: "#4a4a4a",
-        fillType5: "#555555",
-        fillType6: "#606060",
-        fillType7: "#6a6a6a",
-
-        // Color scale
-        cScale0: "#0a84ff",
-        cScale1: "#30a46c",
-        cScale2: "#ff6b35",
-        cScale3: "#ffd23f",
-        cScale4: "#ee46bc",
-        cScale5: "#06b6d4",
-        cScale6: "#8b5cf6",
-        cScale7: "#f59e0b",
-        cScale8: "#ef4444",
-        cScale9: "#84cc16",
-      },
-      securityLevel: "loose",
-      flowchart: {
-        useMaxWidth: false,
-        htmlLabels: true,
-        curve: "basis",
-      },
-      sequence: {
-        useMaxWidth: false,
-      },
-      gantt: {
-        useMaxWidth: false,
-      },
+      startOnLoad: true,
+      theme: "dark",
     });
 
     // Wait for Mermaid to render, then add controls

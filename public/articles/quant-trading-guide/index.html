@@ -375,7 +375,7 @@
       integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    ></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 
 <style>
   .mermaid-container {
@@ -593,7 +593,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false, 
       theme: "base",
       themeVariables: {
         
@@ -676,12 +676,16 @@
     });
 
     
-    setTimeout(function () {
+    function initializeMermaidControls() {
       document
         .querySelectorAll(".mermaid")
         .forEach(function (mermaidDiv, index) {
           const svg = mermaidDiv.querySelector("svg");
           if (!svg) return;
+
+          
+          if (svg.hasAttribute("data-mermaid-initialized")) return;
+          svg.setAttribute("data-mermaid-initialized", "true");
 
           
           const container = document.createElement("div");
@@ -705,26 +709,43 @@
           container.appendChild(controls);
 
           
-          const originalViewBox = svg.viewBox.baseVal;
+          let originalViewBox;
+          try {
+            originalViewBox = svg.viewBox.baseVal;
+          } catch (e) {
+            console.warn("Could not access viewBox:", e);
+            return;
+          }
+
           
           if (!originalViewBox || originalViewBox.width === 0) {
-            const bbox = svg.getBBox();
-            svg.setAttribute(
-              "viewBox",
-              `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
-            );
-            const newViewBox = svg.viewBox.baseVal;
-            svg.zoomState = {
-              scale: 1,
-              translateX: 0,
-              translateY: 0,
-              originalViewBox: {
-                x: newViewBox.x,
-                y: newViewBox.y,
-                width: newViewBox.width,
-                height: newViewBox.height,
-              },
-            };
+            try {
+              const bbox = svg.getBBox();
+              if (bbox.width > 0 && bbox.height > 0) {
+                svg.setAttribute(
+                  "viewBox",
+                  `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
+                );
+                const newViewBox = svg.viewBox.baseVal;
+                svg.zoomState = {
+                  scale: 1,
+                  translateX: 0,
+                  translateY: 0,
+                  originalViewBox: {
+                    x: newViewBox.x,
+                    y: newViewBox.y,
+                    width: newViewBox.width,
+                    height: newViewBox.height,
+                  },
+                };
+              } else {
+                console.warn("Invalid bounding box for SVG");
+                return;
+              }
+            } catch (e) {
+              console.warn("Could not get bounding box:", e);
+              return;
+            }
           } else {
             svg.zoomState = {
               scale: 1,
@@ -926,7 +947,49 @@
             updateTransform();
           });
         });
-    }, 500);
+    }
+
+    
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function tryInitialize() {
+      initializeMermaidControls();
+      attempts++;
+
+      
+      const uninitializedDiagrams = document.querySelectorAll(
+        ".mermaid svg:not([data-mermaid-initialized])"
+      );
+
+      if (uninitializedDiagrams.length > 0 && attempts < maxAttempts) {
+        setTimeout(tryInitialize, 200);
+      }
+    }
+
+    
+    if (typeof mermaid !== "undefined") {
+      
+      const mermaidElements = document.querySelectorAll(".mermaid");
+      if (mermaidElements.length > 0) {
+        mermaid
+          .run({
+            nodes: mermaidElements,
+          })
+          .then(() => {
+            
+            setTimeout(initializeMermaidControls, 100);
+          })
+          .catch((error) => {
+            console.error("Mermaid rendering failed:", error);
+            
+            setTimeout(tryInitialize, 500);
+          });
+      }
+    } else {
+      
+      setTimeout(tryInitialize, 500);
+    }
   });
 </script>
 

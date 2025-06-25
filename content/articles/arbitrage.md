@@ -1,6 +1,7 @@
 ---
 title: "Arbitrage Trading Guide"
 date: 2025-06-21
+math: true
 ---
 
 # Introduction
@@ -18,9 +19,7 @@ I'd say this is a fairly good definition for arbitrage in the traditional sense,
 
 The mathematical foundation for this approach involves modeling the price impact function for each venue:
 
-```ΔP_i = α_i * (Volume/AverageVolume)^β_i * σ_i
-
-```
+$$ \\Delta P_i = \\alpha_i \\cdot \\left(\\frac{\\text{Volume}}{\\text{AverageVolume}}\\right)^{\\beta_i} \\cdot \\sigma_i $$
 
 Where ΔP_i is the expected price impact on venue i, α_i and β_i are venue-specific parameters, and σ_i is the recent volatility. Professional systems calibrate these parameters in real-time using recursive least squares or Kalman filtering.
 
@@ -111,7 +110,7 @@ sequenceDiagram
     B-->>Trader: 1 BTC Sold (Short)
     deactivate B
 
-    Note over Trader: Position: +1 BTC on Exchange A, -1 BTC on Exchange B<br/>Profit: $100 (unrealized, pending short cover)
+    Note over Trader: Position +1 BTC on Exchange A, -1 BTC on Exchange B<br/>Profit $100 (unrealized, pending short cover)
 
     loop Reconciliation (Covering Short Position)
         Trader->>A: Withdraw 1 BTC

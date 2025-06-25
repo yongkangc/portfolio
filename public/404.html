@@ -39,7 +39,8 @@
   rel="stylesheet" href="/css/custom.css" /> <link rel="stylesheet" href="/sass/researcher.min.css" />
 
   <link rel="icon" type="image/ico" href="http://localhost:1313/crab.svg" />
-  </head>
+   
+</head>
 
   <body><div class="container-fluid site-header">
   <nav class="navbar navbar-expand-lg navbar-light">
@@ -331,86 +332,8 @@
   document.addEventListener("DOMContentLoaded", function () {
     
     mermaid.initialize({
-      startOnLoad: false, 
-      theme: "base",
-      themeVariables: {
-        
-        background: "#1e1e1e",
-        mainBkg: "#1e1e1e",
-        secondBkg: "#2a2a2a",
-        tertiaryBkg: "#333333",
-
-        
-        primaryColor: "#333333",
-        primaryBorderColor: "#555555",
-        primaryTextColor: "#e5e5e5",
-
-        
-        secondaryColor: "#2a2a2a",
-        secondaryBorderColor: "#444444",
-        secondaryTextColor: "#cccccc",
-
-        
-        tertiaryColor: "#1e1e1e",
-        tertiaryBorderColor: "#333333",
-        tertiaryTextColor: "#aaaaaa",
-
-        
-        lineColor: "#888888",
-
-        
-        noteBkgColor: "#2a2a2a",
-        noteTextColor: "#e5e5e5",
-        noteBorderColor: "#555555",
-
-        
-        activationBkgColor: "#0a84ff",
-        activationBorderColor: "#0a84ff",
-
-        
-        sequenceNumberColor: "#ffffff",
-
-        
-        sectionBkgColor: "#2a2a2a",
-        altSectionBkgColor: "#333333",
-
-        
-        gridColor: "#555555",
-
-        
-        fillType0: "#2a2a2a",
-        fillType1: "#333333",
-        fillType2: "#3a3a3a",
-        fillType3: "#444444",
-        fillType4: "#4a4a4a",
-        fillType5: "#555555",
-        fillType6: "#606060",
-        fillType7: "#6a6a6a",
-
-        
-        cScale0: "#0a84ff",
-        cScale1: "#30a46c",
-        cScale2: "#ff6b35",
-        cScale3: "#ffd23f",
-        cScale4: "#ee46bc",
-        cScale5: "#06b6d4",
-        cScale6: "#8b5cf6",
-        cScale7: "#f59e0b",
-        cScale8: "#ef4444",
-        cScale9: "#84cc16",
-      },
-      securityLevel: "loose",
-      flowchart: {
-        useMaxWidth: false,
-        htmlLabels: true,
-        curve: "basis",
-      },
-      sequence: {
-        useMaxWidth: false,
-      },
-      gantt: {
-        useMaxWidth: false,
-      },
+      startOnLoad: true,
+      theme: "dark",
     });
 
     
