@@ -10,6 +10,12 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ## Recent Articles (2025)
 
+### [Alpenglow: A Look at Solana's Landmark Upgrade for Near-Instant Finality](/articles/alpenglow-summary)
+
+_June 2025_
+
+A summary of Alpenglow, Solana's landmark upgrade for near-instant finality.
+
 ### [Ultimate Arbitrage Strategies](/articles/arbitrage)
 
 _April 2025_

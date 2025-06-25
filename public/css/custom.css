@@ -84,3 +84,12 @@
   margin-bottom: 1.5rem;
   color: #fff;
 }
+
+/* Style image captions */
+figure figcaption {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #ccc;
+  text-align: center;
+  margin-top: 0.5rem;
+}
