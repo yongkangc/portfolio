@@ -6,8 +6,6 @@ description: "Why a straightforward approach, grounded in clear reasoning and mi
 tags: ["trading", "strategy", "quantitative", "finance"]
 ---
 
-# Keeping trading models simple
-
 In trading, it's tempting to chase complex models and sophisticated techniques to gain an edge. But here's a truth worth embracing: **a good trading strategy doesn't need to be complicated to be effective**.
 
 ## The Core of a Winning Strategy

@@ -53,7 +53,7 @@ In my free time, I also enjoy contributing to **open-source projects** which hav
 
 | Articles                                                                                                                                                                                        | Year |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
-| [The Power of Simplicity in Trading Strategies](/articles/simple-trade)                                                                                                                         | 2025 |
+| [Keeping trading models simple](/articles/simple-trade)                                                                                                                         | 2025 |
 | [Ultimate Arbitrage Strategies](/articles/arbitrage)                                                                                                                                            | 2025 |
 | [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)                                                                                                  | 2025 |
 | [Guide to Building and Validating Quantitative Trading Strategies](/articles/quant-trading-guide)                                                                                               | 2025 |

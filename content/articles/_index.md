@@ -10,7 +10,7 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ## Recent Articles (2025)
 
-### [The Power of Simplicity in Trading Strategies](/articles/simple-trade)
+### [Keeping trading models simple](/articles/simple-trade)
 
 _June 2025_
 
