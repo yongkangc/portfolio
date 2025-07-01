@@ -38,7 +38,7 @@ A basic momentum strategy, for instance, might rely on a single indicator like a
 
 Enter the online quant enthusiast, bursting with ideas:
 
-{{< figure src="https://i.imgur.com/rIVHr8H.jpg" alt="Drake meme: Simple model vs Complex factors" caption="The eternal temptation: simple models vs. fancy complex factors" >}}
+{{< figure src="https://i.kym-cdn.com/entries/icons/original/000/022/819/Screen_Shot_2017-02-28_at_2.35.56_PM.png" alt="Drake meme: Simple model vs Complex factors" caption="The eternal temptation: simple models vs. fancy complex factors" >}}
 
 > "Dude, you're leaving money on the table! Add microstructural reversion factors and cross-asset relative value effects with this fancy statistical learning model!"
 
@@ -54,7 +54,7 @@ For example, studies on order book dynamics show that high-frequency traders oft
 
 Even a simple model generates a mountain of tasks. Two data feeds? They'll arrive late, with variable latency, and sometimes fail entirely. Data errors creep in. You'll need to monitor feed alignment, latency variance, and outages while ensuring your code doesn't break.
 
-{{< figure src="https://i.imgur.com/OHWQC8e.jpg" alt="Expanding brain meme about data feed complexity" caption="The evolution of trading complexity: from one feed to system crashes" >}}
+{{< figure src="https://i.kym-cdn.com/photos/images/newsfeed/001/217/711/afd.jpg_large" alt="Expanding brain meme about data feed complexity" caption="The evolution of trading complexity: from one feed to system crashes" >}}
 
 **Every added feature or model component multiplies these operational headaches.**
 
@@ -80,7 +80,7 @@ Trading logic introduces its own complexities. Tracking order states and risk ex
 
 Even if your theoretical model performs well, your actual trading results may lag. Why? As trading veteran [@0xdoug](https://twitter.com/0xdoug) wisely noted:
 
-{{< figure src="https://i.imgur.com/9ReRvb8.png" alt="Expectation vs Reality meme about trading performance" caption="Theoretical model performance vs. actual trading results with latency and errors" >}}
+{{< figure src="https://i.kym-cdn.com/photos/images/newsfeed/000/935/647/dfb.jpg" alt="Expectation vs Reality meme about trading performance" caption="Theoretical model performance vs. actual trading results with latency and errors" >}}
 
 > "It's not just one thing—it's everything."
 
@@ -90,7 +90,7 @@ Latency, data errors, execution delays, and market competition all chip away at 
 
 The takeaway? **Even the simplest, most direct trading model will overwhelm you with operational and analytical challenges.** Adding cross-asset factors or microstructural features might explain a sliver more market variance, but each addition introduces new jobs, confusion, and failure points.
 
-{{< figure src="https://i.imgur.com/QQTnM1F.jpg" alt="Distracted boyfriend meme: trader choosing between simple strategy and complex models" caption="Every trader's dilemma: staying loyal to simple strategies or chasing shiny new models" >}}
+{{< figure src="https://i.kym-cdn.com/entries/icons/mobile/000/023/397/C-658VsXoAo3ovC.jpg" alt="Distracted boyfriend meme: trader choosing between simple strategy and complex models" caption="Every trader's dilemma: staying loyal to simple strategies or chasing shiny new models" >}}
 
 Unless you're already operationally bulletproof, chasing theoretical gains is a recipe for chaos.
 
@@ -102,6 +102,6 @@ Instead, focus on what matters:
 
 ## Conclusion
 
-{{< figure src="https://i.imgur.com/hue9wgO.jpg" alt="Leonardo DiCaprio toast meme celebrating simple profitable strategy" caption="Cheers to building simple, profitable strategies instead of chasing complexity" >}}
+{{< figure src="https://i.kym-cdn.com/entries/icons/original/000/025/090/tumblr_inline_p1brmcd9Dk1rr08jv_500.jpg" alt="Leonardo DiCaprio toast meme celebrating simple profitable strategy" caption="Cheers to building simple, profitable strategies instead of chasing complexity" >}}
 
 Markets are chaotic, but a simple, well-executed strategy can cut through the noise. Build your edge, keep it lean, and stay disciplined. That's how you turn a good idea into real profits.
