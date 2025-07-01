@@ -10,6 +10,12 @@ A collection of my technical writings on blockchain development, Rust programmin
 
 ## Recent Articles (2025)
 
+### [The Power of Simplicity in Trading Strategies](/articles/simple-trade)
+
+_June 2025_
+
+A straightforward approach, grounded in clear reasoning and minimal complexity, can set you up for success in the chaotic, competitive world of markets.
+
 ### [Alpenglow: A Look at Solana's Landmark Upgrade for Near-Instant Finality](/articles/alpenglow-summary)
 
 _June 2025_
