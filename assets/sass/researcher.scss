@@ -683,13 +683,13 @@ a {
 
 .article-entry__header h3 {
   margin: 0;
-  font-size: 1.25rem; // Or your preferred size
+  font-size: 1.25rem;
 }
 
 .article-entry__date {
   font-style: italic;
   font-size: 0.9rem;
-  color: var(--light-text);
+  color: var(--subtle-gray);
   flex-shrink: 0;
   white-space: nowrap;
 }
