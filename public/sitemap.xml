@@ -2,33 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>http://localhost:53594/</loc>
     <lastmod>2025-07-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/</loc>
+    <loc>http://localhost:53594/articles/</loc>
     <lastmod>2025-07-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/simple-trade/</loc>
+    <loc>http://localhost:53594/articles/simple-trade/</loc>
     <lastmod>2025-07-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/alpenglow-summary/</loc>
+    <loc>http://localhost:53594/articles/alpenglow-summary/</loc>
     <lastmod>2025-06-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/arbitrage/</loc>
+    <loc>http://localhost:53594/articles/arbitrage/</loc>
     <lastmod>2025-06-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/ai-frameworks/</loc>
+    <loc>http://localhost:53594/articles/ai-frameworks/</loc>
     <lastmod>2024-12-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/rust-optimization/</loc>
+    <loc>http://localhost:53594/articles/rust-optimization/</loc>
     <lastmod>2024-06-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/drift-orderbook/</loc>
+    <loc>http://localhost:53594/articles/drift-orderbook/</loc>
     <lastmod>2024-04-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/articles/quant-trading-guide/</loc>
+    <loc>http://localhost:53594/articles/quant-trading-guide/</loc>
     <lastmod>2024-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/contact/</loc>
+    <loc>http://localhost:53594/contact/</loc>
   </url>
 </urlset>

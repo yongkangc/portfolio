@@ -1,20 +1,35 @@
 {{ define "main" }}
 <div class="container">
-  {{ .Content }}
-  <ul class="article-list">
-    {{ range .Pages }}
-    <li class="article-list-item">
-      <h2 class="article-list-item__title">
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
-      </h2>
-      <p class="article-list-item__summary">
-        {{ .Summary | plainify | safeHTML }}
-      </p>
-      <span class="article-list-item__meta"
-        >{{ .Date.Format "January 2, 2006" }}</span
-      >
-    </li>
-    {{ end }}
-  </ul>
+  {{ .Content }} {{ with .Site.Data.articles.recent }}
+  <h2>{{ .heading }}</h2>
+  {{ range .entries }}
+  <div class="article-entry">
+    <div class="article-entry__header">
+      <h3><a href="{{ .url }}">{{ .title }}</a></h3>
+      <span class="article-entry__date">{{ .date }}</span>
+    </div>
+    <p>{{ .description }}</p>
+  </div>
+  {{ end }} {{ end }}
+
+  <hr />
+
+  {{ with .Site.Data.articles.published }}
+  <h2>{{ .heading }}</h2>
+  {{ range .sections }}
+  <h4>{{ .year }}</h4>
+  {{ range .entries }}
+  <div class="article-entry">
+    <div class="article-entry__header">
+      <h3>
+        <a href="{{ .url }}" target="_blank" rel="noopener noreferrer"
+          >{{ .title }}</a
+        >
+      </h3>
+      <span class="article-entry__date">{{ .date }}</span>
+    </div>
+    <p>{{ .description }}</p>
+  </div>
+  {{ end }} {{ end }} {{ end }}
 </div>
 {{ end }}

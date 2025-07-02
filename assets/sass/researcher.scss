@@ -654,3 +654,46 @@ a {
     margin-bottom: $y-medium;
   }
 }
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  font-family: $heading-font-family;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: $y-medium;
+  margin-top: $y-large;
+}
+
+/* Article Entry */
+.article-entry {
+  margin-bottom: $y-large;
+}
+
+.article-entry__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: $y-small;
+}
+
+.article-entry__header h3 {
+  margin: 0;
+  font-size: 1.25rem; // Or your preferred size
+}
+
+.article-entry__date {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--light-text);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.article-entry p {
+  margin-bottom: 0;
+}
