@@ -84,6 +84,9 @@
 <p>A collection of my technical writings on blockchain development, Rust programming, DeFi protocols, and emerging technologies.</p>
 <hr>
 <h2 id="recent-articles-2025">Recent Articles (2025)</h2>
+<h3 id="keeping-trading-models-simple"><a href="/articles/simple-trade">Keeping trading models simple</a></h3>
+<p><em>June 2025</em></p>
+<p>A straightforward approach, grounded in clear reasoning and minimal complexity, can set you up for success in the chaotic, competitive world of markets.</p>
 <h3 id="alpenglow-a-look-at-solana"><a href="/articles/alpenglow-summary">Alpenglow: A Look at Solana&rsquo;s Landmark Upgrade for Near-Instant Finality</a></h3>
 <p><em>June 2025</em></p>
 <p>A summary of Alpenglow, Solana&rsquo;s landmark upgrade for near-instant finality.</p>
@@ -152,76 +155,113 @@
 <p>Exploring modular blockchain architecture as a solution to the blockchain trilemma. Analysis of execution layers, data availability, and consensus mechanisms.</p>
 <hr>
 <p><em>For the complete archive of my technical writings, visit my <a href="https://extremelysunnyyk.medium.com/">Medium profile</a>.</em></p>
- 
-  <div class="article-item">
-    <h3><a href="http://localhost:1313/articles/alpenglow-summary/">Alpenglow: A Look at Solana&#39;s Landmark Upgrade for Near-Instant Finality</a></h3>
-    <div class="article-meta">June 25, 2025</div>
-    <p><blockquote>
-<p>&ldquo;We expect that Alpenglow can achieve actual finality in about 150 ms (median).&rdquo;</p></blockquote>
-<figure><img src="/images/alpenglow-anza.png"
-    alt="The Matterhorn at sunrise, a visual representation of &lsquo;alpenglow&rsquo;."><figcaption>
-      <h4>Alpenglow</h4><p>The Matterhorn at sunrise, a visual representation of &lsquo;alpenglow&rsquo;.</p>
-    </figcaption>
-</figure>
 
-<p>Alpenglow paper too long? Wish there was a quick summary? Me too! That&rsquo;s why I&rsquo;ve created this article. This article summarizes Alpenglow, Solana&rsquo;s most significant upgrade, designed to slash transaction finality time. Alpenglow replaces legacy components like Tower BFT and Proof of History (PoH) to achieve block finality up to 100 times faster, targeting a median time of just 150 milliseconds.</p></p>
-    <a href="http://localhost:1313/articles/alpenglow-summary/">Read more →</a>
-  </div>
-  
-  <div class="article-item">
-    <h3><a href="http://localhost:1313/articles/arbitrage/">Arbitrage Trading Guide</a></h3>
-    <div class="article-meta">June 21, 2025</div>
-    <p><h1 id="introduction">Introduction</h1>
-<p>Let&rsquo;s start with the textbook basics - the definition. What is arbitrage afterall? Well, the dictionary will give you this definition:</p>
-<blockquote>
-<p>the simultaneous buying and selling of securities, currency, or commodities in different markets or in derivative forms in order to take advantage of differing prices for the same asset.</p></blockquote>
-<p>I&rsquo;d say this is a fairly good definition for arbitrage in the traditional sense, but in the modern sense&hellip; I&rsquo;m not really sure this is true. Most advanced arbitrage trading doesn&rsquo;t hedge the other side of the trade simultaneously at all. If you are in and out of the position in a couple seconds, then why would you even care about being hedged? Especially if you know that the side you are trading is the one doing all the moving.</p></p>
-    <a href="http://localhost:1313/articles/arbitrage/">Read more →</a>
-  </div>
-  
-  <div class="article-item">
-    <h3><a href="http://localhost:1313/articles/ai-frameworks/">There are just too many AI Frameworks</a></h3>
-    <div class="article-meta">December 1, 2024</div>
-    <p><h1 id="there-are-just-too-many-ai-frameworks">There are just too many AI Frameworks</h1>
-<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
-<p>We&rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.</p></p>
-    <a href="http://localhost:1313/articles/ai-frameworks/">Read more →</a>
-  </div>
-  
-  <div class="article-item">
-    <h3><a href="http://localhost:1313/articles/rust-optimization/">Unofficial Guide to Rust Optimization Techniques</a></h3>
-    <div class="article-meta">June 3, 2024</div>
-    <p><h1 id="unofficial-guide-to-rust-optimization-techniques">Unofficial Guide to Rust Optimization Techniques</h1>
-<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
-<p>Rust&rsquo;s unique ownership model and zero-cost abstractions make it an exceptional language for building high-performance systems. However, writing fast Rust code requires understanding both the language&rsquo;s performance characteristics and the underlying hardware. This guide covers advanced optimization techniques that can help you squeeze every bit of performance out of your Rust applications.</p>
-<h2 id="understanding-rusts-performance-model">Understanding Rust&rsquo;s Performance Model</h2>
-<h3 id="zero-cost-abstractions">Zero-Cost Abstractions</h3>
-<p>Rust&rsquo;s promise of zero-cost abstractions means that high-level constructs don&rsquo;t impose runtime overhead. However, this doesn&rsquo;t automatically make your code fast - it just means the abstractions won&rsquo;t slow you down.</p></p>
-    <a href="http://localhost:1313/articles/rust-optimization/">Read more →</a>
-  </div>
-  
-  <div class="article-item">
-    <h3><a href="http://localhost:1313/articles/drift-orderbook/">Inside Drift: Architecting a High-Performance Orderbook on Solana</a></h3>
-    <div class="article-meta">April 2, 2024</div>
-    <p><h1 id="inside-drift-architecting-a-high-performance-orderbook-on-solana">Inside Drift: Architecting a High-Performance Orderbook on Solana</h1>
-<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/inside-drift-architecting-a-high-performance-orderbook-on-solana-612a98b8ac17">Medium</a></em></p>
-<p>Drift Protocol is Solana&rsquo;s largest open-source perpetual futures DEX, enabling low-slippage, high-leverage trading with cross-margining. It&rsquo;s crucial for DeFi, handling over $20B in volume since 2021, per CoinGecko.</p>
-<h2 id="architecture-of-drift">Architecture of Drift</h2>
-<p>The architecture of Drift Protocol is built upon the high-performance capabilities of the Solana blockchain, which are essential for supporting a derivatives exchange with features like high leverage and complex order types. Solana&rsquo;s inherent speed and low transaction costs directly contribute to a smoother and more cost-effective trading experience for users on the Drift platform.</p></p>
-    <a href="http://localhost:1313/articles/drift-orderbook/">Read more →</a>
-  </div>
-  
-  <div class="article-item">
-    <h3><a href="http://localhost:1313/articles/quant-trading-guide/">An Engineer&#39;s Guide to Building and Validating Quantitative Trading Strategies</a></h3>
-    <div class="article-meta">January 1, 2024</div>
-    <p><h1 id="an-engineers-guide-to-building-and-validating-quantitative-trading-strategies">An Engineer&rsquo;s Guide to Building and Validating Quantitative Trading Strategies</h1>
-<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
-<p>From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms.</p>
-<h2 id="introduction">Introduction</h2>
-<p>Quantitative trading has evolved from a niche discipline practiced by a few Wall Street firms to a democratized field accessible to individual developers. However, the gap between a profitable backtest and a live trading system remains vast. This guide provides a systematic approach to building, validating, and deploying quantitative trading strategies that can survive the transition from theory to practice.</p></p>
-    <a href="http://localhost:1313/articles/quant-trading-guide/">Read more →</a>
-  </div>
-  
+  <ul class="article-list">
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/simple-trade/">Keeping trading models simple</a>
+      </h2>
+      <p class="article-list-item__summary">
+        In trading, it&rsquo;s tempting to chase complex models and sophisticated techniques to gain an edge. But here&rsquo;s a truth worth embracing: a good trading strategy doesn&rsquo;t need to be complicated to be effective.
+The Core of a Winning Strategy At its heart, every successful trading strategy revolves around a single, clear idea. You should be able to explain it in a few sentences. To build this foundation, you need to answer two critical questions:
+
+      </p>
+      <span class="article-list-item__meta"
+        >July 1, 2025</span
+      >
+    </li>
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/alpenglow-summary/">Alpenglow: A Look at Solana&#39;s Landmark Upgrade for Near-Instant Finality</a>
+      </h2>
+      <p class="article-list-item__summary">
+         &ldquo;We expect that Alpenglow can achieve actual finality in about 150 ms (median).&rdquo;
+AlpenglowThe Matterhorn at sunrise, a visual representation of &lsquo;alpenglow&rsquo;.
+Alpenglow paper too long? Wish there was a quick summary? Me too! That&rsquo;s why I&rsquo;ve created this article. This article summarizes Alpenglow, Solana&rsquo;s most significant upgrade, designed to slash transaction finality time. Alpenglow replaces legacy components like Tower BFT and Proof of History (PoH) to achieve block finality up to 100 times faster, targeting a median time of just 150 milliseconds.
+
+      </p>
+      <span class="article-list-item__meta"
+        >June 25, 2025</span
+      >
+    </li>
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/arbitrage/">Arbitrage Trading Guide</a>
+      </h2>
+      <p class="article-list-item__summary">
+        Introduction Let&rsquo;s start with the textbook basics - the definition. What is arbitrage afterall? Well, the dictionary will give you this definition:
+the simultaneous buying and selling of securities, currency, or commodities in different markets or in derivative forms in order to take advantage of differing prices for the same asset.
+I&rsquo;d say this is a fairly good definition for arbitrage in the traditional sense, but in the modern sense&hellip; I&rsquo;m not really sure this is true. Most advanced arbitrage trading doesn&rsquo;t hedge the other side of the trade simultaneously at all. If you are in and out of the position in a couple seconds, then why would you even care about being hedged? Especially if you know that the side you are trading is the one doing all the moving.
+
+      </p>
+      <span class="article-list-item__meta"
+        >June 21, 2025</span
+      >
+    </li>
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/ai-frameworks/">There are just too many AI Frameworks</a>
+      </h2>
+      <p class="article-list-item__summary">
+        There are just too many AI Frameworks Originally published on Medium
+We&rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.
+
+      </p>
+      <span class="article-list-item__meta"
+        >December 1, 2024</span
+      >
+    </li>
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/rust-optimization/">Unofficial Guide to Rust Optimization Techniques</a>
+      </h2>
+      <p class="article-list-item__summary">
+        Unofficial Guide to Rust Optimization Techniques Originally published on Medium
+Rust&rsquo;s unique ownership model and zero-cost abstractions make it an exceptional language for building high-performance systems. However, writing fast Rust code requires understanding both the language&rsquo;s performance characteristics and the underlying hardware. This guide covers advanced optimization techniques that can help you squeeze every bit of performance out of your Rust applications.
+Understanding Rust&rsquo;s Performance Model Zero-Cost Abstractions Rust&rsquo;s promise of zero-cost abstractions means that high-level constructs don&rsquo;t impose runtime overhead. However, this doesn&rsquo;t automatically make your code fast - it just means the abstractions won&rsquo;t slow you down.
+
+      </p>
+      <span class="article-list-item__meta"
+        >June 3, 2024</span
+      >
+    </li>
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/drift-orderbook/">Inside Drift: Architecting a High-Performance Orderbook on Solana</a>
+      </h2>
+      <p class="article-list-item__summary">
+        Inside Drift: Architecting a High-Performance Orderbook on Solana Originally published on Medium
+Drift Protocol is Solana&rsquo;s largest open-source perpetual futures DEX, enabling low-slippage, high-leverage trading with cross-margining. It&rsquo;s crucial for DeFi, handling over $20B in volume since 2021, per CoinGecko.
+Architecture of Drift The architecture of Drift Protocol is built upon the high-performance capabilities of the Solana blockchain, which are essential for supporting a derivatives exchange with features like high leverage and complex order types. Solana&rsquo;s inherent speed and low transaction costs directly contribute to a smoother and more cost-effective trading experience for users on the Drift platform.
+
+      </p>
+      <span class="article-list-item__meta"
+        >April 2, 2024</span
+      >
+    </li>
+    
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="http://localhost:1313/articles/quant-trading-guide/">An Engineer&#39;s Guide to Building and Validating Quantitative Trading Strategies</a>
+      </h2>
+      <p class="article-list-item__summary">
+        An Engineer&rsquo;s Guide to Building and Validating Quantitative Trading Strategies Originally published on Medium
+From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms.
+Introduction Quantitative trading has evolved from a niche discipline practiced by a few Wall Street firms to a democratized field accessible to individual developers. However, the gap between a profitable backtest and a live trading system remains vast. This guide provides a systematic approach to building, validating, and deploying quantitative trading strategies that can survive the transition from theory to practice.
+
+      </p>
+      <span class="article-list-item__meta"
+        >January 1, 2024</span
+      >
+    </li>
+    
+  </ul>
 </div>
 </div>
     </div><div id="footer" class="mb-5">

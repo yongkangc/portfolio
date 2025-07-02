@@ -1,12 +1,20 @@
 {{ define "main" }}
 <div class="container">
-  {{ .Content }} {{ range .Pages }}
-  <div class="article-item">
-    <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-    <div class="article-meta">{{ .Date.Format "January 2, 2006" }}</div>
-    <p>{{ .Summary }}</p>
-    <a href="{{ .Permalink }}">Read more →</a>
-  </div>
-  {{ end }}
+  {{ .Content }}
+  <ul class="article-list">
+    {{ range .Pages }}
+    <li class="article-list-item">
+      <h2 class="article-list-item__title">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+      </h2>
+      <p class="article-list-item__summary">
+        {{ .Summary | plainify | safeHTML }}
+      </p>
+      <span class="article-list-item__meta"
+        >{{ .Date.Format "January 2, 2006" }}</span
+      >
+    </li>
+    {{ end }}
+  </ul>
 </div>
 {{ end }}
