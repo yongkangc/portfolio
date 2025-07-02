@@ -6,8 +6,15 @@
     <description>Recent content in Articles on Chia Yong Kang</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Jul 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/articles/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Keeping trading models simple</title>
+      <link>http://localhost:1313/articles/simple-trade/</link>
+      <pubDate>Tue, 01 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/articles/simple-trade/</guid>
+      <description>&lt;p&gt;In trading, it&amp;rsquo;s tempting to chase complex models and sophisticated techniques to gain an edge. But here&amp;rsquo;s a truth worth embracing: &lt;strong&gt;a good trading strategy doesn&amp;rsquo;t need to be complicated to be effective&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-core-of-a-winning-strategy&#34;&gt;The Core of a Winning Strategy&lt;/h2&gt;&#xA;&lt;p&gt;At its heart, every successful trading strategy revolves around a single, clear idea. You should be able to explain it in a few sentences. To build this foundation, you need to answer two critical questions:&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Alpenglow: A Look at Solana&#39;s Landmark Upgrade for Near-Instant Finality</title>
       <link>http://localhost:1313/articles/alpenglow-summary/</link>

@@ -14,11 +14,11 @@ $avatar-size: {{ .Param "style.avatarSize" | default "90px;" }};
 }
 
 // Enhanced Font Stack - Better readability and modern feel
-$font-family: {{ .Param "style.fontFamily" | default "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }};
-$heading-font-family: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+$font-family: {{ .Param "style.fontFamily" | default "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }};
+$heading-font-family: {{ .Param "style.headingFontFamily" | default "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }};
 $mono-font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-$font-size: {{ .Param "style.fontSize" | default "16px" }};
-$line-height: 1.6;
+$font-size: {{ .Param "style.fontSize" | default "17px" }};
+$line-height: 1.7;
 
 // Enhanced spacing variables
 $y-small: 0.75rem;
@@ -137,33 +137,33 @@ body {
     }
     
     h1 { 
-        font-size: 2.25rem; 
+        font-size: 2.5rem; 
         font-weight: 700;
-        margin-top: $y-xl;
-        margin-bottom: $y-large;
+        letter-spacing: -0.02em;
     }
     h2 { 
-        font-size: 1.875rem; 
-        font-weight: 600;
-        margin-top: $y-xl;
+        font-size: 2rem; 
+        font-weight: 700;
+        letter-spacing: -0.015em;
     }
     h3 { 
         font-size: 1.5rem; 
-        margin-top: $y-large;
+        font-weight: 600;
     }
     h4 { 
-        font-size: 1.25rem; 
-        margin-top: $y-large;
+        font-size: 1.25rem;
+        font-weight: 600;
     }
     h5 { 
-        font-size: 1.125rem; 
-        margin-top: $y-medium;
+        font-size: 1.125rem;
+        font-weight: 600;
     }
     h6 { 
         font-size: 1rem; 
         font-weight: 600; 
         color: var(--subtle-gray);
-        margin-top: $y-medium;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     img {
@@ -288,6 +288,50 @@ body {
     em {
         font-style: italic;
         color: var(--text);
+    }
+
+    // Add specific styles for article lists
+    .article-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .article-list-item {
+        padding: $y-xl 0;
+        border-bottom: 1px solid var(--border-color);
+
+        &:first-child {
+            padding-top: $y-large;
+        }
+        
+        &__meta {
+            color: var(--subtle-gray);
+            font-size: 0.9rem;
+            margin-bottom: $y-small;
+            display: block;
+        }
+
+        &__title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0 0 $y-small 0;
+            
+            a {
+                color: var(--text);
+                text-decoration: none;
+                &:hover {
+                    color: var(--accent);
+                }
+            }
+        }
+
+        &__summary {
+            font-size: 1rem;
+            color: var(--subtle-gray);
+            margin: 0;
+        }
     }
 }
 
@@ -566,4 +610,47 @@ a {
 // Ensure proper alignment and prevent inheritance issues
 .katex .base {
   white-space: nowrap;
+}
+
+.single {
+    padding-bottom: 2rem;
+}
+
+.single-title {
+  font-size: 2.5rem;
+  margin-bottom: $y-small;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.single-meta {
+  color: var(--subtle-gray);
+  font-size: 0.9rem;
+  margin-bottom: $y-large;
+}
+
+.article-content {
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  
+  h1,h2,h3,h4,h5,h6 {
+    font-weight: 600;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+    margin-top: $y-xl;
+    padding-bottom: $y-small;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+    margin-top: $y-large;
+  }
+  
+  p {
+    margin-bottom: $y-medium;
+  }
 }
