@@ -1,33 +1,37 @@
 recent:
-  heading: "Recent Articles (2025)"
   entries:
     - title: "Keeping trading models simple"
       url: "/articles/simple-trade"
       date: "June 2025"
       description: "A straightforward approach, grounded in clear reasoning and minimal complexity, can set you up for success in the chaotic, competitive world of markets."
+      tags: ["trading", "quant"]
     - title: "Alpenglow: A Look at Solana's Landmark Upgrade for Near-Instant Finality"
       url: "/articles/alpenglow-summary"
       date: "June 2025"
       description: "A summary of Alpenglow, Solana's landmark upgrade for near-instant finality."
+      tags: ["solana", "blockchain"]
     - title: "Ultimate Arbitrage Strategies"
       url: "/articles/arbitrage"
       date: "April 2025"
       description: "A deep dive into arbitrage strategies in crypto."
+      tags: ["trading", "quant", "arbitrage"]
     - title: "Inside Drift: Architecting a High-Performance Orderbook on Solana"
       url: "/articles/drift-orderbook"
       date: "April 2025"
       description: "A deep dive into Drift Protocol's architecture, exploring how Solana's largest open-source perpetual futures DEX achieves high performance through innovative design patterns including Just-In-Time liquidity, cross-margined risk engines, and hybrid AMM approaches."
-    - title: "An Engineer's Guide to Building and Validating Quantitative Trading Strategies"
+      tags: ["solana", "defi", "blockchain"]
+    - title: "An Engineer's Guide to Building and Validating quant Trading Strategies"
       url: "/articles/quant-trading-guide"
       date: "January 2025"
       description: "From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms. Covers everything from backtesting methodologies to risk management strategies."
+      tags: ["trading", "quant", "python"]
     - title: "Unofficial Guide to Rust Optimization Techniques"
       url: "/articles/rust-optimization"
       date: "June 2025"
       description: "Rust's unique ownership model and zero-cost abstractions make it exceptional for high-performance systems. This guide covers advanced optimization techniques for Rust developers."
+      tags: ["rust", "performance"]
 
 published:
-  heading: "Published on Medium"
   sections:
     - year: 2024
       entries:
@@ -35,59 +39,73 @@ published:
           url: "https://extremelysunnyyk.medium.com/there-are-just-too-many-ai-frameworks-c8c9b9b9b9b9"
           date: "December 2024"
           description: "An analysis of the current AI framework landscape and why the proliferation of tools might be hindering rather than helping developers build production-ready AI systems."
+          tags: ["ai", "ml"]
         - title: "Borsh and its Role in Anchor for Solana"
           url: "https://extremelysunnyyk.medium.com/borsh-and-its-role-in-anchor-for-solana-612a98b8ac17"
           date: "October 2024"
           description: "Unlike familiar formats like JSON, Borsh is designed specifically for Solana to optimize speed, compactness, and performance. Learn how it integrates with Anchor framework."
+          tags: ["solana", "blockchain", "Rust"]
         - title: "The Best Engineer I Have Ever Met"
           url: "https://extremelysunnyyk.medium.com/the-best-engineer-i-have-ever-met-c8c9b9b9b9b9"
           date: "September 2024"
           description: "During my year and a half at Chainlink, I had the privilege of working with one of the best engineers I've ever met. Before that, I had worked at various startups and tech companies, but this individual stood out for their exceptional technical skills and collaborative approach."
+          tags: ["engineering", "career"]
         - title: "Design Of Solidity AST Optimiser"
           url: "https://medium.com/@extremelysunnyyk/from-idea-to-implementation-creating-a-solidity-gas-optimizer-for-smart-contracts-0a103c2bfd24?postPublishedType=repub"
           date: "September 2024"
           description: "From idea to implementation: creating a Solidity gas optimizer for smart contracts. A deep dive into AST manipulation and optimization techniques."
+          tags: ["solidity", "ethereum"]
         - title: "Smart Contract Audit Primer"
           url: "https://extremelysunnyyk.medium.com/preparing-for-a-comprehensive-smart-contract-audit-a-primer-56427c725b0b"
           date: "September 2024"
           description: "Preparing for a comprehensive smart contract audit - a primer covering security considerations, common vulnerabilities, and best practices."
+          tags: ["security", "solidity", "ethereum"]
         - title: "Grid Search for Optimizing Liquidity in Raydium: A Deep Dive"
           url: "https://extremelysunnyyk.medium.com/grid-search-for-optimizing-liquidity-in-raydium-a-deep-dive-612a98b8ac17"
           date: "April 2024"
           description: "Grid search probably helps find the best combination of order sizes and price points to ensure there's enough liquidity on Raydium DEX. Technical analysis of algorithmic liquidity optimization strategies."
+          tags: ["solana", "defi", "quant"]
         - title: "Solana AMM Under the Hood: Raydium Insights for Solana Builders"
           url: "https://extremelysunnyyk.medium.com/solana-amm-under-the-hood-raydium-insights-for-solana-builders-612a98b8ac17"
           date: "April 2024"
           description: "Diving deep into Raydium AMM - a technical exploration of Raydium's Automated Market Maker implementation, providing insights for developers building on Solana."
+          tags: ["solana", "defi", "amm"]
         - title: "Maximizing Your Cursor Use: Advanced Prompting, Cursor Rules, and Tooling Integration"
           url: "https://extremelysunnyyk.medium.com/maximizing-your-cursor-use-advanced-prompting-cursor-rules-and-tooling-integration-612a98b8ac17"
           date: "February 2024"
           description: "Productivity tips with Cursor - advanced techniques for getting the most out of Cursor IDE, including custom rules, workflow optimization, and tooling integration."
+          tags: ["ai", "ide", "cursor", "productivity"]
         - title: "Solana Geyser Plugins: Powering High-Speed Data Streaming Guide"
           url: "https://extremelysunnyyk.medium.com/solana-geyser-plugins-powering-high-speed-data-streaming-guide-612a98b8ac17"
           date: "January 2024"
           description: "Wondering how to speed up your Dapp for Solana? Look no further with Geyser! A comprehensive guide to Geyser plugins for real-time data streaming and performance optimization."
+          tags: ["solana", "blockchain", "rust"]
     - year: 2023
       entries:
         - title: "Building a Rust Library"
           url: "https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b"
           date: "October 2023"
           description: "My experience building RustyGram, a Rust library that garnered over 6000 downloads on crates.io. Lessons learned in Rust ecosystem development."
+          tags: ["rust", "open-source"]
         - title: "Zero Knowledge Soul Bound Token"
           url: "https://medium.com/the-spartan-group/the-construction-of-the-soul-part-3-soulbound-token-with-zk-snark-implementation-900d808b9e79"
           date: "August 2023"
           description: "Exploring the intersection of identity and privacy through ZK-SNARKs implementation in soul bound tokens. Part 3 of 'The Construction of the Soul' series."
+          tags: ["zk", "ethereum", "identity"]
         - title: "How does Ethereum work under the hood?"
           url: "https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63"
           date: "June 2023"
           description: "Understanding EVM basics in simple English - a comprehensive guide to Ethereum's inner workings, virtual machine architecture, and execution model."
+          tags: ["ethereum", "evm"]
     - year: 2022
       entries:
         - title: "NFT Vesting"
           url: "https://medium.com/the-spartan-group/nft-vesting-with-time-locks-b7932b186a6e"
           date: "November 2022"
           description: "NFT vesting with time locks - implementing sophisticated tokenomics and vesting mechanisms for NFT projects using smart contracts."
+          tags: ["nft", "solidity", "ethereum"]
         - title: "Why Do We Need Modular Blockchains For Scalability?"
           url: "https://medium.com/coinmonks/why-we-need-modular-blockchains-for-scalability-276f4d724b0e"
           date: "September 2022"
           description: "Exploring modular blockchain architecture as a solution to the blockchain trilemma. Analysis of execution layers, data availability, and consensus mechanisms."
+          tags: ["blockchain", "scalability"]
