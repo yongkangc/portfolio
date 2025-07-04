@@ -1,5 +1,5 @@
-{{- $pc := .Site.Config.Privacy.GoogleAnalytics -}} {{- if not $pc.Disable }}{{
-with .Site.Config.Services.GoogleAnalytics.ID -}}
+{{- $pc := .Site.Config.Privacy.GoogleAnalytics -}} {{- if not $pc.Disable }}
+{{- with .Site.Config.Services.GoogleAnalytics.ID -}}
 <script>
   {{- if not $pc.RespectDoNotTrack -}}
   var doNotTrack = false;
@@ -8,10 +8,10 @@ with .Site.Config.Services.GoogleAnalytics.ID -}}
   var doNotTrack = (dnt == "1" || dnt == "yes");
   {{- end -}}
   if (!doNotTrack) {
-  	window.dataLayer = window.dataLayer || [];
-  	function gtag(){dataLayer.push(arguments);}
-  	gtag('js', new Date());
-  	gtag('config', '{{ site.Config.Services.GoogleAnalytics.ID }}');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ site.Config.Services.GoogleAnalytics.ID }}');
   }
 </script>
 {{- end -}} {{- end -}}
