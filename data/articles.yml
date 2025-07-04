@@ -1,5 +1,10 @@
 recent:
   entries:
+    - title: "Funding Rate Arbitrage Screener"
+      url: "/articles/funding-rate-screener"
+      date: "July 2025"
+      description: "A screener for funding rate arbitrage opportunities."
+      tags: ["trading", "quant", "arbitrage"]
     - title: "Keeping trading models simple"
       url: "/articles/simple-trade"
       date: "June 2025"
