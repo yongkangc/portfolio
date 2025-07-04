@@ -8,6 +8,7 @@ $avatar-size: {{ .Param "style.avatarSize" | default "90px;" }};
   --text: #e5e5e5;
   --subtle-gray: #999999;
   --accent: #0a84ff;
+  --accent-bg: rgba(10, 132, 255, 0.1);
   --border-color: #333333;
   --code-bg: #1e1e1e;
   --header-bg: rgba(18, 18, 18, 0.85);
