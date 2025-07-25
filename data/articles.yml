@@ -1,5 +1,10 @@
 recent:
   entries:
+    - title: "Claude Code Best Practices: A Developer's Guide to AI-Assisted Programming"
+      url: "/articles/claude-code-best-practices"
+      date: "July 2025"
+      description: "Essential tips and tricks for maximizing productivity with Claude Code - from slash commands to project memory management and advanced workflow patterns."
+      tags: ["AI", "Software Development", "Productivity"]
     - title: "Funding Rate Arbitrage Screener"
       url: "/articles/funding-rate-screener"
       date: "July 2025"
