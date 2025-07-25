@@ -73,10 +73,10 @@ This executes your entire deployment pipeline in one command.
 
 **Personal Workflow Commands:**
 
-- **`/qa`** - Review GitHub PRs and fix failing CI
-- **`/debug`** - Pull Linear tickets and analyze/fix bugs
-- **`/feature-implement`** - Implement features from Linear tickets
-- **`/test`** - Run integration tests with specific configs
+- **`/qa`** - Go to GitHub, review the PR and see if there are any changes. If there are any CI failing, please fix
+- **`/debug`** - Go to Linear, pull down the bug for xxx and then analyze and fix it  
+- **`/feature-implement`** - Go to Linear, pull down feature tickets and implement
+- **`/test`** - Run integration test with xx config in local env. If there are any issues, analyze the root cause of these issues
 
 ## Project Memory: The CLAUDE.md Foundation
 
@@ -163,11 +163,25 @@ alias claude-t='tmux new-session -d -s claude-$(date +%s) "claude" && tmux attac
 ### Settings Configuration
 
 **Disable Co-authored-by in commits:**
+
+Modify `/.claude/settings.json` and add:
 ```json
 {
   "includeCoAuthoredBy": false
 }
 ```
+
+### Mobile Development Setup
+
+**Coding on Mobile Phone:**
+
+Set up remote development for coding anywhere:
+
+- **VM + tmux**: Now you can code on mobile with terminus
+- **Dynamic tmux alias**: Automatically create new sessions
+- **Obsidian integration**: Write in Obsidian and easily push to gist
+
+This setup enables true mobile development, allowing you to maintain productivity even when away from your primary development machine.
 
 ## Model Context Protocol (MCP) Integrations
 
@@ -201,6 +215,20 @@ claude mcp add sequential-thinking npx @modelcontextprotocol/server-sequential-t
 Set up automated workflows that respond to Claude events. These hooks enable integration with external tools and custom automation pipelines.
 
 **Reference:** [Claude Hooks Implementation](https://x.com/jasonzhou1993/status/1948334303672492409)
+
+## Creative Applications
+
+### Video Creation with Remotion
+
+Claude Code can help create animations and videos using Remotion framework:
+
+```bash
+> Help me to create a animation based on our landing page with remotion
+```
+
+This opens up possibilities for automated video content generation, marketing materials, and interactive presentations.
+
+**Reference:** [Video Creation Example](https://x.com/jasonzhou1993/status/1948355284591956447)
 
 ## Helpful Resources
 
