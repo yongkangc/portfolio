@@ -6,8 +6,6 @@ draft = false
 description = "Essential tips and tricks for maximizing productivity with Claude Code - from slash commands to project memory management and advanced workflow patterns."
 +++
 
-# Claude Code Best Practices: A Developer's Guide to AI-Assisted Programming
-
 A comprehensive guide to getting the most out of Claude Code, covering slash commands, project memory, MCPs, and professional workflows that can transform your development experience.
 
 ## Introduction
