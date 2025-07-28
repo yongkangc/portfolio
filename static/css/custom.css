@@ -213,6 +213,18 @@ figure figcaption h4 {
   z-index: 2;
 }
 
+/* Hide label for generic code blocks */
+.highlight[data-lang=""],
+.highlight[data-lang="code"],
+.highlight[data-lang="CODE"] {
+}
+
+.highlight[data-lang=""]::before,
+.highlight[data-lang="code"]::before,
+.highlight[data-lang="CODE"]::before {
+  display: none;
+}
+
 .highlight pre {
   margin: 0;
   padding: 1.5rem;
@@ -233,7 +245,7 @@ figure figcaption h4 {
   background: rgba(68, 71, 90, 0.9);
   border: 1px solid #6272a4;
   color: #f8f8f2;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 500;
@@ -242,7 +254,9 @@ figure figcaption h4 {
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
 }
 
 .code-copy-btn:hover {
@@ -312,7 +326,9 @@ code:not(.chroma code) {
   .code-copy-btn {
     top: 0.5rem;
     right: 0.5rem;
-    padding: 0.4rem 0.6rem;
+    padding: 0.4rem;
     font-size: 0.7rem;
+    width: 1.75rem;
+    height: 1.75rem;
   }
 }

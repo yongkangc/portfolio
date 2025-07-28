@@ -24,7 +24,7 @@ function addCopyButtons() {
         // Create copy button
         const copyBtn = document.createElement('button');
         copyBtn.className = 'code-copy-btn';
-        copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
         copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
         copyBtn.setAttribute('title', 'Copy code to clipboard');
         
@@ -43,57 +43,105 @@ function addLanguageLabels() {
     const codeBlocks = document.querySelectorAll('.highlight');
     
     codeBlocks.forEach(block => {
-        // Try to detect language from class names
-        const classList = Array.from(block.classList);
-        let language = '';
+        let language = detectLanguageFromHugoChroma(block);
         
-        // Look for language-specific classes
-        for (const cls of classList) {
-            if (cls.startsWith('language-')) {
-                language = cls.replace('language-', '');
-                break;
-            }
+        // Only set language label if we found a specific language
+        if (language && language !== 'unknown') {
+            // Format language name for display
+            language = formatLanguageName(language);
+            block.setAttribute('data-lang', language);
+        } else {
+            // Don't set any label for generic code blocks
+            block.setAttribute('data-lang', '');
         }
-        
-        // Fallback: check pre element classes
-        if (!language) {
-            const pre = block.querySelector('pre');
-            if (pre) {
-                const preClassList = Array.from(pre.classList);
-                for (const cls of preClassList) {
-                    if (cls.startsWith('language-')) {
-                        language = cls.replace('language-', '');
-                        break;
-                    }
-                }
-            }
-        }
-        
-        // Fallback: check chroma classes
-        if (!language) {
-            const chromaElement = block.querySelector('[class*="chroma"]');
-            if (chromaElement) {
-                const chromaClasses = Array.from(chromaElement.classList);
-                for (const cls of chromaClasses) {
-                    if (cls !== 'chroma' && cls !== 'highlight') {
-                        language = cls;
-                        break;
-                    }
-                }
-            }
-        }
-        
-        // Set language label, default to 'code' if not found
-        if (!language) {
-            language = 'code';
-        }
-        
-        // Format language name
-        language = formatLanguageName(language);
-        
-        // Set the data attribute for CSS ::before content
-        block.setAttribute('data-lang', language);
     });
+}
+
+function detectLanguageFromHugoChroma(block) {
+    // Method 1: Check for Hugo's highlight shortcode classes
+    const classList = Array.from(block.classList);
+    for (const cls of classList) {
+        if (cls.startsWith('language-')) {
+            return cls.replace('language-', '');
+        }
+    }
+    
+    // Method 2: Check pre element classes
+    const pre = block.querySelector('pre');
+    if (pre) {
+        const preClassList = Array.from(pre.classList);
+        for (const cls of preClassList) {
+            if (cls.startsWith('language-')) {
+                return cls.replace('language-', '');
+            }
+        }
+    }
+    
+    // Method 3: Hugo's Chroma generates specific patterns
+    // Look for language-specific tokens in the first few elements
+    const firstCodeElement = block.querySelector('code .chroma');
+    if (firstCodeElement) {
+        // Check for specific syntax highlighting classes that indicate language
+        const chromaContent = firstCodeElement.innerHTML;
+        
+        // Rust patterns
+        if (chromaContent.includes('fn ') || chromaContent.includes('impl ') || chromaContent.includes('struct ')) {
+            return 'rust';
+        }
+        
+        // JavaScript/TypeScript patterns
+        if (chromaContent.includes('function ') || chromaContent.includes('const ') || chromaContent.includes('=>')) {
+            return 'javascript';
+        }
+        
+        // Python patterns
+        if (chromaContent.includes('def ') || chromaContent.includes('import ') || chromaContent.includes('from ')) {
+            return 'python';
+        }
+        
+        // Go patterns
+        if (chromaContent.includes('func ') || chromaContent.includes('package ') || chromaContent.includes('type ')) {
+            return 'go';
+        }
+        
+        // CSS patterns
+        if (chromaContent.includes('{') && chromaContent.includes(':') && chromaContent.includes(';')) {
+            return 'css';
+        }
+        
+        // HTML patterns
+        if (chromaContent.includes('<') && chromaContent.includes('>')) {
+            return 'html';
+        }
+        
+        // Shell/Bash patterns
+        if (chromaContent.includes('#!/') || chromaContent.includes('$ ') || chromaContent.includes('echo ')) {
+            return 'bash';
+        }
+        
+        // SQL patterns
+        if (chromaContent.includes('SELECT ') || chromaContent.includes('FROM ') || chromaContent.includes('WHERE ')) {
+            return 'sql';
+        }
+    }
+    
+    // Method 4: Check for data attributes that Hugo might set
+    const dataLang = block.getAttribute('data-lang') || 
+                    block.getAttribute('data-language') ||
+                    pre?.getAttribute('data-lang') ||
+                    pre?.getAttribute('data-language');
+    
+    if (dataLang && dataLang !== 'code') {
+        return dataLang;
+    }
+    
+    // Method 5: Look for Hugo's title attribute or other hints
+    const title = block.title || pre?.title;
+    if (title && !title.includes('Copy')) {
+        return title.toLowerCase();
+    }
+    
+    return 'unknown';
 }
 
 function formatLanguageName(lang) {
@@ -201,7 +249,7 @@ function fallbackCopyToClipboard(text) {
 
 function showCopySuccess(button) {
     const originalHTML = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    button.innerHTML = '<i class="fas fa-check"></i>';
     button.classList.add('copied');
     
     // Reset after 2 seconds
@@ -213,7 +261,7 @@ function showCopySuccess(button) {
 
 function showCopyError(button) {
     const originalHTML = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-exclamation"></i> Error';
+    button.innerHTML = '<i class="fas fa-exclamation"></i>';
     button.style.background = 'rgba(255, 85, 85, 0.2)';
     button.style.borderColor = '#ff5555';
     button.style.color = '#ff5555';
