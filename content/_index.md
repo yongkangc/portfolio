@@ -51,24 +51,18 @@ In my free time, I also enjoy contributing to **open-source projects** which hav
 
 ## Writings
 
-| Articles                                                                                                                                                                                        | Year |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
-| [Keeping trading models simple](/articles/simple-trade)                                                                                                                         | 2025 |
-| [Ultimate Arbitrage Strategies](/articles/arbitrage)                                                                                                                                            | 2025 |
-| [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)                                                                                                  | 2025 |
-| [Guide to Building and Validating Quantitative Trading Strategies](/articles/quant-trading-guide)                                                                                               | 2025 |
-| [There are just too many AI Frameworks](/articles/ai-frameworks)                                                                                                                                | 2024 |
-| [Unofficial Guide to Rust Optimization Techniques](/articles/rust-optimization)                                                                                                                 | 2025 |
-| [Design Of Solidity AST Optimiser](https://medium.com/@extremelysunnyyk/from-idea-to-implementation-creating-a-solidity-gas-optimizer-for-smart-contracts-0a103c2bfd24?postPublishedType=repub) | 2024 |
-| [Smart Contract Audit Primer](https://extremelysunnyyk.medium.com/preparing-for-a-comprehensive-smart-contract-audit-a-primer-56427c725b0b)                                                     | 2024 |
-| [Grid Search for Optimizing Liquidity in Raydium: A Deep Dive](/articles/raydium-liquidity)                                                                                                     | 2024 |
-| [Solana AMM Under the Hood: Raydium Insights for Solana Builders](/articles/raydium-amm)                                                                                                        | 2024 |
-| [Solana Geyser Plugins: Powering High-Speed Data Streaming Guide](/articles/solana-geyser)                                                                                                      | 2024 |
-| [Borsh and its Role in Anchor for Solana](/articles/borsh-anchor)                                                                                                                               | 2024 |
-| [Building a High Performance Rust Library](https://extremelysunnyyk.medium.com/my-experience-building-a-rust-library-rustygram-a217d635924b)                                                    | 2023 |
-| [Zero Knowledge Soul Bound Token](https://medium.com/the-spartan-group/the-construction-of-the-soul-part-3-soulbound-token-with-zk-snark-implementation-900d808b9e79)                           | 2023 |
-| [How does Ethereum work under the hood?](https://extremelysunnyyk.medium.com/how-does-ethereum-work-under-the-hood-understanding-evm-basics-in-simple-english-bdba2d888d63)                     | 2023 |
-| [NFT Vesting](https://medium.com/the-spartan-group/nft-vesting-with-time-locks-b7932b186a6e)                                                                                                    | 2022 |
+| Articles                                                                                                                                  | Year |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| [EIP-7702: Finally, Your MetaMask Can Be a Smart Wallet (And Why That's Huge)](/articles/eip7702)                                       | 2025 |
+| [Claude Code Best Practices: A Developer's Guide to AI-Assisted Programming](/articles/claude-code-best-practices)                       | 2025 |
+| [Funding Rate Arbitrage Screener](/articles/funding-rate-screener)                                                                       | 2025 |
+| [Keeping trading models simple](/articles/simple-trade)                                                                                   | 2025 |
+| [Alpenglow: A Look at Solana's Landmark Upgrade for Near-Instant Finality](/articles/alpenglow-summary)                                  | 2025 |
+| [Ultimate Arbitrage Strategies](/articles/arbitrage)                                                                                      | 2025 |
+| [Inside Drift: Architecting a High-Performance Orderbook on Solana](/articles/drift-orderbook)                                           | 2025 |
+| [An Engineer's Guide to Building and Validating Quant Trading Strategies](/articles/quant-trading-guide)                                 | 2025 |
+| [Unofficial Guide to Rust Optimization Techniques](/articles/rust-optimization)                                                          | 2025 |
+| [There are just too many AI Frameworks](/articles/ai-frameworks)                                                                         | 2024 |
 
 **[View all articles →](/articles)**
 
