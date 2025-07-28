@@ -1,5 +1,10 @@
 recent:
   entries:
+    - title: "EIP-7702: Finally, Your MetaMask Can Be a Smart Wallet (And Why That's Huge)"
+      url: "/articles/eip7702"
+      date: "July 2025"
+      description: "A deep dive into EIP-7702, the game-changing upgrade that transforms every existing Ethereum wallet into a smart contract wallet without the hassle of migration."
+      tags: ["Ethereum", "EIP-7702", "Account Abstraction", "Smart Wallets", "DeFi"]
     - title: "Claude Code Best Practices: A Developer's Guide to AI-Assisted Programming"
       url: "/articles/claude-code-best-practices"
       date: "July 2025"
