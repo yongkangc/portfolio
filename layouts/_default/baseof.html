@@ -23,6 +23,9 @@
       referrerpolicy="no-referrer"
     ></script>
 
+    <!-- Enhanced Code Copy Functionality -->
+    <script src="{{ "js/code-copy.js" | relURL }}"></script>
+
     {{- partial "mermaid.html" . -}} {{ if .Site.Params.showConsent -}} {{-
     partial "consent.html" . -}} {{ end }}
   </body>
