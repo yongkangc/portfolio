@@ -1,27 +1,30 @@
-# Hugo build outputs
-public/
-resources/_gen/
+# Rust
+/target
+**/*.rs.bk
+Cargo.lock
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Generated CSS
+/static/css/style.css
+
+# Environment files
+.env
+.env.local
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
 
 # OS generated files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Editor files
-*.swp
-*.swo
-*~
-
-# Local development
-.hugo_build.lock
-
-# Node modules (if using npm)
-node_modules/
-
-# Vercel
-.vercel 
-.vercel
+# Docker
+.dockerignore

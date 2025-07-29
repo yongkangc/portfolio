@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% if title %}{{ title }} - {% endif %}Blog</title>
+    <meta
+      name="description"
+      content="{% block description %}A modern blog built with Rust and Actix{% endblock description %}"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <a
+            href="/"
+            class="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+          >
+            Blog
+          </a>
+          <div class="flex space-x-6">
+            <a
+              href="/"
+              class="text-gray-600 hover:text-gray-900 transition-colors"
+              >Articles</a
+            >
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 transition-colors"
+              >About</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 mt-16">
+      <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="text-center text-gray-600">
+          <p>&copy; 2024 Blog. Built with Rust and Actix.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
