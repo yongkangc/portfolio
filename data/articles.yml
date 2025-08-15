@@ -1,5 +1,10 @@
 recent:
   entries:
+    - title: "Running Reth on Hoodi: The Chillest Ethereum Testnet Setup Guide 🦀"
+      url: "/articles/reth-hoodi-chill-guide"
+      date: "August 2025"
+      description: "A laid-back, meme-filled guide to setting up your own Reth node on the Hoodi Ethereum testnet. Because life's too short for complicated blockchain setups! 🚀"
+      tags: ["Ethereum", "Reth", "Hoodi", "Testnet", "Rust", "Node", "Tutorial"]
     - title: "EIP-7702: Finally, Your MetaMask Can Be a Smart Wallet (And Why That's Huge)"
       url: "/articles/eip7702"
       date: "July 2025"
