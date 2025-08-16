@@ -3,7 +3,7 @@
   font-size: 12pt;
 }
 
-/* Styles for articles list page */
+/* Legacy article-item styles kept for compatibility */
 .article-item {
   margin-bottom: 3rem;
   padding: 1.5rem 0;
