@@ -1,11 +1,16 @@
 {{ define "main" }}
 <div class="articles-page">
-  <!-- Floating Filter Panel -->
-  <div class="filter-panel" id="filterPanel">
+  <!-- Sidebar Toggle Button -->
+  <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle filters">
+    <i class="fas fa-filter"></i>
+    <span class="toggle-text">Filters</span>
+  </button>
+  <!-- Floating Filter Panel (Hidden by default) -->
+  <div class="filter-panel collapsed" id="filterPanel">
     <div class="filter-header">
       <h3>Filter by Tags</h3>
-      <button class="filter-toggle" id="filterToggle" aria-label="Toggle filters">
-        <i class="fas fa-filter"></i>
+      <button class="filter-close" id="filterClose" aria-label="Close filters">
+        <i class="fas fa-times"></i>
       </button>
     </div>
     <div class="filter-content" id="filterContent">

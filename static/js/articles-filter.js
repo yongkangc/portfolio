@@ -13,10 +13,12 @@
   // DOM Elements
   const elements = {
     filterPanel: document.getElementById('filterPanel'),
-    filterToggle: document.getElementById('filterToggle'),
+    sidebarToggleBtn: document.getElementById('sidebarToggleBtn'),
+    filterClose: document.getElementById('filterClose'),
     filterContent: document.getElementById('filterContent'),
     tagFilters: document.getElementById('tagFilters'),
     articlesGrid: document.getElementById('articlesGrid'),
+    articlesContainer: document.querySelector('.articles-container'),
     clearFilters: document.getElementById('clearFilters'),
     clearFromEmpty: document.getElementById('clearFromEmpty'),
     noResults: document.getElementById('noResults'),
@@ -184,8 +186,10 @@
   // Update mobile filter badge
   function updateBadge() {
     const count = state.activeTags.size;
-    elements.filterBadge.textContent = count || '';
-    elements.filterBadge.style.display = count > 0 ? 'block' : 'none';
+    if (elements.filterBadge) {
+      elements.filterBadge.textContent = count || '';
+      elements.filterBadge.style.display = count > 0 ? 'block' : 'none';
+    }
   }
 
   // Toggle view mode (grid/list)
@@ -209,9 +213,27 @@
     });
   }
 
+  // Toggle sidebar (desktop)
+  function toggleSidebar() {
+    const isCollapsed = elements.filterPanel.classList.contains('collapsed');
+    
+    if (isCollapsed) {
+      elements.filterPanel.classList.remove('collapsed');
+      elements.sidebarToggleBtn.classList.add('active');
+      if (window.innerWidth > 768) {
+        elements.articlesContainer.classList.add('sidebar-open');
+      }
+    } else {
+      elements.filterPanel.classList.add('collapsed');
+      elements.sidebarToggleBtn.classList.remove('active');
+      elements.articlesContainer.classList.remove('sidebar-open');
+    }
+  }
+
   // Mobile filter panel toggle
   function toggleMobileFilter() {
     elements.filterPanel.classList.toggle('active');
+    elements.filterPanel.classList.remove('collapsed');
     document.body.style.overflow = 
       elements.filterPanel.classList.contains('active') ? 'hidden' : '';
   }
@@ -229,10 +251,21 @@
       });
     });
 
-    // Filter panel toggle (desktop collapse)
-    elements.filterToggle.addEventListener('click', () => {
-      elements.filterPanel.classList.toggle('collapsed');
-    });
+    // Sidebar toggle button (desktop)
+    if (elements.sidebarToggleBtn) {
+      elements.sidebarToggleBtn.addEventListener('click', toggleSidebar);
+    }
+
+    // Close button in filter panel
+    if (elements.filterClose) {
+      elements.filterClose.addEventListener('click', () => {
+        if (window.innerWidth > 768) {
+          toggleSidebar();
+        } else {
+          toggleMobileFilter();
+        }
+      });
+    }
 
     // Mobile filter button
     if (elements.mobileFilterBtn) {
@@ -260,9 +293,14 @@
         if (filterElement) {
           filterElement.click();
           
-          // Scroll to filter panel on desktop
+          // Open sidebar if closed and scroll to filter panel on desktop
           if (window.innerWidth > 768) {
-            elements.filterPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (elements.filterPanel.classList.contains('collapsed')) {
+              toggleSidebar();
+            }
+            setTimeout(() => {
+              elements.filterPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
           } else {
             // Open mobile filter panel
             if (!elements.filterPanel.classList.contains('active')) {

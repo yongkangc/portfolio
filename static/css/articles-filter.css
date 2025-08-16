@@ -8,10 +8,43 @@
   position: relative;
 }
 
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 1001;
+  background: linear-gradient(135deg, #6272a4, #44475a);
+  border: 2px solid #8be9fd;
+  color: #f8f8f2;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(139, 233, 253, 0.4);
+  background: linear-gradient(135deg, #6272a4, #50fa7b);
+}
+
+.sidebar-toggle-btn.active {
+  background: linear-gradient(135deg, #50fa7b, #44475a);
+  border-color: #50fa7b;
+}
+
 /* Filter Panel - Floating Sidebar */
 .filter-panel {
-  position: sticky;
+  position: fixed;
   top: 2rem;
+  left: 2rem;
   width: 280px;
   background: linear-gradient(135deg, rgba(40, 42, 54, 0.95), rgba(68, 71, 90, 0.95));
   backdrop-filter: blur(10px);
@@ -23,15 +56,15 @@
   border: 1px solid rgba(98, 114, 164, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  transform: translateX(0);
+  opacity: 1;
 }
 
 .filter-panel.collapsed {
-  width: 60px;
-  padding: 1rem 0.5rem;
-}
-
-.filter-panel.collapsed .filter-content {
-  display: none;
+  transform: translateX(calc(-100% - 2rem));
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Filter Header */
@@ -52,10 +85,10 @@
   letter-spacing: 0.5px;
 }
 
-.filter-toggle {
+.filter-close {
   background: transparent;
   border: none;
-  color: #8be9fd;
+  color: #ff5555;
   cursor: pointer;
   font-size: 1.2rem;
   padding: 0.5rem;
@@ -63,9 +96,9 @@
   transition: all 0.2s ease;
 }
 
-.filter-toggle:hover {
-  background: rgba(139, 233, 253, 0.1);
-  transform: rotate(180deg);
+.filter-close:hover {
+  background: rgba(255, 85, 85, 0.1);
+  transform: scale(1.1);
 }
 
 /* Filter Stats */
@@ -173,6 +206,12 @@
 .articles-container {
   flex: 1;
   min-width: 0;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.articles-container.sidebar-open {
+  margin-left: 320px;
 }
 
 /* Articles Header */
@@ -465,11 +504,19 @@
     flex-direction: column;
   }
 
+  .sidebar-toggle-btn {
+    top: 1rem;
+    left: 1rem;
+  }
+
   .filter-panel {
-    position: relative;
-    top: 0;
-    width: 100%;
-    margin-bottom: 2rem;
+    top: 4.5rem;
+    left: 1rem;
+    width: 260px;
+  }
+
+  .articles-container.sidebar-open {
+    margin-left: 0;
   }
 
   .articles-grid {
@@ -480,6 +527,10 @@
 @media (max-width: 768px) {
   .articles-page {
     padding: 1rem;
+  }
+
+  .sidebar-toggle-btn {
+    display: none;
   }
 
   .filter-panel {
@@ -494,6 +545,13 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 999;
     max-height: 70vh;
+    opacity: 1;
+  }
+
+  .filter-panel.collapsed {
+    transform: translateY(100%);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .filter-panel.active {
