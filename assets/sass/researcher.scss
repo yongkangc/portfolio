@@ -47,11 +47,19 @@ body {
 }
 
 .main-content {
-    padding-top: 80px; 
+    padding-top: 100px; // Account for fixed header
+    padding-bottom: 3rem;
 }
 
 .container {
     max-width: $max-width;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    
+    @media (max-width: 768px) {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 // Header and Navigation
