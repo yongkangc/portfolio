@@ -37,7 +37,7 @@ recent:
       tags: ["trading", "quant", "arbitrage"]
     - title: "Notes on Performance Engineering: A Modern Textbook"
       url: "/articles/performance-engineering-notes"
-      date: "August 2024"
+      date: "August 2025"
       description: "A comprehensive guide to modern performance engineering, covering the foundations of latency, throughput, and jitter, along with deep dives into CPU microarchitecture and the principle of mechanical sympathy."
       tags: ["Performance", "Systems", "CPU Architecture", "Memory", "Optimization"]
     - title: "Inside Drift: Architecting a High-Performance Orderbook on Solana"

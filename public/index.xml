@@ -6,8 +6,15 @@
     <description>Recent content in About on Chia Yong Kang</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 15 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Notes on Performance Engineering: A Modern Textbook</title>
+      <link>http://localhost:1313/articles/performance-engineering-notes/</link>
+      <pubDate>Sun, 17 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/articles/performance-engineering-notes/</guid>
+      <description>&lt;h1 id=&#34;notes-on-performance-engineering-a-modern-textbook&#34;&gt;Notes on Performance Engineering: A Modern Textbook&lt;/h1&gt;&#xA;&lt;h2 id=&#34;part-i-the-foundations-of-performance&#34;&gt;Part I: The Foundations of Performance&lt;/h2&gt;&#xA;&lt;p&gt;This part establishes the fundamental language and philosophy of performance engineering. We will provide a rigorous, foundational understanding of the critical metrics used to measure performance, moving beyond simple definitions to explore their complex, often counter-intuitive, interplay. Furthermore, we will introduce the core mindset required to excel in this field: an intuitive and deep knowledge of the underlying hardware and software stack.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Running Reth on Hoodi: The Chillest Ethereum Testnet Setup Guide 🦀</title>
       <link>http://localhost:1313/articles/reth-hoodi-chill-guide/</link>
@@ -63,13 +70,6 @@
       <pubDate>Sun, 01 Dec 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/articles/ai-frameworks/</guid>
       <description>&lt;h1 id=&#34;there-are-just-too-many-ai-frameworks&#34;&gt;There are just too many AI Frameworks&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;Originally published on &lt;a href=&#34;https://extremelysunnyyk.medium.com/&#34;&gt;Medium&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Notes on Performance Engineering: A Modern Textbook</title>
-      <link>http://localhost:1313/articles/performance-engineering-notes/</link>
-      <pubDate>Sat, 17 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/articles/performance-engineering-notes/</guid>
-      <description>&lt;h1 id=&#34;notes-on-performance-engineering-a-modern-textbook&#34;&gt;Notes on Performance Engineering: A Modern Textbook&lt;/h1&gt;&#xA;&lt;h2 id=&#34;part-i-the-foundations-of-performance&#34;&gt;Part I: The Foundations of Performance&lt;/h2&gt;&#xA;&lt;p&gt;This part establishes the fundamental language and philosophy of performance engineering. We will provide a rigorous, foundational understanding of the critical metrics used to measure performance, moving beyond simple definitions to explore their complex, often counter-intuitive, interplay. Furthermore, we will introduce the core mindset required to excel in this field: an intuitive and deep knowledge of the underlying hardware and software stack.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Unofficial Guide to Rust Optimization Techniques</title>

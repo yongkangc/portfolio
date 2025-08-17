@@ -1,6 +1,6 @@
 +++
 title = "Notes on Performance Engineering: A Modern Textbook"
-date = "2024-08-17"
+date = "2025-08-17"
 tags = ["Performance", "Systems", "CPU Architecture", "Memory", "Optimization"]
 draft = false
 description = "A comprehensive guide to modern performance engineering, covering the foundations of latency, throughput, and jitter, along with deep dives into CPU microarchitecture and the principle of mechanical sympathy."
