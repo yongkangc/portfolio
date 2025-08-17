@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="{{ "css/article-navigation.css" | relURL }}" />
   <link rel="stylesheet" href="{{ "css/custom.css" | relURL }}" />
   <link rel="stylesheet" href="{{ "css/articles-filter.css" | relURL }}" />
+  <link rel="stylesheet" href="{{ "css/mobile-nav-fix.css" | relURL }}" />
   {{ $style := resources.Get "sass/researcher.scss" | resources.ExecuteAsTemplate "sass/researcher.scss" . | toCSS | minify -}}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
 
