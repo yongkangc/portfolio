@@ -242,41 +242,7 @@
   margin: 0;
 }
 
-/* View Controls */
-.view-controls {
-  display: flex;
-  gap: 0.5rem;
-  background: rgba(68, 71, 90, 0.5);
-  padding: 0.25rem;
-  border-radius: 8px;
-}
-
-.view-toggle {
-  background: transparent;
-  border: 1px solid transparent;
-  color: #8be9fd;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-.view-toggle:hover {
-  background: rgba(139, 233, 253, 0.1);
-  border-color: rgba(139, 233, 253, 0.3);
-}
-
-.view-toggle.active {
-  background: rgba(139, 233, 253, 0.2);
-  border-color: #50fa7b;
-  color: #50fa7b;
-}
-
-.view-toggle:focus {
-  outline: 2px solid rgba(139, 233, 253, 0.5);
-  outline-offset: 2px;
-}
+/* View controls removed - simplified interface */
 
 /* Articles Grid - Masonry Layout */
 .articles-grid {
@@ -286,35 +252,7 @@
   animation: fadeIn 0.5s ease;
 }
 
-.articles-grid.list-view {
-  grid-template-columns: 1fr;
-  max-width: 900px;
-}
-
-.articles-grid.list-view .article-card {
-  display: flex;
-  align-items: flex-start;
-}
-
-.articles-grid.list-view .article-card-content {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  align-items: center;
-}
-
-.articles-grid.list-view .article-card-header {
-  flex: 1;
-}
-
-.articles-grid.list-view .article-description {
-  display: none;
-}
-
-.articles-grid.list-view .article-tags {
-  margin-top: 0;
-  justify-content: flex-end;
-}
+/* List view removed - using grid only */
 
 /* Article Card */
 .article-card {

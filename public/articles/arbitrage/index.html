@@ -37,6 +37,7 @@
   />
   <link rel="stylesheet" href="/css/syntax.css" />
   <link rel="stylesheet" href="/css/typography.css" />
+  <link rel="stylesheet" href="/css/article-navigation.css" />
   <link rel="stylesheet" href="/css/custom.css" />
   <link rel="stylesheet" href="/css/articles-filter.css" />
   <link rel="stylesheet" href="/sass/researcher.min.css" />
@@ -82,7 +83,10 @@
 
   <body><div class="container-fluid site-header">
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="http://localhost:1313/">Chia Yong Kang</a>
+    <div class="navbar-brand-wrapper">
+      <a class="navbar-brand" href="http://localhost:1313/">Chia Yong Kang</a>
+      <span class="navbar-tagline">Blockchain Engineer</span>
+    </div>
     <button
       class="navbar-toggler"
       type="button"
@@ -117,10 +121,17 @@
       <div id="content">
 <div class="container">
   <div class="single">
+    <div class="article-navigation">
+      <a href="/articles/" class="back-to-articles">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Articles</span>
+      </a>
+    </div>
     <div class="single-header">
       <h1 class="single-title">Arbitrage Trading Guide</h1>
       <div class="single-meta">
         <span class="single-date"> June 21, 2025 </span>
+        
       </div>
     </div>
     <div class="article-content"><h1 id="introduction">Introduction</h1>

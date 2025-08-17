@@ -192,34 +192,7 @@
     }
   }
 
-  // Toggle view mode (grid/list)
-  function toggleViewMode(mode) {
-    console.log('Toggling view mode to:', mode);
-    state.viewMode = mode;
-    const grid = elements.articlesGrid;
-    
-    if (!grid) {
-      console.error('Articles grid element not found');
-      return;
-    }
-    
-    if (mode === 'list') {
-      grid.classList.add('list-view');
-      console.log('Added list-view class');
-    } else {
-      grid.classList.remove('list-view');
-      console.log('Removed list-view class');
-    }
-
-    // Update toggle buttons
-    document.querySelectorAll('.view-toggle').forEach(btn => {
-      if (btn.dataset.view === mode) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
-  }
+  // View mode functionality removed - simplified to grid only
 
   // Toggle sidebar (desktop)
   function toggleSidebar() {
@@ -252,14 +225,7 @@
     elements.clearFilters.addEventListener('click', clearAllFilters);
     elements.clearFromEmpty.addEventListener('click', clearAllFilters);
 
-    // View mode toggles
-    document.querySelectorAll('.view-toggle').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('View toggle clicked:', btn.dataset.view);
-        toggleViewMode(btn.dataset.view);
-      });
-    });
+    // View mode toggles removed - no longer needed
 
     // Sidebar toggle button (desktop)
     if (elements.sidebarToggleBtn) {

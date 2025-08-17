@@ -1,12 +1,25 @@
 {{ define "main" }}
 <div class="container">
   <div class="single">
+    <div class="article-navigation">
+      <a href="/articles/" class="back-to-articles">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Articles</span>
+      </a>
+    </div>
     <div class="single-header">
       <h1 class="single-title">{{ .Title }}</h1>
       <div class="single-meta">
         {{ if not .Date.IsZero -}}
         <span class="single-date"> {{ .Date.Format "January 2, 2006" }} </span>
         {{- end }}
+        {{ with .Params.tags }}
+        <div class="single-tags">
+          {{ range . }}
+          <span class="single-tag">{{ . }}</span>
+          {{ end }}
+        </div>
+        {{ end }}
       </div>
     </div>
     <div class="article-content">{{ .Content }}</div>

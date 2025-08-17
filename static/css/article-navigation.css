@@ -1,0 +1,160 @@
+/* Article Navigation Styles */
+
+/* Back to Articles Button */
+.article-navigation {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-to-articles {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(68, 71, 90, 0.3);
+  border: 1px solid rgba(139, 233, 253, 0.2);
+  border-radius: 6px;
+  color: #8be9fd;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.back-to-articles:hover {
+  background: rgba(68, 71, 90, 0.5);
+  border-color: #8be9fd;
+  color: #8be9fd;
+  transform: translateX(-3px);
+  text-decoration: none;
+}
+
+.back-to-articles i {
+  font-size: 0.85rem;
+  transition: transform 0.2s ease;
+}
+
+.back-to-articles:hover i {
+  transform: translateX(-2px);
+}
+
+/* Article Single Page Styling */
+.single {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.single-header {
+  margin-bottom: 2rem;
+}
+
+.single-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.single-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.single-date {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+.single-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.single-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(98, 114, 164, 0.2);
+  border: 1px solid rgba(98, 114, 164, 0.3);
+  border-radius: 15px;
+  color: #bd93f9;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.single-tag:hover {
+  background: rgba(189, 147, 249, 0.2);
+  border-color: #bd93f9;
+  transform: scale(1.05);
+}
+
+/* Article Content */
+.article-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.article-content p {
+  margin-bottom: 1.25rem;
+}
+
+.article-content ul,
+.article-content ol {
+  margin-bottom: 1.25rem;
+  padding-left: 2rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-brand-wrapper {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  
+  .navbar-tagline {
+    display: none;
+  }
+  
+  .single-title {
+    font-size: 2rem;
+  }
+  
+  .article-navigation {
+    margin-bottom: 1.5rem;
+  }
+  
+  .back-to-articles {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}

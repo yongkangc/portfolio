@@ -1,6 +1,9 @@
 <div class="container-fluid site-header">
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+    <div class="navbar-brand-wrapper">
+      <a class="navbar-brand" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+      <span class="navbar-tagline">{{ .Site.Params.description }}</span>
+    </div>
     <button
       class="navbar-toggler"
       type="button"
