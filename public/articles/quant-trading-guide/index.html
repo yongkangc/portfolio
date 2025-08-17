@@ -1,966 +1,192 @@
-<!DOCTYPE html>
-<html lang=""><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
-
-  <title>An Engineer&#39;s Guide to Building and Validating Quantitative Trading Strategies</title>
-  <meta name="description" content="Blockchain Engineer" />
-  <meta name="author" content="Chia Yong Kang" />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
-    integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css"
-    integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link rel="stylesheet" href="/css/syntax.css" />
-  <link rel="stylesheet" href="/css/typography.css" />
-  <link rel="stylesheet" href="/css/article-navigation.css" />
-  <link rel="stylesheet" href="/css/custom.css" />
-  <link rel="stylesheet" href="/css/articles-filter.css" />
-  <link rel="stylesheet" href="/css/mobile-nav-fix.css" />
-  <link rel="stylesheet" href="/sass/researcher.min.css" />
-
-  <link rel="icon" type="image/ico" href="http://localhost:1313/crab.svg" />
-   
-</head>
-
-  <body><div class="container-fluid site-header">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="navbar-brand-wrapper">
-      <a class="navbar-brand" href="http://localhost:1313/">Chia Yong Kang</a>
-      <span class="navbar-tagline">Blockchain Engineer</span>
-    </div>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:1313/">About</a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:1313/articles">Articles</a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:1313/contact">Contact</a>
-        </li>
-        
-      </ul>
-    </div>
-  </nav>
-</div>
-<div class="main-content">
-      <div id="content">
-<div class="container">
-  <div class="single">
-    <div class="article-navigation">
-      <a href="/articles/" class="back-to-articles">
-        <i class="fas fa-arrow-left"></i>
-        <span>Back to Articles</span>
-      </a>
-    </div>
-    <div class="single-header">
-      <h1 class="single-title">An Engineer&#39;s Guide to Building and Validating Quantitative Trading Strategies</h1>
-      <div class="single-meta">
-        <span class="single-date"> January 1, 2024 </span>
-        
-        <div class="single-tags">
-          
-          <span class="single-tag">Trading</span>
-          
-          <span class="single-tag">Quantitative Analysis</span>
-          
-          <span class="single-tag">Algorithm Development</span>
-          
-          <span class="single-tag">Finance</span>
-          
-        </div>
-        
-      </div>
-    </div>
-    <div class="article-content"><h1 id="an-engineers-guide-to-building-and-validating-quantitative-trading-strategies">An Engineer&rsquo;s Guide to Building and Validating Quantitative Trading Strategies</h1>
-<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
-<p>From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms.</p>
-<h2 id="introduction">Introduction</h2>
-<p>Quantitative trading has evolved from a niche discipline practiced by a few Wall Street firms to a democratized field accessible to individual developers. However, the gap between a profitable backtest and a live trading system remains vast. This guide provides a systematic approach to building, validating, and deploying quantitative trading strategies that can survive the transition from theory to practice.</p>
-<h2 id="foundation-understanding-market-microstructure">Foundation: Understanding Market Microstructure</h2>
-<p>Before diving into strategy development, understanding how markets actually work at a mechanical level is crucial:</p>
-<h3 id="order-books-and-market-impact">Order Books and Market Impact</h3>
-<p>Every trade moves the market. Understanding order book dynamics is essential for realistic backtesting:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">MarketImpactModel</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">permanent_impact</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">temporary_impact</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">permanent_impact</span> <span class="o">=</span> <span class="n">permanent_impact</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">temporary_impact</span> <span class="o">=</span> <span class="n">temporary_impact</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="k">def</span> <span class="nf">calculate_execution_price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">market_price</span><span class="p">,</span> <span class="n">daily_volume</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">participation_rate</span> <span class="o">=</span> <span class="n">quantity</span> <span class="o">/</span> <span class="n">daily_volume</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">impact</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">permanent_impact</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">participation_rate</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;buy&#39;</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">            <span class="k">return</span> <span class="n">market_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">impact</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="k">else</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">            <span class="k">return</span> <span class="n">market_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">impact</span><span class="p">)</span>
-</span></span></code></pre></div><h3 id="transaction-costs">Transaction Costs</h3>
-<p>The bid-ask spread and other costs are often underestimated in backtests:</p>
-<ul>
-<li><strong>Direct costs</strong>: Commission, exchange fees, regulatory fees</li>
-<li><strong>Indirect costs</strong>: Bid-ask spread, market impact, timing costs</li>
-<li><strong>Opportunity costs</strong>: Failed executions, partial fills</li>
-</ul>
-<h2 id="data-the-foundation-of-strategy">Data: The Foundation of Strategy</h2>
-<h3 id="data-quality-issues">Data Quality Issues</h3>
-<p>Common problems that invalidate strategies:</p>
-<ul>
-<li><strong>Survivorship Bias</strong>: Historical datasets excluding delisted companies</li>
-<li><strong>Look-Ahead Bias</strong>: Using future information</li>
-<li><strong>Point-in-Time Data</strong>: Ensuring data reflects what was actually known</li>
-</ul>
-<h3 id="building-a-robust-data-pipeline">Building a Robust Data Pipeline</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">DataPipeline</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">data_sources</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="k">def</span> <span class="nf">get_market_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">cache_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_from_sources</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clean_and_validate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">
-</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="k">return</span> <span class="n">data</span>
-</span></span></code></pre></div><h2 id="strategy-development-framework">Strategy Development Framework</h2>
-<h3 id="factor-research">Factor Research</h3>
-<p>Successful strategies are built on robust factors with economic intuition:</p>
-<p><strong>Common Factor Categories</strong>:</p>
-<ul>
-<li><strong>Value</strong>: P/E ratio, P/B ratio, FCF yield</li>
-<li><strong>Momentum</strong>: Price momentum, earnings momentum</li>
-<li><strong>Quality</strong>: ROE, debt ratios, earnings stability</li>
-<li><strong>Low Volatility</strong>: Historical volatility, beta</li>
-</ul>
-<h3 id="backtesting-framework">Backtesting Framework</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">BacktestEngine</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_capital</span><span class="p">,</span> <span class="n">max_leverage</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">initial_capital</span> <span class="o">=</span> <span class="n">initial_capital</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">max_leverage</span> <span class="o">=</span> <span class="n">max_leverage</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cash</span> <span class="o">=</span> <span class="n">initial_capital</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">def</span> <span class="nf">execute_trade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="n">trade_value</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">price</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">required_cash</span> <span class="o">=</span> <span class="n">trade_value</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_leverage</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cash</span> <span class="o">&lt;</span> <span class="n">required_cash</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Trade rejected</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">
-</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="n">transaction_cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_transaction_cost</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">
-</span></span><span class="line"><span class="ln">17</span><span class="cl">        <span class="k">if</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">18</span><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">+=</span> <span class="n">quantity</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="k">else</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">20</span><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">=</span> <span class="n">quantity</span>
-</span></span><span class="line"><span class="ln">21</span><span class="cl">
-</span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cash</span> <span class="o">-=</span> <span class="p">(</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">price</span> <span class="o">+</span> <span class="n">transaction_cost</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">23</span><span class="cl">        <span class="k">return</span> <span class="kc">True</span>
-</span></span></code></pre></div><h2 id="statistical-validation">Statistical Validation</h2>
-<p>A profitable backtest can be misleading. Rigorous statistical validation is necessary to ensure a strategy&rsquo;s edge is genuine and not a result of overfitting or luck.</p>
-<h3 id="walk-forward-analysis">Walk-Forward Analysis</h3>
-<p>A simple train/test split is a good first step, but it&rsquo;s not robust. A strategy might perform well on a single, arbitrary test set by chance. Furthermore, once a test set is used—even once—it is no longer truly &ldquo;out-of-sample.&rdquo; If you test multiple ideas and pick the one that does best on the test set, you introduce selection bias, effectively overfitting to your test set.</p>
-<p>Walk-forward analysis provides a more rigorous approach by simulating how a strategy would actually be traded. It involves iteratively training the model on a window of past data and testing it on a subsequent window of unseen data. This process is repeated, &ldquo;walking&rdquo; through the entire dataset.</p>
-<p>This method tests the strategy&rsquo;s robustness across different market regimes and ensures the results do not benefit from data mining bias in the same way a single test set would. It&rsquo;s essential for understanding true out-of-sample performance.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">walk_forward_analysis</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">train_window</span><span class="o">=</span><span class="mi">252</span><span class="p">,</span> <span class="n">test_window</span><span class="o">=</span><span class="mi">63</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">train_window</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">test_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">        <span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">train_window</span><span class="p">:</span><span class="n">i</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="n">fitted_strategy</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">test_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">test_window</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="n">signals</span> <span class="o">=</span> <span class="n">fitted_strategy</span><span class="o">.</span><span class="n">generate_signals</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">performance</span> <span class="o">=</span> <span class="n">backtest</span><span class="p">(</span><span class="n">signals</span><span class="p">,</span> <span class="n">test_data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">            <span class="s1">&#39;period_start&#39;</span><span class="p">:</span> <span class="n">test_data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">            <span class="s1">&#39;return&#39;</span><span class="p">:</span> <span class="n">performance</span><span class="p">[</span><span class="s1">&#39;total_return&#39;</span><span class="p">],</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl">            <span class="s1">&#39;sharpe&#39;</span><span class="p">:</span> <span class="n">performance</span><span class="p">[</span><span class="s1">&#39;sharpe_ratio&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="p">})</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">
-</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-</span></span></code></pre></div><h3 id="permutation-testing-for-data-mining-bias">Permutation Testing for Data Mining Bias</h3>
-<p>An optimization process is designed to find the best parameters. This means it can often find a seemingly profitable strategy even in pure random noise. This is called <strong>data mining bias</strong>. How do we know if our strategy has a real edge or if we&rsquo;ve just overfit the historical data?</p>
-<p>The null hypothesis should be that our strategy is worthless and its performance is due to data mining bias. The permutation test is a powerful Monte Carlo technique to challenge this hypothesis.</p>
-<p>The process is as follows:</p>
-<ol>
-<li><strong>Optimize on Real Data</strong>: Run your optimization process on the true historical data to find the best parameters and record the performance (e.g., Sharpe Ratio).</li>
-<li><strong>Generate Permutations</strong>: Create many (e.g., 1000+) &ldquo;permuted&rdquo; datasets. A good permutation algorithm will shuffle the sequence of price changes, destroying any temporal patterns (the &ldquo;alpha&rdquo;) while preserving the data&rsquo;s core statistical properties like mean, standard deviation, and overall trend.</li>
-<li><strong>Optimize on Permuted Data</strong>: Run the <em>exact same optimization process</em> on each permuted (random) dataset. This creates a distribution of the best possible performance you could expect to find in noise.</li>
-<li><strong>Compare and Validate</strong>: Compare the performance from the real data against the distribution of performances from the permuted data. If the real performance is an extreme outlier (e.g., better than 99% of the random results, giving a p-value of &lt; 0.01), you can reject the null hypothesis. This provides strong evidence that your strategy captured a genuine market pattern, not just noise.</li>
-</ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">permutation_test</span><span class="p">(</span><span class="n">strategy_optimizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="c1"># 1. Optimize on real data</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="n">real_performance</span> <span class="o">=</span> <span class="n">strategy_optimizer</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="c1"># 2. Optimize on permuted data</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">permuted_performances</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">better_count</span> <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="n">permuted_data</span> <span class="o">=</span> <span class="n">create_price_permutation</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">permuted_perf</span> <span class="o">=</span> <span class="n">strategy_optimizer</span><span class="p">(</span><span class="n">permuted_data</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="n">permuted_performances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">permuted_perf</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="k">if</span> <span class="n">permuted_perf</span> <span class="o">&gt;=</span> <span class="n">real_performance</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">            <span class="n">better_count</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">
-</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="c1"># 3. Calculate p-value</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">p_value</span> <span class="o">=</span> <span class="n">better_count</span> <span class="o">/</span> <span class="n">n_permutations</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">
-</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="k">return</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="s1">&#39;real_performance&#39;</span><span class="p">:</span> <span class="n">real_performance</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">20</span><span class="cl">        <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">21</span><span class="cl">        <span class="s1">&#39;permuted_distribution&#39;</span><span class="p">:</span> <span class="n">permuted_performances</span>
-</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="p">}</span>
-</span></span></code></pre></div><h3 id="walk-forward-permutation-testing">Walk-Forward Permutation Testing</h3>
-<p>Passing an in-sample permutation test is a great sign, and having a positive walk-forward backtest is even better. But to achieve the highest level of confidence, we can combine these two techniques. The goal is to answer: &ldquo;Could my positive walk-forward results have been achieved by pure luck?&rdquo;</p>
-<p>The process isolates the out-of-sample periods of a walk-forward test and checks if their performance is statistically significant.</p>
-<ol>
-<li><strong>Run Walk-Forward</strong>: Perform a standard walk-forward analysis on the real data to get your baseline out-of-sample performance.</li>
-<li><strong>Permute Future Data</strong>: For each simulation, create a new dataset where the initial training period is left intact, but the data <em>after</em> it is permuted. This simulates a world where the future has no exploitable patterns.</li>
-<li><strong>Run Walk-Forward on Permuted Data</strong>: Run the <em>exact same walk-forward process</em> on this mixed dataset. The strategy is optimized on real historical data and then tested on the permuted, patternless future data.</li>
-<li><strong>Compare and Validate</strong>: This generates a distribution of walk-forward results from worthless strategies. If your real walk-forward performance is significantly better than this distribution, you have very strong evidence that your strategy is robust and its performance is not just a fluke.</li>
-</ol>
-<p>This test is computationally intensive but provides one of the strongest guards against deploying a strategy that is subtly overfit or was simply lucky in out-of-sample testing.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">def</span> <span class="nf">walk_forward_permutation_test</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">train_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="c1"># 1. Run walk-forward on real data</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="n">real_results</span> <span class="o">=</span> <span class="n">walk_forward_analysis</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">train_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="n">real_performance</span> <span class="o">=</span> <span class="n">calculate_aggregate_performance</span><span class="p">(</span><span class="n">real_results</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="c1"># 2. Run on permuted data</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">permuted_performances</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="c1"># Permute data *after* the first training period</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">permuted_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="n">permuted_test_data</span> <span class="o">=</span> <span class="n">create_price_permutation</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_window</span><span class="p">:])</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">        <span class="n">permuted_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_window</span><span class="p">:]</span> <span class="o">=</span> <span class="n">permuted_test_data</span><span class="o">.</span><span class="n">values</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">
-</span></span><span class="line"><span class="ln">14</span><span class="cl">        <span class="n">permuted_results</span> <span class="o">=</span> <span class="n">walk_forward_analysis</span><span class="p">(</span><span class="n">strategy</span><span class="p">,</span> <span class="n">permuted_data</span><span class="p">,</span> <span class="n">train_window</span><span class="p">,</span> <span class="n">test_window</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="n">permuted_perf</span> <span class="o">=</span> <span class="n">calculate_aggregate_performance</span><span class="p">(</span><span class="n">permuted_results</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="n">permuted_performances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">permuted_perf</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">
-</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="c1"># 3. Calculate p-value</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">p_value</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">&gt;=</span> <span class="n">real_performance</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">permuted_performances</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_permutations</span>
-</span></span><span class="line"><span class="ln">20</span><span class="cl">
-</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="k">return</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="s1">&#39;real_performance&#39;</span><span class="p">:</span> <span class="n">real_performance</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">23</span><span class="cl">        <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">24</span><span class="cl">        <span class="s1">&#39;permuted_distribution&#39;</span><span class="p">:</span> <span class="n">permuted_performances</span>
-</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="p">}</span>
-</span></span></code></pre></div><h2 id="risk-management">Risk Management</h2>
-<h3 id="position-sizing">Position Sizing</h3>
-<p>Often more important than the signal itself:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">PositionSizer</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="nf">calculate_position_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">signal_strength</span><span class="p">,</span> <span class="n">account_value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;fixed_fraction&#39;</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">            <span class="k">return</span> <span class="n">account_value</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;fraction&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kelly_criterion&#39;</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">            <span class="n">win_rate</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;win_rate&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">            <span class="n">avg_win</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;avg_win&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">            <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;avg_loss&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">
-</span></span><span class="line"><span class="ln">11</span><span class="cl">            <span class="n">kelly_fraction</span> <span class="o">=</span> <span class="p">(</span><span class="n">win_rate</span> <span class="o">*</span> <span class="n">avg_win</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">win_rate</span><span class="p">)</span> <span class="o">*</span> <span class="n">avg_loss</span><span class="p">)</span> <span class="o">/</span> <span class="n">avg_win</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">            <span class="k">return</span> <span class="n">account_value</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">kelly_fraction</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">
-</span></span><span class="line"><span class="ln">14</span><span class="cl">        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;volatility_targeting&#39;</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl">            <span class="n">target_vol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;target_volatility&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">            <span class="n">volatility</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;volatility&#39;</span><span class="p">]</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">            <span class="k">return</span> <span class="p">(</span><span class="n">account_value</span> <span class="o">*</span> <span class="n">target_vol</span> <span class="o">/</span> <span class="n">volatility</span><span class="p">)</span> <span class="o">*</span> <span class="n">signal_strength</span>
-</span></span></code></pre></div><h3 id="dynamic-risk-controls">Dynamic Risk Controls</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">RiskManager</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_portfolio_var</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">max_individual_weight</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">max_portfolio_var</span> <span class="o">=</span> <span class="n">max_portfolio_var</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">max_individual_weight</span> <span class="o">=</span> <span class="n">max_individual_weight</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="k">def</span> <span class="nf">check_risk_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portfolio</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">portfolio_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_portfolio_var</span><span class="p">(</span><span class="n">portfolio</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="k">if</span> <span class="n">portfolio_var</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_portfolio_var</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&#34;Portfolio VaR exceeded&#34;</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">
-</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_individual_weight</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;Position size exceeded for </span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">
-</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&#34;All risk checks passed&#34;</span>
-</span></span></code></pre></div><h2 id="live-trading-considerations">Live Trading Considerations</h2>
-<h3 id="execution-engine">Execution Engine</h3>
-<p>Handling real-world trading complexities:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">ExecutionEngine</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="nf">execute_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_list</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">order_list</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">            <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">quantity</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_adv</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">                <span class="c1"># Large order - slice it</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">                <span class="n">child_orders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice_order</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">                <span class="k">for</span> <span class="n">child_order</span> <span class="ow">in</span> <span class="n">child_orders</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">                    <span class="bp">self</span><span class="o">.</span><span class="n">execute_single_order</span><span class="p">(</span><span class="n">child_order</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">            <span class="k">else</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">                <span class="c1"># Small order - market order</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">execute_single_order</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-</span></span></code></pre></div><h2 id="performance-attribution">Performance Attribution</h2>
-<p>Understanding why strategies make or lose money:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">PerformanceAttributor</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="k">def</span> <span class="nf">factor_attribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">returns</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">factors</span><span class="p">):</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="n">factor_loadings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_factor_loadings</span><span class="p">()</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="n">factor_returns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_factor_returns</span><span class="p">()</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="n">attribution</span> <span class="o">=</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">            <span class="n">attribution</span><span class="p">[</span><span class="n">factor</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">factor_loadings</span><span class="p">[</span><span class="n">factor</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor_returns</span><span class="p">[</span><span class="n">factor</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
-</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">attribution</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">attribution</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="k">return</span> <span class="n">attribution</span>
-</span></span></code></pre></div><h2 id="key-success-principles">Key Success Principles</h2>
-<ol>
-<li><strong>Start with robust data and realistic assumptions</strong></li>
-<li><strong>Build in proper risk management from day one</strong></li>
-<li><strong>Test extensively with out-of-sample data</strong></li>
-<li><strong>Plan for operational challenges of live trading</strong></li>
-<li><strong>Continuously monitor and adapt strategies</strong></li>
-</ol>
-<h2 id="conclusion">Conclusion</h2>
-<p>Building successful quantitative trading strategies requires systematic approach beyond simple backtesting. The difference between amateur and professional quant trading lies in process rigor, not model complexity. A simple strategy with proper risk management and realistic assumptions will outperform complex models built on flawed foundations.</p>
-<p>Remember: the goal isn&rsquo;t to predict the future perfectly, but to profit from small market edges while managing risk appropriately.</p>
-<hr>
-<p><em>For more insights into quantitative trading and financial engineering, follow my work on <a href="https://extremelysunnyyk.medium.com/">Medium</a> and connect with me on <a href="https://linkedin.com/in/chiayongkang">LinkedIn</a>.</em></p>
-</div>
-  </div>
-</div>
-</div>
-    </div><div id="footer" class="mb-5">
-  <hr />
-  
-  <div class="container text-center">
-    
-    <a
-      href="https://twitter.com/"
-      class="fab fa-twitter fa-1x"
-      title="Twitter"
-    ></a>
-    
-    <a
-      href="mailto:chiayongkang@hotmail.com"
-      class="fas fa-envelope fa-1x"
-      title="E-mail"
-    ></a>
-    
-    <a
-      href="https://github.com/yongkangc"
-      class="fab fa-github fa-1x"
-      title="Github"
-    ></a>
-    
-  </div>
-   
-  <div class="container text-center">
-    <a
-      href="http://localhost:1313/chiayong.com"
-      title="Yong Kang"
-      
-      ><small>Yong Kang</small></a
-    >
-  </div>
-  
-</div>
-
-
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"
-      integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-
-    
-    <script src="/js/code-copy.js"></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
-
-<style>
-  .mermaid-container {
-    position: relative;
-    margin: 2rem 0;
-    background-color: var(--code-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1rem;
-    overflow: visible;
-     
-    box-sizing: border-box;
-    contain: layout;
-  }
-
-  .mermaid-controls {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 100;
-    display: flex;
-    gap: 4px;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
-  }
-
-  .mermaid-container:hover .mermaid-controls {
-    opacity: 1;
-  }
-
-  .mermaid-btn {
-    background: var(--background);
-    border: 1px solid var(--border-color);
-    color: var(--text);
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif;
-  }
-
-  .mermaid-btn:hover {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .mermaid-fullscreen-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 9999;
-    padding: 2rem;
-    box-sizing: border-box;
-  }
-
-  .mermaid-fullscreen-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--code-bg);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .mermaid-fullscreen-controls {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 1000;
-    display: flex;
-    gap: 8px;
-  }
-
-  .mermaid-fullscreen-btn {
-    background: var(--background);
-    border: 1px solid var(--border-color);
-    color: var(--text);
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif;
-  }
-
-  .mermaid-fullscreen-btn:hover {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .mermaid-close-btn {
-    background: #dc3545;
-    border-color: #dc3545;
-    color: white;
-  }
-
-  .mermaid-close-btn:hover {
-    background: #c82333;
-    border-color: #c82333;
-  }
-
-   
-  .mermaid {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-  }
-
-  .mermaid svg {
-    max-width: 100%;
-    height: auto;
-    background: transparent !important;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif !important;
-     
-    transform-origin: center center !important;
-     
-    shape-rendering: geometricPrecision !important;
-    text-rendering: geometricPrecision !important;
-  }
-
-   
-  .mermaid svg text,
-  .mermaid svg tspan,
-  .mermaid svg foreignObject,
-  .mermaid svg foreignObject div,
-  .mermaid svg .nodeLabel,
-  .mermaid svg .edgeLabel,
-  .mermaid svg .cluster-label,
-  .mermaid svg .titleText {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif !important;
-    font-size: 14px !important;
-    font-weight: normal !important;
-    line-height: 1.2 !important;
-    color: #e5e5e5 !important;
-    fill: #e5e5e5 !important;
-    text-anchor: middle !important;
-     
-    vector-effect: non-scaling-stroke !important;
-  }
-
-   
-  .mermaid svg .titleText {
-    font-size: 16px !important;
-    font-weight: 600 !important;
-  }
-
-  .mermaid svg .cluster-label {
-    font-size: 12px !important;
-    font-weight: 500 !important;
-  }
-
-   
-  .mermaid svg path,
-  .mermaid svg line,
-  .mermaid svg polyline {
-    stroke: #888888 !important;
-    stroke-width: 2px !important;
-     
-    vector-effect: non-scaling-stroke !important;
-  }
-
-   
-  .mermaid svg marker path {
-    fill: #888888 !important;
-    vector-effect: non-scaling-stroke !important;
-  }
-
-  .mermaid svg .edgeLabel {
-    background-color: var(--code-bg) !important;
-    color: var(--text) !important;
-  }
-
-   
-  .mermaid svg * {
-    box-sizing: content-box !important;
-  }
-
-   
-  .mermaid svg .node rect,
-  .mermaid svg .node circle,
-  .mermaid svg .node ellipse,
-  .mermaid svg .node polygon {
-    fill: #2a2a2a !important;
-    stroke: #555555 !important;
-    stroke-width: 2px !important;
-    vector-effect: non-scaling-stroke !important;
-  }
-
-  .mermaid-fullscreen-content svg {
-    cursor: grab;
-    user-select: none;
-  }
-
-  .mermaid-fullscreen-content svg:active {
-    cursor: grabbing;
-  }
-</style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: "dark",
-    });
-
-    
-    function initializeMermaidControls() {
-      document
-        .querySelectorAll(".mermaid")
-        .forEach(function (mermaidDiv, index) {
-          const svg = mermaidDiv.querySelector("svg");
-          if (!svg) return;
-
-          
-          if (svg.hasAttribute("data-mermaid-initialized")) return;
-          svg.setAttribute("data-mermaid-initialized", "true");
-
-          
-          const container = document.createElement("div");
-          container.className = "mermaid-container";
-          mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
-          container.appendChild(mermaidDiv);
-
-          
-          const diagramId = "mermaid-diagram-" + index;
-          svg.id = diagramId;
-
-          
-          const controls = document.createElement("div");
-          controls.className = "mermaid-controls";
-          controls.innerHTML = `
-          <button class="mermaid-btn" onclick="zoomMermaidIn('${diagramId}')">+</button>
-          <button class="mermaid-btn" onclick="zoomMermaidOut('${diagramId}')">−</button>
-          <button class="mermaid-btn" onclick="resetMermaidZoom('${diagramId}')">Reset</button>
-          <button class="mermaid-btn" onclick="openMermaidFullscreen('${diagramId}')">⛶</button>
-        `;
-          container.appendChild(controls);
-
-          
-          let originalViewBox;
-          try {
-            originalViewBox = svg.viewBox.baseVal;
-          } catch (e) {
-            console.warn("Could not access viewBox:", e);
-            return;
-          }
-
-          
-          if (!originalViewBox || originalViewBox.width === 0) {
-            try {
-              const bbox = svg.getBBox();
-              if (bbox.width > 0 && bbox.height > 0) {
-                svg.setAttribute(
-                  "viewBox",
-                  `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
-                );
-                const newViewBox = svg.viewBox.baseVal;
-                svg.zoomState = {
-                  scale: 1,
-                  translateX: 0,
-                  translateY: 0,
-                  originalViewBox: {
-                    x: newViewBox.x,
-                    y: newViewBox.y,
-                    width: newViewBox.width,
-                    height: newViewBox.height,
-                  },
-                };
-              } else {
-                console.warn("Invalid bounding box for SVG");
-                return;
-              }
-            } catch (e) {
-              console.warn("Could not get bounding box:", e);
-              return;
-            }
-          } else {
-            svg.zoomState = {
-              scale: 1,
-              translateX: 0,
-              translateY: 0,
-              originalViewBox: {
-                x: originalViewBox.x,
-                y: originalViewBox.y,
-                width: originalViewBox.width,
-                height: originalViewBox.height,
-              },
-            };
-          }
-
-          
-          function updateTransform(targetSvg = svg) {
-            const state = targetSvg.zoomState || {
-              scale: 1,
-              translateX: 0,
-              translateY: 0,
-              originalViewBox: {
-                x: originalViewBox.x,
-                y: originalViewBox.y,
-                width: originalViewBox.width,
-                height: originalViewBox.height,
-              },
-            };
-
-            
-            const newWidth = state.originalViewBox.width / state.scale;
-            const newHeight = state.originalViewBox.height / state.scale;
-
-            
-            const translateFactorX = -state.translateX / state.scale;
-            const translateFactorY = -state.translateY / state.scale;
-
-            
-            const newX = state.originalViewBox.x + translateFactorX;
-            const newY = state.originalViewBox.y + translateFactorY;
-
-            targetSvg.setAttribute(
-              "viewBox",
-              `${newX} ${newY} ${newWidth} ${newHeight}`
-            );
-          }
-
-          
-          window.zoomMermaidIn = function (svgId) {
-            const targetSvg = document.getElementById(svgId);
-            if (targetSvg && targetSvg.zoomState) {
-              targetSvg.zoomState.scale = Math.min(
-                targetSvg.zoomState.scale * 1.2,
-                5
-              );
-              updateTransform(targetSvg);
-            }
-          };
-
-          window.zoomMermaidOut = function (svgId) {
-            const targetSvg = document.getElementById(svgId);
-            if (targetSvg && targetSvg.zoomState) {
-              targetSvg.zoomState.scale = Math.max(
-                targetSvg.zoomState.scale / 1.2,
-                0.1
-              );
-              updateTransform(targetSvg);
-            }
-          };
-
-          window.resetMermaidZoom = function (svgId) {
-            const targetSvg = document.getElementById(svgId);
-            if (targetSvg && targetSvg.zoomState) {
-              targetSvg.zoomState.scale = 1;
-              targetSvg.zoomState.translateX = 0;
-              targetSvg.zoomState.translateY = 0;
-              updateTransform(targetSvg);
-            }
-          };
-
-          
-          window.openMermaidFullscreen = function (svgId) {
-            const originalSvg = document.getElementById(svgId);
-            if (!originalSvg) return;
-
-            
-            const modal = document.createElement("div");
-            modal.className = "mermaid-fullscreen-modal";
-            modal.innerHTML = `
+<!doctype html><html lang><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>An Engineer's Guide to Building and Validating Quantitative Trading Strategies</title><meta name=description content="Blockchain Engineer"><meta name=author content="Chia Yong Kang"><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=/css/syntax.css><link rel=stylesheet href=/css/typography.css><link rel=stylesheet href=/css/article-navigation.css><link rel=stylesheet href=/css/custom.css><link rel=stylesheet href=/css/articles-filter.css><link rel=stylesheet href=/css/mobile-nav-fix.css><link rel=stylesheet href=/sass/researcher.min.css><link rel=icon type=image/ico href=https://chiayong.com/crab.svg><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-D5HBRC62LK")}</script></head><body><div class="container-fluid site-header"><nav class="navbar navbar-expand-lg navbar-light"><div class=navbar-brand-wrapper><a class=navbar-brand href=https://chiayong.com/>Chia Yong Kang</a>
+<span class=navbar-tagline>Blockchain Engineer</span></div><button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNav aria-controls=navbarNav aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNav><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://chiayong.com/>About</a></li><li class=nav-item><a class=nav-link href=https://chiayong.com/articles>Articles</a></li><li class=nav-item><a class=nav-link href=https://chiayong.com/contact>Contact</a></li></ul></div></nav></div><div class=main-content><div id=content><div class=container><div class=single><div class=article-navigation><a href=/articles/ class=back-to-articles><i class="fas fa-arrow-left"></i>
+<span>Back to Articles</span></a></div><div class=single-header><h1 class=single-title>An Engineer's Guide to Building and Validating Quantitative Trading Strategies</h1><div class=single-meta><span class=single-date>January 1, 2024</span><div class=single-tags><span class=single-tag>Trading</span>
+<span class=single-tag>Quantitative Analysis</span>
+<span class=single-tag>Algorithm Development</span>
+<span class=single-tag>Finance</span></div></div></div><div class=article-content><h1 id=an-engineers-guide-to-building-and-validating-quantitative-trading-strategies>An Engineer&rsquo;s Guide to Building and Validating Quantitative Trading Strategies</h1><p><em>Originally published on <a href=https://extremelysunnyyk.medium.com/>Medium</a></em></p><p>From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms.</p><h2 id=introduction>Introduction</h2><p>Quantitative trading has evolved from a niche discipline practiced by a few Wall Street firms to a democratized field accessible to individual developers. However, the gap between a profitable backtest and a live trading system remains vast. This guide provides a systematic approach to building, validating, and deploying quantitative trading strategies that can survive the transition from theory to practice.</p><h2 id=foundation-understanding-market-microstructure>Foundation: Understanding Market Microstructure</h2><p>Before diving into strategy development, understanding how markets actually work at a mechanical level is crucial:</p><h3 id=order-books-and-market-impact>Order Books and Market Impact</h3><p>Every trade moves the market. Understanding order book dynamics is essential for realistic backtesting:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>MarketImpactModel</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>permanent_impact</span><span class=o>=</span><span class=mf>0.01</span><span class=p>,</span> <span class=n>temporary_impact</span><span class=o>=</span><span class=mf>0.05</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>permanent_impact</span> <span class=o>=</span> <span class=n>permanent_impact</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>temporary_impact</span> <span class=o>=</span> <span class=n>temporary_impact</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=k>def</span> <span class=nf>calculate_execution_price</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>side</span><span class=p>,</span> <span class=n>quantity</span><span class=p>,</span> <span class=n>market_price</span><span class=p>,</span> <span class=n>daily_volume</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>        <span class=n>participation_rate</span> <span class=o>=</span> <span class=n>quantity</span> <span class=o>/</span> <span class=n>daily_volume</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>        <span class=n>impact</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>permanent_impact</span> <span class=o>*</span> <span class=n>np</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>participation_rate</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>        <span class=k>if</span> <span class=n>side</span> <span class=o>==</span> <span class=s1>&#39;buy&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>            <span class=k>return</span> <span class=n>market_price</span> <span class=o>*</span> <span class=p>(</span><span class=mi>1</span> <span class=o>+</span> <span class=n>impact</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>            <span class=k>return</span> <span class=n>market_price</span> <span class=o>*</span> <span class=p>(</span><span class=mi>1</span> <span class=o>-</span> <span class=n>impact</span><span class=p>)</span>
+</span></span></code></pre></div><h3 id=transaction-costs>Transaction Costs</h3><p>The bid-ask spread and other costs are often underestimated in backtests:</p><ul><li><strong>Direct costs</strong>: Commission, exchange fees, regulatory fees</li><li><strong>Indirect costs</strong>: Bid-ask spread, market impact, timing costs</li><li><strong>Opportunity costs</strong>: Failed executions, partial fills</li></ul><h2 id=data-the-foundation-of-strategy>Data: The Foundation of Strategy</h2><h3 id=data-quality-issues>Data Quality Issues</h3><p>Common problems that invalidate strategies:</p><ul><li><strong>Survivorship Bias</strong>: Historical datasets excluding delisted companies</li><li><strong>Look-Ahead Bias</strong>: Using future information</li><li><strong>Point-in-Time Data</strong>: Ensuring data reflects what was actually known</li></ul><h3 id=building-a-robust-data-pipeline>Building a Robust Data Pipeline</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>DataPipeline</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data_sources</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>data_sources</span> <span class=o>=</span> <span class=n>data_sources</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>cache</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=k>def</span> <span class=nf>get_market_data</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>symbol</span><span class=p>,</span> <span class=n>start_date</span><span class=p>,</span> <span class=n>end_date</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>        <span class=n>cache_key</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&#34;</span><span class=si>{</span><span class=n>symbol</span><span class=si>}</span><span class=s2>_</span><span class=si>{</span><span class=n>start_date</span><span class=si>}</span><span class=s2>_</span><span class=si>{</span><span class=n>end_date</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>        <span class=k>if</span> <span class=n>cache_key</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>cache</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>cache</span><span class=p>[</span><span class=n>cache_key</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=n>data</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_fetch_from_sources</span><span class=p>(</span><span class=n>symbol</span><span class=p>,</span> <span class=n>start_date</span><span class=p>,</span> <span class=n>end_date</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>        <span class=n>data</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_clean_and_validate</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>cache</span><span class=p>[</span><span class=n>cache_key</span><span class=p>]</span> <span class=o>=</span> <span class=n>data</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>        <span class=k>return</span> <span class=n>data</span>
+</span></span></code></pre></div><h2 id=strategy-development-framework>Strategy Development Framework</h2><h3 id=factor-research>Factor Research</h3><p>Successful strategies are built on robust factors with economic intuition:</p><p><strong>Common Factor Categories</strong>:</p><ul><li><strong>Value</strong>: P/E ratio, P/B ratio, FCF yield</li><li><strong>Momentum</strong>: Price momentum, earnings momentum</li><li><strong>Quality</strong>: ROE, debt ratios, earnings stability</li><li><strong>Low Volatility</strong>: Historical volatility, beta</li></ul><h3 id=backtesting-framework>Backtesting Framework</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>BacktestEngine</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>initial_capital</span><span class=p>,</span> <span class=n>max_leverage</span><span class=o>=</span><span class=mf>1.0</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>initial_capital</span> <span class=o>=</span> <span class=n>initial_capital</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_leverage</span> <span class=o>=</span> <span class=n>max_leverage</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>positions</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>cash</span> <span class=o>=</span> <span class=n>initial_capital</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>    <span class=k>def</span> <span class=nf>execute_trade</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>symbol</span><span class=p>,</span> <span class=n>quantity</span><span class=p>,</span> <span class=n>price</span><span class=p>,</span> <span class=n>timestamp</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>        <span class=n>trade_value</span> <span class=o>=</span> <span class=nb>abs</span><span class=p>(</span><span class=n>quantity</span> <span class=o>*</span> <span class=n>price</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>        <span class=n>required_cash</span> <span class=o>=</span> <span class=n>trade_value</span> <span class=o>/</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_leverage</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>cash</span> <span class=o>&lt;</span> <span class=n>required_cash</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>            <span class=k>return</span> <span class=kc>False</span>  <span class=c1># Trade rejected</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>        <span class=n>transaction_cost</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>calculate_transaction_cost</span><span class=p>(</span><span class=n>quantity</span><span class=p>,</span> <span class=n>price</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>
+</span></span><span class=line><span class=ln>17</span><span class=cl>        <span class=k>if</span> <span class=n>symbol</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>positions</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>positions</span><span class=p>[</span><span class=n>symbol</span><span class=p>]</span> <span class=o>+=</span> <span class=n>quantity</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>        <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>positions</span><span class=p>[</span><span class=n>symbol</span><span class=p>]</span> <span class=o>=</span> <span class=n>quantity</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>cash</span> <span class=o>-=</span> <span class=p>(</span><span class=n>quantity</span> <span class=o>*</span> <span class=n>price</span> <span class=o>+</span> <span class=n>transaction_cost</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>        <span class=k>return</span> <span class=kc>True</span>
+</span></span></code></pre></div><h2 id=statistical-validation>Statistical Validation</h2><p>A profitable backtest can be misleading. Rigorous statistical validation is necessary to ensure a strategy&rsquo;s edge is genuine and not a result of overfitting or luck.</p><h3 id=walk-forward-analysis>Walk-Forward Analysis</h3><p>A simple train/test split is a good first step, but it&rsquo;s not robust. A strategy might perform well on a single, arbitrary test set by chance. Furthermore, once a test set is used—even once—it is no longer truly &ldquo;out-of-sample.&rdquo; If you test multiple ideas and pick the one that does best on the test set, you introduce selection bias, effectively overfitting to your test set.</p><p>Walk-forward analysis provides a more rigorous approach by simulating how a strategy would actually be traded. It involves iteratively training the model on a window of past data and testing it on a subsequent window of unseen data. This process is repeated, &ldquo;walking&rdquo; through the entire dataset.</p><p>This method tests the strategy&rsquo;s robustness across different market regimes and ensures the results do not benefit from data mining bias in the same way a single test set would. It&rsquo;s essential for understanding true out-of-sample performance.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>def</span> <span class=nf>walk_forward_analysis</span><span class=p>(</span><span class=n>strategy</span><span class=p>,</span> <span class=n>data</span><span class=p>,</span> <span class=n>train_window</span><span class=o>=</span><span class=mi>252</span><span class=p>,</span> <span class=n>test_window</span><span class=o>=</span><span class=mi>63</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=n>results</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>train_window</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=n>data</span><span class=p>)</span> <span class=o>-</span> <span class=n>test_window</span><span class=p>,</span> <span class=n>test_window</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>        <span class=n>train_data</span> <span class=o>=</span> <span class=n>data</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=n>train_window</span><span class=p>:</span><span class=n>i</span><span class=p>]</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>        <span class=n>fitted_strategy</span> <span class=o>=</span> <span class=n>strategy</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>train_data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>        <span class=n>test_data</span> <span class=o>=</span> <span class=n>data</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=n>i</span><span class=p>:</span><span class=n>i</span><span class=o>+</span><span class=n>test_window</span><span class=p>]</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>        <span class=n>signals</span> <span class=o>=</span> <span class=n>fitted_strategy</span><span class=o>.</span><span class=n>generate_signals</span><span class=p>(</span><span class=n>test_data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>        <span class=n>performance</span> <span class=o>=</span> <span class=n>backtest</span><span class=p>(</span><span class=n>signals</span><span class=p>,</span> <span class=n>test_data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=n>results</span><span class=o>.</span><span class=n>append</span><span class=p>({</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>            <span class=s1>&#39;period_start&#39;</span><span class=p>:</span> <span class=n>test_data</span><span class=o>.</span><span class=n>index</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>            <span class=s1>&#39;return&#39;</span><span class=p>:</span> <span class=n>performance</span><span class=p>[</span><span class=s1>&#39;total_return&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>            <span class=s1>&#39;sharpe&#39;</span><span class=p>:</span> <span class=n>performance</span><span class=p>[</span><span class=s1>&#39;sharpe_ratio&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=k>return</span> <span class=n>pd</span><span class=o>.</span><span class=n>DataFrame</span><span class=p>(</span><span class=n>results</span><span class=p>)</span>
+</span></span></code></pre></div><h3 id=permutation-testing-for-data-mining-bias>Permutation Testing for Data Mining Bias</h3><p>An optimization process is designed to find the best parameters. This means it can often find a seemingly profitable strategy even in pure random noise. This is called <strong>data mining bias</strong>. How do we know if our strategy has a real edge or if we&rsquo;ve just overfit the historical data?</p><p>The null hypothesis should be that our strategy is worthless and its performance is due to data mining bias. The permutation test is a powerful Monte Carlo technique to challenge this hypothesis.</p><p>The process is as follows:</p><ol><li><strong>Optimize on Real Data</strong>: Run your optimization process on the true historical data to find the best parameters and record the performance (e.g., Sharpe Ratio).</li><li><strong>Generate Permutations</strong>: Create many (e.g., 1000+) &ldquo;permuted&rdquo; datasets. A good permutation algorithm will shuffle the sequence of price changes, destroying any temporal patterns (the &ldquo;alpha&rdquo;) while preserving the data&rsquo;s core statistical properties like mean, standard deviation, and overall trend.</li><li><strong>Optimize on Permuted Data</strong>: Run the <em>exact same optimization process</em> on each permuted (random) dataset. This creates a distribution of the best possible performance you could expect to find in noise.</li><li><strong>Compare and Validate</strong>: Compare the performance from the real data against the distribution of performances from the permuted data. If the real performance is an extreme outlier (e.g., better than 99% of the random results, giving a p-value of &lt; 0.01), you can reject the null hypothesis. This provides strong evidence that your strategy captured a genuine market pattern, not just noise.</li></ol><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>def</span> <span class=nf>permutation_test</span><span class=p>(</span><span class=n>strategy_optimizer</span><span class=p>,</span> <span class=n>data</span><span class=p>,</span> <span class=n>n_permutations</span><span class=o>=</span><span class=mi>1000</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=c1># 1. Optimize on real data</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>    <span class=n>real_performance</span> <span class=o>=</span> <span class=n>strategy_optimizer</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>    <span class=c1># 2. Optimize on permuted data</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=n>permuted_performances</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>    <span class=n>better_count</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>    <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n_permutations</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>        <span class=n>permuted_data</span> <span class=o>=</span> <span class=n>create_price_permutation</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>        <span class=n>permuted_perf</span> <span class=o>=</span> <span class=n>strategy_optimizer</span><span class=p>(</span><span class=n>permuted_data</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>        <span class=n>permuted_performances</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>permuted_perf</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=k>if</span> <span class=n>permuted_perf</span> <span class=o>&gt;=</span> <span class=n>real_performance</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>            <span class=n>better_count</span> <span class=o>+=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>    <span class=c1># 3. Calculate p-value</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=n>p_value</span> <span class=o>=</span> <span class=n>better_count</span> <span class=o>/</span> <span class=n>n_permutations</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>        <span class=s1>&#39;real_performance&#39;</span><span class=p>:</span> <span class=n>real_performance</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>        <span class=s1>&#39;p_value&#39;</span><span class=p>:</span> <span class=n>p_value</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>        <span class=s1>&#39;permuted_distribution&#39;</span><span class=p>:</span> <span class=n>permuted_performances</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></div><h3 id=walk-forward-permutation-testing>Walk-Forward Permutation Testing</h3><p>Passing an in-sample permutation test is a great sign, and having a positive walk-forward backtest is even better. But to achieve the highest level of confidence, we can combine these two techniques. The goal is to answer: &ldquo;Could my positive walk-forward results have been achieved by pure luck?&rdquo;</p><p>The process isolates the out-of-sample periods of a walk-forward test and checks if their performance is statistically significant.</p><ol><li><strong>Run Walk-Forward</strong>: Perform a standard walk-forward analysis on the real data to get your baseline out-of-sample performance.</li><li><strong>Permute Future Data</strong>: For each simulation, create a new dataset where the initial training period is left intact, but the data <em>after</em> it is permuted. This simulates a world where the future has no exploitable patterns.</li><li><strong>Run Walk-Forward on Permuted Data</strong>: Run the <em>exact same walk-forward process</em> on this mixed dataset. The strategy is optimized on real historical data and then tested on the permuted, patternless future data.</li><li><strong>Compare and Validate</strong>: This generates a distribution of walk-forward results from worthless strategies. If your real walk-forward performance is significantly better than this distribution, you have very strong evidence that your strategy is robust and its performance is not just a fluke.</li></ol><p>This test is computationally intensive but provides one of the strongest guards against deploying a strategy that is subtly overfit or was simply lucky in out-of-sample testing.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>def</span> <span class=nf>walk_forward_permutation_test</span><span class=p>(</span><span class=n>strategy</span><span class=p>,</span> <span class=n>data</span><span class=p>,</span> <span class=n>train_window</span><span class=p>,</span> <span class=n>test_window</span><span class=p>,</span> <span class=n>n_permutations</span><span class=o>=</span><span class=mi>200</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=c1># 1. Run walk-forward on real data</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>    <span class=n>real_results</span> <span class=o>=</span> <span class=n>walk_forward_analysis</span><span class=p>(</span><span class=n>strategy</span><span class=p>,</span> <span class=n>data</span><span class=p>,</span> <span class=n>train_window</span><span class=p>,</span> <span class=n>test_window</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>    <span class=n>real_performance</span> <span class=o>=</span> <span class=n>calculate_aggregate_performance</span><span class=p>(</span><span class=n>real_results</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=c1># 2. Run on permuted data</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>    <span class=n>permuted_performances</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>    <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n_permutations</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>        <span class=c1># Permute data *after* the first training period</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>        <span class=n>permuted_data</span> <span class=o>=</span> <span class=n>data</span><span class=o>.</span><span class=n>copy</span><span class=p>()</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>        <span class=n>permuted_test_data</span> <span class=o>=</span> <span class=n>create_price_permutation</span><span class=p>(</span><span class=n>data</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=n>train_window</span><span class=p>:])</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=n>permuted_data</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=n>train_window</span><span class=p>:]</span> <span class=o>=</span> <span class=n>permuted_test_data</span><span class=o>.</span><span class=n>values</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>
+</span></span><span class=line><span class=ln>14</span><span class=cl>        <span class=n>permuted_results</span> <span class=o>=</span> <span class=n>walk_forward_analysis</span><span class=p>(</span><span class=n>strategy</span><span class=p>,</span> <span class=n>permuted_data</span><span class=p>,</span> <span class=n>train_window</span><span class=p>,</span> <span class=n>test_window</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>        <span class=n>permuted_perf</span> <span class=o>=</span> <span class=n>calculate_aggregate_performance</span><span class=p>(</span><span class=n>permuted_results</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>        <span class=n>permuted_performances</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>permuted_perf</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=c1># 3. Calculate p-value</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>    <span class=n>p_value</span> <span class=o>=</span> <span class=nb>sum</span><span class=p>(</span><span class=n>p</span> <span class=o>&gt;=</span> <span class=n>real_performance</span> <span class=k>for</span> <span class=n>p</span> <span class=ow>in</span> <span class=n>permuted_performances</span><span class=p>)</span> <span class=o>/</span> <span class=n>n_permutations</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>    <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>        <span class=s1>&#39;real_performance&#39;</span><span class=p>:</span> <span class=n>real_performance</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>        <span class=s1>&#39;p_value&#39;</span><span class=p>:</span> <span class=n>p_value</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>        <span class=s1>&#39;permuted_distribution&#39;</span><span class=p>:</span> <span class=n>permuted_performances</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></div><h2 id=risk-management>Risk Management</h2><h3 id=position-sizing>Position Sizing</h3><p>Often more important than the signal itself:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>PositionSizer</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=nf>calculate_position_size</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>method</span><span class=p>,</span> <span class=n>signal_strength</span><span class=p>,</span> <span class=n>account_value</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=k>if</span> <span class=n>method</span> <span class=o>==</span> <span class=s1>&#39;fixed_fraction&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>            <span class=k>return</span> <span class=n>account_value</span> <span class=o>*</span> <span class=n>kwargs</span><span class=p>[</span><span class=s1>&#39;fraction&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>        <span class=k>elif</span> <span class=n>method</span> <span class=o>==</span> <span class=s1>&#39;kelly_criterion&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>            <span class=n>win_rate</span> <span class=o>=</span> <span class=n>kwargs</span><span class=p>[</span><span class=s1>&#39;win_rate&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>            <span class=n>avg_win</span> <span class=o>=</span> <span class=n>kwargs</span><span class=p>[</span><span class=s1>&#39;avg_win&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>            <span class=n>avg_loss</span> <span class=o>=</span> <span class=n>kwargs</span><span class=p>[</span><span class=s1>&#39;avg_loss&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>
+</span></span><span class=line><span class=ln>11</span><span class=cl>            <span class=n>kelly_fraction</span> <span class=o>=</span> <span class=p>(</span><span class=n>win_rate</span> <span class=o>*</span> <span class=n>avg_win</span> <span class=o>-</span> <span class=p>(</span><span class=mi>1</span> <span class=o>-</span> <span class=n>win_rate</span><span class=p>)</span> <span class=o>*</span> <span class=n>avg_loss</span><span class=p>)</span> <span class=o>/</span> <span class=n>avg_win</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>            <span class=k>return</span> <span class=n>account_value</span> <span class=o>*</span> <span class=nb>min</span><span class=p>(</span><span class=n>kelly_fraction</span><span class=p>,</span> <span class=mf>0.25</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>
+</span></span><span class=line><span class=ln>14</span><span class=cl>        <span class=k>elif</span> <span class=n>method</span> <span class=o>==</span> <span class=s1>&#39;volatility_targeting&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>            <span class=n>target_vol</span> <span class=o>=</span> <span class=n>kwargs</span><span class=p>[</span><span class=s1>&#39;target_volatility&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>            <span class=n>volatility</span> <span class=o>=</span> <span class=n>kwargs</span><span class=p>[</span><span class=s1>&#39;volatility&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>            <span class=k>return</span> <span class=p>(</span><span class=n>account_value</span> <span class=o>*</span> <span class=n>target_vol</span> <span class=o>/</span> <span class=n>volatility</span><span class=p>)</span> <span class=o>*</span> <span class=n>signal_strength</span>
+</span></span></code></pre></div><h3 id=dynamic-risk-controls>Dynamic Risk Controls</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>RiskManager</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>max_portfolio_var</span><span class=o>=</span><span class=mf>0.02</span><span class=p>,</span> <span class=n>max_individual_weight</span><span class=o>=</span><span class=mf>0.1</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_portfolio_var</span> <span class=o>=</span> <span class=n>max_portfolio_var</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>max_individual_weight</span> <span class=o>=</span> <span class=n>max_individual_weight</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=k>def</span> <span class=nf>check_risk_limits</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>portfolio</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>        <span class=n>portfolio_var</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>calculate_portfolio_var</span><span class=p>(</span><span class=n>portfolio</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>        <span class=k>if</span> <span class=n>portfolio_var</span> <span class=o>&gt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_portfolio_var</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>            <span class=k>return</span> <span class=kc>False</span><span class=p>,</span> <span class=s2>&#34;Portfolio VaR exceeded&#34;</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>
+</span></span><span class=line><span class=ln>11</span><span class=cl>        <span class=k>for</span> <span class=n>symbol</span><span class=p>,</span> <span class=n>weight</span> <span class=ow>in</span> <span class=n>portfolio</span><span class=o>.</span><span class=n>weights</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>            <span class=k>if</span> <span class=nb>abs</span><span class=p>(</span><span class=n>weight</span><span class=p>)</span> <span class=o>&gt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>max_individual_weight</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>                <span class=k>return</span> <span class=kc>False</span><span class=p>,</span> <span class=sa>f</span><span class=s2>&#34;Position size exceeded for </span><span class=si>{</span><span class=n>symbol</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>        <span class=k>return</span> <span class=kc>True</span><span class=p>,</span> <span class=s2>&#34;All risk checks passed&#34;</span>
+</span></span></code></pre></div><h2 id=live-trading-considerations>Live Trading Considerations</h2><h3 id=execution-engine>Execution Engine</h3><p>Handling real-world trading complexities:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>ExecutionEngine</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=nf>execute_orders</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>order_list</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=k>for</span> <span class=n>order</span> <span class=ow>in</span> <span class=n>order_list</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>            <span class=k>if</span> <span class=n>order</span><span class=o>.</span><span class=n>quantity</span> <span class=o>&gt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_adv</span><span class=p>(</span><span class=n>order</span><span class=o>.</span><span class=n>symbol</span><span class=p>)</span> <span class=o>*</span> <span class=mf>0.1</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>                <span class=c1># Large order - slice it</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>                <span class=n>child_orders</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>slice_order</span><span class=p>(</span><span class=n>order</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>                <span class=k>for</span> <span class=n>child_order</span> <span class=ow>in</span> <span class=n>child_orders</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>                    <span class=bp>self</span><span class=o>.</span><span class=n>execute_single_order</span><span class=p>(</span><span class=n>child_order</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>            <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>                <span class=c1># Small order - market order</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>                <span class=bp>self</span><span class=o>.</span><span class=n>execute_single_order</span><span class=p>(</span><span class=n>order</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=performance-attribution>Performance Attribution</h2><p>Understanding why strategies make or lose money:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=ln> 1</span><span class=cl><span class=k>class</span> <span class=nc>PerformanceAttributor</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>    <span class=k>def</span> <span class=nf>factor_attribution</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>returns</span><span class=p>,</span> <span class=n>positions</span><span class=p>,</span> <span class=n>factors</span><span class=p>):</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>        <span class=n>factor_loadings</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>calculate_factor_loadings</span><span class=p>()</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>        <span class=n>factor_returns</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>calculate_factor_returns</span><span class=p>()</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>        <span class=n>attribution</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>        <span class=k>for</span> <span class=n>factor</span> <span class=ow>in</span> <span class=n>factors</span><span class=p>:</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>            <span class=n>attribution</span><span class=p>[</span><span class=n>factor</span><span class=p>]</span> <span class=o>=</span> <span class=p>(</span><span class=n>factor_loadings</span><span class=p>[</span><span class=n>factor</span><span class=p>]</span> <span class=o>*</span> <span class=n>factor_returns</span><span class=p>[</span><span class=n>factor</span><span class=p>])</span><span class=o>.</span><span class=n>sum</span><span class=p>()</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>        <span class=n>attribution</span><span class=p>[</span><span class=s1>&#39;alpha&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>returns</span><span class=o>.</span><span class=n>sum</span><span class=p>()</span> <span class=o>-</span> <span class=nb>sum</span><span class=p>(</span><span class=n>attribution</span><span class=o>.</span><span class=n>values</span><span class=p>())</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>        <span class=k>return</span> <span class=n>attribution</span>
+</span></span></code></pre></div><h2 id=key-success-principles>Key Success Principles</h2><ol><li><strong>Start with robust data and realistic assumptions</strong></li><li><strong>Build in proper risk management from day one</strong></li><li><strong>Test extensively with out-of-sample data</strong></li><li><strong>Plan for operational challenges of live trading</strong></li><li><strong>Continuously monitor and adapt strategies</strong></li></ol><h2 id=conclusion>Conclusion</h2><p>Building successful quantitative trading strategies requires systematic approach beyond simple backtesting. The difference between amateur and professional quant trading lies in process rigor, not model complexity. A simple strategy with proper risk management and realistic assumptions will outperform complex models built on flawed foundations.</p><p>Remember: the goal isn&rsquo;t to predict the future perfectly, but to profit from small market edges while managing risk appropriately.</p><hr><p><em>For more insights into quantitative trading and financial engineering, follow my work on <a href=https://extremelysunnyyk.medium.com/>Medium</a> and connect with me on <a href=https://linkedin.com/in/chiayongkang>LinkedIn</a>.</em></p></div></div></div></div></div><div id=footer class=mb-5><hr><div class="container text-center"><a href=https://twitter.com/ class="fab fa-twitter fa-1x" title=Twitter></a><a href=mailto:chiayongkang@hotmail.com class="fas fa-envelope fa-1x" title=E-mail></a><a href=https://github.com/yongkangc class="fab fa-github fa-1x" title=Github></a></div><div class="container text-center"><a href=https://chiayong.com/chiayong.com title="Yong Kang"><small>Yong Kang</small></a></div></div><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=/js/code-copy.js></script><script src=https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js></script><style>.mermaid-container{position:relative;margin:2rem 0;background-color:var(--code-bg);border:1px solid var(--border-color);border-radius:8px;padding:1rem;overflow:visible;box-sizing:border-box;contain:layout}.mermaid-controls{position:absolute;top:10px;right:10px;z-index:100;display:flex;gap:4px;opacity:.8;transition:opacity .2s ease}.mermaid-container:hover .mermaid-controls{opacity:1}.mermaid-btn{background:var(--background);border:1px solid var(--border-color);color:var(--text);padding:6px 10px;border-radius:4px;font-size:12px;cursor:pointer;transition:all .2s ease;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif}.mermaid-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}.mermaid-fullscreen-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:9999;padding:2rem;box-sizing:border-box}.mermaid-fullscreen-content{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--code-bg);border-radius:8px;overflow:hidden}.mermaid-fullscreen-controls{position:absolute;top:15px;right:15px;z-index:1000;display:flex;gap:8px}.mermaid-fullscreen-btn{background:var(--background);border:1px solid var(--border-color);color:var(--text);padding:8px 12px;border-radius:4px;font-size:14px;cursor:pointer;transition:all .2s ease;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif}.mermaid-fullscreen-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}.mermaid-close-btn{background:#dc3545;border-color:#dc3545;color:#fff}.mermaid-close-btn:hover{background:#c82333;border-color:#c82333}.mermaid{display:flex;justify-content:center;align-items:center;min-height:200px}.mermaid svg{max-width:100%;height:auto;background:0 0 !important;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif !important;transform-origin:center center !important;shape-rendering:geometricPrecision !important;text-rendering:geometricPrecision !important}.mermaid svg text,.mermaid svg tspan,.mermaid svg foreignobject,.mermaid svg foreignobject div,.mermaid svg .nodeLabel,.mermaid svg .edgeLabel,.mermaid svg .cluster-label,.mermaid svg .titleText{font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif !important;font-size:14px !important;font-weight:400 !important;line-height:1.2 !important;color:#e5e5e5 !important;fill:#e5e5e5 !important;text-anchor:middle !important;vector-effect:non-scaling-stroke !important}.mermaid svg .titleText{font-size:16px !important;font-weight:600 !important}.mermaid svg .cluster-label{font-size:12px !important;font-weight:500 !important}.mermaid svg path,.mermaid svg line,.mermaid svg polyline{stroke:#888 !important;stroke-width:2px !important;vector-effect:non-scaling-stroke !important}.mermaid svg marker path{fill:#888 !important;vector-effect:non-scaling-stroke !important}.mermaid svg .edgeLabel{background-color:var(--code-bg) !important;color:var(--text) !important}.mermaid svg *{box-sizing:content-box !important}.mermaid svg .node rect,.mermaid svg .node circle,.mermaid svg .node ellipse,.mermaid svg .node polygon{fill:#2a2a2a !important;stroke:#555 !important;stroke-width:2px !important;vector-effect:non-scaling-stroke !important}.mermaid-fullscreen-content svg{cursor:grab;user-select:none}.mermaid-fullscreen-content svg:active{cursor:grabbing}</style><script>document.addEventListener("DOMContentLoaded",function(){mermaid.initialize({startOnLoad:!0,theme:"dark"});function t(){document.querySelectorAll(".mermaid").forEach(function(e,t){const n=e.querySelector("svg");if(!n)return;if(n.hasAttribute("data-mermaid-initialized"))return;n.setAttribute("data-mermaid-initialized","true");const a=document.createElement("div");a.className="mermaid-container",e.parentNode.insertBefore(a,e),a.appendChild(e);const i="mermaid-diagram-"+t;n.id=i;const r=document.createElement("div");r.className="mermaid-controls",r.innerHTML=`
+          <button class="mermaid-btn" onclick="zoomMermaidIn('${i}')">+</button>
+          <button class="mermaid-btn" onclick="zoomMermaidOut('${i}')">−</button>
+          <button class="mermaid-btn" onclick="resetMermaidZoom('${i}')">Reset</button>
+          <button class="mermaid-btn" onclick="openMermaidFullscreen('${i}')">⛶</button>
+        `,a.appendChild(r);let s;try{s=n.viewBox.baseVal}catch(e){console.warn("Could not access viewBox:",e);return}if(!s||s.width===0)try{const e=n.getBBox();if(e.width>0&&e.height>0){n.setAttribute("viewBox",`${e.x} ${e.y} ${e.width} ${e.height}`);const t=n.viewBox.baseVal;n.zoomState={scale:1,translateX:0,translateY:0,originalViewBox:{x:t.x,y:t.y,width:t.width,height:t.height}}}else{console.warn("Invalid bounding box for SVG");return}}catch(e){console.warn("Could not get bounding box:",e);return}else n.zoomState={scale:1,translateX:0,translateY:0,originalViewBox:{x:s.x,y:s.y,width:s.width,height:s.height}};function o(e=n){const t=e.zoomState||{scale:1,translateX:0,translateY:0,originalViewBox:{x:s.x,y:s.y,width:s.width,height:s.height}},o=t.originalViewBox.width/t.scale,i=t.originalViewBox.height/t.scale,a=-t.translateX/t.scale,r=-t.translateY/t.scale,c=t.originalViewBox.x+a,l=t.originalViewBox.y+r;e.setAttribute("viewBox",`${c} ${l} ${o} ${i}`)}window.zoomMermaidIn=function(e){const t=document.getElementById(e);t&&t.zoomState&&(t.zoomState.scale=Math.min(t.zoomState.scale*1.2,5),o(t))},window.zoomMermaidOut=function(e){const t=document.getElementById(e);t&&t.zoomState&&(t.zoomState.scale=Math.max(t.zoomState.scale/1.2,.1),o(t))},window.resetMermaidZoom=function(e){const t=document.getElementById(e);t&&t.zoomState&&(t.zoomState.scale=1,t.zoomState.translateX=0,t.zoomState.translateY=0,o(t))},window.openMermaidFullscreen=function(e){const i=document.getElementById(e);if(!i)return;const n=document.createElement("div");n.className="mermaid-fullscreen-modal",n.innerHTML=`
             <div class="mermaid-fullscreen-content">
               <div class="mermaid-fullscreen-controls">
-                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidIn('${svgId}-fullscreen')">+</button>
-                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidOut('${svgId}-fullscreen')">−</button>
-                <button class="mermaid-fullscreen-btn" onclick="resetMermaidZoom('${svgId}-fullscreen')">Reset</button>
+                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidIn('${e}-fullscreen')">+</button>
+                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidOut('${e}-fullscreen')">−</button>
+                <button class="mermaid-fullscreen-btn" onclick="resetMermaidZoom('${e}-fullscreen')">Reset</button>
                 <button class="mermaid-fullscreen-btn mermaid-close-btn" onclick="closeMermaidFullscreen()">✕</button>
               </div>
             </div>
-          `;
-
-            
-            const clonedSvg = originalSvg.cloneNode(true);
-            clonedSvg.id = svgId + "-fullscreen";
-            
-            const originalViewBox = originalSvg.viewBox.baseVal;
-            clonedSvg.zoomState = {
-              scale: 1,
-              translateX: 0,
-              translateY: 0,
-              originalViewBox: {
-                x: originalViewBox.x,
-                y: originalViewBox.y,
-                width: originalViewBox.width,
-                height: originalViewBox.height,
-              },
-            };
-
-            
-            modal
-              .querySelector(".mermaid-fullscreen-content")
-              .appendChild(clonedSvg);
-            document.body.appendChild(modal);
-
-            
-            modal.style.display = "block";
-
-            
-            let isDragging = false;
-            let dragStartX = 0;
-            let dragStartY = 0;
-            let startTranslateX = 0;
-            let startTranslateY = 0;
-
-            clonedSvg.addEventListener("mousedown", function (e) {
-              isDragging = true;
-              dragStartX = e.clientX;
-              dragStartY = e.clientY;
-              startTranslateX = clonedSvg.zoomState.translateX;
-              startTranslateY = clonedSvg.zoomState.translateY;
-            });
-
-            document.addEventListener("mousemove", function (e) {
-              if (isDragging && clonedSvg.zoomState) {
-                
-                const deltaX = e.clientX - dragStartX;
-                const deltaY = e.clientY - dragStartY;
-
-                clonedSvg.zoomState.translateX = startTranslateX + deltaX;
-                clonedSvg.zoomState.translateY = startTranslateY + deltaY;
-                updateTransform(clonedSvg);
-              }
-            });
-
-            document.addEventListener("mouseup", function () {
-              isDragging = false;
-            });
-
-            
-            clonedSvg.addEventListener("wheel", function (e) {
-              e.preventDefault();
-              const delta = e.deltaY > 0 ? 0.9 : 1.1;
-              clonedSvg.zoomState.scale = Math.max(
-                0.1,
-                Math.min(5, clonedSvg.zoomState.scale * delta)
-              );
-              updateTransform(clonedSvg);
-            });
-
-            
-            const escapeHandler = function (e) {
-              if (e.key === "Escape") {
-                closeMermaidFullscreen();
-                document.removeEventListener("keydown", escapeHandler);
-              }
-            };
-            document.addEventListener("keydown", escapeHandler);
-
-            
-            modal.addEventListener("click", function (e) {
-              if (e.target === modal) {
-                closeMermaidFullscreen();
-              }
-            });
-          };
-
-          window.closeMermaidFullscreen = function () {
-            const modal = document.querySelector(".mermaid-fullscreen-modal");
-            if (modal) {
-              modal.remove();
-            }
-          };
-
-          
-          svg.addEventListener("wheel", function (e) {
-            e.preventDefault();
-            const delta = e.deltaY > 0 ? 0.9 : 1.1;
-            svg.zoomState.scale = Math.max(
-              0.1,
-              Math.min(5, svg.zoomState.scale * delta)
-            );
-            updateTransform();
-          });
-        });
-    }
-
-    
-    let attempts = 0;
-    const maxAttempts = 10;
-
-    function tryInitialize() {
-      initializeMermaidControls();
-      attempts++;
-
-      
-      const uninitializedDiagrams = document.querySelectorAll(
-        ".mermaid svg:not([data-mermaid-initialized])"
-      );
-
-      if (uninitializedDiagrams.length > 0 && attempts < maxAttempts) {
-        setTimeout(tryInitialize, 200);
-      }
-    }
-
-    
-    if (typeof mermaid !== "undefined") {
-      
-      const mermaidElements = document.querySelectorAll(".mermaid");
-      if (mermaidElements.length > 0) {
-        mermaid
-          .run({
-            nodes: mermaidElements,
-          })
-          .then(() => {
-            
-            setTimeout(initializeMermaidControls, 100);
-          })
-          .catch((error) => {
-            console.error("Mermaid rendering failed:", error);
-            
-            setTimeout(tryInitialize, 500);
-          });
-      }
-    } else {
-      
-      setTimeout(tryInitialize, 500);
-    }
-  });
-</script>
-
-  </body>
-</html>
+          `;const t=i.cloneNode(!0);t.id=e+"-fullscreen";const s=i.viewBox.baseVal;t.zoomState={scale:1,translateX:0,translateY:0,originalViewBox:{x:s.x,y:s.y,width:s.width,height:s.height}},n.querySelector(".mermaid-fullscreen-content").appendChild(t),document.body.appendChild(n),n.style.display="block";let a=!1,r=0,c=0,l=0,d=0;t.addEventListener("mousedown",function(e){a=!0,r=e.clientX,c=e.clientY,l=t.zoomState.translateX,d=t.zoomState.translateY}),document.addEventListener("mousemove",function(e){if(a&&t.zoomState){const n=e.clientX-r,s=e.clientY-c;t.zoomState.translateX=l+n,t.zoomState.translateY=d+s,o(t)}}),document.addEventListener("mouseup",function(){a=!1}),t.addEventListener("wheel",function(e){e.preventDefault();const n=e.deltaY>0?.9:1.1;t.zoomState.scale=Math.max(.1,Math.min(5,t.zoomState.scale*n)),o(t)});const u=function(e){e.key==="Escape"&&(closeMermaidFullscreen(),document.removeEventListener("keydown",u))};document.addEventListener("keydown",u),n.addEventListener("click",function(e){e.target===n&&closeMermaidFullscreen()})},window.closeMermaidFullscreen=function(){const e=document.querySelector(".mermaid-fullscreen-modal");e&&e.remove()},n.addEventListener("wheel",function(e){e.preventDefault();const t=e.deltaY>0?.9:1.1;n.zoomState.scale=Math.max(.1,Math.min(5,n.zoomState.scale*t)),o()})})}let n=0;const s=10;function e(){t(),n++;const o=document.querySelectorAll(".mermaid svg:not([data-mermaid-initialized])");o.length>0&&n<s&&setTimeout(e,200)}if(typeof mermaid!="undefined"){const n=document.querySelectorAll(".mermaid");n.length>0&&mermaid.run({nodes:n}).then(()=>{setTimeout(t,100)}).catch(t=>{console.error("Mermaid rendering failed:",t),setTimeout(e,500)})}else setTimeout(e,500)})</script></body></html>

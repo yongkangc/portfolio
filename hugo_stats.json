@@ -45,7 +45,6 @@
       "video"
     ],
     "classes": [
-      "active",
       "article-card",
       "article-card-content",
       "article-card-header",
@@ -74,10 +73,8 @@
       "fa-external-link-alt",
       "fa-filter",
       "fa-github",
-      "fa-list",
       "fa-medium",
       "fa-search",
-      "fa-th",
       "fa-times",
       "fa-twitter",
       "fab",
@@ -121,9 +118,7 @@
       "tag-filters",
       "text-center",
       "toggle-text",
-      "total-articles",
-      "view-controls",
-      "view-toggle"
+      "total-articles"
     ],
     "ids": [
       "1-the-core-arbitrage-strategy-funding-rate-arbitrage",
