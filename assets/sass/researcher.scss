@@ -2,24 +2,27 @@
 $max-width: {{ .Param "style.pageWidth" | default "750px;" }};
 $avatar-size: {{ .Param "style.avatarSize" | default "90px;" }};
 
-// --- CSS Color Variables for Theming ---
+// --- Modern Minimalist Color Scheme ---
 :root {
-  --background: #121212;
-  --text: #e5e5e5;
-  --subtle-gray: #999999;
-  --accent: #0a84ff;
-  --accent-bg: rgba(10, 132, 255, 0.1);
-  --border-color: #333333;
-  --code-bg: #1e1e1e;
-  --header-bg: rgba(18, 18, 18, 0.85);
+  --background: #0a0a0a;
+  --text: #d4d4d4;
+  --text-secondary: #a1a1a1;
+  --subtle-gray: #888888;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-bg: rgba(59, 130, 246, 0.1);
+  --border-color: #262626;
+  --code-bg: #111111;
+  --code-border: #1f1f1f;
+  --header-bg: rgba(10, 10, 10, 0.9);
 }
 
-// Enhanced Font Stack - Better readability and modern feel
-$font-family: {{ .Param "style.fontFamily" | default "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }};
-$heading-font-family: {{ .Param "style.headingFontFamily" | default "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }};
-$mono-font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-$font-size: {{ .Param "style.fontSize" | default "17px" }};
-$line-height: 1.7;
+// Modern minimalist font stack inspired by technical blogs
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+$heading-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+$mono-font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+$font-size: 16px;
+$line-height: 1.75;
 
 // Enhanced spacing variables
 $y-small: 0.75rem;
@@ -27,16 +30,19 @@ $y-medium: 1.25rem;
 $y-large: 2rem;
 $y-xl: 3rem;
 
-// Global Style Overrides
+// Global Style Overrides - Clean and modern
 body {
     background-color: var(--background);
     color: var(--text);
     font-family: $font-family;
     font-size: $font-size;
     line-height: $line-height;
+    font-weight: 400;
+    letter-spacing: -0.011em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
@@ -138,14 +144,18 @@ body {
     }
     
     h1 { 
-        font-size: 2.5rem; 
-        font-weight: 700;
-        letter-spacing: -0.02em;
+        font-size: 2.25rem; 
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
     }
     h2 { 
-        font-size: 2rem; 
-        font-weight: 700;
-        letter-spacing: -0.015em;
+        font-size: 1.75rem; 
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin-top: 2rem;
+        margin-bottom: 0.875rem;
     }
     h3 { 
         font-size: 1.5rem; 
@@ -246,30 +256,72 @@ body {
         }
     }
     
-    // Enhanced inline code styling
+    // Modern inline code styling
     code {
         font-family: $mono-font-family;
-        background-color: var(--code-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-        color: var(--text);
-        font-size: 0.875em;
-        padding: 0.2em 0.4em;
-        font-weight: 500;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 3px;
+        color: #e2e8f0;
+        font-size: 0.85em;
+        padding: 0.125em 0.25em;
+        font-weight: 400;
+        white-space: nowrap;
     }
 
-    // Enhanced code block styling
+    // Modern code block styling
     .highlight {
-        border-radius: 8px;
-        margin: $y-large 0;
-        font-size: 0.875em;
-        overflow-x: auto;
+        background-color: var(--code-bg);
+        border: 1px solid var(--code-border);
+        border-radius: 6px;
+        margin: 1.5rem 0;
+        overflow: hidden;
         
-        & > pre {
-            padding: 1.25rem;
-            border-radius: 8px;
+        pre {
             margin: 0;
-            line-height: 1.5;
+            padding: 1rem;
+            overflow-x: auto;
+            background-color: transparent !important;
+            
+            code {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                font-size: 0.875rem;
+                line-height: 1.6;
+                white-space: pre;
+                color: #e2e8f0;
+            }
+        }
+        
+        // Line numbers styling
+        .lntable {
+            width: 100%;
+            border-spacing: 0;
+            
+            .lntd:first-child {
+                width: auto;
+                padding-right: 0.5rem;
+                
+                pre {
+                    margin: 0;
+                    padding: 1rem 0 1rem 1rem;
+                }
+                
+                .lnt, .ln {
+                    color: #4a5568;
+                    user-select: none;
+                }
+            }
+            
+            .lntd:last-child {
+                width: 100%;
+                padding-left: 0;
+                
+                pre {
+                    padding-left: 0.5rem;
+                }
+            }
         }
     }
     

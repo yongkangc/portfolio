@@ -3,7 +3,7 @@
   font-size: 12pt;
 }
 
-/* Styles for articles list page */
+/* Legacy article-item styles kept for compatibility */
 .article-item {
   margin-bottom: 3rem;
   padding: 1.5rem 0;
@@ -184,4 +184,151 @@ figure figcaption h4 {
 .mermaid {
   margin: 1rem 0;
   text-align: center;
+}
+
+/* Enhanced Code Block Styling */
+.highlight {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #444;
+}
+
+/* Code block header with language label */
+.highlight::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #6272a4, #44475a);
+  color: #f8f8f2;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom-left-radius: 8px;
+  z-index: 2;
+}
+
+/* Hide label for generic code blocks */
+.highlight[data-lang=""],
+.highlight[data-lang="code"],
+.highlight[data-lang="CODE"] {
+}
+
+.highlight[data-lang=""]::before,
+.highlight[data-lang="code"]::before,
+.highlight[data-lang="CODE"]::before {
+  display: none;
+}
+
+.highlight pre {
+  margin: 0;
+  padding: 1.5rem;
+  padding-top: 2.5rem;
+  background-color: #282a36;
+  color: #f8f8f2;
+  overflow-x: auto;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+/* Copy button styling */
+.code-copy-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(68, 71, 90, 0.9);
+  border: 1px solid #6272a4;
+  color: #f8f8f2;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.code-copy-btn:hover {
+  background: rgba(98, 114, 164, 0.9);
+  border-color: #8be9fd;
+  transform: translateY(-1px);
+}
+
+.code-copy-btn.copied {
+  background: rgba(80, 250, 123, 0.2);
+  border-color: #50fa7b;
+  color: #50fa7b;
+}
+
+.code-copy-btn i {
+  font-size: 0.75rem;
+}
+
+/* Inline code improvements */
+code:not(.chroma code) {
+  background-color: #44475a;
+  color: #f8f8f2;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  border: 1px solid #6272a4;
+  font-weight: 500;
+}
+
+/* Line number improvements */
+.chroma .lnt, .chroma .ln {
+  color: #6272a4;
+  user-select: none;
+  padding-right: 1rem;
+  border-right: 1px solid #44475a;
+  margin-right: 1rem;
+}
+
+/* Scrollbar styling for code blocks */
+.highlight pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.highlight pre::-webkit-scrollbar-track {
+  background: #44475a;
+  border-radius: 4px;
+}
+
+.highlight pre::-webkit-scrollbar-thumb {
+  background: #6272a4;
+  border-radius: 4px;
+}
+
+.highlight pre::-webkit-scrollbar-thumb:hover {
+  background: #8be9fd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .highlight pre {
+    padding: 1rem;
+    padding-top: 2.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .code-copy-btn {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.4rem;
+    font-size: 0.7rem;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
 }

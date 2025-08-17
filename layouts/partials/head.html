@@ -35,6 +35,7 @@
     referrerpolicy="no-referrer"
   />
   <link rel="stylesheet" href="{{ "css/syntax.css" | relURL }}" />
+  <link rel="stylesheet" href="{{ "css/typography.css" | relURL }}" />
   <link rel="stylesheet" href="{{ "css/custom.css" | relURL }}" />
   <link rel="stylesheet" href="{{ "css/articles-filter.css" | relURL }}" />
   {{ $style := resources.Get "sass/researcher.scss" | resources.ExecuteAsTemplate "sass/researcher.scss" . | toCSS | minify -}}
