@@ -250,6 +250,11 @@
 
     // Close mobile filter on outside click
     document.addEventListener('click', (e) => {
+      // Don't interfere with navbar toggle
+      if (e.target.closest('.navbar-toggler') || e.target.closest('.navbar-collapse')) {
+        return;
+      }
+      
       if (window.innerWidth <= 768 && 
           elements.filterPanel.classList.contains('active') &&
           !elements.filterPanel.contains(e.target) &&
