@@ -24,6 +24,10 @@ hugo server --bind 0.0.0.0 --port 1313 --buildDrafts --buildFuture
 
 # Or manually
 hugo --minify
+
+# IMPORTANT: Always commit and push after successful compilation
+# This ensures all changes are tracked and deployed to production
+git add -A && git commit -m "descriptive commit message" && git push origin main
 ```
 
 ### Prerequisites
