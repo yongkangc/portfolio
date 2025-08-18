@@ -1,21 +1,797 @@
-<!doctype html><html lang><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>There are just too many AI Frameworks</title><meta name=description content="Blockchain Engineer"><meta name=author content="Chia Yong Kang"><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=/css/syntax.css><link rel=stylesheet href=/css/typography.css><link rel=stylesheet href=/css/article-navigation.css><link rel=stylesheet href=/css/custom.css><link rel=stylesheet href=/css/articles-filter.css><link rel=stylesheet href=/css/mobile-nav-fix.css><link rel=stylesheet href=/sass/researcher.min.css><link rel=icon type=image/ico href=https://chiayong.com/crab.svg><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-D5HBRC62LK")}</script></head><body><div class="container-fluid site-header"><nav class="navbar navbar-expand-lg navbar-light"><div class=navbar-brand-wrapper><a class=navbar-brand href=https://chiayong.com/>Chia Yong Kang</a>
-<span class=navbar-tagline>Blockchain Engineer</span></div><button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNav aria-controls=navbarNav aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNav><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://chiayong.com/>About</a></li><li class=nav-item><a class=nav-link href=https://chiayong.com/articles>Articles</a></li><li class=nav-item><a class=nav-link href=https://chiayong.com/contact>Contact</a></li></ul></div></nav></div><div class=main-content><div id=content><div class=container><div class=single><div class=article-navigation><a href=/articles/ class=back-to-articles><i class="fas fa-arrow-left"></i>
-<span>Back to Articles</span></a></div><div class=single-header><h1 class=single-title>There are just too many AI Frameworks</h1><div class=single-meta><span class=single-date>December 1, 2024</span><div class=single-tags><span class=single-tag>AI</span>
-<span class=single-tag>Frameworks</span>
-<span class=single-tag>Software Development</span>
-<span class=single-tag>Technology</span></div></div></div><div class=article-content><h1 id=there-are-just-too-many-ai-frameworks>There are just too many AI Frameworks</h1><p><em>Originally published on <a href=https://extremelysunnyyk.medium.com/>Medium</a></em></p><p>We&rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.</p><h2 id=the-current-state-of-ai-framework-proliferation>The Current State of AI Framework Proliferation</h2><p>Walk into any AI conference, scroll through GitHub&rsquo;s trending repositories, or browse through the latest tech newsletters, and you&rsquo;ll be bombarded with a dizzying array of AI frameworks, each promising to be the solution to your machine learning problems.</p><p>We have:</p><ul><li><strong>Training frameworks</strong>: TensorFlow, PyTorch, JAX, MXNet, PaddlePaddle</li><li><strong>Inference frameworks</strong>: ONNX Runtime, TensorRT, OpenVINO, TensorFlow Lite</li><li><strong>MLOps frameworks</strong>: MLflow, Kubeflow, Metaflow, DVC, Weights & Biases</li><li><strong>AutoML frameworks</strong>: AutoKeras, H2O.ai, AutoML-Zero, NNI</li><li><strong>Specialized frameworks</strong>: Hugging Face Transformers, spaCy, OpenCV, scikit-learn</li><li><strong>End-to-end platforms</strong>: SageMaker, Vertex AI, Azure ML, Databricks</li></ul><p>And this is just scratching the surface. Each week brings new frameworks, new abstractions, and new promises of simplification.</p><h2 id=the-problem-with-choice-overload>The Problem with Choice Overload</h2><h3 id=decision-paralysis>Decision Paralysis</h3><p>When faced with dozens of viable options, developers spend more time evaluating frameworks than actually building solutions. The cognitive load of understanding the trade-offs between frameworks can be overwhelming, especially for teams new to AI.</p><h3 id=ecosystem-fragmentation>Ecosystem Fragmentation</h3><p>Unlike mature ecosystems where standards have emerged, the AI space remains highly fragmented. A model trained in one framework might not easily transfer to another. Libraries and tools often lock you into specific ecosystems, making it difficult to adopt best-of-breed solutions.</p><h3 id=learning-curve-multiplication>Learning Curve Multiplication</h3><p>Each framework comes with its own paradigms, APIs, and mental models. A developer might need to learn TensorFlow for training, ONNX for deployment, MLflow for experiment tracking, and Kubeflow for orchestration — each with its own learning curve.</p><h3 id=integration-complexity>Integration Complexity</h3><p>Real-world AI systems rarely use a single framework. Integrating multiple frameworks often requires writing substantial amounts of glue code, dealing with format conversions, and managing compatibility issues between versions.</p><h2 id=why-this-proliferation-happened>Why This Proliferation Happened</h2><h3 id=legitimate-technical-needs>Legitimate Technical Needs</h3><p>Different use cases genuinely require different approaches. Research environments need flexibility (PyTorch), production systems need optimization (TensorRT), and edge devices need efficiency (TensorFlow Lite). The technical diversity isn&rsquo;t entirely unnecessary.</p><h3 id=competitive-differentiation>Competitive Differentiation</h3><p>Every major tech company wants their own AI framework. Google has TensorFlow, Facebook has PyTorch, Microsoft has ONNX, Amazon has SageMaker. Competition drives innovation but also fragmentation.</p><h3 id=academic-research-culture>Academic Research Culture</h3><p>Academic institutions produce new frameworks as part of research output. While this drives innovation, it also means many frameworks are created to demonstrate concepts rather than solve production problems.</p><h3 id=open-source-momentum>Open Source Momentum</h3><p>The low barrier to entry for creating and distributing frameworks means that every novel approach can quickly become a new framework, regardless of whether the ecosystem needs it.</p><h2 id=the-hidden-costs-of-framework-proliferation>The Hidden Costs of Framework Proliferation</h2><h3 id=technical-debt>Technical Debt</h3><p>Teams often start with one framework and gradually add others to solve specific problems. Over time, this creates a complex web of dependencies that becomes increasingly difficult to maintain and update.</p><h3 id=talent-acquisition-challenges>Talent Acquisition Challenges</h3><p>When job descriptions list requirements for 5-10 different AI frameworks, the talent pool shrinks dramatically. Companies end up hiring specialists in specific frameworks rather than generalists who understand underlying principles.</p><h3 id=vendor-lock-in>Vendor Lock-in</h3><p>Despite being &ldquo;open source,&rdquo; many frameworks create subtle forms of vendor lock-in through cloud integrations, proprietary optimizations, or ecosystem dependencies that make switching costly.</p><h3 id=performance-overhead>Performance Overhead</h3><p>Using multiple frameworks in a single system often means loading multiple runtime environments, dealing with data serialization between systems, and accepting performance penalties for abstraction layers.</p><h2 id=lessons-from-other-technology-cycles>Lessons from Other Technology Cycles</h2><h3 id=the-javascript-framework-wars>The JavaScript Framework Wars</h3><p>The JavaScript ecosystem went through a similar phase with frameworks like Angular, React, Vue, Ember, Backbone, and dozens of others. Eventually, the ecosystem consolidated around a few dominant players, with React and Angular capturing most of the market share.</p><h3 id=the-database-renaissance>The Database Renaissance</h3><p>The NoSQL movement spawned hundreds of database solutions, each optimized for specific use cases. While some specialization remains valuable, the market has largely consolidated around a few major players (MongoDB, Cassandra, Redis) for most use cases.</p><h3 id=the-container-orchestration-battle>The Container Orchestration Battle</h3><p>Kubernetes emerged as the winner from a field that included Docker Swarm, Mesos, Nomad, and others. The consolidation brought stability and standardization to the ecosystem.</p><h2 id=what-the-ai-ecosystem-needs>What the AI Ecosystem Needs</h2><h3 id=standardization>Standardization</h3><p>We need more emphasis on interoperability standards like ONNX, which allows models to move between frameworks. Standards reduce the risk of framework lock-in and make it easier to adopt best-of-breed tools.</p><h3 id=consolidation-through-acquisition>Consolidation Through Acquisition</h3><p>Many smaller, specialized frameworks should be absorbed into larger ecosystems rather than maintaining independent existence. This would reduce fragmentation while preserving innovation.</p><h3 id=clear-use-case-differentiation>Clear Use Case Differentiation</h3><p>Instead of general-purpose frameworks competing on all dimensions, we need clear differentiation based on use cases: research vs. production, cloud vs. edge, specific domains like NLP or computer vision.</p><h3 id=better-abstraction-layers>Better Abstraction Layers</h3><p>High-level APIs that can work across multiple underlying frameworks would reduce the learning curve and switching costs. Projects like Keras (for TensorFlow/Theano) show how abstraction can simplify the ecosystem.</p><h2 id=the-path-forward>The Path Forward</h2><h3 id=for-individual-developers>For Individual Developers</h3><ul><li>Focus on learning underlying principles rather than framework-specific APIs</li><li>Choose frameworks based on long-term ecosystem health, not just features</li><li>Invest in tools and skills that work across multiple frameworks</li><li>Resist the urge to adopt every new framework that emerges</li></ul><h3 id=for-companies>For Companies</h3><ul><li>Standardize on a minimal set of frameworks across the organization</li><li>Invest in internal tooling that abstracts away framework-specific details</li><li>Consider total cost of ownership, including training and maintenance, when choosing frameworks</li><li>Contribute to open standards rather than building proprietary solutions</li></ul><h3 id=for-the-community>For the Community</h3><ul><li>Support interoperability standards and tools</li><li>Encourage consolidation through collaboration rather than competition</li><li>Focus on solving real problems rather than creating new abstractions</li><li>Document clear migration paths between frameworks</li></ul><h2 id=conclusion>Conclusion</h2><p>The proliferation of AI frameworks is a natural part of a rapidly evolving field, but we&rsquo;re reaching a point where the costs outweigh the benefits. Just as other technology ecosystems have matured through consolidation and standardization, the AI ecosystem needs to evolve beyond the current state of fragmentation.</p><p>The goal isn&rsquo;t to stifle innovation or reduce technical diversity, but to create a more sustainable ecosystem where developers can focus on solving problems rather than navigating framework complexity. This will require conscious effort from individuals, companies, and the broader community to prioritize interoperability, standardization, and consolidation over novelty and differentiation.</p><p>The future of AI development depends not just on better algorithms and more powerful hardware, but on creating development environments that enable rather than hinder progress. It&rsquo;s time to acknowledge that sometimes, less choice leads to more innovation.</p><hr><p><em>What do you think? Have you experienced framework fatigue in your AI projects? Share your thoughts on <a href=https://twitter.com/>Twitter</a> or connect with me on <a href=https://linkedin.com/in/chiayongkang>LinkedIn</a>.</em></p></div></div></div></div></div><div id=footer class=mb-5><hr><div class="container text-center"><a href=https://twitter.com/ class="fab fa-twitter fa-1x" title=Twitter></a><a href=mailto:chiayongkang@hotmail.com class="fas fa-envelope fa-1x" title=E-mail></a><a href=https://github.com/yongkangc class="fab fa-github fa-1x" title=Github></a></div><div class="container text-center"><a href=https://chiayong.com/chiayong.com title="Yong Kang"><small>Yong Kang</small></a></div></div><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=/js/code-copy.js></script><script src=https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js></script><style>.mermaid-container{position:relative;margin:2rem 0;background-color:var(--code-bg);border:1px solid var(--border-color);border-radius:8px;padding:1rem;overflow:visible;box-sizing:border-box;contain:layout}.mermaid-controls{position:absolute;top:10px;right:10px;z-index:100;display:flex;gap:4px;opacity:.8;transition:opacity .2s ease}.mermaid-container:hover .mermaid-controls{opacity:1}.mermaid-btn{background:var(--background);border:1px solid var(--border-color);color:var(--text);padding:6px 10px;border-radius:4px;font-size:12px;cursor:pointer;transition:all .2s ease;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif}.mermaid-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}.mermaid-fullscreen-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:9999;padding:2rem;box-sizing:border-box}.mermaid-fullscreen-content{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--code-bg);border-radius:8px;overflow:hidden}.mermaid-fullscreen-controls{position:absolute;top:15px;right:15px;z-index:1000;display:flex;gap:8px}.mermaid-fullscreen-btn{background:var(--background);border:1px solid var(--border-color);color:var(--text);padding:8px 12px;border-radius:4px;font-size:14px;cursor:pointer;transition:all .2s ease;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif}.mermaid-fullscreen-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}.mermaid-close-btn{background:#dc3545;border-color:#dc3545;color:#fff}.mermaid-close-btn:hover{background:#c82333;border-color:#c82333}.mermaid{display:flex;justify-content:center;align-items:center;min-height:200px}.mermaid svg{max-width:100%;height:auto;background:0 0 !important;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif !important;transform-origin:center center !important;shape-rendering:geometricPrecision !important;text-rendering:geometricPrecision !important}.mermaid svg text,.mermaid svg tspan,.mermaid svg foreignobject,.mermaid svg foreignobject div,.mermaid svg .nodeLabel,.mermaid svg .edgeLabel,.mermaid svg .cluster-label,.mermaid svg .titleText{font-family:-apple-system,BlinkMacSystemFont,segoe ui,Roboto,sans-serif !important;font-size:14px !important;font-weight:400 !important;line-height:1.2 !important;color:#e5e5e5 !important;fill:#e5e5e5 !important;text-anchor:middle !important;vector-effect:non-scaling-stroke !important}.mermaid svg .titleText{font-size:16px !important;font-weight:600 !important}.mermaid svg .cluster-label{font-size:12px !important;font-weight:500 !important}.mermaid svg path,.mermaid svg line,.mermaid svg polyline{stroke:#888 !important;stroke-width:2px !important;vector-effect:non-scaling-stroke !important}.mermaid svg marker path{fill:#888 !important;vector-effect:non-scaling-stroke !important}.mermaid svg .edgeLabel{background-color:var(--code-bg) !important;color:var(--text) !important}.mermaid svg *{box-sizing:content-box !important}.mermaid svg .node rect,.mermaid svg .node circle,.mermaid svg .node ellipse,.mermaid svg .node polygon{fill:#2a2a2a !important;stroke:#555 !important;stroke-width:2px !important;vector-effect:non-scaling-stroke !important}.mermaid-fullscreen-content svg{cursor:grab;user-select:none}.mermaid-fullscreen-content svg:active{cursor:grabbing}</style><script>document.addEventListener("DOMContentLoaded",function(){mermaid.initialize({startOnLoad:!0,theme:"dark"});function t(){document.querySelectorAll(".mermaid").forEach(function(e,t){const n=e.querySelector("svg");if(!n)return;if(n.hasAttribute("data-mermaid-initialized"))return;n.setAttribute("data-mermaid-initialized","true");const a=document.createElement("div");a.className="mermaid-container",e.parentNode.insertBefore(a,e),a.appendChild(e);const i="mermaid-diagram-"+t;n.id=i;const r=document.createElement("div");r.className="mermaid-controls",r.innerHTML=`
-          <button class="mermaid-btn" onclick="zoomMermaidIn('${i}')">+</button>
-          <button class="mermaid-btn" onclick="zoomMermaidOut('${i}')">−</button>
-          <button class="mermaid-btn" onclick="resetMermaidZoom('${i}')">Reset</button>
-          <button class="mermaid-btn" onclick="openMermaidFullscreen('${i}')">⛶</button>
-        `,a.appendChild(r);let s;try{s=n.viewBox.baseVal}catch(e){console.warn("Could not access viewBox:",e);return}if(!s||s.width===0)try{const e=n.getBBox();if(e.width>0&&e.height>0){n.setAttribute("viewBox",`${e.x} ${e.y} ${e.width} ${e.height}`);const t=n.viewBox.baseVal;n.zoomState={scale:1,translateX:0,translateY:0,originalViewBox:{x:t.x,y:t.y,width:t.width,height:t.height}}}else{console.warn("Invalid bounding box for SVG");return}}catch(e){console.warn("Could not get bounding box:",e);return}else n.zoomState={scale:1,translateX:0,translateY:0,originalViewBox:{x:s.x,y:s.y,width:s.width,height:s.height}};function o(e=n){const t=e.zoomState||{scale:1,translateX:0,translateY:0,originalViewBox:{x:s.x,y:s.y,width:s.width,height:s.height}},o=t.originalViewBox.width/t.scale,i=t.originalViewBox.height/t.scale,a=-t.translateX/t.scale,r=-t.translateY/t.scale,c=t.originalViewBox.x+a,l=t.originalViewBox.y+r;e.setAttribute("viewBox",`${c} ${l} ${o} ${i}`)}window.zoomMermaidIn=function(e){const t=document.getElementById(e);t&&t.zoomState&&(t.zoomState.scale=Math.min(t.zoomState.scale*1.2,5),o(t))},window.zoomMermaidOut=function(e){const t=document.getElementById(e);t&&t.zoomState&&(t.zoomState.scale=Math.max(t.zoomState.scale/1.2,.1),o(t))},window.resetMermaidZoom=function(e){const t=document.getElementById(e);t&&t.zoomState&&(t.zoomState.scale=1,t.zoomState.translateX=0,t.zoomState.translateY=0,o(t))},window.openMermaidFullscreen=function(e){const i=document.getElementById(e);if(!i)return;const n=document.createElement("div");n.className="mermaid-fullscreen-modal",n.innerHTML=`
+<!DOCTYPE html>
+<html lang=""><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  <title>There are just too many AI Frameworks</title>
+  <meta name="description" content="Blockchain Engineer" />
+  <meta name="author" content="Chia Yong Kang" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+    integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.3/css/academicons.min.css"
+    integrity="sha512-vaoopdl+FJahyY2ddhsbDj8yDiRuyUYH/vIjF3z+cBg0sKc07NAQmUYli8volCGlW9OwlQyjVsr7Lh6qAManlw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="/css/syntax.css" />
+  <link rel="stylesheet" href="/css/typography.css" />
+  <link rel="stylesheet" href="/css/article-navigation.css" />
+  <link rel="stylesheet" href="/css/custom.css" />
+  <link rel="stylesheet" href="/css/articles-filter.css" />
+  <link rel="stylesheet" href="/css/mobile-nav-fix.css" />
+  <link rel="stylesheet" href="/sass/researcher.min.css" />
+
+  <link rel="icon" type="image/ico" href="http://localhost:1313/crab.svg" />
+   
+</head>
+
+  <body><div class="container-fluid site-header">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="navbar-brand-wrapper">
+      <a class="navbar-brand" href="http://localhost:1313/">Chia Yong Kang</a>
+      <span class="navbar-tagline">Blockchain Engineer</span>
+    </div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:1313/">About</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:1313/articles">Articles</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:1313/contact">Contact</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="main-content">
+      <div id="content">
+<div class="container">
+  <div class="single">
+    <div class="article-navigation">
+      <a href="/articles/" class="back-to-articles">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Articles</span>
+      </a>
+    </div>
+    <div class="single-header">
+      <h1 class="single-title">There are just too many AI Frameworks</h1>
+      <div class="single-meta">
+        <span class="single-date"> December 1, 2024 </span>
+        
+        <div class="single-tags">
+          
+          <span class="single-tag">AI</span>
+          
+          <span class="single-tag">Frameworks</span>
+          
+          <span class="single-tag">Software Development</span>
+          
+          <span class="single-tag">Technology</span>
+          
+        </div>
+        
+      </div>
+    </div>
+    <div class="article-content"><h1 id="there-are-just-too-many-ai-frameworks">There are just too many AI Frameworks</h1>
+<p><em>Originally published on <a href="https://extremelysunnyyk.medium.com/">Medium</a></em></p>
+<p>We&rsquo;ve all been here before. A new technology emerges, frameworks proliferate to make it accessible, and eventually, we hit the ceiling of complexity and fragmentation. The AI ecosystem today feels eerily similar to the early days of JavaScript frameworks or the explosion of NoSQL databases — too many choices, too little consolidation, and a growing sense that we might be making things harder, not easier.</p>
+<h2 id="the-current-state-of-ai-framework-proliferation">The Current State of AI Framework Proliferation</h2>
+<p>Walk into any AI conference, scroll through GitHub&rsquo;s trending repositories, or browse through the latest tech newsletters, and you&rsquo;ll be bombarded with a dizzying array of AI frameworks, each promising to be the solution to your machine learning problems.</p>
+<p>We have:</p>
+<ul>
+<li><strong>Training frameworks</strong>: TensorFlow, PyTorch, JAX, MXNet, PaddlePaddle</li>
+<li><strong>Inference frameworks</strong>: ONNX Runtime, TensorRT, OpenVINO, TensorFlow Lite</li>
+<li><strong>MLOps frameworks</strong>: MLflow, Kubeflow, Metaflow, DVC, Weights &amp; Biases</li>
+<li><strong>AutoML frameworks</strong>: AutoKeras, H2O.ai, AutoML-Zero, NNI</li>
+<li><strong>Specialized frameworks</strong>: Hugging Face Transformers, spaCy, OpenCV, scikit-learn</li>
+<li><strong>End-to-end platforms</strong>: SageMaker, Vertex AI, Azure ML, Databricks</li>
+</ul>
+<p>And this is just scratching the surface. Each week brings new frameworks, new abstractions, and new promises of simplification.</p>
+<h2 id="the-problem-with-choice-overload">The Problem with Choice Overload</h2>
+<h3 id="decision-paralysis">Decision Paralysis</h3>
+<p>When faced with dozens of viable options, developers spend more time evaluating frameworks than actually building solutions. The cognitive load of understanding the trade-offs between frameworks can be overwhelming, especially for teams new to AI.</p>
+<h3 id="ecosystem-fragmentation">Ecosystem Fragmentation</h3>
+<p>Unlike mature ecosystems where standards have emerged, the AI space remains highly fragmented. A model trained in one framework might not easily transfer to another. Libraries and tools often lock you into specific ecosystems, making it difficult to adopt best-of-breed solutions.</p>
+<h3 id="learning-curve-multiplication">Learning Curve Multiplication</h3>
+<p>Each framework comes with its own paradigms, APIs, and mental models. A developer might need to learn TensorFlow for training, ONNX for deployment, MLflow for experiment tracking, and Kubeflow for orchestration — each with its own learning curve.</p>
+<h3 id="integration-complexity">Integration Complexity</h3>
+<p>Real-world AI systems rarely use a single framework. Integrating multiple frameworks often requires writing substantial amounts of glue code, dealing with format conversions, and managing compatibility issues between versions.</p>
+<h2 id="why-this-proliferation-happened">Why This Proliferation Happened</h2>
+<h3 id="legitimate-technical-needs">Legitimate Technical Needs</h3>
+<p>Different use cases genuinely require different approaches. Research environments need flexibility (PyTorch), production systems need optimization (TensorRT), and edge devices need efficiency (TensorFlow Lite). The technical diversity isn&rsquo;t entirely unnecessary.</p>
+<h3 id="competitive-differentiation">Competitive Differentiation</h3>
+<p>Every major tech company wants their own AI framework. Google has TensorFlow, Facebook has PyTorch, Microsoft has ONNX, Amazon has SageMaker. Competition drives innovation but also fragmentation.</p>
+<h3 id="academic-research-culture">Academic Research Culture</h3>
+<p>Academic institutions produce new frameworks as part of research output. While this drives innovation, it also means many frameworks are created to demonstrate concepts rather than solve production problems.</p>
+<h3 id="open-source-momentum">Open Source Momentum</h3>
+<p>The low barrier to entry for creating and distributing frameworks means that every novel approach can quickly become a new framework, regardless of whether the ecosystem needs it.</p>
+<h2 id="the-hidden-costs-of-framework-proliferation">The Hidden Costs of Framework Proliferation</h2>
+<h3 id="technical-debt">Technical Debt</h3>
+<p>Teams often start with one framework and gradually add others to solve specific problems. Over time, this creates a complex web of dependencies that becomes increasingly difficult to maintain and update.</p>
+<h3 id="talent-acquisition-challenges">Talent Acquisition Challenges</h3>
+<p>When job descriptions list requirements for 5-10 different AI frameworks, the talent pool shrinks dramatically. Companies end up hiring specialists in specific frameworks rather than generalists who understand underlying principles.</p>
+<h3 id="vendor-lock-in">Vendor Lock-in</h3>
+<p>Despite being &ldquo;open source,&rdquo; many frameworks create subtle forms of vendor lock-in through cloud integrations, proprietary optimizations, or ecosystem dependencies that make switching costly.</p>
+<h3 id="performance-overhead">Performance Overhead</h3>
+<p>Using multiple frameworks in a single system often means loading multiple runtime environments, dealing with data serialization between systems, and accepting performance penalties for abstraction layers.</p>
+<h2 id="lessons-from-other-technology-cycles">Lessons from Other Technology Cycles</h2>
+<h3 id="the-javascript-framework-wars">The JavaScript Framework Wars</h3>
+<p>The JavaScript ecosystem went through a similar phase with frameworks like Angular, React, Vue, Ember, Backbone, and dozens of others. Eventually, the ecosystem consolidated around a few dominant players, with React and Angular capturing most of the market share.</p>
+<h3 id="the-database-renaissance">The Database Renaissance</h3>
+<p>The NoSQL movement spawned hundreds of database solutions, each optimized for specific use cases. While some specialization remains valuable, the market has largely consolidated around a few major players (MongoDB, Cassandra, Redis) for most use cases.</p>
+<h3 id="the-container-orchestration-battle">The Container Orchestration Battle</h3>
+<p>Kubernetes emerged as the winner from a field that included Docker Swarm, Mesos, Nomad, and others. The consolidation brought stability and standardization to the ecosystem.</p>
+<h2 id="what-the-ai-ecosystem-needs">What the AI Ecosystem Needs</h2>
+<h3 id="standardization">Standardization</h3>
+<p>We need more emphasis on interoperability standards like ONNX, which allows models to move between frameworks. Standards reduce the risk of framework lock-in and make it easier to adopt best-of-breed tools.</p>
+<h3 id="consolidation-through-acquisition">Consolidation Through Acquisition</h3>
+<p>Many smaller, specialized frameworks should be absorbed into larger ecosystems rather than maintaining independent existence. This would reduce fragmentation while preserving innovation.</p>
+<h3 id="clear-use-case-differentiation">Clear Use Case Differentiation</h3>
+<p>Instead of general-purpose frameworks competing on all dimensions, we need clear differentiation based on use cases: research vs. production, cloud vs. edge, specific domains like NLP or computer vision.</p>
+<h3 id="better-abstraction-layers">Better Abstraction Layers</h3>
+<p>High-level APIs that can work across multiple underlying frameworks would reduce the learning curve and switching costs. Projects like Keras (for TensorFlow/Theano) show how abstraction can simplify the ecosystem.</p>
+<h2 id="the-path-forward">The Path Forward</h2>
+<h3 id="for-individual-developers">For Individual Developers</h3>
+<ul>
+<li>Focus on learning underlying principles rather than framework-specific APIs</li>
+<li>Choose frameworks based on long-term ecosystem health, not just features</li>
+<li>Invest in tools and skills that work across multiple frameworks</li>
+<li>Resist the urge to adopt every new framework that emerges</li>
+</ul>
+<h3 id="for-companies">For Companies</h3>
+<ul>
+<li>Standardize on a minimal set of frameworks across the organization</li>
+<li>Invest in internal tooling that abstracts away framework-specific details</li>
+<li>Consider total cost of ownership, including training and maintenance, when choosing frameworks</li>
+<li>Contribute to open standards rather than building proprietary solutions</li>
+</ul>
+<h3 id="for-the-community">For the Community</h3>
+<ul>
+<li>Support interoperability standards and tools</li>
+<li>Encourage consolidation through collaboration rather than competition</li>
+<li>Focus on solving real problems rather than creating new abstractions</li>
+<li>Document clear migration paths between frameworks</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>The proliferation of AI frameworks is a natural part of a rapidly evolving field, but we&rsquo;re reaching a point where the costs outweigh the benefits. Just as other technology ecosystems have matured through consolidation and standardization, the AI ecosystem needs to evolve beyond the current state of fragmentation.</p>
+<p>The goal isn&rsquo;t to stifle innovation or reduce technical diversity, but to create a more sustainable ecosystem where developers can focus on solving problems rather than navigating framework complexity. This will require conscious effort from individuals, companies, and the broader community to prioritize interoperability, standardization, and consolidation over novelty and differentiation.</p>
+<p>The future of AI development depends not just on better algorithms and more powerful hardware, but on creating development environments that enable rather than hinder progress. It&rsquo;s time to acknowledge that sometimes, less choice leads to more innovation.</p>
+<hr>
+<p><em>What do you think? Have you experienced framework fatigue in your AI projects? Share your thoughts on <a href="https://twitter.com/">Twitter</a> or connect with me on <a href="https://linkedin.com/in/chiayongkang">LinkedIn</a>.</em></p>
+</div>
+  </div>
+</div>
+</div>
+    </div><div id="footer" class="mb-5">
+  <hr />
+  
+  <div class="container text-center">
+    
+    <a
+      href="https://twitter.com/"
+      class="fab fa-twitter fa-1x"
+      title="Twitter"
+    ></a>
+    
+    <a
+      href="mailto:chiayongkang@hotmail.com"
+      class="fas fa-envelope fa-1x"
+      title="E-mail"
+    ></a>
+    
+    <a
+      href="https://github.com/yongkangc"
+      class="fab fa-github fa-1x"
+      title="Github"
+    ></a>
+    
+  </div>
+   
+  <div class="container text-center">
+    <a
+      href="http://localhost:1313/chiayong.com"
+      title="Yong Kang"
+      
+      ><small>Yong Kang</small></a
+    >
+  </div>
+  
+</div>
+
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"
+      integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    
+    <script src="/js/code-copy.js"></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+
+<style>
+  .mermaid-container {
+    position: relative;
+    margin: 2rem 0;
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow: visible;
+     
+    box-sizing: border-box;
+    contain: layout;
+  }
+
+  .mermaid-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    display: flex;
+    gap: 4px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+
+  .mermaid-container:hover .mermaid-controls {
+    opacity: 1;
+  }
+
+  .mermaid-btn {
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+  }
+
+  .mermaid-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .mermaid-fullscreen-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .mermaid-fullscreen-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--code-bg);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .mermaid-fullscreen-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+  }
+
+  .mermaid-fullscreen-btn {
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+  }
+
+  .mermaid-fullscreen-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .mermaid-close-btn {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+  }
+
+  .mermaid-close-btn:hover {
+    background: #c82333;
+    border-color: #c82333;
+  }
+
+   
+  .mermaid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
+
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+    background: transparent !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif !important;
+     
+    transform-origin: center center !important;
+     
+    shape-rendering: geometricPrecision !important;
+    text-rendering: geometricPrecision !important;
+  }
+
+   
+  .mermaid svg text,
+  .mermaid svg tspan,
+  .mermaid svg foreignObject,
+  .mermaid svg foreignObject div,
+  .mermaid svg .nodeLabel,
+  .mermaid svg .edgeLabel,
+  .mermaid svg .cluster-label,
+  .mermaid svg .titleText {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    line-height: 1.2 !important;
+    color: #e5e5e5 !important;
+    fill: #e5e5e5 !important;
+    text-anchor: middle !important;
+     
+    vector-effect: non-scaling-stroke !important;
+  }
+
+   
+  .mermaid svg .titleText {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+  }
+
+  .mermaid svg .cluster-label {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+  }
+
+   
+  .mermaid svg path,
+  .mermaid svg line,
+  .mermaid svg polyline {
+    stroke: #888888 !important;
+    stroke-width: 2px !important;
+     
+    vector-effect: non-scaling-stroke !important;
+  }
+
+   
+  .mermaid svg marker path {
+    fill: #888888 !important;
+    vector-effect: non-scaling-stroke !important;
+  }
+
+  .mermaid svg .edgeLabel {
+    background-color: var(--code-bg) !important;
+    color: var(--text) !important;
+  }
+
+   
+  .mermaid svg * {
+    box-sizing: content-box !important;
+  }
+
+   
+  .mermaid svg .node rect,
+  .mermaid svg .node circle,
+  .mermaid svg .node ellipse,
+  .mermaid svg .node polygon {
+    fill: #2a2a2a !important;
+    stroke: #555555 !important;
+    stroke-width: 2px !important;
+    vector-effect: non-scaling-stroke !important;
+  }
+
+  .mermaid-fullscreen-content svg {
+    cursor: grab;
+    user-select: none;
+  }
+
+  .mermaid-fullscreen-content svg:active {
+    cursor: grabbing;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "dark",
+    });
+
+    
+    function initializeMermaidControls() {
+      document
+        .querySelectorAll(".mermaid")
+        .forEach(function (mermaidDiv, index) {
+          const svg = mermaidDiv.querySelector("svg");
+          if (!svg) return;
+
+          
+          if (svg.hasAttribute("data-mermaid-initialized")) return;
+          svg.setAttribute("data-mermaid-initialized", "true");
+
+          
+          const container = document.createElement("div");
+          container.className = "mermaid-container";
+          mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+          container.appendChild(mermaidDiv);
+
+          
+          const diagramId = "mermaid-diagram-" + index;
+          svg.id = diagramId;
+
+          
+          const controls = document.createElement("div");
+          controls.className = "mermaid-controls";
+          controls.innerHTML = `
+          <button class="mermaid-btn" onclick="zoomMermaidIn('${diagramId}')">+</button>
+          <button class="mermaid-btn" onclick="zoomMermaidOut('${diagramId}')">−</button>
+          <button class="mermaid-btn" onclick="resetMermaidZoom('${diagramId}')">Reset</button>
+          <button class="mermaid-btn" onclick="openMermaidFullscreen('${diagramId}')">⛶</button>
+        `;
+          container.appendChild(controls);
+
+          
+          let originalViewBox;
+          try {
+            originalViewBox = svg.viewBox.baseVal;
+          } catch (e) {
+            console.warn("Could not access viewBox:", e);
+            return;
+          }
+
+          
+          if (!originalViewBox || originalViewBox.width === 0) {
+            try {
+              const bbox = svg.getBBox();
+              if (bbox.width > 0 && bbox.height > 0) {
+                svg.setAttribute(
+                  "viewBox",
+                  `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`
+                );
+                const newViewBox = svg.viewBox.baseVal;
+                svg.zoomState = {
+                  scale: 1,
+                  translateX: 0,
+                  translateY: 0,
+                  originalViewBox: {
+                    x: newViewBox.x,
+                    y: newViewBox.y,
+                    width: newViewBox.width,
+                    height: newViewBox.height,
+                  },
+                };
+              } else {
+                console.warn("Invalid bounding box for SVG");
+                return;
+              }
+            } catch (e) {
+              console.warn("Could not get bounding box:", e);
+              return;
+            }
+          } else {
+            svg.zoomState = {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+          }
+
+          
+          function updateTransform(targetSvg = svg) {
+            const state = targetSvg.zoomState || {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+
+            
+            const newWidth = state.originalViewBox.width / state.scale;
+            const newHeight = state.originalViewBox.height / state.scale;
+
+            
+            const translateFactorX = -state.translateX / state.scale;
+            const translateFactorY = -state.translateY / state.scale;
+
+            
+            const newX = state.originalViewBox.x + translateFactorX;
+            const newY = state.originalViewBox.y + translateFactorY;
+
+            targetSvg.setAttribute(
+              "viewBox",
+              `${newX} ${newY} ${newWidth} ${newHeight}`
+            );
+          }
+
+          
+          window.zoomMermaidIn = function (svgId) {
+            const targetSvg = document.getElementById(svgId);
+            if (targetSvg && targetSvg.zoomState) {
+              targetSvg.zoomState.scale = Math.min(
+                targetSvg.zoomState.scale * 1.2,
+                5
+              );
+              updateTransform(targetSvg);
+            }
+          };
+
+          window.zoomMermaidOut = function (svgId) {
+            const targetSvg = document.getElementById(svgId);
+            if (targetSvg && targetSvg.zoomState) {
+              targetSvg.zoomState.scale = Math.max(
+                targetSvg.zoomState.scale / 1.2,
+                0.1
+              );
+              updateTransform(targetSvg);
+            }
+          };
+
+          window.resetMermaidZoom = function (svgId) {
+            const targetSvg = document.getElementById(svgId);
+            if (targetSvg && targetSvg.zoomState) {
+              targetSvg.zoomState.scale = 1;
+              targetSvg.zoomState.translateX = 0;
+              targetSvg.zoomState.translateY = 0;
+              updateTransform(targetSvg);
+            }
+          };
+
+          
+          window.openMermaidFullscreen = function (svgId) {
+            const originalSvg = document.getElementById(svgId);
+            if (!originalSvg) return;
+
+            
+            const modal = document.createElement("div");
+            modal.className = "mermaid-fullscreen-modal";
+            modal.innerHTML = `
             <div class="mermaid-fullscreen-content">
               <div class="mermaid-fullscreen-controls">
-                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidIn('${e}-fullscreen')">+</button>
-                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidOut('${e}-fullscreen')">−</button>
-                <button class="mermaid-fullscreen-btn" onclick="resetMermaidZoom('${e}-fullscreen')">Reset</button>
+                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidIn('${svgId}-fullscreen')">+</button>
+                <button class="mermaid-fullscreen-btn" onclick="zoomMermaidOut('${svgId}-fullscreen')">−</button>
+                <button class="mermaid-fullscreen-btn" onclick="resetMermaidZoom('${svgId}-fullscreen')">Reset</button>
                 <button class="mermaid-fullscreen-btn mermaid-close-btn" onclick="closeMermaidFullscreen()">✕</button>
               </div>
             </div>
-          `;const t=i.cloneNode(!0);t.id=e+"-fullscreen";const s=i.viewBox.baseVal;t.zoomState={scale:1,translateX:0,translateY:0,originalViewBox:{x:s.x,y:s.y,width:s.width,height:s.height}},n.querySelector(".mermaid-fullscreen-content").appendChild(t),document.body.appendChild(n),n.style.display="block";let a=!1,r=0,c=0,l=0,d=0;t.addEventListener("mousedown",function(e){a=!0,r=e.clientX,c=e.clientY,l=t.zoomState.translateX,d=t.zoomState.translateY}),document.addEventListener("mousemove",function(e){if(a&&t.zoomState){const n=e.clientX-r,s=e.clientY-c;t.zoomState.translateX=l+n,t.zoomState.translateY=d+s,o(t)}}),document.addEventListener("mouseup",function(){a=!1}),t.addEventListener("wheel",function(e){e.preventDefault();const n=e.deltaY>0?.9:1.1;t.zoomState.scale=Math.max(.1,Math.min(5,t.zoomState.scale*n)),o(t)});const u=function(e){e.key==="Escape"&&(closeMermaidFullscreen(),document.removeEventListener("keydown",u))};document.addEventListener("keydown",u),n.addEventListener("click",function(e){e.target===n&&closeMermaidFullscreen()})},window.closeMermaidFullscreen=function(){const e=document.querySelector(".mermaid-fullscreen-modal");e&&e.remove()},n.addEventListener("wheel",function(e){e.preventDefault();const t=e.deltaY>0?.9:1.1;n.zoomState.scale=Math.max(.1,Math.min(5,n.zoomState.scale*t)),o()})})}let n=0;const s=10;function e(){t(),n++;const o=document.querySelectorAll(".mermaid svg:not([data-mermaid-initialized])");o.length>0&&n<s&&setTimeout(e,200)}if(typeof mermaid!="undefined"){const n=document.querySelectorAll(".mermaid");n.length>0&&mermaid.run({nodes:n}).then(()=>{setTimeout(t,100)}).catch(t=>{console.error("Mermaid rendering failed:",t),setTimeout(e,500)})}else setTimeout(e,500)})</script></body></html>
+          `;
+
+            
+            const clonedSvg = originalSvg.cloneNode(true);
+            clonedSvg.id = svgId + "-fullscreen";
+            
+            const originalViewBox = originalSvg.viewBox.baseVal;
+            clonedSvg.zoomState = {
+              scale: 1,
+              translateX: 0,
+              translateY: 0,
+              originalViewBox: {
+                x: originalViewBox.x,
+                y: originalViewBox.y,
+                width: originalViewBox.width,
+                height: originalViewBox.height,
+              },
+            };
+
+            
+            modal
+              .querySelector(".mermaid-fullscreen-content")
+              .appendChild(clonedSvg);
+            document.body.appendChild(modal);
+
+            
+            modal.style.display = "block";
+
+            
+            let isDragging = false;
+            let dragStartX = 0;
+            let dragStartY = 0;
+            let startTranslateX = 0;
+            let startTranslateY = 0;
+
+            clonedSvg.addEventListener("mousedown", function (e) {
+              isDragging = true;
+              dragStartX = e.clientX;
+              dragStartY = e.clientY;
+              startTranslateX = clonedSvg.zoomState.translateX;
+              startTranslateY = clonedSvg.zoomState.translateY;
+            });
+
+            document.addEventListener("mousemove", function (e) {
+              if (isDragging && clonedSvg.zoomState) {
+                
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+
+                clonedSvg.zoomState.translateX = startTranslateX + deltaX;
+                clonedSvg.zoomState.translateY = startTranslateY + deltaY;
+                updateTransform(clonedSvg);
+              }
+            });
+
+            document.addEventListener("mouseup", function () {
+              isDragging = false;
+            });
+
+            
+            clonedSvg.addEventListener("wheel", function (e) {
+              e.preventDefault();
+              const delta = e.deltaY > 0 ? 0.9 : 1.1;
+              clonedSvg.zoomState.scale = Math.max(
+                0.1,
+                Math.min(5, clonedSvg.zoomState.scale * delta)
+              );
+              updateTransform(clonedSvg);
+            });
+
+            
+            const escapeHandler = function (e) {
+              if (e.key === "Escape") {
+                closeMermaidFullscreen();
+                document.removeEventListener("keydown", escapeHandler);
+              }
+            };
+            document.addEventListener("keydown", escapeHandler);
+
+            
+            modal.addEventListener("click", function (e) {
+              if (e.target === modal) {
+                closeMermaidFullscreen();
+              }
+            });
+          };
+
+          window.closeMermaidFullscreen = function () {
+            const modal = document.querySelector(".mermaid-fullscreen-modal");
+            if (modal) {
+              modal.remove();
+            }
+          };
+
+          
+          svg.addEventListener("wheel", function (e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            svg.zoomState.scale = Math.max(
+              0.1,
+              Math.min(5, svg.zoomState.scale * delta)
+            );
+            updateTransform();
+          });
+        });
+    }
+
+    
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function tryInitialize() {
+      initializeMermaidControls();
+      attempts++;
+
+      
+      const uninitializedDiagrams = document.querySelectorAll(
+        ".mermaid svg:not([data-mermaid-initialized])"
+      );
+
+      if (uninitializedDiagrams.length > 0 && attempts < maxAttempts) {
+        setTimeout(tryInitialize, 200);
+      }
+    }
+
+    
+    if (typeof mermaid !== "undefined") {
+      
+      const mermaidElements = document.querySelectorAll(".mermaid");
+      if (mermaidElements.length > 0) {
+        mermaid
+          .run({
+            nodes: mermaidElements,
+          })
+          .then(() => {
+            
+            setTimeout(initializeMermaidControls, 100);
+          })
+          .catch((error) => {
+            console.error("Mermaid rendering failed:", error);
+            
+            setTimeout(tryInitialize, 500);
+          });
+      }
+    } else {
+      
+      setTimeout(tryInitialize, 500);
+    }
+  });
+</script>
+
+  </body>
+</html>

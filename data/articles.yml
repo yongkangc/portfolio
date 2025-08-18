@@ -1,5 +1,11 @@
+# Articles are organized by date (newest first)
 recent:
   entries:
+    - title: "Notes on Performance Engineering: A Modern Textbook"
+      url: "/articles/performance-engineering-notes"
+      date: "August 2025"
+      description: "A comprehensive guide to modern performance engineering, covering the foundations of latency, throughput, and jitter, along with deep dives into CPU microarchitecture and the principle of mechanical sympathy."
+      tags: ["Performance", "Systems", "CPU Architecture", "Memory", "Optimization"]
     - title: "Running Reth on Hoodi: The Chillest Ethereum Testnet Setup Guide 🦀"
       url: "/articles/reth-hoodi-chill-guide"
       date: "August 2025"
@@ -30,16 +36,16 @@ recent:
       date: "June 2025"
       description: "A summary of Alpenglow, Solana's landmark upgrade for near-instant finality."
       tags: ["solana", "blockchain"]
+    - title: "Unofficial Guide to Rust Optimization Techniques"
+      url: "/articles/rust-optimization"
+      date: "June 2025"
+      description: "Rust's unique ownership model and zero-cost abstractions make it exceptional for high-performance systems. This guide covers advanced optimization techniques for Rust developers."
+      tags: ["rust", "performance"]
     - title: "Ultimate Arbitrage Strategies"
       url: "/articles/arbitrage"
       date: "April 2025"
       description: "A deep dive into arbitrage strategies in crypto."
       tags: ["trading", "quant", "arbitrage"]
-    - title: "Notes on Performance Engineering: A Modern Textbook"
-      url: "/articles/performance-engineering-notes"
-      date: "August 2025"
-      description: "A comprehensive guide to modern performance engineering, covering the foundations of latency, throughput, and jitter, along with deep dives into CPU microarchitecture and the principle of mechanical sympathy."
-      tags: ["Performance", "Systems", "CPU Architecture", "Memory", "Optimization"]
     - title: "Inside Drift: Architecting a High-Performance Orderbook on Solana"
       url: "/articles/drift-orderbook"
       date: "April 2025"
@@ -50,11 +56,6 @@ recent:
       date: "January 2025"
       description: "From data collection to statistical validation — a rigorous framework for developing profitable trading algorithms. Covers everything from backtesting methodologies to risk management strategies."
       tags: ["trading", "quant", "python"]
-    - title: "Unofficial Guide to Rust Optimization Techniques"
-      url: "/articles/rust-optimization"
-      date: "June 2025"
-      description: "Rust's unique ownership model and zero-cost abstractions make it exceptional for high-performance systems. This guide covers advanced optimization techniques for Rust developers."
-      tags: ["rust", "performance"]
 
 published:
   sections:
