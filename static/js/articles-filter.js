@@ -250,14 +250,18 @@
 
     // Close mobile filter on outside click
     document.addEventListener('click', (e) => {
-      // Don't interfere with navbar toggle
-      if (e.target.closest('.navbar-toggler') || e.target.closest('.navbar-collapse')) {
+      // Don't interfere with navbar toggle or collapse
+      if (e.target.closest('.navbar-toggler') || 
+          e.target.closest('.navbar-collapse') ||
+          e.target.closest('#navbarNav')) {
         return;
       }
       
       if (window.innerWidth <= 768 && 
+          elements.filterPanel && 
           elements.filterPanel.classList.contains('active') &&
           !elements.filterPanel.contains(e.target) &&
+          elements.mobileFilterBtn &&
           !elements.mobileFilterBtn.contains(e.target)) {
         toggleMobileFilter();
       }

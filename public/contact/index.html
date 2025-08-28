@@ -163,11 +163,22 @@
     ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"
-      integrity="sha512-igl8WEUuas9kG1o1XQysYI22rdap5LeOKlBpSYs4iOXchRtr2xj3XDTFF/0VE32LI/upcNnpRno2iN3VazgH4w=="
+      integrity="sha512-igl8WEUuas9k5dtnhKqyyld6TzzRjvMqLC79jkgT3z02FvJyHAuUtyemm/P/jYSne1xwFI06ezQxEwweaiV7VA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
 
+    
+    <script>
+    $(document).ready(function() {
+      
+      $('.navbar-toggler').on('click', function(e) {
+        e.preventDefault();
+        $('#navbarNav').collapse('toggle');
+      });
+    });
+    </script>
+    
     
     <script src="/js/code-copy.js"></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 
