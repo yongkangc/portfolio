@@ -6,7 +6,7 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently deep in the perps trenches building low-latency infrastructure for [Ranger Finance](https://www.ranger.finance) - the world's first cross-chain SVM-EVM perpetuals aggregator.
+Currently doing performance engineering for [Reth](https://reth.rs/) to make it the most performant node in EVM land.
 
 I'm passionate about building non-hierarchical systems with blockchain and distributed systems. Love building in Rust and contributing to open source 🦀 I share my thoughts on software development in my [articles](/articles).
 
@@ -18,6 +18,7 @@ Previously I have had the privilege of working with some of the most respected c
 
 - [Chainlink Labs](https://chain.link/): Scaling Chainlink oracles and keepers across multiple blockchains including Ethereum, Solana and Aptos.
 - [tETH](https://docs.treehouse.finance/protocol/teth/introduction): Architected and led the development of tETH, a Liquid Staking Token that aggregates ETH yield, surpassing $200 million TVL on Ethereum.
+- [Ranger Finance](https://ranger.finance/): Building low-latency infrastructure and smart router execution engine for [Ranger Finance](https://www.ranger.finance) - the world's first cross-chain SVM-EVM perpetuals aggregator.
 - [Spartan Labs](https://www.spartangroup.io/): Led smart contract projects and [thought leadership articles](https://medium.com/@spartanlabs).
 - [Nethermind](https://www.nethermind.io/): Security tooling for top protocols like Aave using Forta Bots
 - [StraitsX](https://straitsx.com/): Stablecoin infra dev, optimizing performance and reliability.
