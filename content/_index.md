@@ -10,7 +10,7 @@ Currently doing performance engineering for [Reth](https://reth.rs/) to make it 
 
 I'm passionate about building non-hierarchical systems with blockchain and distributed systems. Love building in Rust and contributing to open source 🦀 I share my thoughts on software development in my [articles](/articles).
 
-Currently diving deep into quantitative mechanism design.
+Currently diving deep into building my own arb bots.
 
 ## Background
 
