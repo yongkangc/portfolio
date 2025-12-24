@@ -1,4 +1,4 @@
-/* Articles Page Layout */
+/* Articles Page Layout - Uses unified CSS variables from researcher.scss */
 .articles-page {
   display: flex;
   gap: 2rem;
@@ -8,15 +8,15 @@
   position: relative;
 }
 
-/* Sidebar Toggle Button - Smaller and more subtle */
+/* Sidebar Toggle Button */
 .sidebar-toggle-btn {
   position: fixed;
-  top: 1.5rem;
+  top: 5.5rem;
   left: 1.5rem;
-  z-index: 1001;
-  background: rgba(68, 71, 90, 0.8);
-  border: 1px solid rgba(139, 233, 253, 0.3);
-  color: #8be9fd;
+  z-index: 101;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--accent);
   padding: 0.4rem 0.6rem;
   border-radius: 6px;
   font-size: 0.8rem;
@@ -41,34 +41,34 @@
 
 .sidebar-toggle-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 3px 12px rgba(139, 233, 253, 0.3);
-  background: rgba(68, 71, 90, 0.95);
-  border-color: #8be9fd;
+  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.2);
+  background: var(--bg-surface);
+  border-color: var(--accent);
 }
 
 .sidebar-toggle-btn.active {
-  background: rgba(80, 250, 123, 0.15);
-  border-color: #50fa7b;
-  color: #50fa7b;
+  background: var(--accent-muted);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* Filter Panel - Floating Sidebar */
 .filter-panel {
   position: fixed;
-  top: 2rem;
+  top: 6rem;
   left: 2rem;
   width: 280px;
-  background: linear-gradient(135deg, rgba(40, 42, 54, 0.95), rgba(68, 71, 90, 0.95));
+  background: var(--bg-elevated);
   backdrop-filter: blur(10px);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 1.5rem;
   height: fit-content;
-  max-height: calc(100vh - 4rem);
+  max-height: calc(100vh - 8rem);
   overflow-y: auto;
-  border: 1px solid rgba(98, 114, 164, 0.3);
+  border: 1px solid var(--border);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
+  z-index: 100;
   transform: translateX(0);
   opacity: 1;
 }
@@ -86,11 +86,11 @@
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(98, 114, 164, 0.2);
+  border-bottom: 1px solid var(--border);
 }
 
 .filter-header h3 {
-  color: #f8f8f2;
+  color: var(--text-primary);
   font-size: 1.1rem;
   margin: 0;
   font-weight: 600;
@@ -100,7 +100,7 @@
 .filter-close {
   background: transparent;
   border: none;
-  color: #ff5555;
+  color: #ef4444;
   cursor: pointer;
   font-size: 1.2rem;
   padding: 0.5rem;
@@ -109,7 +109,7 @@
 }
 
 .filter-close:hover {
-  background: rgba(255, 85, 85, 0.1);
+  background: rgba(239, 68, 68, 0.1);
   transform: scale(1.1);
 }
 
@@ -120,18 +120,18 @@
   gap: 0.5rem;
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background: rgba(68, 71, 90, 0.3);
+  background: var(--bg-surface);
   border-radius: 8px;
 }
 
 .filter-stats span {
-  color: #bd93f9;
+  color: var(--accent);
   font-size: 0.85rem;
   font-weight: 500;
 }
 
 .filter-stats .filtered-articles {
-  color: #50fa7b;
+  color: #22c55e;
 }
 
 /* Tag Filters */
@@ -147,10 +147,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(68, 71, 90, 0.5);
-  border: 1px solid rgba(98, 114, 164, 0.3);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
-  color: #f8f8f2;
+  color: var(--text-primary);
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -158,36 +158,20 @@
   overflow: hidden;
 }
 
-.tag-filter::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(139, 233, 253, 0.2), rgba(80, 250, 123, 0.2));
-  transition: width 0.3s ease;
-  z-index: -1;
-}
-
 .tag-filter:hover {
   transform: translateY(-2px);
-  border-color: #8be9fd;
-  box-shadow: 0 4px 12px rgba(139, 233, 253, 0.2);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 .tag-filter.active {
-  background: linear-gradient(135deg, #6272a4, #44475a);
-  border-color: #50fa7b;
-  color: #50fa7b;
-}
-
-.tag-filter.active::before {
-  width: 100%;
+  background: var(--accent-muted);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .tag-count {
-  background: rgba(189, 147, 249, 0.2);
+  background: var(--accent-muted);
   padding: 0.2rem 0.5rem;
   border-radius: 10px;
   font-size: 0.75rem;
@@ -199,9 +183,9 @@
   width: 100%;
   padding: 0.75rem;
   background: transparent;
-  border: 1px solid rgba(255, 85, 85, 0.5);
+  border: 1px solid rgba(239, 68, 68, 0.5);
   border-radius: 8px;
-  color: #ff5555;
+  color: #ef4444;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
@@ -209,8 +193,8 @@
 }
 
 .clear-filters:hover {
-  background: rgba(255, 85, 85, 0.1);
-  border-color: #ff5555;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
   transform: translateY(-1px);
 }
 
@@ -233,18 +217,16 @@
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #6272a4;
+  border-bottom: 1px solid var(--border);
 }
 
 .articles-header h1 {
-  color: #f8f8f2;
+  color: var(--text-primary);
   font-size: 2.5rem;
   margin: 0;
 }
 
-/* View controls removed - simplified interface */
-
-/* Articles Grid - Masonry Layout */
+/* Articles Grid */
 .articles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -252,12 +234,10 @@
   animation: fadeIn 0.5s ease;
 }
 
-/* List view removed - using grid only */
-
 /* Article Card */
 .article-card {
-  background: linear-gradient(135deg, rgba(40, 42, 54, 0.9), rgba(68, 71, 90, 0.9));
-  border: 1px solid rgba(98, 114, 164, 0.2);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -271,16 +251,16 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #ff79c6, #bd93f9, #8be9fd);
+  height: 2px;
+  background: var(--accent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .article-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  border-color: #8be9fd;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  border-color: var(--accent);
 }
 
 .article-card:hover::before {
@@ -311,7 +291,7 @@
 }
 
 .article-card-header h3 a {
-  color: #8be9fd;
+  color: var(--accent);
   text-decoration: none;
   transition: color 0.2s ease;
   display: inline-flex;
@@ -320,7 +300,7 @@
 }
 
 .article-card-header h3 a:hover {
-  color: #50fa7b;
+  color: var(--accent-hover);
 }
 
 .article-card-header h3 a i {
@@ -329,13 +309,13 @@
 }
 
 .article-date {
-  color: #bd93f9;
+  color: var(--text-muted);
   font-size: 0.85rem;
   font-weight: 500;
 }
 
 .article-description {
-  color: #f8f8f2;
+  color: var(--text-primary);
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1rem;
@@ -353,10 +333,10 @@
 .article-tag {
   display: inline-block;
   padding: 0.3rem 0.8rem;
-  background: rgba(98, 114, 164, 0.2);
-  border: 1px solid rgba(98, 114, 164, 0.3);
+  background: var(--accent-muted);
+  border: 1px solid var(--border);
   border-radius: 15px;
-  color: #f8f8f2;
+  color: var(--accent);
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
@@ -364,8 +344,8 @@
 }
 
 .article-tag:hover {
-  background: rgba(139, 233, 253, 0.2);
-  border-color: #8be9fd;
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--accent);
   transform: scale(1.05);
 }
 
@@ -373,8 +353,8 @@
 .article-source {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(98, 114, 164, 0.2);
-  color: #ff79c6;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
   font-size: 0.85rem;
   display: flex;
   align-items: center;
@@ -385,7 +365,7 @@
 .no-results {
   text-align: center;
   padding: 4rem 2rem;
-  color: #6272a4;
+  color: var(--text-muted);
 }
 
 .no-results i {
@@ -395,14 +375,14 @@
 }
 
 .no-results h3 {
-  color: #f8f8f2;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .no-results button {
   background: transparent;
   border: none;
-  color: #8be9fd;
+  color: var(--accent);
   text-decoration: underline;
   cursor: pointer;
   font-size: 1rem;
@@ -416,28 +396,28 @@
   right: 2rem;
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #6272a4, #44475a);
-  border: 2px solid #8be9fd;
+  background: var(--bg-elevated);
+  border: 2px solid var(--accent);
   border-radius: 50%;
-  color: #f8f8f2;
+  color: var(--accent);
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 100;
   transition: all 0.3s ease;
 }
 
 .mobile-filter-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 30px rgba(139, 233, 253, 0.4);
+  box-shadow: 0 6px 30px rgba(59, 130, 246, 0.3);
 }
 
 .filter-badge {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #ff5555;
-  color: #f8f8f2;
+  background: #ef4444;
+  color: #fff;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.2rem 0.5rem;
@@ -452,12 +432,8 @@
 
 /* Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -489,12 +465,12 @@
   }
 
   .sidebar-toggle-btn {
-    top: 1rem;
+    top: 5rem;
     left: 1rem;
   }
 
   .filter-panel {
-    top: 4.5rem;
+    top: 6rem;
     left: 1rem;
     width: 260px;
   }
@@ -527,7 +503,7 @@
     border-radius: 16px 16px 0 0;
     transform: translateY(100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 999;
+    z-index: 199;
     max-height: 70vh;
     opacity: 1;
   }
@@ -569,15 +545,15 @@
 }
 
 .filter-panel::-webkit-scrollbar-track {
-  background: rgba(68, 71, 90, 0.3);
+  background: var(--bg-surface);
   border-radius: 3px;
 }
 
 .filter-panel::-webkit-scrollbar-thumb {
-  background: #6272a4;
+  background: var(--border-hover);
   border-radius: 3px;
 }
 
 .filter-panel::-webkit-scrollbar-thumb:hover {
-  background: #8be9fd;
+  background: var(--accent);
 }

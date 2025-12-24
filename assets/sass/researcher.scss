@@ -1,553 +1,690 @@
-// Sizes
+// ===========================================
+// PORTFOLIO - UNIFIED DESIGN SYSTEM
+// ===========================================
+
+// --- Hugo Template Variables ---
 $max-width: {{ .Param "style.pageWidth" | default "750px;" }};
 $avatar-size: {{ .Param "style.avatarSize" | default "90px;" }};
 
-// --- Modern Minimalist Color Scheme ---
+// ===========================================
+// 1. DESIGN TOKENS & VARIABLES
+// ===========================================
+
 :root {
-  --background: #0a0a0a;
-  --text: #d4d4d4;
-  --text-secondary: #a1a1a1;
-  --subtle-gray: #888888;
+  // Backgrounds
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-elevated: #1a1a1a;
+  --bg-surface: #1f1f1f;
+
+  // Text
+  --text-primary: #e5e5e5;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
+
+  // Accent (Blue)
   --accent: #3b82f6;
   --accent-hover: #60a5fa;
-  --accent-bg: rgba(59, 130, 246, 0.1);
-  --border-color: #262626;
-  --code-bg: #111111;
+  --accent-muted: rgba(59, 130, 246, 0.15);
+
+  // Borders
+  --border: #262626;
+  --border-hover: #404040;
+
+  // Code
+  --code-bg: #0d0d0d;
   --code-border: #1f1f1f;
-  --header-bg: rgba(10, 10, 10, 0.9);
+
+  // Header
+  --header-bg: rgba(10, 10, 10, 0.95);
+
+  // Z-Index Scale
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-modal: 300;
 }
 
-// Modern minimalist font stack inspired by technical blogs
-$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-$heading-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-$mono-font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-$font-size: 16px;
-$line-height: 1.75;
+// Typography
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$mono-font: 'JetBrains Mono', 'SF Mono', Monaco, Consolas, monospace;
 
-// Enhanced spacing variables
-$y-small: 0.75rem;
-$y-medium: 1.25rem;
-$y-large: 2rem;
-$y-xl: 3rem;
+// Spacing
+$space-xs: 0.5rem;
+$space-sm: 0.75rem;
+$space-md: 1.25rem;
+$space-lg: 2rem;
+$space-xl: 3rem;
 
-// Global Style Overrides - Clean and modern
+// ===========================================
+// 2. BASE STYLES & RESET
+// ===========================================
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-    background-color: var(--background);
-    color: var(--text);
-    font-family: $font-family;
-    font-size: $font-size;
-    line-height: $line-height;
-    font-weight: 400;
-    letter-spacing: -0.011em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 400;
+  letter-spacing: -0.011em;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+::-moz-selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+// ===========================================
+// 3. LAYOUT
+// ===========================================
+
+.container {
+  max-width: $max-width;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 .main-content {
-    padding-top: 100px; // Account for fixed header
-    padding-bottom: 3rem;
+  padding-top: 100px;
+  padding-bottom: $space-xl;
+
+  @media (max-width: 768px) {
+    padding-top: 80px;
+  }
 }
 
-.container {
-    max-width: $max-width;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    
-    @media (max-width: 768px) {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-}
+// ===========================================
+// 4. HEADER & NAVIGATION
+// ===========================================
 
-// Header and Navigation
 .site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background-color: var(--header-bg);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-    .container {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-header);
+  background-color: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+
+  .container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 }
 
 .navbar {
-    padding: 1rem 0;
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .navbar-brand-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.2;
-    &:hover {
-        color: var(--accent);
-        text-decoration: none;
-    }
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary) !important;
+  line-height: 1.2;
+  text-decoration: none !important;
+
+  &:hover {
+    color: var(--accent) !important;
+  }
 }
 
 .navbar-tagline {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    opacity: 0.8;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.3px;
 }
 
 .nav-link {
-    font-size: 1rem;
-    color: var(--subtle-gray) !important;
-    &:hover {
-        color: var(--accent) !important;
-        text-decoration: none;
-    }
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary) !important;
+  padding: 0.5rem 0.75rem !important;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--accent) !important;
+    text-decoration: none;
+  }
 }
 
-// Main Content with improved typography
+// --- Mobile Navigation ---
+.navbar-toggler {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:hover, &:focus {
+    background: var(--bg-surface);
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-muted);
+  }
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23a3a3a3' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    right: 1rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    display: none;
+
+    &.show {
+      display: block;
+      animation: slideDown 0.2s ease;
+    }
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem !important;
+    border-radius: 6px;
+
+    &:hover {
+      background: var(--accent-muted);
+    }
+  }
+
+  .navbar-tagline {
+    display: none;
+  }
+
+  .navbar-brand {
+    font-size: 1.15rem;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ===========================================
+// 5. TYPOGRAPHY & CONTENT
+// ===========================================
+
 #content {
-    a {
-        color: var(--accent);
-        text-decoration: none;
-        transition: color 0.2s ease-in-out;
-        &:hover {
-            color: var(--accent);
-            text-decoration: underline;
-        }
-    }
-    
-    // Enhanced paragraph styling
-    p {
-        margin-bottom: $y-medium;
-        line-height: $line-height;
-        
-        // Improve readability for longer paragraphs
-        &:not(:last-child) {
-            margin-bottom: $y-medium;
-        }
-        
-        // Better spacing after headings
-        h1 + &, h2 + &, h3 + &, h4 + &, h5 + &, h6 + & {
-            margin-top: $y-small;
-        }
-    }
-    
-    // Enhanced heading hierarchy
-    h1, h2, h3, h4, h5, h6 {
-        font-family: $heading-font-family;
-        font-weight: 600;
-        line-height: 1.25;
-        margin-top: $y-xl;
-        margin-bottom: $y-medium;
-        color: var(--text);
-        
-        // First heading shouldn't have top margin
-        &:first-child {
-            margin-top: 0;
-        }
-        
-        // Better spacing between consecutive headings
-        & + h1, & + h2, & + h3, & + h4, & + h5, & + h6 {
-            margin-top: $y-large;
-        }
-    }
-    
-    h1 { 
-        font-size: 2.25rem; 
-        font-weight: 600;
-        letter-spacing: -0.025em;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-    }
-    h2 { 
-        font-size: 1.75rem; 
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        margin-top: 2rem;
-        margin-bottom: 0.875rem;
-    }
-    h3 { 
-        font-size: 1.5rem; 
-        font-weight: 600;
-    }
-    h4 { 
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-    h5 { 
-        font-size: 1.125rem;
-        font-weight: 600;
-    }
-    h6 { 
-        font-size: 1rem; 
-        font-weight: 600; 
-        color: var(--subtle-gray);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
+  // Links
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
 
-    img {
-        display: block;
-        margin: $y-large auto;
-        max-width: 100%;
-        border-radius: 8px;
+    &:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
     }
-    
-    .avatar > img {
-        border-radius: 50%;
-        float: right;
-        margin: -8px 0 0 16px;
-        height: $avatar-size;
-        width: $avatar-size;
-    }
-    
-    // Enhanced list styling
-    ul, ol {
-        margin-bottom: $y-medium;
-        padding-left: 1.5rem;
-        
-        li {
-            margin-bottom: $y-small;
-            line-height: $line-height;
-            
-            // Nested lists
-            ul, ol {
-                margin-top: $y-small;
-                margin-bottom: $y-small;
-            }
-        }
-    }
-    
-    ul {
-        list-style: disc;
-        
-        & > li {
-            list-style-position: outside;
-        }
-    }
+  }
 
-    table {
-        margin: $y-large auto;
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.9em;
-        
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 0.75rem 1rem;
-            text-align: left;
-            line-height: 1.4;
-        }
-        th {
-            font-weight: 600;
-            background-color: var(--code-bg);
-        }
-        tr:nth-child(2n) {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-    }
+  // Paragraphs
+  p {
+    margin-bottom: $space-md;
+    line-height: 1.7;
+    max-width: 65ch;
+  }
 
-    blockquote {
-        border-left: 4px solid var(--accent);
-        background-color: rgba(255, 255, 255, 0.02);
-        color: var(--text);
-        font-style: normal;
-        margin: $y-large 0;
-        padding: $y-medium $y-large;
-        border-radius: 0 4px 4px 0;
-        
-        & > p {
-            margin-bottom: 0;
-            
-            &:not(:last-child) {
-                margin-bottom: $y-small;
-            }
-        }
-    }
-    
-    // Modern inline code styling
-    code {
-        font-family: $mono-font-family;
-        background-color: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 3px;
-        color: #e2e8f0;
-        font-size: 0.85em;
-        padding: 0.125em 0.25em;
-        font-weight: 400;
-        white-space: nowrap;
-    }
+  // Headings
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: $space-xl;
+    margin-bottom: $space-md;
+    color: var(--text-primary);
 
-    // Modern code block styling
-    .highlight {
-        background-color: var(--code-bg);
-        border: 1px solid var(--code-border);
-        border-radius: 6px;
-        margin: 1.5rem 0;
-        overflow: hidden;
-        
-        pre {
-            margin: 0;
-            padding: 1rem;
-            overflow-x: auto;
-            background-color: transparent !important;
-            
-            code {
-                background-color: transparent;
-                border: none;
-                padding: 0;
-                font-size: 0.875rem;
-                line-height: 1.6;
-                white-space: pre;
-                color: #e2e8f0;
-            }
-        }
-        
-        // Line numbers styling
-        .lntable {
-            width: 100%;
-            border-spacing: 0;
-            
-            .lntd:first-child {
-                width: auto;
-                padding-right: 0.5rem;
-                
-                pre {
-                    margin: 0;
-                    padding: 1rem 0 1rem 1rem;
-                }
-                
-                .lnt, .ln {
-                    color: #4a5568;
-                    user-select: none;
-                }
-            }
-            
-            .lntd:last-child {
-                width: 100%;
-                padding-left: 0;
-                
-                pre {
-                    padding-left: 0.5rem;
-                }
-            }
-        }
+    &:first-child {
+      margin-top: 0;
     }
-    
-    // Better spacing for various elements
-    hr {
-        border: none;
-        border-top: 1px solid var(--border-color);
-        margin: $y-xl 0;
-    }
-    
-    // Enhanced emphasis styling
-    strong {
-        font-weight: 600;
-        color: var(--text);
-    }
-    
-    em {
-        font-style: italic;
-        color: var(--text);
-    }
+  }
 
-    // Add specific styles for article lists
-    .article-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+  h1 {
+    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
 
-    .article-list-item {
-        padding: $y-xl 0;
-        border-bottom: 1px solid var(--border-color);
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    letter-spacing: -0.02em;
+  }
 
-        &:first-child {
-            padding-top: $y-large;
-        }
-        
-        &__meta {
-            color: var(--subtle-gray);
-            font-size: 0.9rem;
-            margin-bottom: $y-small;
-            display: block;
-        }
+  h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  }
 
-        &__title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin: 0 0 $y-small 0;
-            
-            a {
-                color: var(--text);
-                text-decoration: none;
-                &:hover {
-                    color: var(--accent);
-                }
-            }
-        }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.125rem; }
+  h6 {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 
-        &__summary {
-            font-size: 1rem;
-            color: var(--subtle-gray);
-            margin: 0;
-        }
-    }
-}
+  // Lists
+  ul, ol {
+    margin-bottom: $space-md;
+    padding-left: 1.5rem;
 
-// Homepage article list table
-.article-list {
-    tr {
-        background-color: transparent !important;
+    li {
+      margin-bottom: $space-xs;
+      line-height: 1.7;
     }
-    td {
-        border: none;
-        padding: 0.75rem 0;
-        color: var(--text) !important;
-        &:first-child {
-            padding-right: 1rem;
-        }
-    }
-    a {
-        color: var(--accent) !important;
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-    .text-right {
-        color: var(--subtle-gray) !important;
-    }
-}
+  }
 
-// Footer
-#footer {
-    a {
-        color: var(--text);
-        &:hover {
-            color: var(--accent);
-        }
-    }
-    color: var(--subtle-gray);
+  ul {
+    list-style: disc;
+  }
+
+  // Images
+  img {
+    display: block;
+    margin: $space-lg auto;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .avatar > img {
+    border-radius: 50%;
+    float: right;
+    margin: -8px 0 0 16px;
+    height: $avatar-size;
+    width: $avatar-size;
+  }
+
+  // Tables
+  table {
+    width: 100%;
+    margin: $space-lg 0;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 0.9rem;
-    padding: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  // Blockquotes
+  blockquote {
+    border-left: 3px solid var(--accent);
+    background: rgba(255, 255, 255, 0.02);
+    margin: $space-lg 0;
+    padding: $space-md $space-lg;
+    border-radius: 0 6px 6px 0;
+    color: var(--text-primary);
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  // Inline Code
+  code {
+    font-family: $mono-font;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: #e2e8f0;
+    font-size: 0.85em;
+    padding: 0.15em 0.35em;
+    font-weight: 400;
+  }
+
+  // Horizontal Rule
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: $space-xl 0;
+  }
+
+  // Strong/Em
+  strong {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  em {
+    font-style: italic;
+  }
 }
 
-// --- Enhanced Mobile Responsiveness ---
-@media (max-width: 768px) {
-    body {
-        font-size: 15px;
-        line-height: 1.55;
+// ===========================================
+// 6. CODE BLOCKS & SYNTAX HIGHLIGHTING
+// ===========================================
+
+.highlight {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  margin: $space-lg 0;
+  overflow: hidden;
+
+  pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    background: transparent !important;
+
+    code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: #abb2bf;
     }
-    
-    .main-content {
-        padding-top: 70px;
+  }
+
+  // Line numbers
+  .lntable {
+    width: 100%;
+    border-spacing: 0;
+
+    .lntd:first-child {
+      width: auto;
+      padding-right: 0.5rem;
+
+      pre {
+        padding: 1rem 0 1rem 1rem;
+      }
+
+      .lnt, .ln {
+        color: #4a5568;
+        user-select: none;
+      }
     }
-    
-    #content {
-        h1 { 
-            font-size: 1.875rem;
-            margin-top: $y-large;
-        }
-        h2 { 
-            font-size: 1.625rem;
-            margin-top: $y-large;
-        }
-        h3 { 
-            font-size: 1.375rem;
-            margin-top: $y-medium;
-        }
-        h4 { 
-            font-size: 1.125rem;
-        }
-        
-        // Adjust spacing for mobile
-        p {
-            margin-bottom: $y-small;
-        }
-        
-        blockquote {
-            padding: $y-small $y-medium;
-            margin: $y-medium 0;
-        }
-        
-        .highlight {
-            margin: $y-medium 0;
-            font-size: 0.8em;
-        }
+
+    .lntd:last-child {
+      width: 100%;
+
+      pre {
+        padding-left: 0.5rem;
+      }
     }
+  }
 }
 
-// --- Fix for dark mode visibility issues ---
-.navbar-nav .nav-link {
-    color: var(--subtle-gray) !important;
-    &:hover {
-        color: var(--accent) !important;
-    }
+// --- Syntax Highlighting (One Dark Pro) ---
+.highlight {
+  .chroma { background: transparent; color: #abb2bf; }
+
+  // Line numbers
+  .lnt, .ln { color: #4a5568; }
+  .hl { background: rgba(255, 255, 255, 0.05); }
+
+  // Keywords
+  .k, .kc, .kd, .kn, .kp, .kr { color: #c678dd; font-weight: 500; }
+  .kt { color: #e5c07b; }
+
+  // Names
+  .n { color: #abb2bf; }
+  .na, .nb, .nd, .nf, .nl { color: #61afef; }
+  .nc, .nn { color: #e5c07b; }
+  .ne, .nt, .nv { color: #e06c75; }
+  .no { color: #d19a66; }
+
+  // Literals/Strings
+  .l, .ld, .s, .sa, .sb, .sc, .dl, .sd, .s2, .sh, .si, .sx, .sr, .s1, .ss { color: #98c379; }
+  .se { color: #d19a66; }
+
+  // Numbers
+  .m, .mb, .mf, .mh, .mi, .il, .mo { color: #d19a66; }
+
+  // Operators
+  .o { color: #56b6c2; }
+  .ow { color: #c678dd; }
+
+  // Punctuation
+  .p { color: #abb2bf; }
+
+  // Comments
+  .c, .ch, .cm, .c1, .cs { color: #5c6370; font-style: italic; }
+  .cp { color: #c678dd; }
+  .cpf { color: #5c6370; }
+
+  // Generic
+  .gd { color: #e06c75; background: rgba(224, 108, 117, 0.1); }
+  .gi { color: #98c379; background: rgba(152, 195, 121, 0.1); }
+  .ge { font-style: italic; }
+  .gs { font-weight: bold; }
+  .gh { color: #61afef; font-weight: bold; }
+  .gu { color: #56b6c2; font-weight: bold; }
+  .gr, .gt { color: #e06c75; }
+  .go, .gp { color: #5c6370; }
+
+  // Text/Error
+  .w { color: #abb2bf; }
+  .err { color: #e06c75; background: rgba(224, 108, 117, 0.1); }
 }
 
-// Override any remaining Bootstrap defaults
-.navbar-brand {
-    color: var(--text) !important;
-    &:hover {
-        color: var(--accent) !important;
-        text-decoration: none !important;
-    }
-}
+// ===========================================
+// 7. COMPONENTS
+// ===========================================
 
-// Fix article list specifically
+// --- Article List (Homepage) ---
 .article-list {
-    background-color: transparent !important;
-    
-    tr {
-        background-color: transparent !important;
-        border: none !important;
+  background: transparent !important;
+
+  tr {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  td {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-primary) !important;
+    padding: 0.6rem 0;
+
+    &:first-child {
+      padding-right: 1rem;
     }
-    
-    td {
-        background-color: transparent !important;
-        border: none !important;
-        color: var(--text) !important;
-        padding: 0.75rem 0;
-        
-        &:first-child {
-            padding-right: 1rem;
-        }
+  }
+
+  a {
+    color: var(--accent) !important;
+    text-decoration: none !important;
+
+    &:hover {
+      text-decoration: underline !important;
     }
-    
-    a {
-        color: var(--accent) !important;
-        text-decoration: none !important;
-        
-        &:hover {
-            text-decoration: underline !important;
-        }
-    }
-    
-    .text-right {
-        color: var(--subtle-gray) !important;
-    }
+  }
+
+  .text-right {
+    color: var(--text-muted) !important;
+  }
 }
 
-// === Figure Styling (Images with Hugo figure shortcode) ===
+// --- Article Entry ---
+.article-entry {
+  margin-bottom: $space-md;
+}
+
+.article-entry__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: $space-xs;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.article-entry__date {
+  font-family: $mono-font;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+
+.article-entry__tags {
+  margin-top: $space-xs;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+  background: var(--accent-muted);
+  color: var(--accent);
+  border-radius: 4px;
+  font-family: $mono-font;
+  font-size: 0.7rem;
+  text-transform: lowercase;
+}
+
+// --- Single Article Page ---
+.single {
+  padding-bottom: $space-lg;
+}
+
+.single-title {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  margin-bottom: $space-sm;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+
+.single-meta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: $space-lg;
+}
+
+.article-content {
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  line-height: 1.75;
+
+  h2 {
+    font-size: 1.75rem;
+    margin-top: $space-xl;
+    padding-bottom: $space-sm;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    margin-top: $space-lg;
+  }
+}
+
+// --- Article Navigation (Back Button) ---
+.article-navigation {
+  margin-bottom: $space-lg;
+  padding-bottom: $space-md;
+  border-bottom: 1px solid var(--border);
+}
+
+.back-to-articles {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--bg-surface);
+    border-color: var(--accent);
+    transform: translateX(-3px);
+    text-decoration: none;
+  }
+
+  i {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover i {
+    transform: translateX(-2px);
+  }
+}
+
+// --- Figure/Images ---
 figure {
-  margin: $y-large auto;
+  margin: $space-lg auto;
   text-align: center;
 
   img {
@@ -557,119 +694,72 @@ figure {
   }
 
   figcaption {
-    margin-top: $y-medium;
+    margin-top: $space-md;
     text-align: center;
 
-    .title,
-    .figure-title {
+    .title, .figure-title {
       display: block;
-      font-family: $heading-font-family;
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 600;
-      color: var(--text);
+      color: var(--text-primary);
       margin-bottom: 0.25rem;
     }
 
-    p,
-    .caption,
-    .figure-caption {
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: var(--subtle-gray);
+    p, .caption, .figure-caption {
+      font-size: 0.9rem;
+      color: var(--text-muted);
       margin: 0;
     }
   }
 }
 
-// === Dark Theme Compatibility Overrides ===
-// Ensure all text elements are properly visible on dark background
-* {
-  // Override any potential light backgrounds with light text
-  &:not(.chroma):not(.highlight) {
-    // Ensure text is always visible
-    color: inherit;
-  }
-}
+// --- Single Tag Page ---
+.single-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--accent-muted);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 
-// Fix any remaining light background issues
-.content, .article-content, .main-content {
-  // Ensure all text within content areas uses proper colors
-  color: var(--text);
-  
-  // Override any potential problematic inline styles
-  * {
-    &:not(code):not(pre):not(.chroma) {
-      background-color: transparent !important;
-    }
-  }
-}
-
-// Specific fixes for common markdown elements
-blockquote {
-  // Ensure blockquote text is always visible
-  color: var(--text) !important;
-  background-color: rgba(255, 255, 255, 0.02) !important;
-}
-
-// Fix any table styling issues
-table {
-  color: var(--text) !important;
-  
-  th, td {
-    color: var(--text) !important;
-    background-color: transparent !important;
-    
-    &:nth-child(even) {
-      background-color: rgba(255, 255, 255, 0.02) !important;
-    }
-  }
-  
-  th {
-    background-color: var(--code-bg) !important;
-  }
-}
-
-// === Additional Text Visibility Fixes ===
-// Force all text to be visible on dark backgrounds
-p, span, div, li, td, th, h1, h2, h3, h4, h5, h6 {
-  &:not(.chroma):not(.highlight) {
-    color: var(--text);
-  }
-}
-
-// Ensure links remain properly styled
-a {
-  color: var(--accent) !important;
-  
   &:hover {
-    color: var(--accent) !important;
-    opacity: 0.8;
+    background: rgba(59, 130, 246, 0.25);
+    border-color: var(--accent);
   }
 }
 
-// Fix any potential issues with Hugo's built-in styling
-.highlight {
-  // Ensure syntax highlighting works properly
-  background-color: var(--code-bg) !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border-color);
+// ===========================================
+// 8. FOOTER
+// ===========================================
+
+#footer {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: $space-lg 0;
+  border-top: 1px solid var(--border);
+
+  a {
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
 }
 
-// Override any Bootstrap or theme conflicts
-.text-muted {
-  color: var(--subtle-gray) !important;
-}
+// ===========================================
+// 9. UTILITIES & OVERRIDES
+// ===========================================
 
-.text-light {
-  color: var(--text) !important;
-}
+// Bootstrap overrides
+.text-muted { color: var(--text-muted) !important; }
+.text-light { color: var(--text-primary) !important; }
+.bg-light { background: var(--bg-secondary) !important; }
 
-.bg-light {
-  background-color: var(--code-bg) !important;
-}
-
-// === KaTeX Styling Fixes ===
-// Isolate KaTeX from global styles to prevent layout issues.
+// KaTeX
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
@@ -679,109 +769,74 @@ a {
 .katex {
   font-size: 1.21em !important;
   line-height: 1.2;
-  text-indent: 0;
-  white-space: nowrap;
 }
 
-// Ensure proper alignment and prevent inheritance issues
-.katex .base {
-  white-space: nowrap;
-}
+// ===========================================
+// 10. RESPONSIVE
+// ===========================================
 
-.single {
-    padding-bottom: 2rem;
-}
-
-.single-title {
-  font-size: 2.5rem;
-  margin-bottom: $y-small;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.single-meta {
-  color: var(--subtle-gray);
-  font-size: 0.9rem;
-  margin-bottom: $y-large;
-}
-
-.article-content {
-  color: var(--text);
-  font-size: 1.05rem;
-  line-height: 1.7;
-  
-  h1,h2,h3,h4,h5,h6 {
-    font-weight: 600;
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+    line-height: 1.6;
   }
-  
-  h2 {
-    font-size: 1.75rem;
-    margin-top: $y-xl;
-    padding-bottom: $y-small;
-    border-bottom: 1px solid var(--border-color);
+
+  #content {
+    h1 {
+      font-size: 1.75rem;
+      margin-top: $space-lg;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: $space-lg;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-top: $space-md;
+    }
+
+    p {
+      max-width: 100%;
+    }
+
+    blockquote {
+      padding: $space-sm $space-md;
+      margin: $space-md 0;
+    }
+
+    .highlight {
+      margin: $space-md 0;
+      font-size: 0.85em;
+    }
   }
-  
-  h3 {
-    font-size: 1.4rem;
-    margin-top: $y-large;
+
+  .single-title {
+    font-size: 1.875rem;
   }
-  
-  p {
-    margin-bottom: $y-medium;
+
+  .article-navigation {
+    margin-bottom: $space-md;
   }
-}
 
-.post-content h1,
-.post-content h2,
-.post-content h3,
-.post-content h4,
-.post-content h5,
-.post-content h6 {
-  font-family: $heading-font-family;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: $y-medium;
-  margin-top: $y-large;
-}
-
-/* Article Entry */
-.article-entry {
-  margin-bottom: $y-medium;
-}
-
-.article-entry__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: $y-small;
-
-  h3 {
-    margin-bottom: 0;
+  .back-to-articles {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
   }
 }
 
-.article-entry__date {
-  font-family: $mono-font-family;
-  font-size: 0.85rem;
-  color: var(--subtle-gray);
-  white-space: nowrap;
-  margin-left: 1rem;
-}
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1rem;
+  }
 
-/* Article Tags */
-.article-entry__tags {
-  margin-top: $y-small;
-}
+  .navbar-toggler {
+    padding: 0.4rem 0.6rem;
+  }
 
-.tag {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  background-color: var(--accent-bg);
-  color: var(--accent);
-  border-radius: 4px;
-  font-family: $mono-font-family;
-  font-size: 0.75rem;
-  text-transform: lowercase;
+  .navbar-toggler-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
 }

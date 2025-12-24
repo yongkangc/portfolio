@@ -23,14 +23,27 @@
       referrerpolicy="no-referrer"
     ></script>
 
-    <!-- Simple Navbar Toggle Fix -->
+    <!-- Mobile Navigation Toggle -->
     <script>
-    $(document).ready(function() {
-      // Ensure Bootstrap collapse works
-      $('.navbar-toggler').on('click', function(e) {
-        e.preventDefault();
-        $('#navbarNav').collapse('toggle');
-      });
+    document.addEventListener('DOMContentLoaded', function() {
+      var toggler = document.querySelector('.navbar-toggler');
+      var nav = document.querySelector('#navbarNav');
+
+      if (toggler && nav) {
+        toggler.addEventListener('click', function(e) {
+          e.preventDefault();
+          nav.classList.toggle('show');
+          toggler.setAttribute('aria-expanded', nav.classList.contains('show'));
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!nav.contains(e.target) && !toggler.contains(e.target) && nav.classList.contains('show')) {
+            nav.classList.remove('show');
+            toggler.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
     });
     </script>
     
