@@ -8,7 +8,7 @@ title = "About"
 
 Currently doing performance engineering for [Reth](https://reth.rs/) at [Tempo](https://tempo.xyz/) (acquired) to make it the most performant execution client in EVM land.
 
-I'm passionate about building non-hierarchical systems with blockchain and distributed systems. I love building in Rust and contributing to open source. I share my thoughts on software development in my [articles](/articles).
+I'm passionate about building non-hierarchical systems with blockchain and distributed systems. Rust is my language of choice - it's the best way to build software that's both performant and safe without compromise. I share my thoughts on software development in my [articles](/articles).
 
 Currently diving deep into building my own arb bots.
 
