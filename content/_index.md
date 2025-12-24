@@ -21,7 +21,7 @@ I enjoy building and maintaining developer tools. Some projects I've contributed
 | [reth](https://github.com/paradigmxyz/reth) | Rust | Modular Ethereum execution client (5.3k stars) |
 | [rustygram](https://crates.io/crates/rustygram) | Rust | Minimal Telegram notification framework (6k+ downloads) |
 | [solidity-optimiser](https://github.com/yongkangc/solidity-optimiser-app) | Go | Smart contract gas optimization through static analysis |
-| [Optiver Arbitrage](https://github.com/yongkangc/Optiver-Arbitrage-Hackathon) | Python | Delta-neutral market-making algorithm |
+| [lighter-rust](https://github.com/yongkangc/lighter-rust) | Rust | SDK for Lighter trading platform with async API support |
 
 ## Writings
 
