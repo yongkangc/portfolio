@@ -6,7 +6,7 @@ title = "About"
 
 {{< figure class="avatar" src="/avatar.jpg" alt="avatar">}}
 
-Currently doing performance engineering for [Reth](https://reth.rs/) to make it the most performant execution client in EVM land.
+Currently doing performance engineering for [Reth](https://reth.rs/) at [Tempo](https://tempo.xyz/) (acquired) to make it the most performant execution client in EVM land.
 
 I'm passionate about building non-hierarchical systems with blockchain and distributed systems. I love building in Rust and contributing to open source. I share my thoughts on software development in my [articles](/articles).
 
