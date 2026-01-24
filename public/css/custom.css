@@ -1,186 +1,6 @@
-/* Custom CSS for articles */
-.article-content {
-  font-size: 12pt;
-}
+/* Custom CSS - Uses unified CSS variables from researcher.scss */
 
-/* Legacy article-item styles kept for compatibility */
-.article-item {
-  margin-bottom: 3rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid #333;
-  transition: all 0.2s ease;
-}
-
-.article-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-.article-item:hover {
-  transform: translateY(-2px);
-  transition: all 0.2s ease;
-  color: #fff;
-}
-
-.article-item h3 {
-  margin-bottom: 1.5rem;
-  font-size: 1.4em;
-  line-height: 1.3;
-  color: #fff;
-}
-
-.article-item h3 a {
-  text-decoration: none;
-  color: #4a9eff;
-  transition: color 0.2s ease;
-}
-
-.article-item h3 a:hover {
-  color: #66b3ff;
-  text-decoration: none;
-}
-
-.article-meta {
-  color: #888;
-  font-size: 0.85em;
-  margin-bottom: 1rem;
-  font-style: italic;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.article-item p {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-  color: #ccc;
-}
-
-.article-item a[href*="/"]:not(h3 a) {
-  color: #4a9eff;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9em;
-  padding: 0.25rem 0;
-  border-bottom: 1px solid transparent;
-  transition: all 0.2s ease;
-}
-
-.article-item a[href*="/"]:not(h3 a):hover {
-  color: #66b3ff;
-  border-bottom-color: #66b3ff;
-}
-
-/* Add some visual enhancement to the main heading */
-.container h1 {
-  border-bottom: 2px solid #4a9eff;
-  padding-bottom: 0.5rem;
-  padding-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-/* Style the section heading */
-.container h2 {
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
-  color: #fff;
-}
-
-/* Style image captions */
-figure figcaption {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: #ccc;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-figure figcaption h4 {
-  font-size: 1rem;
-  font-weight: bold;
-  font-style: normal;
-  margin: 0.5rem 0;
-}
-
-/* Site title styling - Dark theme compatible */
-h1 {
-  color: var(--text);
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-/* Navigation styling */
-nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 1rem;
-}
-
-nav a {
-  text-decoration: none;
-  color: #3498db;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-nav a:hover {
-  color: var(--accent);
-}
-
-/* Content styling */
-.content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  line-height: 1.6;
-}
-
-/* Code styling - Dark theme compatible */
-code {
-  background-color: var(--code-bg);
-  color: var(--text);
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  font-family: "Courier New", monospace;
-  border: 1px solid var(--border-color);
-}
-
-pre {
-  background-color: var(--code-bg);
-  color: var(--text);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  border: 1px solid var(--border-color);
-}
-
-/* Figure and caption styling */
-figure {
-  margin: 1.5rem 0;
-  text-align: center;
-}
-
-figure img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-}
-
-figure figcaption {
-  font-style: italic;
-  color: var(--subtle-gray);
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-figure figcaption h4 {
-  font-size: 1rem;
-  font-weight: bold;
-  font-style: normal;
-  margin: 0.5rem 0;
-}
-
-/* Simple Mermaid container styling */
+/* Mermaid container styling */
 .mermaid {
   margin: 1rem 0;
   text-align: center;
@@ -190,51 +10,8 @@ figure figcaption h4 {
 .highlight {
   position: relative;
   margin: 1.5rem 0;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #444;
-}
-
-/* Code block header with language label */
-.highlight::before {
-  content: attr(data-lang);
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: linear-gradient(135deg, #6272a4, #44475a);
-  color: #f8f8f2;
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom-left-radius: 8px;
-  z-index: 2;
-}
-
-/* Hide label for generic code blocks */
-.highlight[data-lang=""],
-.highlight[data-lang="code"],
-.highlight[data-lang="CODE"] {
-}
-
-.highlight[data-lang=""]::before,
-.highlight[data-lang="code"]::before,
-.highlight[data-lang="CODE"]::before {
-  display: none;
-}
-
-.highlight pre {
-  margin: 0;
-  padding: 1.5rem;
-  padding-top: 2.5rem;
-  background-color: #282a36;
-  color: #f8f8f2;
-  overflow-x: auto;
-  line-height: 1.5;
-  font-size: 0.9rem;
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 /* Copy button styling */
@@ -242,13 +19,12 @@ figure figcaption h4 {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
-  background: rgba(68, 71, 90, 0.9);
-  border: 1px solid #6272a4;
-  color: #f8f8f2;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
   padding: 0.5rem;
   border-radius: 6px;
   font-size: 0.75rem;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 3;
@@ -260,74 +36,46 @@ figure figcaption h4 {
 }
 
 .code-copy-btn:hover {
-  background: rgba(98, 114, 164, 0.9);
-  border-color: #8be9fd;
-  transform: translateY(-1px);
+  background: var(--bg-surface);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .code-copy-btn.copied {
-  background: rgba(80, 250, 123, 0.2);
-  border-color: #50fa7b;
-  color: #50fa7b;
+  background: rgba(34, 197, 94, 0.15);
+  border-color: #22c55e;
+  color: #22c55e;
 }
 
 .code-copy-btn i {
   font-size: 0.75rem;
 }
 
-/* Inline code improvements */
-code:not(.chroma code) {
-  background-color: #44475a;
-  color: #f8f8f2;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.875em;
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  border: 1px solid #6272a4;
-  font-weight: 500;
-}
-
-/* Line number improvements */
-.chroma .lnt, .chroma .ln {
-  color: #6272a4;
-  user-select: none;
-  padding-right: 1rem;
-  border-right: 1px solid #44475a;
-  margin-right: 1rem;
-}
-
 /* Scrollbar styling for code blocks */
 .highlight pre::-webkit-scrollbar {
-  height: 8px;
+  height: 6px;
 }
 
 .highlight pre::-webkit-scrollbar-track {
-  background: #44475a;
-  border-radius: 4px;
+  background: var(--bg-elevated);
+  border-radius: 3px;
 }
 
 .highlight pre::-webkit-scrollbar-thumb {
-  background: #6272a4;
-  border-radius: 4px;
+  background: var(--border-hover);
+  border-radius: 3px;
 }
 
 .highlight pre::-webkit-scrollbar-thumb:hover {
-  background: #8be9fd;
+  background: var(--accent);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .highlight pre {
-    padding: 1rem;
-    padding-top: 2.5rem;
-    font-size: 0.8rem;
-  }
-  
   .code-copy-btn {
     top: 0.5rem;
     right: 0.5rem;
     padding: 0.4rem;
-    font-size: 0.7rem;
     width: 1.75rem;
     height: 1.75rem;
   }

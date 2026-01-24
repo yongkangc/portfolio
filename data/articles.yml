@@ -1,31 +1,11 @@
 # Articles are organized by date (newest first)
 recent:
   entries:
-    - title: "Notes on Performance Engineering: A Modern Textbook"
-      url: "/articles/performance-engineering-notes"
-      date: "August 2025"
-      description: "A comprehensive guide to modern performance engineering, covering the foundations of latency, throughput, and jitter, along with deep dives into CPU microarchitecture and the principle of mechanical sympathy."
-      tags: ["Performance", "Systems", "CPU Architecture", "Memory", "Optimization"]
-    - title: "Running Reth on Hoodi: The Chillest Ethereum Testnet Setup Guide 🦀"
-      url: "/articles/reth-hoodi-chill-guide"
-      date: "August 2025"
-      description: "A chill guide with reth"
-      tags: ["Ethereum", "Reth", "Hoodi", "Testnet", "Rust", "Node", "Tutorial"]
-    - title: "EIP-7702: Finally, Your MetaMask Can Be a Smart Wallet (And Why That's Huge)"
-      url: "/articles/eip7702"
-      date: "July 2025"
-      description: "A deep dive into EIP-7702, the game-changing upgrade that transforms every existing Ethereum wallet into a smart contract wallet without the hassle of migration."
-      tags: ["Ethereum", "EIP-7702", "Account Abstraction", "Smart Wallets", "DeFi"]
     - title: "Claude Code Best Practices: A Developer's Guide to AI-Assisted Programming"
       url: "/articles/claude-code-best-practices"
       date: "July 2025"
       description: "Essential tips and tricks for maximizing productivity with Claude Code - from slash commands to project memory management and advanced workflow patterns."
       tags: ["AI", "Software Development", "Productivity"]
-    - title: "Funding Rate Arbitrage Screener"
-      url: "/articles/funding-rate-screener"
-      date: "July 2025"
-      description: "A screener for funding rate arbitrage opportunities."
-      tags: ["trading", "quant", "arbitrage"]
     - title: "Keeping trading models simple"
       url: "/articles/simple-trade"
       date: "June 2025"

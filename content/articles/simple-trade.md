@@ -38,7 +38,7 @@ A basic momentum strategy, for instance, might rely on a single indicator like a
 
 Enter the online quant enthusiast, bursting with ideas:
 
-{{< figure src="https://i.kym-cdn.com/entries/icons/original/000/022/819/Screen_Shot_2017-02-28_at_2.35.56_PM.png" alt="Drake meme: Simple model vs Complex factors" caption="The eternal temptation: simple models vs. fancy complex factors" >}}
+{{< figure src="https://i.imgflip.com/2/30b1gx.jpg" alt="Drake meme: Simple model vs Complex factors" caption="The eternal temptation: simple models vs. fancy complex factors" >}}
 
 > "Dude, you're leaving money on the table! Add microstructural reversion factors and cross-asset relative value effects with this fancy statistical learning model!"
 

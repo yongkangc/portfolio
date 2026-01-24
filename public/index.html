@@ -12,7 +12,7 @@
   <meta name="author" content="Chia Yong Kang" />
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inconsolata:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   />
   <link
@@ -36,12 +36,8 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  <link rel="stylesheet" href="/css/syntax.css" />
-  <link rel="stylesheet" href="/css/typography.css" />
-  <link rel="stylesheet" href="/css/article-navigation.css" />
   <link rel="stylesheet" href="/css/custom.css" />
   <link rel="stylesheet" href="/css/articles-filter.css" />
-  <link rel="stylesheet" href="/css/mobile-nav-fix.css" />
   <link rel="stylesheet" href="/sass/researcher.min.css" />
 
   <link rel="icon" type="image/ico" href="http://localhost:1313/crab.svg" />
@@ -59,8 +55,6 @@
     <button
       class="navbar-toggler"
       type="button"
-      data-toggle="collapse"
-      data-target="#navbarNav"
       aria-controls="navbarNav"
       aria-expanded="false"
       aria-label="Toggle navigation"
@@ -93,57 +87,39 @@
     alt="avatar">
 </figure>
 
-<p>Currently deep in the perps trenches building low-latency infrastructure for <a href="https://www.ranger.finance">Ranger Finance</a> - the world&rsquo;s first cross-chain SVM-EVM perpetuals aggregator.</p>
-<p>I&rsquo;m passionate about building non-hierarchical systems with blockchain and distributed systems. Love building in Rust and contributing to open source 🦀 I share my thoughts on software development in my <a href="/articles">articles</a>.</p>
-<p>Currently diving deep into quantitative mechanism design.</p>
-<h2 id="background">Background</h2>
-<p>Previously I have had the privilege of working with some of the most respected companies in the Web3 space:</p>
-<ul>
-<li><a href="https://chain.link/">Chainlink Labs</a>: Scaling Chainlink oracles and keepers across multiple blockchains including Ethereum, Solana and Aptos.</li>
-<li><a href="https://docs.treehouse.finance/protocol/teth/introduction">tETH</a>: Architected and led the development of tETH, a Liquid Staking Token that aggregates ETH yield, surpassing $200 million TVL on Ethereum.</li>
-<li><a href="https://www.spartangroup.io/">Spartan Labs</a>: Led smart contract projects and <a href="https://medium.com/@spartanlabs">thought leadership articles</a>.</li>
-<li><a href="https://www.nethermind.io/">Nethermind</a>: Security tooling for top protocols like Aave using Forta Bots</li>
-<li><a href="https://straitsx.com/">StraitsX</a>: Stablecoin infra dev, optimizing performance and reliability.</li>
-<li><a href="https://velodrome.finance/">Velodrome</a>: Core protocol dev for #1 liquidity marketplace on Optimism</li>
-<li><a href="https://www.treehouse.finance/">Treehouse Finance</a>: Innovated on cross-chain DeFi analytics, smart contracts and data aggregation.</li>
-</ul>
-<h2 id="projects">Projects</h2>
-<p>I love hackathons ❤️, and I have participated in several large hackathons, in which I have won over 10 hackathons.</p>
-<p>Some notable wins:</p>
-<ul>
-<li>🏆 <a href="https://devpost.com/software/silas-avery-yong-kang">Chainlink Hackathon</a> - Decentralised Data Marketplace</li>
-<li>🏆 <a href="https://devpost.com/software/controldb">Stanford Hackathon</a> - Cost effective Decentralised Database as Service</li>
-<li>🏆 <a href="https://www.notion.so/yongkangchia/Cross-chain-Insurance-Harvard-Blockchain-Hack-Winner-3aeb7eb48da4491b868c7d2ae69fd0a6">Harvard Hackathon</a> - Cross Chain Insurance</li>
-<li>🏆 <a href="https://poe.com/DataAnalyzer">Quora LLM Hackathon</a> - Data Analyzer Chatbot</li>
-<li>🏆 <a href="https://www.gelk.in/">ETH Denver Hackathon</a> - Zero Knowledge Machine Learning</li>
-<li>🏆 <a href="https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521&amp;p=7c323fca064e44dba93912faa83dab85&amp;pm=c">Crypto.com Hackathon</a> - Micro Financing</li>
-<li>🏆 <a href="https://www.notion.so/yongkangchia/Derisk-AVAX-Hackathon-Winner-febf80966ec14c8984bfa848a0f4a2f7">Avalanche Hackathon</a> - Wallet Tooling</li>
-</ul>
-<p><strong>See all my projects</strong> <a href="https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521">here</a></p>
-<p>In my free time, I also enjoy contributing to <strong>open-source projects</strong> which have over 100k+ downloads on <a href="https://crates.io/users/yongkangc">crates.io</a>. Some of the projects I&rsquo;ve worked on include:</p>
+<p>Currently doing performance engineering for <a href="https://reth.rs/">Reth</a> at <a href="https://tempo.xyz/">Tempo</a> (acquired) to make it the most performant execution client in EVM land.</p>
+<p>I&rsquo;m passionate about building non-hierarchical systems with blockchain and distributed systems. Rust is my language of choice - it&rsquo;s the best way to build software that&rsquo;s both performant and safe without compromise. I share my thoughts on software development in my <a href="/articles">articles</a>.</p>
+<p>Currently diving deep into building my own arb bots.</p>
+<h2 id="open-source">Open Source</h2>
+<p>I enjoy building and maintaining developer tools. Some projects I&rsquo;ve contributed to:</p>
 <table>
   <thead>
       <tr>
-          <th>Projects</th>
-          <th>Contributions</th>
+          <th>Project</th>
+          <th>Tech</th>
+          <th>Description</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://github.com/ExtremelySunnyYK/Solidity-Gas-Optimizoor">Rust Solidity Gas Optimizooor</a></td>
-          <td>Main Contributor</td>
+          <td><a href="https://github.com/paradigmxyz/reth">reth</a></td>
+          <td>Rust</td>
+          <td>Modular Ethereum execution client (5.3k stars)</td>
       </tr>
       <tr>
-          <td><a href="https://crates.io/crates/rustygram">Rust Telegram Client (&gt; <strong>6000</strong> Downloads)</a></td>
-          <td>Main Contributor</td>
+          <td><a href="https://crates.io/crates/rustygram">rustygram</a></td>
+          <td>Rust</td>
+          <td>Minimal Telegram notification framework (6k+ downloads)</td>
       </tr>
       <tr>
-          <td><a href="https://crates.io/crates/rustygram">Rust Binance Async Client</a></td>
-          <td>Features + Fixes</td>
+          <td><a href="https://github.com/yongkangc/solidity-optimiser-app">solidity-optimiser</a></td>
+          <td>Go</td>
+          <td>Smart contract gas optimization through static analysis</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/SpartanLabsXyz/spartanlabs-contracts">Smart Contracts</a></td>
-          <td>Main Contributor</td>
+          <td><a href="https://github.com/yongkangc/lighter-rust">lighter-rust</a></td>
+          <td>Rust</td>
+          <td>SDK for Lighter trading platform with async API support</td>
       </tr>
   </tbody>
 </table>
@@ -157,11 +133,11 @@
   </thead>
   <tbody>
       <tr>
-          <td><a href="/articles/eip7702">EIP-7702: Finally, Your MetaMask Can Be a Smart Wallet (And Why That&rsquo;s Huge)</a></td>
+          <td><a href="/articles/eip7702">EIP-7702: Finally, Your MetaMask Can Be a Smart Wallet</a></td>
           <td>2025</td>
       </tr>
       <tr>
-          <td><a href="/articles/claude-code-best-practices">Claude Code Best Practices: A Developer&rsquo;s Guide to AI-Assisted Programming</a></td>
+          <td><a href="/articles/claude-code-best-practices">Claude Code Best Practices: A Developer&rsquo;s Guide</a></td>
           <td>2025</td>
       </tr>
       <tr>
@@ -173,7 +149,7 @@
           <td>2025</td>
       </tr>
       <tr>
-          <td><a href="/articles/alpenglow-summary">Alpenglow: A Look at Solana&rsquo;s Landmark Upgrade for Near-Instant Finality</a></td>
+          <td><a href="/articles/alpenglow-summary">Alpenglow: Solana&rsquo;s Near-Instant Finality Upgrade</a></td>
           <td>2025</td>
       </tr>
       <tr>
@@ -181,24 +157,68 @@
           <td>2025</td>
       </tr>
       <tr>
-          <td><a href="/articles/drift-orderbook">Inside Drift: Architecting a High-Performance Orderbook on Solana</a></td>
+          <td><a href="/articles/drift-orderbook">Inside Drift: High-Performance Orderbook on Solana</a></td>
           <td>2025</td>
       </tr>
       <tr>
-          <td><a href="/articles/quant-trading-guide">An Engineer&rsquo;s Guide to Building and Validating Quant Trading Strategies</a></td>
+          <td><a href="/articles/quant-trading-guide">An Engineer&rsquo;s Guide to Quant Trading Strategies</a></td>
           <td>2025</td>
       </tr>
       <tr>
-          <td><a href="/articles/rust-optimization">Unofficial Guide to Rust Optimization Techniques</a></td>
+          <td><a href="/articles/rust-optimization">Unofficial Guide to Rust Optimization</a></td>
           <td>2025</td>
-      </tr>
-      <tr>
-          <td><a href="/articles/ai-frameworks">There are just too many AI Frameworks</a></td>
-          <td>2024</td>
       </tr>
   </tbody>
 </table>
-<p><strong><a href="/articles">View all articles →</a></strong></p>
+<p><strong><a href="/articles">View all articles</a></strong></p>
+<h2 id="developer-tools">Developer Tools</h2>
+<p>I like to build and maintain my own tools:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Tool</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://github.com/yongkangc/git-webdiff">git-webdiff</a></td>
+          <td>Web-based git diff server with hot reload and multi-repo support</td>
+      </tr>
+      <tr>
+          <td><a href="https://github.com/yongkangc/llmreader">llmreader</a></td>
+          <td>LLM-powered document reader and summarizer</td>
+      </tr>
+      <tr>
+          <td><a href="https://github.com/yongkangc/happy">happy</a></td>
+          <td>CLI productivity tool</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="background">Background</h2>
+<p>Previously I&rsquo;ve had the privilege of working with some of the most respected companies in Web3:</p>
+<ul>
+<li><a href="https://chain.link/">Chainlink Labs</a>: Scaling oracles and keepers across Ethereum, Solana and Aptos.</li>
+<li><a href="https://docs.treehouse.finance/protocol/teth/introduction">tETH</a>: Architected tETH, a Liquid Staking Token that surpassed $200M TVL.</li>
+<li><a href="https://ranger.finance/">Ranger Finance</a>: Building low-latency infrastructure for cross-chain perpetuals aggregation.</li>
+<li><a href="https://www.spartangroup.io/">Spartan Labs</a>: Led smart contract projects and thought leadership.</li>
+<li><a href="https://www.nethermind.io/">Nethermind</a>: Security tooling for protocols like Aave using Forta Bots.</li>
+<li><a href="https://straitsx.com/">StraitsX</a>: Stablecoin infrastructure, optimizing performance and reliability.</li>
+<li><a href="https://velodrome.finance/">Velodrome</a>: Core protocol development for #1 liquidity marketplace on Optimism.</li>
+<li><a href="https://www.treehouse.finance/">Treehouse Finance</a>: Cross-chain DeFi analytics and data aggregation.</li>
+</ul>
+<h2 id="hackathons">Hackathons</h2>
+<p>I&rsquo;ve participated in and won over 10 hackathons. Some notable wins:</p>
+<ul>
+<li><a href="https://devpost.com/software/silas-avery-yong-kang">Chainlink Hackathon</a> - Decentralised Data Marketplace</li>
+<li><a href="https://devpost.com/software/controldb">Stanford Hackathon</a> - Cost effective Decentralised Database as Service</li>
+<li><a href="https://www.notion.so/yongkangchia/Cross-chain-Insurance-Harvard-Blockchain-Hack-Winner-3aeb7eb48da4491b868c7d2ae69fd0a6">Harvard Hackathon</a> - Cross Chain Insurance</li>
+<li><a href="https://poe.com/DataAnalyzer">Quora LLM Hackathon</a> - Data Analyzer Chatbot</li>
+<li><a href="https://www.gelk.in/">ETH Denver Hackathon</a> - Zero Knowledge Machine Learning</li>
+<li><a href="https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521&amp;p=7c323fca064e44dba93912faa83dab85&amp;pm=c">Crypto.com Hackathon</a> - Micro Financing</li>
+<li><a href="https://www.notion.so/yongkangchia/Derisk-AVAX-Hackathon-Winner-febf80966ec14c8984bfa848a0f4a2f7">Avalanche Hackathon</a> - Wallet Tooling</li>
+</ul>
+<p><strong><a href="https://www.notion.so/yongkangchia/f253051d42da4602a936f5c7f406b433?v=8aa370ed01ab44e1830275f58ca04521">See all projects</a></strong></p>
 <hr>
 <blockquote>
 <p>To a great mind, nothing is little</p></blockquote>
@@ -256,12 +276,38 @@
 
     
     <script>
-    $(document).ready(function() {
-      
-      $('.navbar-toggler').on('click', function(e) {
-        e.preventDefault();
-        $('#navbarNav').collapse('toggle');
-      });
+    document.addEventListener('DOMContentLoaded', function() {
+      var toggler = document.querySelector('.navbar-toggler');
+      var nav = document.querySelector('#navbarNav');
+
+      if (toggler && nav) {
+        toggler.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var isExpanded = nav.classList.contains('show');
+          nav.classList.toggle('show');
+          toggler.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        
+        document.addEventListener('click', function(e) {
+          if (!nav.contains(e.target) && !toggler.contains(e.target)) {
+            if (nav.classList.contains('show')) {
+              nav.classList.remove('show');
+              toggler.setAttribute('aria-expanded', 'false');
+            }
+          }
+        });
+
+        
+        var navLinks = nav.querySelectorAll('.nav-link');
+        navLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            nav.classList.remove('show');
+            toggler.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
     });
     </script>
     

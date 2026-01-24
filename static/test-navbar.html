@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .test-result { padding: 10px; margin: 10px 0; border-radius: 4px; }
+    .pass { background-color: #d4edda; color: #155724; }
+    .fail { background-color: #f8d7da; color: #721c24; }
+    button { padding: 10px 20px; margin: 10px 0; cursor: pointer; }
+
+    /* Navbar styles */
+    .navbar-collapse { display: none; }
+    .navbar-collapse.show { display: block; }
+    .navbar { background: #f8f9fa; padding: 10px; margin: 20px 0; }
+    .navbar-toggler { padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+    .nav-link { display: block; padding: 8px; color: #007bff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h1>Navbar Functionality Test</h1>
+
+  <div class="navbar">
+    <button class="navbar-toggler" aria-controls="navbarNav" aria-expanded="false">
+      Toggle Menu
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul>
+        <li><a href="#" class="nav-link">About</a></li>
+        <li><a href="#" class="nav-link">Articles</a></li>
+        <li><a href="#" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="test-results"></div>
+
+  <script>
+    // Navigation Toggle Logic (same as in baseof.html)
+    document.addEventListener('DOMContentLoaded', function() {
+      var toggler = document.querySelector('.navbar-toggler');
+      var nav = document.querySelector('#navbarNav');
+
+      if (toggler && nav) {
+        toggler.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var isExpanded = nav.classList.contains('show');
+          nav.classList.toggle('show');
+          toggler.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!nav.contains(e.target) && !toggler.contains(e.target)) {
+            if (nav.classList.contains('show')) {
+              nav.classList.remove('show');
+              toggler.setAttribute('aria-expanded', 'false');
+            }
+          }
+        });
+
+        var navLinks = nav.querySelectorAll('.nav-link');
+        navLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            nav.classList.remove('show');
+            toggler.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    });
+
+    // Test Suite
+    window.addEventListener('load', function() {
+      var results = document.getElementById('test-results');
+      var toggler = document.querySelector('.navbar-toggler');
+      var nav = document.querySelector('#navbarNav');
+
+      function addResult(testName, passed, message) {
+        var div = document.createElement('div');
+        div.className = 'test-result ' + (passed ? 'pass' : 'fail');
+        div.textContent = (passed ? '✓ PASS: ' : '✗ FAIL: ') + testName + (message ? ' - ' + message : '');
+        results.appendChild(div);
+      }
+
+      // Test 1: Elements exist
+      setTimeout(function() {
+        addResult('Elements exist', toggler && nav, 'Toggler and nav found');
+
+        // Test 2: Initial state
+        var initiallyHidden = !nav.classList.contains('show');
+        addResult('Initial state', initiallyHidden, 'Nav is hidden initially');
+
+        // Test 3: Click to open
+        toggler.click();
+        setTimeout(function() {
+          var isOpen = nav.classList.contains('show');
+          var ariaExpanded = toggler.getAttribute('aria-expanded') === 'true';
+          addResult('Click to open', isOpen && ariaExpanded, 'Nav opens and aria-expanded=true');
+
+          // Test 4: Click to close
+          toggler.click();
+          setTimeout(function() {
+            var isClosed = !nav.classList.contains('show');
+            var ariaCollapsed = toggler.getAttribute('aria-expanded') === 'false';
+            addResult('Click to close', isClosed && ariaCollapsed, 'Nav closes and aria-expanded=false');
+
+            // Test 5: Open and click link
+            toggler.click();
+            setTimeout(function() {
+              var link = nav.querySelector('.nav-link');
+              link.click();
+              setTimeout(function() {
+                var closedAfterLink = !nav.classList.contains('show');
+                addResult('Click link closes menu', closedAfterLink, 'Menu closes when link clicked');
+
+                // Test 6: Open and click outside
+                toggler.click();
+                setTimeout(function() {
+                  document.body.click();
+                  setTimeout(function() {
+                    var closedAfterOutside = !nav.classList.contains('show');
+                    addResult('Click outside closes menu', closedAfterOutside, 'Menu closes when clicking outside');
+
+                    var passedTests = document.querySelectorAll('.pass').length;
+                    var totalTests = 6;
+                    var summary = document.createElement('div');
+                    summary.className = 'test-result ' + (passedTests === totalTests ? 'pass' : 'fail');
+                    summary.innerHTML = '<strong>Summary: ' + passedTests + '/' + totalTests + ' tests passed</strong>';
+                    results.appendChild(summary);
+                  }, 100);
+                }, 100);
+              }, 100);
+            }, 100);
+          }, 100);
+        }, 100);
+      }, 500);
+    });
+  </script>
+</body>
+</html>
