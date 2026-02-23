@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changepoint Detection — Implementation Guide | Moirai Research</title>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --surface2: #21262d; --surface3: #30363d;
+  --text: #c9d1d9; --text-muted: #8b949e; --text-bright: #e6edf3;
+  --accent: #79c0ff; --accent2: #56d364; --warn: #e3b341; --danger: #ff7b72;
+  --code-bg: #1a1e25; --border: #30363d;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 24px 0; }
+header h1 { color: var(--text-bright); font-size: 1.5rem; margin-bottom: 4px; }
+header .subtitle { color: var(--text-muted); font-size: 0.9rem; }
+
+/* Tab Navigation */
+.tab-nav { display: flex; gap: 0; overflow-x: auto; background: var(--surface); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; }
+.tab-btn { padding: 12px 18px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; white-space: nowrap; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+.tab-btn:hover { color: var(--text); background: var(--surface2); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-content { display: none; padding: 24px 0; }
+.tab-content.active { display: block; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.card h2 { color: var(--text-bright); font-size: 1.2rem; margin-bottom: 12px; }
+.card h3 { color: var(--accent); font-size: 1rem; margin: 16px 0 8px; }
+.card h4 { color: var(--text-bright); font-size: 0.95rem; margin: 12px 0 6px; }
+
+/* Architecture diagram */
+.arch-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 18px; margin: 8px 0; font-family: monospace; font-size: 0.85rem; }
+.arch-box.l1 { border-left: 4px solid var(--accent); }
+.arch-box.l2 { border-left: 4px solid var(--accent2); }
+.arch-box.l3 { border-left: 4px solid var(--warn); }
+.arch-box.l4 { border-left: 4px solid var(--text-muted); }
+.arch-label { font-weight: bold; color: var(--text-bright); }
+.arch-detail { color: var(--text-muted); font-size: 0.82rem; }
+
+/* Code blocks */
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 16px; overflow-x: auto; font-size: 0.82rem; line-height: 1.5; margin: 12px 0; }
+code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+p code, li code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 0.88em; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.82rem; }
+th, td { padding: 8px 10px; text-align: left; border: 1px solid var(--border); }
+th { background: var(--surface2); color: var(--text-bright); font-weight: 600; position: sticky; top: 0; }
+td { background: var(--surface); }
+tr:hover td { background: var(--surface2); }
+
+/* Heatmap cells */
+.heat-low { background: #0d2818 !important; }
+.heat-med { background: #2a1f00 !important; }
+.heat-high { background: #3d1111 !important; }
+.heat-extreme { background: #5c1010 !important; color: #ff7b72 !important; }
+
+/* Collapsible */
+.collapsible { margin: 8px 0; }
+.collapse-btn { width: 100%; text-align: left; padding: 12px 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); cursor: pointer; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+.collapse-btn:hover { background: var(--surface3); }
+.collapse-btn .arrow { transition: transform 0.2s; color: var(--text-muted); }
+.collapse-btn.open .arrow { transform: rotate(90deg); }
+.collapse-body { display: none; padding: 16px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; background: var(--surface); }
+.collapse-body.open { display: block; }
+
+/* Lists */
+a { color: #a8d8ff; text-decoration: underline; }
+a:hover { color: #d0eaff; }
+ul, ol { margin: 8px 0 8px 20px; }
+li { margin: 4px 0; }
+
+/* Badges */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.badge-blue { background: #1a3550; color: #93d1ff; }
+.badge-green { background: #1a3a1a; color: var(--accent2); }
+.badge-yellow { background: #3d2e00; color: var(--warn); }
+.badge-red { background: #3d1111; color: var(--danger); }
+.badge-gray { background: var(--surface3); color: var(--text-muted); }
+
+/* Priority indicators */
+.priority-highest { color: var(--danger); font-weight: bold; }
+.priority-high { color: var(--warn); font-weight: bold; }
+.priority-medium { color: var(--accent); }
+.priority-low { color: var(--text-muted); }
+
+/* Explorer controls */
+.explorer-controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.explorer-controls label { display: flex; flex-direction: column; gap: 4px; color: var(--text-muted); font-size: 0.82rem; }
+.explorer-controls select, .explorer-controls input {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 12px; border-radius: 6px; font-size: 0.85rem;
+}
+.explorer-result { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-top: 16px; }
+.explorer-result .big-num { font-size: 2rem; font-weight: bold; color: var(--accent); }
+.explorer-result .label { color: var(--text-muted); font-size: 0.82rem; }
+.result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 16px; }
+.result-item { text-align: center; }
+
+/* Alerts */
+.alert { padding: 12px 16px; border-radius: 6px; margin: 12px 0; font-size: 0.88rem; }
+.alert-info { background: #1a3550; border: 1px solid #2a5f8f; color: #a8d8ff; }
+.alert-warn { background: #3d2e00; border: 1px solid #5c4400; color: var(--warn); }
+.alert-danger { background: #3d1111; border: 1px solid #5c1818; color: var(--danger); }
+.alert-success { background: #1a3a1a; border: 1px solid #1a5a1a; color: var(--accent2); }
+
+/* Flowchart */
+.flow-step { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+.flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
+.flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; flex: 1; }
+
+/* Search */
+#search-box { width: 100%; padding: 10px 16px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; font-size: 0.9rem; margin-bottom: 16px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tab-btn { padding: 10px 12px; font-size: 0.78rem; }
+  .result-grid { grid-template-columns: 1fr 1fr; }
+  .explorer-controls { flex-direction: column; }
+  table { font-size: 0.75rem; }
+  th, td { padding: 6px; }
+}
+
+/* Print */
+@media print {
+  .tab-nav { display: none; }
+  .tab-content { display: block !important; page-break-before: always; }
+  body { background: white; color: black; }
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<h1>⚡ Changepoint Detection — Implementation Guide</h1>
+<div class="subtitle">Moirai Research | Edition 2.1 FINAL | February 2026 — Reorganised for implementation by use case</div>
+</div>
+</header>
+
+<nav class="tab-nav">
+<div class="container" style="display:flex;gap:0;overflow-x:auto;">
+<button class="tab-btn active" onclick="switchTab('quickstart')">🎯 Quick Start</button>
+<button class="tab-btn" onclick="switchTab('spread')">📊 Spread Calc</button>
+<button class="tab-btn" onclick="switchTab('monitor')">📈 Monitoring</button>
+<button class="tab-btn" onclick="switchTab('extensions')">🔄 Extensions</button>
+<button class="tab-btn" onclick="switchTab('explorer')">🔍 Explorer</button>
+<button class="tab-btn" onclick="switchTab('research')">📖 Research</button>
+<button class="tab-btn" onclick="switchTab('reference')">📋 Reference</button>
+</div>
+</nav>
+
+<main class="container">
+
+<!-- ============================================================ -->
+<!-- TAB: QUICK START                                              -->
+<!-- ============================================================ -->
+<div id="tab-quickstart" class="tab-content active">
+
+<div class="card">
+<h2>The Core Finding</h2>
+<div class="alert alert-danger">
+<strong>Architecture Change:</strong> "Detect → React → Adjust" is dead. CEX-to-Polymarket lead time is ~200ms. Adverse fills arrive simultaneously with the causal signal. No statistical detector can prevent them. Defence comes from <strong>environment-based spread optimisation</strong>, not real-time evasion.
+</div>
+<p style="margin-top:12px">Three independent measurements confirm this:</p>
+<ul>
+<li><strong>CEX lead time is ~200ms</strong> — 94.8% of adverse fills have ≤1s or no detectable CEX lead</li>
+<li><strong>CUSUM fires at the peak</strong> — 82% reversal rate within 5s of trigger; by the time it fires, the move is over</li>
+<li><strong>Baseline detector has 90.7% FPR</strong> — functionally equivalent to <code>force_trending = true</code></li>
+</ul>
+</div>
+
+<div class="card">
+<h2>The Revised Architecture: Predict → Price → Accept</h2>
+<p style="margin-bottom:12px; color:var(--text-muted)">Individual adverse fills cannot be prevented. Profitability comes from correctly pricing the expected adverse selection cost across thousands of fills.</p>
+
+<div class="arch-box l1">
+<div class="arch-label">Layer 1 — Static A(t,p) Intensity Surface <span class="badge badge-red">PRIMARY DEFENCE</span></div>
+<div class="arch-detail">Offline updates, no latency requirement. γ_eff = γ_base × min(I(t,p), cap) / I_median</div>
+<div class="arch-detail" style="margin-top:4px">→ <a href="#" onclick="switchTab('spread');return false;">Full spec in Spread Calc tab</a> | <a href="#" onclick="switchTab('explorer');return false;">Interactive lookup in Explorer</a></div>
+</div>
+
+<div class="arch-box l2">
+<div class="arch-label">Layer 2 — VR/BOCPD Regime Classification <span class="badge badge-green">10-30s cycle</span></div>
+<div class="arch-detail">Trending → γ × κ_trend. Mean-reverting → γ × κ_revert. Not sub-second — adjusts for the next few minutes.</div>
+</div>
+
+<div class="arch-box l3">
+<div class="arch-label">Layer 3 — Trade Arrival Intensity Monitor <span class="badge badge-yellow">1-5s cycle</span></div>
+<div class="arch-detail">Burst detected → widen spreads immediately. Fastest feasible reactive signal. First fill can't be dodged; fills #11-50 can be wider.</div>
+</div>
+
+<div class="arch-box l4">
+<div class="arch-label">Layer 4 — Post-Event Reversion Capture <span class="badge badge-gray">Opportunistic</span></div>
+<div class="arch-detail">CUSUM trigger + arrival drop → tighten spreads. Exploits 82% post-trigger reversal rate.</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Which Tab Do You Need?</h2>
+<div class="flow-step">
+<div class="flow-box" style="background:var(--surface3)"><strong>Use Case 1:</strong> "I need to adjust spreads when token prices shift from trending"</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box"><a href="#" onclick="switchTab('spread');return false;">📊 Spread Calc tab</a> — Full 4-layer implementation spec</div>
+</div>
+<div class="flow-step">
+<div class="flow-box" style="background:var(--surface3)"><strong>Use Case 2:</strong> "I need to detect when live trading diverges from paper/backtest"</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box"><a href="#" onclick="switchTab('monitor');return false;">📈 Monitoring tab</a> — CUSUM/BOCPD on PnL divergence</div>
+</div>
+<div class="flow-step">
+<div class="flow-box" style="background:var(--surface3)"><strong>Broader:</strong> "I want to detect regime changes in markout / adverse selection / etc."</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box"><a href="#" onclick="switchTab('extensions');return false;">🔄 Extensions tab</a> — Templates for applying the framework</div>
+</div>
+<div class="flow-step">
+<div class="flow-box" style="background:var(--surface3)"><strong>Lookup:</strong> "What's the γ multiplier for BUY at p=0.85, 60s before resolution?"</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box"><a href="#" onclick="switchTab('explorer');return false;">🔍 Explorer tab</a> — Interactive parameter lookup</div>
+</div>
+<div class="flow-step">
+<div class="flow-box" style="background:var(--surface3)"><strong>Deep dive:</strong> "Why did we choose BOCPD over FOCuS? What does the literature say?"</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box"><a href="#" onclick="switchTab('research');return false;">📖 Research tab</a> — All 18 sections, collapsible</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Implementation Priority</h2>
+<ol>
+<li><span class="priority-highest">(Highest)</span> <strong>Layer 1 — static A(t,p) intensity surface.</strong> Data exists (v5 combined surface). Deploy as γ_eff = γ_base × min(intensity, 77) / median. <em>Est: 2-3 days.</em></li>
+<li><span class="priority-high">(High)</span> <strong>Layer 2 — VR/BOCPD slow adjustment.</strong> |z| > 1.65, n ≥ 300, λ_active ≈ 0.01, df ≈ 2.5-3.0. <em>Prereq: verify BOCPD handles df < 3. Est: 2-3 days + 3-5 days calibration.</em></li>
+<li><span class="priority-medium">(Medium)</span> <strong>Layer 3 — trade arrival intensity monitor.</strong> Rolling N-second trade count, burst threshold. <em>Est: 3-5 days.</em></li>
+<li><span class="priority-low">(Low)</span> <strong>Layer 4 — CUSUM reversion signal.</strong> h ≈ 3.0, tighten spreads post-burst. Optional. <em>Est: 2-3 days.</em></li>
+<li><span class="priority-low">(Business decision)</span> Sub-200ms infrastructure investigation — likely infeasible/not worth it.</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Foundational Decision: Logit Domain</h2>
+<div class="alert alert-info">
+<strong>All methods must operate in the logit domain.</strong> Define x_t = log(p_t / (1 − p_t)). This maps [0,1] → ℝ, making Gaussian/Student-t assumptions valid. Near-boundary mean-reversion artifacts disappear. <strong>This affects every downstream method.</strong>
+</div>
+<p style="margin-top:8px">Logit returns: <code>Δx_t = log(p_t/(1-p_t)) − log(p_{t-1}/(1-p_{t-1}))</code></p>
+<p>14.5% of tick-level logit returns are exact zeros (same-price fills). Feed these into detectors — they're informative (price isn't moving = evidence for neutral regime).</p>
+</div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- TAB: SPREAD CALCULATION (USE CASE 1)                          -->
+<!-- ============================================================ -->
+<div id="tab-spread" class="tab-content">
+
+<div class="card">
+<h2>Use Case 1: Spread Calculation — Price Regime Detection</h2>
+<p><strong>Goal:</strong> Observe when token prices shift away from their typical trending behaviour. When a regime change is detected, widen quotes (or change quoting strategy entirely).</p>
+<p><strong>Architecture:</strong> The 4-layer "Predict → Price → Accept" system. You cannot dodge individual adverse fills (~200ms CEX lead). Instead, correctly price the <em>expected</em> adverse selection cost across environments.</p>
+<div class="alert alert-warn" style="margin-top:12px">
+<strong>Key insight:</strong> 44.6% of all fills are adversely selected at 30s horizon (54.5M fills measured). Adverse damage accumulates gradually: 16.7% at 5s, 32.7% at 10s, 48.9% at 15s, 80% by 24.1s, 90% by 27.1s. There IS time for Layer 3 burst detection to widen spreads on subsequent fills in a burst.
+</div>
+</div>
+
+<!-- LAYER 1 -->
+<div class="card">
+<h2>Layer 1 — Static A(t,p) Intensity Surface <span class="badge badge-red">Highest Priority</span></h2>
+<p>The primary defence. Pre-computed, no latency requirement. Deploy as <strong>separate BUY-only and SELL-only 2D lookup tables</strong> for ask-side and bid-side gamma.</p>
+
+<h3>The Formula</h3>
+<pre><code># Ask side (MM selling YES → uses BUY adverse surface)
+ask_intensity = A_buy_table[time_to_resolution_bin][price_bin]
+ask_capped = min(ask_intensity, INTENSITY_CAP)   # cap ≈ 77 fills/sec
+γ_ask = γ_base × (ask_capped / BUY_MEDIAN)       # BUY_MEDIAN = 21.22 fills/sec
+
+# Bid side (MM buying YES → uses SELL adverse surface)
+bid_intensity = A_sell_table[time_to_resolution_bin][price_bin]
+bid_capped = min(bid_intensity, INTENSITY_CAP)
+γ_bid = γ_base × (bid_capped / SELL_MEDIAN)       # SELL_MEDIAN = 20.55 fills/sec</code></pre>
+
+<h3>Key Parameters</h3>
+<ul>
+<li><strong>Intensity cap:</strong> p95 ≈ 77 fills/sec (nearest-rank 76.88 of all 45 combined cells). Caps only the two extreme cells (203 and 190 fills/sec).</li>
+<li><strong>BUY surface median:</strong> 21.22 fills/sec (across 45 cells)</li>
+<li><strong>SELL surface median:</strong> 20.55 fills/sec (across 45 cells)</li>
+<li><strong>Combined median:</strong> 44.39 fills/sec — use ONLY if deploying combined surface as fallback</li>
+</ul>
+<div class="alert alert-danger">
+<strong>Do NOT use the combined median (44.39) for directional surfaces.</strong> It would make most cells produce γ &lt; 1, incorrectly reducing gamma in the majority of environments. Use per-surface medians.
+</div>
+
+<h3>Practical Effect</h3>
+<ul>
+<li>At p=0.85: ask is much wider than bid (BUY adverse intensity high → high ask gamma)</li>
+<li>At p=0.15: bid is much wider than ask (SELL adverse intensity high → high bid gamma)</li>
+<li>At p=0.50: roughly symmetric</li>
+</ul>
+
+<h3>Combined Intensity Grid (adverse fills/sec) — <a href="#" onclick="switchTab('explorer');return false;">Interactive version in Explorer →</a></h3>
+<table>
+<tr><th>Time \ Price</th><th>0-0.1</th><th>0.1-0.2</th><th>0.2-0.3</th><th>0.3-0.4</th><th>0.4-0.6</th><th>0.6-0.7</th><th>0.7-0.8</th><th>0.8-0.9</th><th>0.9-1.0</th></tr>
+<tr><td>0-30s</td><td class="heat-low">8.14</td><td class="heat-med">41.40</td><td class="heat-med">48.91</td><td class="heat-high">54.03</td><td class="heat-med">50.11</td><td class="heat-high">52.94</td><td class="heat-med">50.32</td><td class="heat-med">36.66</td><td class="heat-low">6.24</td></tr>
+<tr><td>30-60s</td><td class="heat-low">14.99</td><td class="heat-high">58.97</td><td class="heat-high">64.20</td><td class="heat-high">65.78</td><td class="heat-high">62.84</td><td class="heat-high">58.03</td><td class="heat-high">58.50</td><td class="heat-med">49.43</td><td class="heat-low">12.32</td></tr>
+<tr><td>60-120s</td><td class="heat-low">19.23</td><td class="heat-med">45.11</td><td class="heat-high">51.97</td><td class="heat-med">45.31</td><td class="heat-med">50.90</td><td class="heat-med">48.53</td><td class="heat-med">44.19</td><td class="heat-med">39.52</td><td class="heat-low">12.22</td></tr>
+<tr><td>120-180s</td><td class="heat-low">28.74</td><td class="heat-med">42.44</td><td class="heat-med">43.20</td><td class="heat-med">42.05</td><td class="heat-med">44.21</td><td class="heat-med">39.73</td><td class="heat-med">40.72</td><td class="heat-low">21.80</td><td class="heat-low">25.13</td></tr>
+<tr><td>180-300s</td><td class="heat-extreme">203.39</td><td class="heat-high">76.88</td><td class="heat-high">58.23</td><td class="heat-med">42.19</td><td class="heat-med">38.58</td><td class="heat-med">44.39</td><td class="heat-high">54.63</td><td class="heat-low">13.59</td><td class="heat-extreme">190.36</td></tr>
+</table>
+<p style="color:var(--text-muted);font-size:0.82rem;margin-top:4px">Top two cells (180-300s × extreme prices) have credible fill counts but tiny exposure denominators. Capped at 77.</p>
+
+<h3>Decisions Required Before Deployment</h3>
+<ul>
+<li><strong>Intensity cap value:</strong> p95 ≈ 77 recommended. Without cap, extreme cells produce 4.6× multipliers. With cap: 1.73× — still elevated but competitive.</li>
+<li><strong>Lookup vs parametric:</strong> Lookup table recommended. |2p-1|^α form rejected (R² negative). Logistic regression with asymmetric terms is a Phase 2/3 alternative.</li>
+<li><strong>Update frequency:</strong> Offline. Recompute weekly/monthly as more data accumulates.</li>
+<li><strong>Silent markets:</strong> Use implied Polymarket price from CEX-to-strike distance (see Silent Markets section in Research tab).</li>
+</ul>
+
+<div class="collapsible">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+📖 Full justification: Adverse Selection Surface (Section 14) <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<h4>The Direction Inversion Error (Edition 2 Correction)</h4>
+<p>The original analysis measured <em>taker-adverse</em> (price dropped after BUY fill), not <em>maker-adverse</em> (price rose after BUY fill). The "83% adverse rate at p∈[0,0.1]" was measuring how often cheap YES tokens dropped further — <strong>favorable</strong> for the maker who sold them.</p>
+<p>Corrected maker-adverse definition: BUY fill (MM sold YES) is adverse when price ROSE after (MM sold too cheap). SELL fill (MM bought YES) is adverse when price FELL after (MM bought too expensive).</p>
+
+<h4>v5 Surface (54.5M Unique Fills After Deduplication)</h4>
+<p>27.5M BUY + 27.0M SELL across 2,370 BTC 5-minute markets.</p>
+<ul>
+<li><strong>BUY adverse (maker sold YES too cheap):</strong> 45.1% aggregate. Monotonically increasing with price through p∈[0.8,0.9]: 22.5-38.4% at p∈[0,0.1] → 56.0-71.5% at p∈[0.8,0.9]. At p∈[0.9,1.0]: time-dependent (39.9% near resolution → 65.7% far from resolution).</li>
+<li><strong>SELL adverse (maker bought YES too expensive):</strong> 44.0% aggregate. Mirror image: 34-71% at p∈[0,0.1] → 20-37% at p∈[0.9,1.0].</li>
+<li><strong>Combined:</strong> 44.6% aggregate. Roughly symmetric around p=0.5 (29-57%).</li>
+</ul>
+
+<h4>BUY-Only Per-Fill Adverse Rate</h4>
+<table>
+<tr><th>Time \ Price</th><th>0-0.1</th><th>0.1-0.2</th><th>0.2-0.3</th><th>0.3-0.4</th><th>0.4-0.6</th><th>0.6-0.7</th><th>0.7-0.8</th><th>0.8-0.9</th><th>0.9-1.0</th></tr>
+<tr><td>0-30s ⚠</td><td>25.3%</td><td>38.2%</td><td>45.9%</td><td>47.7%</td><td>54.6%</td><td>65.8%</td><td>69.1%</td><td>71.5%</td><td>39.9%</td></tr>
+<tr><td>30-60s</td><td>22.5%</td><td>32.4%</td><td>39.5%</td><td>48.1%</td><td>50.5%</td><td>58.0%</td><td>63.3%</td><td>70.1%</td><td>59.8%</td></tr>
+<tr><td>60-120s</td><td>27.2%</td><td>33.7%</td><td>41.9%</td><td>45.6%</td><td>48.7%</td><td>56.6%</td><td>59.8%</td><td>65.9%</td><td>61.9%</td></tr>
+<tr><td>120-180s</td><td>28.9%</td><td>32.9%</td><td>37.5%</td><td>40.3%</td><td>47.1%</td><td>48.9%</td><td>51.8%</td><td>58.9%</td><td>60.7%</td></tr>
+<tr><td>180-300s</td><td>38.4%</td><td>37.4%</td><td>41.0%</td><td>40.9%</td><td>43.2%</td><td>46.5%</td><td>48.2%</td><td>56.0%</td><td>65.7%</td></tr>
+</table>
+
+<h4>SELL-Only Per-Fill Adverse Rate</h4>
+<table>
+<tr><th>Time \ Price</th><th>0-0.1</th><th>0.1-0.2</th><th>0.2-0.3</th><th>0.3-0.4</th><th>0.4-0.6</th><th>0.6-0.7</th><th>0.7-0.8</th><th>0.8-0.9</th><th>0.9-1.0</th></tr>
+<tr><td>0-30s ⚠</td><td>34.2%</td><td>66.8%</td><td>63.6%</td><td>57.2%</td><td>52.8%</td><td>47.6%</td><td>41.9%</td><td>32.3%</td><td>20.4%</td></tr>
+<tr><td>30-60s</td><td>58.3%</td><td>74.4%</td><td>68.8%</td><td>62.2%</td><td>54.3%</td><td>48.8%</td><td>42.7%</td><td>36.6%</td><td>24.2%</td></tr>
+<tr><td>60-120s</td><td>63.9%</td><td>69.4%</td><td>61.7%</td><td>52.1%</td><td>48.2%</td><td>44.0%</td><td>39.1%</td><td>34.5%</td><td>27.2%</td></tr>
+<tr><td>120-180s</td><td>65.4%</td><td>64.8%</td><td>55.6%</td><td>50.9%</td><td>46.5%</td><td>41.6%</td><td>40.0%</td><td>35.5%</td><td>32.3%</td></tr>
+<tr><td>180-300s</td><td>70.5%</td><td>54.9%</td><td>46.6%</td><td>43.0%</td><td>42.6%</td><td>40.2%</td><td>38.1%</td><td>37.4%</td><td>36.7%</td></tr>
+</table>
+
+<h4>Combined Per-Fill Adverse Rate</h4>
+<table>
+<tr><th>Time \ Price</th><th>0-0.1</th><th>0.1-0.2</th><th>0.2-0.3</th><th>0.3-0.4</th><th>0.4-0.6</th><th>0.6-0.7</th><th>0.7-0.8</th><th>0.8-0.9</th><th>0.9-1.0</th></tr>
+<tr><td>0-30s</td><td>29.5%</td><td>53.7%</td><td>55.6%</td><td>52.5%</td><td>53.7%</td><td>57.2%</td><td>57.3%</td><td>53.7%</td><td>29.3%</td></tr>
+<tr><td>30-60s</td><td>37.5%</td><td>55.0%</td><td>55.3%</td><td>55.7%</td><td>52.4%</td><td>53.7%</td><td>54.0%</td><td>55.8%</td><td>39.0%</td></tr>
+<tr><td>60-120s</td><td>39.8%</td><td>51.5%</td><td>52.0%</td><td>48.8%</td><td>48.4%</td><td>50.5%</td><td>50.0%</td><td>50.4%</td><td>39.6%</td></tr>
+<tr><td>120-180s</td><td>35.8%</td><td>45.6%</td><td>45.8%</td><td>45.4%</td><td>46.8%</td><td>45.2%</td><td>45.8%</td><td>45.7%</td><td>39.0%</td></tr>
+<tr><td>180-300s</td><td>39.4%</td><td>40.5%</td><td>42.6%</td><td>41.6%</td><td>42.9%</td><td>42.6%</td><td>41.3%</td><td>41.3%</td><td>38.4%</td></tr>
+</table>
+
+<h4>Top Intensity Cells (Combined)</h4>
+<table>
+<tr><th>Cell</th><th>Adverse fills</th><th>Total fills</th><th>Exposure (s)</th><th>Intensity (fills/s)</th></tr>
+<tr><td>180-300s × 0-0.1</td><td>247,313</td><td>627,490</td><td>1,216</td><td>203.39</td></tr>
+<tr><td>180-300s × 0.9-1.0</td><td>299,958</td><td>782,020</td><td>1,576</td><td>190.36</td></tr>
+<tr><td>180-300s × 0.1-0.2</td><td>414,281</td><td>1,024,011</td><td>5,389</td><td>76.88</td></tr>
+<tr><td>30-60s × 0.3-0.4</td><td>195,863</td><td>351,774</td><td>2,978</td><td>65.78</td></tr>
+<tr><td>30-60s × 0.2-0.3</td><td>211,032</td><td>381,726</td><td>3,287</td><td>64.20</td></tr>
+</table>
+
+<h4>0-30s Row Reliability Caveat</h4>
+<p>⚠ The 0-30s row has the smallest fill counts per cell (e.g., 198K at p∈[0,0.1], 209K at p∈[0.9,1.0]). The 39.9% BUY adverse at 0-30s × p∈[0.9,1.0] is anomalously low compared to 59.8-65.7% in surrounding rows — likely a small-sample artifact. For deployment, the 0-30s row should fall back to a time-aggregated rate (average of 30-60s and 60-120s rows) for any cell where fill count &lt; 1,000.</p>
+<p>Same caveat applies to SELL 0-30s row: 34.2% at p∈[0,0.1] (176K fills) and 20.4% at p∈[0.9,1.0] (247K fills) are anomalously low vs adjacent rows.</p>
+
+<h4>What Changed From Edition 1</h4>
+<ol>
+<li>"Inverted assumption" narrative removed. BUY-only maker adverse selection increases with price — standard pattern, not inversion.</li>
+<li>Deployment surface changed from per-fill rate to exposure-normalised intensity.</li>
+<li>Gamma direction now asymmetric: increase γ at high prices near resolution, can decrease at low prices.</li>
+<li>D(t,p) rejection reason changed: "asymmetric" not "inverted."</li>
+</ol>
+
+<h4>Parametric Fitting</h4>
+<p>|2p-1|^α form still rejected (R² negative) because BUY-only surface is monotonically increasing in price, not symmetric around p=0.5. Combined surface is roughly symmetric but functional form doesn't capture the time-dependent shape. Use lookup table. If parametric smoothing desired later, logistic regression with asymmetric terms (separate indicators for p&lt;0.1, p&gt;0.9, t&lt;30s) would be more appropriate.</p>
+</div>
+</div>
+</div>
+
+<!-- LAYER 2 -->
+<div class="card">
+<h2>Layer 2 — VR/BOCPD Slow Dynamic Adjustment <span class="badge badge-green">High Priority</span></h2>
+<p>Classifies the current market's regime (trending / mean-reverting / neutral) and adjusts γ accordingly. Update every 10-30s — no sub-second requirement.</p>
+
+<h3>Variance Ratio (VR) — BTC Markets</h3>
+<pre><code># VR on logit returns
+x_t = log(p_t / (1 - p_t))           # Logit transform
+dx_t = x_t - x_{t-1}                  # Logit returns
+VR(k=30s) computed on dx_t series
+M2 = (VR - 1) / sigma_hat             # Lo-MacKinlay z-statistic
+
+if asset == BTC:
+    if obs_count < 300:                # Validity gate
+        INSUFFICIENT_DATA
+    elif M2 > 1.65:                    # 10% two-tailed
+        TRENDING
+    elif M2 < -1.65:
+        MEAN_REVERTING
+    else:
+        NEUTRAL
+elif asset in [ETH, SOL, XRP]:
+    # VR at k=30 structurally invalid (p50 ≈ 110-116 trades)
+    CUSUM_on_logit_returns(dx_t)       # Fallback</code></pre>
+
+<h4>VR Calibrated Parameters</h4>
+<ul>
+<li><strong>Significance threshold:</strong> |z| > 1.65 (10% two-tailed)</li>
+<li><strong>Validity gate:</strong> n ≥ 300 trades in estimation window</li>
+<li><strong>Noise suppression:</strong> Don't run VR where SE > 0.5</li>
+<li><strong>BTC p50:</strong> 38,430 trades → SE = 0.125 (solid)</li>
+<li><strong>BTC p10:</strong> 314 trades → SE = 0.45 (borderline)</li>
+<li><strong>Alt p50:</strong> 110-116 trades → SE ≈ 0.73 (useless at k=30)</li>
+</ul>
+
+<h3>BOCPD — Parallel Regime Detection</h3>
+<pre><code># BOCPD on logit returns (Student-t, df ≈ 2.5-3.0)
+# PREREQUISITE: Verify package handles df < 3 correctly
+# λ_active ≈ 0.01  (during active trading)
+# λ_dormant ≈ 0.001 (during quiet periods)
+
+# When P(changepoint) > threshold → re-evaluate regime via VR
+# Threshold (e.g., 0.7) must be calibrated on held-out data</code></pre>
+
+<h4>BOCPD Calibrated Parameters</h4>
+<ul>
+<li><strong>Student-t df:</strong> ≈ 2.69 (Hill α=2.6). Infinite variance regime (df < 3).</li>
+<li><strong>λ_active:</strong> 0.01 (1/100s) — geometric mean of PELT pen=2 (0.021) and pen=3 (0.006)</li>
+<li><strong>λ_dormant:</strong> 0.001 (1/1000s) — for pre-resolution quiet period</li>
+<li><strong>Transition:</strong> Switch λ_dormant → λ_active when trade arrival exceeds threshold</li>
+<li><strong>14.5% exact-zero returns:</strong> Feed into BOCPD — they're informative</li>
+<li><strong>Computational cost:</strong> O(T_max) per observation, T_max ≈ 300-700</li>
+</ul>
+<div class="alert alert-warn">
+<strong>⚠ Blocking prereq:</strong> Verify that <code>bayesian_changepoint_detection</code> Python package implements proper Student-t likelihood with conjugate updates, not Gaussian likelihood with post-hoc Student-t overlay. At df &lt; 3, Normal-Inverse-Gamma assumes finite variance (technically invalid). Student-t BOCPD with known df uses Normal-Inverse-Chi-squared structure.
+</div>
+<div class="alert alert-warn">
+<strong>⚠ Calibration caveat:</strong> λ_active = 0.01 is geometric mean of two penalty levels that disagree by 3.5×. Not a formal calibration. Principled PELT penalty selection (elbow method, BIC/mBIC) should be completed. Confidence: 80%, upgradeable to 90%.
+</div>
+
+<h3>Applying Regime Adjustment</h3>
+<pre><code>if regime == TRENDING:
+    γ_adjusted = γ_eff × κ_trend      # κ_trend > 1 (widen)
+elif regime == MEAN_REVERTING:
+    γ_adjusted = γ_eff × κ_revert     # κ_revert < 1 (tighten)
+else:
+    γ_adjusted = γ_eff                 # neutral
+
+# κ_trend and κ_revert are UNCALIBRATED placeholders
+# Starting grid: κ_trend ∈ {1.2, 1.5, 2.0, 3.0}
+#                κ_revert ∈ {0.5, 0.7, 0.85, 1.0}
+# Optimise for markout PnL on held-out data</code></pre>
+
+<h3>Resolution-Window Trade Density</h3>
+<ul>
+<li>Within the 5-min resolution window: only 52.2% of BTC markets pass n ≥ 300 gate</li>
+<li>47.3% of BTC markets have zero trades during resolution</li>
+<li>68% of alt markets have zero trades</li>
+<li>For active subset (BTC p50 conditional on trading = 7,084): VR is well-powered</li>
+<li>For silent markets: Layer 1 is primary defence → see Silent Markets in Research tab</li>
+</ul>
+
+<div class="collapsible">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+📖 Full justification: VR Test (Section 1) + BOCPD (Section 2) <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<h4>VR Test (Lo & MacKinlay 1988)</h4>
+<p>Under random walk null: Var(k-period returns) = k × Var(1-period returns). Deviations indicate:</p>
+<ul>
+<li><strong>VR(k) > 1:</strong> Positive autocorrelation, trending. Widen spreads, reduce inventory.</li>
+<li><strong>VR(k) < 1:</strong> Negative autocorrelation, mean-reverting. Tighten spreads.</li>
+<li><strong>VR(k) ≈ 1:</strong> Random walk, neutral.</li>
+</ul>
+<p>Lo &amp; MacKinlay derive asymptotic z-statistic M2(k) with heteroskedasticity-robust SE. The original document's "VR > 1.3 trending / VR < 0.8 mean-reverting" thresholds appear in no cited literature — corrected to z-statistic approach.</p>
+<p>VR profile across multiple horizons (10s, 30s, 60s, 120s) is a rich feature: trending markets show VR > 1 at all horizons; mean-reverting show VR < 1 at short horizons but ≈1 at longer ones.</p>
+<p><strong>Statistical power warning:</strong> With k=30s, need n >> 30 non-overlapping samples. Alt markets (p50 ≈ 110-116) give n/k ≈ 3.7 (far below required ≥10). VR at k=30 is structurally inapplicable to alt 5-min markets.</p>
+<p><strong>Alt fallback:</strong> (a) Increase k to 10-15 for coarser regime resolution, or (b) switch to CUSUM on logit returns (recommended — no asymptotic sample size requirement).</p>
+<p>References: Lo &amp; MacKinlay (1988) "Stock Market Prices Do Not Follow Random Walks." RFS 1(1), 41-66.</p>
+
+<h4>BOCPD (Adams & MacKay 2007)</h4>
+<p>Computes full posterior distribution over run length at each timestep. Academic consensus for online changepoint detection.</p>
+<p><strong>Input:</strong> Logit returns Δx_t. <strong>Model:</strong> Student-t (not Gaussian). <strong>Hazard rate:</strong> Two-phase — active (λ≈0.01) and dormant (λ≈0.001).</p>
+<p><strong>PELT calibration detail:</strong></p>
+<ul>
+<li>pen=2: median 47.8s, p10=2.4s, 8.6 CP/market. 55% segments < 1 min, 21% > 1 hour. λ≈0.021.</li>
+<li>pen=3: median 160.2s, p10=23.5s, 4.2 CP/market. p10 shift from 2.4s→23.5s confirms sub-3s "regimes" were noise. λ≈0.006.</li>
+<li>pen=2/pen=3 used different histogram bins — quantile stats (median, p10) are bin-independent.</li>
+<li>The 23.5s p10 aligns with 24.1s adverse window (80% damage), suggesting sub-30s segments ARE real information events.</li>
+</ul>
+<p><strong>Methodological caveat:</strong> 134/200 PELT markets were subsampled to 2,000 trades. Subsampling compresses time series and may bias duration estimates. Running PELT on 10-20 unsubsampled markets should close this gap.</p>
+<p><strong>Computational cost:</strong> O(T_max) per observation — NOT O(1). With λ_active=0.01 and truncation at T_max≈300-700, per-tick cost manageable. At BTC peak (130 tps), that's 39K-91K ops/sec — feasible with NumPy, not pure Python.</p>
+<p>Reference: Adams &amp; MacKay (2007) "Bayesian Online Changepoint Detection." arXiv:0710.3742.</p>
+</div>
+</div>
+</div>
+
+<!-- LAYER 3 -->
+<div class="card">
+<h2>Layer 3 — Trade Arrival Intensity Monitor <span class="badge badge-yellow">Medium Priority</span></h2>
+<p>Fastest feasible reactive signal. First fill in a burst can't be dodged, but spreads can be widened before fill #11.</p>
+
+<pre><code># Rolling trade count in N-second window (e.g., N=3-5s)
+rolling_count = count_fills_in_window(last_N_seconds)
+
+if rolling_count > burst_threshold:
+    γ_burst = γ_adjusted × κ_burst     # κ_burst > 1 (widen on burst)
+else:
+    γ_burst = γ_adjusted
+
+# burst_threshold needs calibration:
+#   Too low  → constantly widened (high opportunity cost)
+#   Too high → widened too late (adverse fills already completed)
+# Starting point: top decile of historical rolling_count distribution</code></pre>
+
+<p><strong>Design principle:</strong> Not trying to prevent adverse fills (impossible with ~200ms CEX lead). Trying to widen spreads during sustained bursts so fills #11-50 are at wider spreads. The 80% adverse accumulation at 24.1s means a 20+ second burst has multiple fill waves.</p>
+</div>
+
+<!-- LAYER 4 -->
+<div class="card">
+<h2>Layer 4 — Post-Event Reversion Capture <span class="badge badge-gray">Low Priority (Optional)</span></h2>
+<p>82% of CUSUM triggers at h=3.0 show reversal within 5s. This turns a failed circuit-breaker into a profitable reversion signal.</p>
+
+<pre><code># CUSUM on logit returns (h ≈ 3.0)
+# When CUSUM triggers AND Layer 3 burst subsides:
+if cusum_triggered AND rolling_count < burst_threshold:
+    γ_reversion = γ_eff × κ_revert_capture  # κ < 1 (tighten to capture reversion)
+    # Hold tightened spreads for 5-10s (82% reversal within 5s)
+    # Then return to Layer 1+2 gamma</code></pre>
+
+<div class="alert alert-info">
+<strong>Key insight:</strong> The old architecture assumed CUSUM fires <em>early</em> in a regime shift and you pull quotes. The data shows CUSUM fires <em>at the peak</em> and price is already reverting. Correct post-CUSUM action is the <strong>opposite</strong> of Edition 1: tighten spreads (capture reversion), not widen them (defend against continuation).
+</div>
+</div>
+
+<!-- LAYER COMBINING -->
+<div class="card">
+<h2>Layer Combining Rule</h2>
+<p>All layers compose multiplicatively:</p>
+<pre><code>γ_final = γ_base × L1_multiplier × L2_multiplier × L3_multiplier × L4_multiplier</code></pre>
+<p>At extremes, combined multiplier can be large (e.g., L1=1.73× × L2=1.5× × L3=1.5× = 3.89×). Apply a <strong>global gamma cap</strong>:</p>
+<pre><code>γ_final = min(γ_combined, γ_max)</code></pre>
+<p>γ_max should keep the resulting spread within competitive range.</p>
+<p><strong>Alternative:</strong> Additive composition for Layers 2-4: <code>γ_final = γ_L1 × (1 + Δ_L2 + Δ_L3 + Δ_L4)</code> — grows more slowly.</p>
+<p>Choice between multiplicative/additive and γ_max cap should be evaluated in backtesting against terminal PnL.</p>
+</div>
+
+<!-- EDGE CASES -->
+<div class="card">
+<h2>Edge Cases</h2>
+
+<h3>Silent Markets (47% of BTC, 68% of alts)</h3>
+<ul>
+<li>All trade-data-based methods (VR, BOCPD, CUSUM, Hawkes) are inoperable with zero trades</li>
+<li><strong>Defence:</strong> Layer 1 A(t,p) surface using implied price from CEX-to-strike distance</li>
+<li>If trades begin arriving: enter maximum defensive spread for 5s, then transition to CUSUM, then to full Layer 2 as data accumulates</li>
+</ul>
+
+<h3>Alt Markets (ETH/SOL/XRP)</h3>
+<ul>
+<li>VR invalid at k=30 (p50 ≈ 110-116 trades, SE ≈ 0.73)</li>
+<li><strong>Fallback:</strong> CUSUM on logit returns or VR with increased k (10-15)</li>
+</ul>
+
+<h3>Gamma Direction by Price Level</h3>
+<ul>
+<li><strong>At HIGH prices (p > 0.7) near resolution:</strong> INCREASE γ. BUY adverse is 48-72%.</li>
+<li><strong>At LOW prices (p < 0.2) near resolution:</strong> Can DECREASE γ. BUY adverse only 22.5-38.4%.</li>
+<li>This asymmetry is handled automatically by the directional BUY/SELL intensity surfaces.</li>
+</ul>
+</div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- TAB: PERFORMANCE MONITORING (USE CASE 2)                      -->
+<!-- ============================================================ -->
+<div id="tab-monitor" class="tab-content">
+
+<div class="card">
+<h2>Use Case 2: Live vs Paper/Backtest Performance Monitoring</h2>
+<p><strong>Goal:</strong> Detect when live trading performance diverges from paper trading and/or backtests. Alert when the divergence is statistically significant — not just noise.</p>
+<p><strong>Key difference from Use Case 1:</strong> This operates on PnL/performance time series, not price series. Update cadence is slower (minutes, not seconds). The algorithms are the same but the input series and parameters differ.</p>
+</div>
+
+<div class="card">
+<h2>Step 1: Construct the Divergence Series</h2>
+<p>The raw input to changepoint detection is a <strong>difference time series</strong> between live and reference performance.</p>
+
+<h3>Live vs Paper</h3>
+<pre><code># Both run the same strategy simultaneously
+# Δ_PnL(t) = PnL_live(t) - PnL_paper(t)
+# Under normal operation: Δ_PnL ≈ 0 + noise (execution slippage)
+
+# Possible divergence series:
+# Option A: Cumulative PnL difference
+Δ_cumulative(t) = Σ[PnL_live(i) - PnL_paper(i)] for i=1..t
+
+# Option B: Rolling window PnL difference
+Δ_rolling(t) = Σ[PnL_live(i) - PnL_paper(i)] for i=t-W..t
+
+# Option C: Per-fill markout difference (most granular)
+Δ_markout(t) = markout_live(t) - markout_paper(t)</code></pre>
+
+<div class="alert alert-info">
+<strong>Recommendation:</strong> Start with <strong>Option B (rolling window)</strong> — it's stationary under normal operation (unlike cumulative which trends) and more stable than per-fill (less noisy). Window size W = 5-15 minutes is a good starting point.
+</div>
+
+<h3>Live vs Backtest</h3>
+<pre><code># Backtest produces expected PnL distribution per environment
+# Live performance should fall within this distribution
+
+# Divergence metric:
+z_score(t) = (PnL_live(t) - E[PnL_backtest]) / σ[PnL_backtest]
+
+# Or: residual from predicted performance
+residual(t) = PnL_live(t) - predicted_PnL(time_bucket, price_bucket)</code></pre>
+</div>
+
+<div class="card">
+<h2>Step 2: Choose Your Detector</h2>
+
+<h3>CUSUM on Divergence Series <span class="badge badge-green">Recommended — Start Here</span></h3>
+<p>Simplest and most interpretable. Detects sustained drift away from zero.</p>
+<pre><code># Standard CUSUM on Δ(t) series
+S_pos(t) = max(0, S_pos(t-1) + Δ(t) - μ_0 - k)  # Detects upward shift
+S_neg(t) = max(0, S_neg(t-1) - Δ(t) + μ_0 - k)  # Detects downward shift
+
+# μ_0 = expected mean of Δ (should be ~0 under normal operation)
+# k = allowance parameter (half the minimum shift you want to detect)
+# h = threshold — alert when S_pos or S_neg > h
+
+# ALERT when S > h: "Live is diverging from paper/backtest"
+
+# Parameter starting points:
+# k: half of one standard deviation of Δ under normal conditions
+# h: set to control false alarm rate (higher h = fewer false alarms)
+#    Start with h = 4-5× σ(Δ_normal) and tune</code></pre>
+
+<h3>BOCPD on Divergence Series <span class="badge badge-blue">Richer — Phase 2</span></h3>
+<p>Provides <em>probabilistic</em> regime classification. Detects not just drift but changes in variance (e.g., live performance became noisier even if mean is similar).</p>
+<pre><code># BOCPD on Δ(t) series with Student-t likelihood
+# Hazard rate: λ ≈ 0.001-0.005 (divergences are rare, not every minute)
+#   → Expected regime length of 200-1000 observations
+# df: start with df=5-10 (PnL differences are less fat-tailed than prices)
+#   → But measure empirically from paper-vs-paper runs
+
+# Regime detection:
+# When P(changepoint) > 0.7 on the divergence series:
+#   → "Something changed in the relationship between live and paper"
+#   → Investigate: mean shift? variance change? both?</code></pre>
+
+<h3>E-Detectors <span class="badge badge-gray">Nonparametric — Phase 3</span></h3>
+<p>When you don't know the distribution of "normal" divergence well enough to parameterise.</p>
+<pre><code># E-detectors provide non-asymptotic ARL bounds
+# For any threshold α: ARL ≥ 1/α
+# Useful when the divergence distribution is unknown or changes
+
+# Best for: early deployment before you have enough data to calibrate
+# parametric methods. Switch to CUSUM/BOCPD once calibrated.</code></pre>
+</div>
+
+<div class="card">
+<h2>Step 3: Set Alert Thresholds</h2>
+<ul>
+<li><strong>Level 1 — Watch:</strong> CUSUM S > 3σ or BOCPD P(changepoint) > 0.5. Log and track. No action.</li>
+<li><strong>Level 2 — Warning:</strong> CUSUM S > 5σ or BOCPD P(changepoint) > 0.7 sustained for 2+ minutes. Notify team. Investigate.</li>
+<li><strong>Level 3 — Action:</strong> CUSUM S > 8σ or BOCPD P(changepoint) > 0.9 sustained for 5+ minutes. Consider pausing live. Switch to paper-only.</li>
+</ul>
+<div class="alert alert-warn">
+<strong>Calibration required:</strong> These thresholds are starting points. Run paper-vs-paper (two identical paper instances) for a week to establish the null distribution of Δ(t). Your alert thresholds should be set relative to this measured null, not arbitrary σ multiples.
+</div>
+</div>
+
+<div class="card">
+<h2>Step 4: What to Monitor</h2>
+<h3>Primary Metrics (Changepoint Detection Targets)</h3>
+<ul>
+<li><strong>Δ_PnL(t):</strong> Rolling PnL difference (live - paper). Primary divergence signal.</li>
+<li><strong>Δ_fill_rate(t):</strong> Difference in fill rates. Detects execution degradation.</li>
+<li><strong>Δ_adverse_rate(t):</strong> Difference in adverse fill rates. Detects if live is getting picked off more.</li>
+<li><strong>Δ_spread_captured(t):</strong> Difference in average spread captured per fill.</li>
+</ul>
+
+<h3>Secondary Metrics (Context for Diagnosis)</h3>
+<ul>
+<li><strong>Layer 1 prediction error:</strong> Predicted adverse rate (from A(t,p) surface) minus actual adverse rate. Detects when the surface needs re-estimation.</li>
+<li><strong>Layer 2 classifier accuracy:</strong> Does VR/BOCPD regime classification correlate with subsequent fill outcomes?</li>
+<li><strong>Markout PnL by layer:</strong> Attribute performance to each layer independently.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Step 5: Surface Degradation Detection (Self-Monitoring)</h2>
+<p>The A(t,p) intensity surface was estimated from historical data. Over time, it may become stale.</p>
+<pre><code># Monitor: predicted adverse rate per cell vs actual
+surface_error(t,p) = predicted_adverse_rate(t,p) - actual_adverse_rate(t,p)
+
+# Run CUSUM on surface_error for each cell (or aggregated)
+# When CUSUM triggers: the surface needs re-estimation
+
+# Action thresholds:
+# surface_error sustained > 5% for 1 week → re-estimate surface
+# surface_error sustained > 10% for 3 days → urgent re-estimation
+# markout PnL drops > 2σ from backtest expectation → full architectural review</code></pre>
+</div>
+
+<div class="card">
+<h2>Connecting to the Same Algorithms</h2>
+<p>The methods from the research document apply directly:</p>
+<table>
+<tr><th>Method</th><th>Use in Price Regime (UC1)</th><th>Use in Performance Monitoring (UC2)</th></tr>
+<tr><td>CUSUM</td><td>Layer 4: reversion signal on logit returns</td><td><strong>Primary detector</strong> on PnL divergence series</td></tr>
+<tr><td>BOCPD</td><td>Layer 2: regime classification on logit returns</td><td>Probabilistic regime change on divergence series</td></tr>
+<tr><td>VR Test</td><td>Layer 2: trending vs mean-reverting</td><td>Less applicable — PnL divergence isn't about autocorrelation</td></tr>
+<tr><td>E-detectors</td><td>Phase 3 nonparametric alternative</td><td>Good for early deployment when null distribution unknown</td></tr>
+<tr><td>FOCuS</td><td>Phase 3 CUSUM upgrade</td><td>Can replace CUSUM when computational budget allows</td></tr>
+<tr><td>DAS-CUSUM</td><td>Detects simultaneous mean+variance changes</td><td><strong>Excellent for detecting when both PnL level and PnL volatility change</strong></td></tr>
+</table>
+
+<div class="alert alert-info">
+<strong>Key difference in parameters:</strong> For price regime detection, regimes change every ~100s (λ=0.01). For performance monitoring, divergences should be rarer — use λ=0.001-0.005 for BOCPD, and higher h (4-5σ instead of 3σ) for CUSUM to reduce false alarms.
+</div>
+</div>
+
+<div class="card">
+<h2>Implementation Priority for Monitoring</h2>
+<ol>
+<li><span class="priority-highest">Phase 1 (Day 1):</span> CUSUM on Δ_PnL(t) with conservative h. Log alerts, don't act.</li>
+<li><span class="priority-high">Phase 2 (Week 2):</span> Calibrate thresholds from paper-vs-paper null distribution. Add BOCPD.</li>
+<li><span class="priority-medium">Phase 3 (Month 2):</span> Layer 1 surface degradation monitoring. Full alert escalation protocol.</li>
+<li><span class="priority-low">Ongoing:</span> Adapt thresholds as you accumulate live data.</li>
+</ol>
+</div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB: EXTENSIONS                                                -->
+<!-- ============================================================ -->
+<div id="tab-extensions" class="tab-content">
+
+<div class="card">
+<h2>Applying Changepoint Detection to Other Signals</h2>
+<p>The same algorithms (CUSUM, BOCPD, VR, DAS-CUSUM) work on any time series where you want to detect a regime change. The template is always the same:</p>
+<pre><code># 1. Define your input series
+signal(t) = [your metric at time t]
+
+# 2. Choose stationarity transformation if needed
+#    Prices → logit returns
+#    PnL → rolling differences
+#    Rates → no transform needed
+
+# 3. Choose detector based on requirements
+#    Fast + simple → CUSUM
+#    Probabilistic → BOCPD
+#    Unknown distribution → E-detectors
+#    Mean + variance change → DAS-CUSUM
+
+# 4. Calibrate parameters
+#    Run PELT offline on historical data → get ground truth changepoints
+#    Set λ from median segment duration
+#    Set h/threshold from desired false alarm rate
+
+# 5. Deploy + monitor
+#    Log detection events, validate against known regime changes
+#    Tune parameters based on operational experience</code></pre>
+</div>
+
+<div class="card">
+<h2>Extension: Markout Regime Detection</h2>
+<p><strong>Question:</strong> Do we observe changes in our markout during certain periods? Is there a regime where markout is systematically better or worse?</p>
+
+<h3>Input Series</h3>
+<pre><code># Per-fill markout at horizon H (e.g., H=30s)
+markout(t) = mid_price(t + H) - fill_price(t)  # positive = favorable
+
+# Or: rolling average markout
+avg_markout(t) = mean(markout[t-W:t])  # W = window of last N fills</code></pre>
+
+<h3>What Detectors Reveal</h3>
+<ul>
+<li><strong>CUSUM on markout:</strong> Detects sustained shift in average markout quality. "We're suddenly getting worse fills."</li>
+<li><strong>DAS-CUSUM on markout:</strong> Detects when both the mean AND variance of markout change. "Not only are fills worse, they're also more unpredictable."</li>
+<li><strong>BOCPD on markout:</strong> Probabilistic: "There's a 78% chance markout regime changed 45 seconds ago."</li>
+</ul>
+
+<h3>Actionable Responses</h3>
+<ul>
+<li><strong>Markout deterioration detected:</strong> Widen spreads (increase γ). The environment has become more adversely selective.</li>
+<li><strong>Markout improvement detected:</strong> Tighten spreads (decrease γ). The environment is favorable — capture more flow.</li>
+<li><strong>Markout variance increase:</strong> Consider widening asymmetrically on the side with worse markout.</li>
+</ul>
+
+<h3>Connection to Layer 1</h3>
+<p>The A(t,p) surface IS a pre-computed markout regime map — it tells you which (time, price) environments have worse adverse selection. Real-time markout monitoring adds a dynamic layer: "Is the current markout consistent with what the surface predicts?"</p>
+</div>
+
+<div class="card">
+<h2>Extension: Adverse Selection Pattern Changes</h2>
+<p><strong>Question:</strong> Is the adverse selection pattern shifting? Are different (time, price) cells becoming more dangerous than the surface predicts?</p>
+
+<h3>Input Series</h3>
+<pre><code># Per-cell adverse rate residual
+residual(t, p_bin, t_bin) = actual_adverse_rate - A_surface[t_bin][p_bin]
+
+# Aggregate across cells for a single series:
+agg_residual(t) = mean(residual across all active cells at time t)</code></pre>
+
+<h3>What Detectors Reveal</h3>
+<ul>
+<li><strong>CUSUM on residual:</strong> "The surface is systematically wrong — actual adverse selection is higher/lower than predicted."</li>
+<li><strong>BOCPD on per-cell residual:</strong> "Adverse selection in the p∈[0.8,0.9] cells just changed — the surface needs updating."</li>
+</ul>
+
+<h3>Actionable Response</h3>
+<ul>
+<li>Trigger surface re-estimation when residual exceeds threshold</li>
+<li>Temporarily adjust γ based on measured residual direction</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Extension: Multi-Market Portfolio Regime Detection</h2>
+<p><strong>Question:</strong> All BTC contracts share the same underlying. Can we detect regime changes across the portfolio, not just per-market?</p>
+
+<h3>Approach</h3>
+<ol>
+<li>Group by underlying asset (all BTC contracts, all ETH contracts, etc.)</li>
+<li>Compute shared "macro regime signal": BOCPD/VR on the underlying CEX price series in logit-distance space (distance from each active oracle threshold)</li>
+<li>Broadcast macro regime to all contracts: trending → all adjust γ up</li>
+<li>Apply contract-specific corrections (time-to-resolution, price level, individual liquidity)</li>
+<li>Monitor deviations: contracts that diverge from macro regime get individual classification</li>
+</ol>
+
+<h3>Why This Is Better</h3>
+<ul>
+<li>Portfolio-level signal is lower variance than any single-market signal</li>
+<li>Information from one contract's BOCPD posterior updates priors for sibling contracts</li>
+<li>Computational savings: shared underlying computation, per-contract adjustments</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Extension: Trade Arrival Pattern Analysis (Hawkes)</h2>
+<p><strong>Question:</strong> Is trade arrival becoming more clustered? Are we seeing self-exciting patterns that indicate informed flow?</p>
+
+<h3>Method: Hawkes Process Branching Ratio</h3>
+<pre><code># Fit Hawkes: λ(t) = λ∞ + Σ α × exp(-β(t - ti))
+# Branching ratio: n = α/β
+# n → 1: market becoming unstable (self-exciting)
+# Monitor n(t) in 1-minute rolling windows
+
+# VALIDITY GATE: Require ≥50 events in fitting window
+# Below threshold: suppress signal (unreliable MLE)</code></pre>
+<p>Combine with BOCPD: when BOCPD detects a changepoint in the Hawkes branching ratio, it signals a structural shift in trade arrival dynamics.</p>
+</div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- TAB: PARAMETER EXPLORER                                       -->
+<!-- ============================================================ -->
+<div id="tab-explorer" class="tab-content">
+
+<div class="card">
+<h2>🔍 Interactive Parameter Explorer</h2>
+<p>Select a surface and cell to see the γ multiplier, adverse rate, and intensity.</p>
+
+<div class="explorer-controls">
+<label>Surface
+<select id="exp-surface" onchange="updateExplorer()">
+<option value="combined">Combined (BUY+SELL)</option>
+<option value="buy">BUY-only (for ask-side γ)</option>
+<option value="sell">SELL-only (for bid-side γ)</option>
+</select>
+</label>
+
+<label>Time to Resolution
+<select id="exp-time" onchange="updateExplorer()">
+<option value="0">0-30s ⚠</option>
+<option value="1">30-60s</option>
+<option value="2">60-120s</option>
+<option value="3">120-180s</option>
+<option value="4">180-300s</option>
+</select>
+</label>
+
+<label>Price Level
+<select id="exp-price" onchange="updateExplorer()">
+<option value="0">0 – 0.1</option>
+<option value="1">0.1 – 0.2</option>
+<option value="2">0.2 – 0.3</option>
+<option value="3">0.3 – 0.4</option>
+<option value="4">0.4 – 0.6</option>
+<option value="5">0.6 – 0.7</option>
+<option value="6">0.7 – 0.8</option>
+<option value="7">0.8 – 0.9</option>
+<option value="8">0.9 – 1.0</option>
+</select>
+</label>
+
+<label>γ_base
+<input id="exp-gamma" type="number" value="1.0" step="0.1" min="0.1" onchange="updateExplorer()">
+</label>
+</div>
+
+<div id="explorer-result" class="explorer-result">
+<!-- Populated by JS -->
+</div>
+</div>
+
+<div class="card">
+<h2>Full Grid View</h2>
+<div class="explorer-controls">
+<label>Metric
+<select id="grid-metric" onchange="updateGrid()">
+<option value="intensity">Intensity (adverse fills/sec)</option>
+<option value="gamma">γ Multiplier (intensity / median)</option>
+<option value="adverse">Adverse Rate (%)</option>
+</select>
+</label>
+<label>Surface
+<select id="grid-surface" onchange="updateGrid()">
+<option value="combined">Combined</option>
+<option value="buy">BUY-only</option>
+<option value="sell">SELL-only</option>
+</select>
+</label>
+</div>
+<div id="grid-container"></div>
+</div>
+
+<div class="card">
+<h2>γ Formula Reference</h2>
+<pre><code># Directional deployment (recommended):
+γ_ask = γ_base × min(I_buy(t,p), 77) / 21.22    # BUY surface → ask-side
+γ_bid = γ_base × min(I_sell(t,p), 77) / 20.55    # SELL surface → bid-side
+
+# Combined fallback:
+γ_eff = γ_base × min(I_combined(t,p), 77) / 44.39
+
+# With Layer 2 regime adjustment:
+γ_final = γ_eff × κ_regime                        # κ_trend > 1, κ_revert < 1
+
+# With Layer 3 burst adjustment:
+γ_final = γ_eff × κ_regime × κ_burst              # κ_burst > 1 during bursts
+
+# Global cap:
+γ_final = min(γ_combined, γ_max)                   # Competitive spread limit</code></pre>
+
+<p><strong>Intensity cap:</strong> p95 ≈ 77 fills/sec (nearest-rank = 76.88). Only the two extreme cells (203.39 and 190.36) are capped.</p>
+<p><strong>Per-surface medians:</strong> BUY = 21.22, SELL = 20.55, Combined = 44.39</p>
+</div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- TAB: FULL RESEARCH (ALL SECTIONS, COLLAPSIBLE)                -->
+<!-- ============================================================ -->
+<div id="tab-research" class="tab-content">
+
+<div class="card">
+<h2>📖 Full Research — All Sections</h2>
+<p style="color:var(--text-muted)">Every section from the Edition 2.1 document, preserved in full. Click to expand.</p>
+<input type="text" id="search-box" placeholder="Search sections... (e.g., 'BOCPD', 'silent market', 'hazard rate')" oninput="searchSections(this.value)">
+</div>
+
+<!-- EDITION NOTICE -->
+<div class="collapsible" data-search="edition notice correction direction inversion cex lead cusum reversal exposure normalised">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+Edition Notice — What Changed in Edition 2 / 2.1 <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p><strong>Edition 2</strong> incorporates three findings requiring an architectural redesign:</p>
+<ol>
+<li><strong>ADVERSE DIRECTION INVERSION (Critical):</strong> The original Gap 4/5 adverse selection analysis measured taker-adverse (price dropped after BUY fill), not maker-adverse (price rose after BUY fill). The "83% adverse rate at p∈[0,0.1]" was measuring how often cheap YES tokens dropped further — favorable for the maker who sold them. Corrected v5 surface shows the opposite pattern: adverse selection increases monotonically with price for BUY fills (25%→72%), consistent with traditional-market assumption. Section 14 fully rewritten.</li>
+<li><strong>CEX LEAD TIME (Architectural):</strong> 25M adverse fills across 2,370 BTC 5-min markets: CEX-to-Polymarket lead time ~200ms median. 94.8% ≤1s. "Detect → react → adjust" paradigm empirically invalidated. Architecture redesigned to "predict-and-price." Section 15 fully rewritten.</li>
+<li><strong>CUSUM REVERSAL BEHAVIOUR (Operational):</strong> 82% of CUSUM triggers at h=3.0 show immediate reversal within 5s. CUSUM fires at peak of completed moves, not onset. Repurposed as post-event reversion signal. CUSUM+BOCPD state machine replaced with 4-layer architecture.</li>
+<li><strong>EXPOSURE-NORMALISED ADVERSE SELECTION SURFACE:</strong> v5 combined surface (54.5M unique fills, deduplicated) with time-exposure normalisation. Intensity capping at p95 ≈ 77 fills/sec.</li>
+<li><strong>TAIL CHARACTERISATION:</strong> Hill estimator α=2.6, Student-t MLE df≈2.69. df &lt; 3 → infinite variance. BOCPD implementation must handle this.</li>
+</ol>
+<h4>Edition 2.1 (Current) — Hybrid Corrections Pass</h4>
+<ol>
+<li>Replaced all residual Edition 1 numbers: 41%→16.7% at 5s, 23.4s→24.1s, 26.7s→27.1s in all cross-references.</li>
+<li>Flagged 87% CUSUM interception as pending re-validation against v5 maker-adverse ground truth.</li>
+<li>Layer 1 redesigned: separate BUY-only and SELL-only intensity surfaces with per-surface medians (BUY: 21.22, SELL: 20.55).</li>
+<li>Layer combining rule specified (multiplicative with global gamma cap).</li>
+<li>DAS-CUSUM and LSTV* citation discrepancies flagged for verification.</li>
+<li>0-30s row reliability caveat added to both BUY and SELL tables.</li>
+<li>Terminal PnL established as primary backtest metric for binary markets.</li>
+<li>Silent market first-fill assumptions flagged as hypotheses requiring measurement.</li>
+<li>"32 configs" sourced as operational experience.</li>
+<li>p95 label corrected: 77 fills/sec is p95 of all 45 cells (nearest-rank = 76.88).</li>
+</ol>
+</div>
+</div>
+
+<!-- SECTION 1: VR TEST -->
+<div class="collapsible" data-search="variance ratio vr test lo mackinlay trending mean reverting autocorrelation z-statistic significance">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§1. Variance Ratio Test (Lo &amp; MacKinlay 1988) <span class="badge badge-green">90% BTC / 70% alts</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">CORRECTIONS: (1) Fixed thresholds VR &gt; 1.3 / VR &lt; 0.8 appear in no cited literature. Corrected to z-statistic approach. (2) Must apply to logit returns, not raw prices. [EDITION 2] Reclassified as Layer 2 slow adjustment (10-30s cycle). Not a detection trigger.</div>
+<p>Under random walk null: Var(k-period returns) = k × Var(1-period returns). Deviations indicate:</p>
+<ul>
+<li><strong>VR(k) &gt; 1:</strong> Positive autocorrelation, trending. Adverse selection risk. Widen spreads.</li>
+<li><strong>VR(k) &lt; 1:</strong> Negative autocorrelation, mean-reverting. Inventory unwinds. Tighten spreads.</li>
+<li><strong>VR(k) ≈ 1:</strong> Random walk, neutral.</li>
+</ul>
+<h4>Correct Implementation</h4>
+<p>Lo &amp; MacKinlay derive asymptotic z-statistic M2(k) with heteroskedasticity-robust SE σ̂(M2). Decision rule:</p>
+<ul>
+<li>Compute M2(k) = VR(k) − 1 normalised by σ̂(M2).</li>
+<li>Trending if M2 &gt; z_{α/2} (e.g., z_{0.10} = 1.28 for 10% two-tailed → calibrated to |z| &gt; 1.65).</li>
+<li>Mean-reverting if M2 &lt; −z_{α/2}.</li>
+<li>With &lt;200 data points in estimation window, VR(k=30s) may be indistinguishable from noise.</li>
+</ul>
+<h4>Statistical Power Warning</h4>
+<p>Typical 5-min market: 20-100 trades. VR(k=30s) on windows where n/k ≈ 2 → Lo-MacKinlay asymptotic distribution invalid. Need n &gt;&gt; 30 non-overlapping samples. Validity gate: return "insufficient data" when below threshold.</p>
+<h4>Logit Domain Application</h4>
+<p>Near p=0.95, apparent mean-reversion from reflection barrier at p=1.0 regardless of genuine regime. VR must be computed on logit returns Δx_t = log(p_t/(1-p_t)) − log(p_{t-1}/(1-p_{t-1})).</p>
+<p>VR profile across multiple horizons (10s, 30s, 60s, 120s) is a rich feature: trending markets show VR &gt; 1 at all horizons; mean-reverting show VR &lt; 1 short, ≈1 long.</p>
+<h4>Empirical Calibration (BTC/Alt 5-Min Markets)</h4>
+<ul>
+<li><strong>BTC (n=1,722):</strong> p50=38,430 trades. p10=314. VR validity gate passed by essentially all. SE at p50: 0.125. At p90 (62,242): SE=0.031.</li>
+<li><strong>Alts (ETH/SOL/XRP, ~339 each):</strong> p50≈110-116 trades. n/k≈3.7 (far below required ≥10). SE≈0.73 — useless. VR at k=30 structurally inapplicable.</li>
+<li><strong>Aggregate statistics misleading:</strong> Overall p50=3,837 dominated by BTC. 68.9% validity rate hides that virtually all invalid are alts.</li>
+</ul>
+<h4>Calibrated VR Parameters</h4>
+<ul>
+<li>Significance: |z| &gt; 1.65 (10% two-tailed)</li>
+<li>Validity gate: n ≥ 300</li>
+<li>Noise suppression: SE &gt; 0.5 → suppress</li>
+</ul>
+<h4>Alt Market Fallback</h4>
+<p>(a) Increase k to 10-15 (coarser resolution). (b) CUSUM on logit returns (recommended — no asymptotic sample size requirement).</p>
+<h4>Resolution-Window Trade Density</h4>
+<p>52.2% of BTC pass n≥300 in resolution window. 47.3% have zero trades. For active subset (conditional p50=7,084), VR well-powered. For 47% silent BTC / 68% silent alts → Layer 1 static surface + CEX fallback.</p>
+<p><strong>References:</strong> Lo &amp; MacKinlay (1988) RFS 1(1). Firoozye (2025) blog post.</p>
+</div>
+</div>
+
+<!-- SECTION 2: BOCPD -->
+<div class="collapsible" data-search="bocpd bayesian online changepoint detection adams mackay hazard rate student-t conjugate run length posterior">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§2. BOCPD (Adams &amp; MacKay 2007) <span class="badge badge-green">90%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">CORRECTIONS: (1) Complexity O(1) with truncation is incorrect → O(T_max). (2) Hazard rate λ=1/120/sec had no empirical basis. (3) Apply to logit returns. [EDITION 2] Reclassified as Layer 2. Student-t df ≈ 2.5-3.0 (infinite variance). Implementation verification required.</div>
+<p>BOCPD computes full posterior distribution over run length (time since last changepoint) at each timestep. Academic consensus for online changepoint detection.</p>
+<h4>Correct Implementation</h4>
+<ul>
+<li><strong>Input:</strong> Logit returns Δx_t. Not raw price returns.</li>
+<li><strong>Model:</strong> Student-t (not Gaussian). df ≈ 2.5-3.0 empirically.</li>
+<li>At df &lt; 3: population variance does not exist. Standard Normal-Inverse-Gamma conjugate prior assumes finite variance — technically invalid. Student-t BOCPD with known df uses Normal-Inverse-Chi-squared structure where sufficient statistics remain well-defined.</li>
+<li><strong>Action required:</strong> Verify <code>bayesian_changepoint_detection</code> package implements proper Student-t likelihood with conjugate updates, not Gaussian with post-hoc Student-t overlay.</li>
+</ul>
+<h4>Hazard Rate λ (Empirically Calibrated, Cross-Validated)</h4>
+<p>PELT on 200 markets at two penalty levels:</p>
+<ul>
+<li><strong>pen=2:</strong> median 47.8s, p10=2.4s, 8.6 CP/market. 55% segments &lt; 1 min, 21% &gt; 1 hour. λ≈0.021.</li>
+<li><strong>pen=3:</strong> median 160.2s, p10=23.5s, 4.2 CP/market. &lt;30s bucket dropped 764→131 (noise removal confirmed). λ≈0.006.</li>
+</ul>
+<p>Note: pen=2 and pen=3 used different histogram bins. Quantile conclusions (median, p10) are bin-independent. p10 shift 2.4s→23.5s confirms sub-3s "regimes" were noise. The 23.5s p10 aligns with 24.1s adverse window.</p>
+<h4>Recommended Two-Phase Approach</h4>
+<ul>
+<li><strong>Active trading:</strong> λ_active ≈ 0.01 (1/100s) — geometric mean of pen=2 and pen=3.</li>
+<li><strong>Dormant accumulation:</strong> λ_dormant ≈ 0.001 (1/1000s).</li>
+<li><strong>Transition:</strong> Switch when trade arrival exceeds calibrated threshold. 47% of BTC markets may never fire.</li>
+</ul>
+<h4>Methodological Caveat</h4>
+<p>λ_active=0.01 is geometric mean of two penalties disagreeing by 3.5× — splitting the difference, not formal calibration. Right penalty should be selected via elbow method, BIC, or mBIC. 134/200 markets subsampled to 2,000 trades — may bias duration estimates. Confidence: 80%, upgradeable to 90%.</p>
+<h4>Computational Cost</h4>
+<p>O(T_max) per observation with run-length truncation. For P &lt; 0.01 pruning: T_max ≈ 300-1000. At BTC peak (130 tps): 39K-91K likelihood evals/sec — feasible with NumPy, not pure Python.</p>
+<h4>Changepoint Signal</h4>
+<p>When P(changepoint) &gt; threshold → re-evaluate regime using VR on logit returns in post-change window. Threshold (e.g., 0.7) is illustrative — calibrate on held-out data.</p>
+<h4>14.5% Exact-Zero Returns</h4>
+<p>Feed into BOCPD — zero-return periods are informative (price not moving = evidence for neutral regime). df≈2.69 from orderbook 5s snapshots is better calibration target.</p>
+<p><strong>Reference:</strong> Adams &amp; MacKay (2007) arXiv:0710.3742.</p>
+</div>
+</div>
+
+<!-- SECTION 3: Score-Driven BOCPD -->
+<div class="collapsible" data-search="score driven bocpd tsaknaki order flow imbalance autocorrelation nasdaq">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§3. Score-Driven BOCPD (Tsaknaki et al. 2024) <span class="badge badge-blue">80%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">CORRECTION: Paper studies order flow imbalance on NASDAQ equities, not prediction market prices. Applying to Polymarket requires adaptation.</div>
+<p>Extends BOCPD to allow temporal correlations within regimes and time-varying parameters updated via the score of the predictive distribution. Demonstrated superior out-of-sample prediction vs i.i.d. BOCPD on NASDAQ.</p>
+<h4>Application to Polymarket — Conditions and Limitations</h4>
+<ul>
+<li><strong>Order flow autocorrelation:</strong> If CEX price watchers cluster order submission over a 10-30s latency window, the buy/sell sequence may exhibit autocorrelation. Requires defining buy/sell classification for Polymarket's CLOB (YES purchasers vs NO purchasers).</li>
+<li><strong>Price level regimes:</strong> Underlying crypto approaching oracle threshold creates a price-level regime, not order flow autocorrelation. Score-driven BOCPD should be applied to logit-returns with appropriate autocorrelation structure.</li>
+</ul>
+<p><strong>Reference:</strong> Tsaknaki, Mazzarisi &amp; Lillo (2024) Quantitative Finance 24(3-4), 307-322.</p>
+</div>
+</div>
+
+<!-- SECTION 4: Cartea-Jaimungal -->
+<div class="collapsible" data-search="cartea jaimungal avellaneda stoikov spread optimisation gamma risk aversion market making alpha signals">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§4. Cartea-Jaimungal Regime-Dependent Spread Optimisation <span class="badge badge-green">90%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>The stochastic control framework for regime-dependent market making. Regime probabilities from BOCPD/HMM feed into Avellaneda-Stoikov / Cartea-Jaimungal spread formula.</p>
+<h4>Key Papers</h4>
+<ul>
+<li>"Market Making with Alpha Signals" (Cartea &amp; Wang 2019, SSRN 3439440): MM employs momentum/alpha signal. Direct foundation for conditioning spreads on regime.</li>
+<li>"Algorithmic Trading with Model Uncertainty" (Cartea, Donnelly &amp; Jaimungal 2017): Robust MM under model ambiguity. Regime uncertainty is model ambiguity.</li>
+<li>"Algorithmic Trading, Stochastic Control, and Mutually-Exciting Processes" (Cartea, Jaimungal &amp; Ricci 2018): <strong>HF traders without short-term-alpha predictors are driven out by adverse selection.</strong> [EDITION 2] Confirmed by CEX lead time finding — you cannot react, so you must predict.</li>
+</ul>
+<h4>Implementation for Polymarket</h4>
+<p>Trending regime (high VR z-stat, high BOCPD changepoint probability) → increase effective gamma → widen spread. Mean-reverting → decrease gamma → tighten.</p>
+<h4>Coupling with Adverse Selection Surface [EDITION 2 — CORRECTED]</h4>
+<ul>
+<li><strong>HIGH prices (p &gt; 0.7) near resolution:</strong> INCREASE γ. BUY adverse 48-72% at 0.7-0.9 price range.</li>
+<li><strong>LOW prices (p &lt; 0.2) near resolution:</strong> Can DECREASE γ. BUY adverse only 22.5-38.4% at p∈[0,0.1].</li>
+<li><strong>Combined surface roughly symmetric around p=0.5</strong> (29-57%), but for quoting both sides independently, use <strong>separate BUY-only and SELL-only intensity surfaces</strong>.</li>
+<li><strong>D(t,p) parametric form still rejected</strong> — R² negative. Surface is asymmetric (BUY-only monotonic in price), not symmetric around p=0.5.</li>
+</ul>
+<p>Avellaneda-Stoikov T-t term (narrows spreads as t→T) is separate from regime-based gamma. T-t reflects reduced inventory risk. Regime-based gamma governed by empirical intensity surface.</p>
+<h4>"Predict or Die" Empirical Confirmation</h4>
+<p>Cartea-Jaimungal-Ricci (2018) theoretical result confirmed by Moirai operational experience: all 32 spread configurations tested lost money, validating that environment classification is necessary for survival.</p>
+<p><strong>References:</strong> Avellaneda &amp; Stoikov (2008) QF 8(3). Cartea, Jaimungal &amp; Penalva (2015) CUP. Cartea &amp; Wang (2019) SSRN 3439440. Cartea, Donnelly &amp; Jaimungal (2017) SIAM JFM. Cartea, Jaimungal &amp; Ricci (2018) SIAM Review 60(3).</p>
+</div>
+</div>
+
+<!-- SECTION 5: VPIN -->
+<div class="collapsible" data-search="vpin order flow toxicity flash crash andersen bondarenko bulk volume classification">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§5. VPIN — Critique and Operational Inapplicability <span class="badge badge-red">Not Recommended</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-danger">CRITICAL: Two independent problems. (1) A&amp;B (2014) empirical refutation is severe: VPIN peaked AFTER Flash Crash, not before; no incremental predictive power after controlling for volume/volatility; sensitive to starting-point; with standard trade classification, behaves in "exact opposite manner." (2) VPIN requires trade classification infrastructure that doesn't exist in Polymarket.</div>
+<h4>Andersen &amp; Bondarenko (2014) — Peer-Reviewed Findings</h4>
+<ul>
+<li>VPIN did not reach all-time high prior to Flash Crash — peaked AFTER. Founding use case refuted.</li>
+<li>After controlling for volume and volatility, no incremental predictive power.</li>
+<li>Computed value highly sensitive to starting point of bucket assignment — reproducibility failure.</li>
+<li>With standard trade classification (tick rule, Lee-Ready), VPIN behaves in "exact opposite manner."</li>
+<li>A&amp;B (2015, Review of Finance) confirmed: "VPIN is unsuitable for capturing order flow toxicity."</li>
+</ul>
+<h4>Operational Inapplicability to Polymarket</h4>
+<ul>
+<li>Requires buyer/seller-initiated trade classification. Standard methods need contemporaneous bid-ask spread — doesn't exist in Polymarket's CLOB.</li>
+<li>Bulk Volume Classification requires mapping signed returns over volume buckets — contracts created/destroyed, not transferred.</li>
+<li>50 buckets/day → ~3-4 buckets for a 5-min market — statistically meaningless.</li>
+</ul>
+<h4>Recommendation</h4>
+<p>Remove VPIN from implementation set. Alternatives: (a) Polymarket-specific signed order imbalance (YES/NO purchase ratios, rolling windows — needs validation against markout), or (b) Hawkes branching ratio (§11).</p>
+<p><strong>References:</strong> Easley, Lopez de Prado &amp; O'Hara (2012) RFS 25(5). Andersen &amp; Bondarenko (2014) JFM 17. Andersen &amp; Bondarenko (2015) Review of Finance 19(1).</p>
+</div>
+</div>
+
+<!-- SECTION 6: Realised Volatility -->
+<div class="collapsible" data-search="realised volatility estimation microstructure noise kernel pre-averaging two-scale tsrv barndorff">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§6. Realised Volatility Estimation with Microstructure Noise <span class="badge badge-green">90%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>Critical for short-horizon regime detection where microstructure noise dominates naïve estimators.</p>
+<h4>Recommended Estimators (Ranked)</h4>
+<ol>
+<li><strong>Realised Kernel (RK)</strong> (Barndorff-Nielsen et al. 2008): Kernel-based, Bartlett or Parzen. Near-consistent, optimal finite-sample. Recommended for Polymarket tick data.</li>
+<li><strong>Pre-Averaging</strong> (Jacod et al. 2009): Averages returns over local windows. Optimal rate n^{-1/4}. Strong alternative.</li>
+<li><strong>Two-Scale RV (TSRV)</strong> (Zhang, Mykland &amp; Aït-Sahalia 2005): Subsampling-based. Rate n^{-1/4}. Good with careful tuning.</li>
+<li><strong>Naïve 5-min RV:</strong> Do NOT use. Biased upward by noise, especially in thin CLOB.</li>
+</ol>
+<p>Andersen, Bollerslev &amp; Meddahi (2011) confirm: optimally-sampled RV dominates 5-min RV; Bartlett kernel and bias-corrected two-scale perform very well; choices based on asymptotic criteria lead to suboptimal finite-sample performance.</p>
+<p><strong>References:</strong> Zhang, Mykland &amp; Aït-Sahalia (2005) JASA 100(472). Barndorff-Nielsen et al. (2008) Econometrica 76(6). Andersen, Bollerslev &amp; Meddahi (2011) JoE 160.</p>
+</div>
+</div>
+
+<!-- SECTION 7: Kernel CUSUM -->
+<div class="collapsible" data-search="kernel cusum mmd maximum mean discrepancy nonparametric gaussian rbf multivariate">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§7. Kernel CUSUM (Wei &amp; Xie 2023) <span class="badge badge-blue">85%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>Online Kernel CUSUM: computationally efficient for changepoint detection with unknown post-change distribution. Uses MMD (Maximum Mean Discrepancy) between post-change and pre-change blocks. Gaussian RBF kernel, bandwidth via median heuristic. Accurate analytic ARL approximations. O(1) per observation via recursive calculation.</p>
+<p>Valuable when regime switches involve complex multivariate changes not captured by simple mean/variance shifts — e.g., joint changes in price trend, bid-ask spread, and trade frequency.</p>
+<p><strong>Reference:</strong> Wei &amp; Xie (2023) arXiv:2211.15070.</p>
+</div>
+</div>
+
+<!-- SECTION 8: DAS-CUSUM -->
+<div class="collapsible" data-search="das-cusum data adaptive symmetric simultaneous mean variance change kl divergence window">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§8. DAS-CUSUM (Ahad, Davenport &amp; Xie 2024) <span class="badge badge-blue">85%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>Data-Adaptive Symmetric CUSUM for detecting multiple changepoints when both mean and variance change simultaneously. Classic CUSUM is asymmetric when both change. DAS-CUSUM uses adaptive window w to estimate post-change parameters with symmetric KL divergence.</p>
+<ul>
+<li>EDD convex in window size; optimal w* ≈ O(log ARL)</li>
+<li>Typical w=20 for financial data</li>
+<li>Single threshold detects both increases and decreases</li>
+<li>Computational cost: O(w) per observation → 20 ops per tick at w=20</li>
+</ul>
+<p>Regime switches in markets typically involve simultaneous drift + volatility changes → DAS-CUSUM is the appropriate variant. Apply in logit domain.</p>
+<p><strong>Reference:</strong> Ahad, Davenport &amp; Xie (2024) Sequential Analysis 43(1). [CITATION NOTE: Edition 1 references listed a different paper with different authors — corrected to match Section 8 body. Verify before publication.]</p>
+</div>
+</div>
+
+<!-- SECTION 9: FOCuS -->
+<div class="collapsible" data-search="focus functional online cusum romano pruning detection delay computational efficiency">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§9. FOCuS (Romano et al. 2023) <span class="badge badge-green">90%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">CORRECTION: O(log n) is expected complexity under functional pruning. Worst-case is O(n). For persistent trends, pruning may be less effective.</div>
+<p>Equivalent to running Page-CUSUM simultaneously for all window sizes / change magnitudes via functional pruning. O(log n) expected cost.</p>
+<p><strong>Comparison to BOCPD:</strong> FOCuS optimised for computational efficiency and detection delay. BOCPD provides full posterior (more information, higher cost). For pure detection → FOCuS. For probability-weighted spread adjustment → BOCPD necessary.</p>
+<p><strong>Reference:</strong> Romano et al. (2023) JMLR 24, 1-36.</p>
+</div>
+</div>
+
+<!-- SECTION 10: E-detectors -->
+<div class="collapsible" data-search="e-detectors nonparametric sequential change detection e-processes supermartingale arl sub-gaussian">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§10. E-detectors (Shin, Ramdas &amp; Rinaldo 2023) <span class="badge badge-blue">85%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>Fundamentally new framework: nonparametric sequential change detection using e-processes (nonnegative supermartingale generalisations of likelihood ratios).</p>
+<ul>
+<li>Clean, non-asymptotic ARL bounds: for any threshold α, ARL ≥ 1/α</li>
+<li>Near-optimal detection delay for sub-Gaussian / sub-exponential distributions</li>
+<li>Extensions: backward confidence sequences, robust SCD under adversarial contamination</li>
+</ul>
+<p>Particularly valuable for Polymarket where post-change distribution characteristics are not well-specified in advance.</p>
+<p><strong>Reference:</strong> Shin, Ramdas &amp; Rinaldo (2023) New England J. Statistics in Data Science 2(2), 229-260.</p>
+</div>
+</div>
+
+<!-- SECTION 11: Hawkes -->
+<div class="collapsible" data-search="hawkes process self-exciting point process branching ratio clustering intensity mle event count">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§11. Hawkes Processes for Regime Detection <span class="badge badge-blue">75%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">Standard MLE requires ~50-100 events for stable parameter identification. Sparse Polymarket markets may have only 10-30 events in a 60s window → unreliable estimates. Implement minimum event count validity gate.</div>
+<p>Model temporal clustering of market events. Intensity: λ(t) = λ∞ + Σ α × exp(−β(t − tᵢ)). Branching ratio n = α/β measures endogeneity: n→1 = unstable market.</p>
+<h4>Implementation with Validity Gate</h4>
+<ul>
+<li>Fit Hawkes via MLE. Minimum event count: ≥50 in fitting window. Below → "insufficient data."</li>
+<li>Monitor n(t) in 1-minute rolling windows. High n(t) = elevated endogenous activity.</li>
+<li>Combine with BOCPD: Hawkes parameters as observable features, BOCPD detects when they change.</li>
+</ul>
+<p>Filimonov &amp; Sornette (2012) detected Flash Crash 2010 precursors using 10-min calibration windows — equity markets have much higher frequency than Polymarket.</p>
+<p><strong>References:</strong> Bacry, Mastromatteo &amp; Muzy (2015) Market Microstructure and Liquidity 1:1550005. Filimonov &amp; Sornette (2012) Physica A 391.</p>
+</div>
+</div>
+
+<!-- SECTION 12: Prediction Market Microstructure -->
+<div class="collapsible" data-search="prediction market microstructure bounded polymarket chainlink oracle clob binary options wolfers manski hanson">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§12. Prediction Market Microstructure and Bounded Markets <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">CORRECTIONS: (1) Only cited Rothschild &amp; Sethi (2013) on Intrade — foundational PM literature (Wolfers, Manski, Hanson, Othman, Chen &amp; Pennock) was absent. (2) Bounded [0,1] problem identified but ignored in all method recommendations → Section 13. (3) End-of-life → Section 14. (4) Smooth transitions → Section 16.</div>
+<h4>Polymarket Structure</h4>
+<p>Decentralised prediction market, CLOB with USDC on Polygon. No trading fees. Binary options paying $1/$0. Bounded [0,1]. Resolution via Chainlink oracle at known time T.</p>
+<h4>Missing Prediction Market Literature (Now Incorporated)</h4>
+<ul>
+<li><strong>Wolfers &amp; Zitzewitz (2004)</strong> "Prediction Markets." JEP — foundational PM information aggregation and price dynamics.</li>
+<li><strong>Manski (2006)</strong> "Interpreting the Predictions of Prediction Markets." Economics Letters — PM prices ≠ event probabilities under rational expectations.</li>
+<li><strong>Hanson (2003)</strong> "Combinatorial Information Market Design." — LMSR market maker.</li>
+<li><strong>Othman et al. (2013)</strong> "A Practical Liquidity-Sensitive Automated Market Maker." — MM with bounded losses.</li>
+<li><strong>Chen &amp; Pennock (2010)</strong> "A Utility Framework for Bounded-Loss Market Makers." — Information market dynamics.</li>
+</ul>
+<h4>Polymarket-Specific Features</h4>
+<ul>
+<li><strong>Chainlink oracle timing:</strong> Known resolution schedule → deterministic T-t term in Avellaneda-Stoikov. Replace T-t with time until next oracle update.</li>
+<li><strong>Contract value bounds [0,1]:</strong> All methods must operate in logit domain (§13).</li>
+<li><strong>Resolution certainty [CORRECTED]:</strong> At HIGH prices near resolution: adverse selection 48-72% (BUY fills) → increase gamma. At LOW prices: only 22.5-38.4% → can decrease gamma. Directional, not symmetric.</li>
+<li><strong>No fees:</strong> Different optimal spread calculation than fee-based exchanges.</li>
+</ul>
+</div>
+</div>
+
+<!-- SECTION 13: Logit Domain -->
+<div class="collapsible" data-search="logit domain transformation bounded probability logit returns reflection barrier unbounded dalen">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§13. The Logit Domain: Foundation for All Methods <span class="badge badge-green">95%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<h4>The Problem</h4>
+<ul>
+<li><strong>VR Test:</strong> Contract at p=0.95 can't trend up &gt; $0.05. Near-boundary always appears mean-reverting from reflection barrier.</li>
+<li><strong>BOCPD with Gaussian:</strong> Every large return near boundaries is far in Gaussian tails → false positives at worst moments.</li>
+<li><strong>HMM with Gaussian emissions:</strong> Can't distinguish genuine mean-reversion from boundary effects.</li>
+</ul>
+<h4>The Logit Transformation</h4>
+<p>x_t = log(p_t / (1 − p_t)). Maps [0,1] → ℝ. Near-boundary handled naturally: p→1 becomes x→+∞, equivalent to large positive drift in unbounded process. Contract at p=0.98 sits at x≈3.89.</p>
+<p>Work in logit returns: Δx_t = x_t − x_{t-1}. All methods use Δx_t as input.</p>
+<h4>Relevant Literature</h4>
+<p>Dalen (2025, arXiv:2510.15205) "Toward Black-Scholes for Prediction Markets" derives complete SDE for PM prices in logit domain including jump processes and microstructure noise. Directly relevant.</p>
+<h4>Implementation Checklist</h4>
+<ol>
+<li>Replace raw p_t with x_t = log(p_t/(1-p_t))</li>
+<li>VR on Δx_t</li>
+<li>BOCPD, CUSUM, FOCuS on Δx_t</li>
+<li>HMM emissions in logit-return space</li>
+<li>Translate back to p-space only at spread formula evaluation</li>
+<li>Transformation is monotone and invertible — no information lost</li>
+</ol>
+</div>
+</div>
+
+<!-- SECTION 14: Adverse Selection Surface — already fully covered in Spread Calc tab's collapsible -->
+<div class="collapsible" data-search="adverse selection surface direction inversion maker taker v5 exposure normalised intensity gamma">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§14. Adverse Selection Surface Near Resolution [EDITION 2 — FULL REWRITE] <span class="badge badge-green">90%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>Full content including all data tables, direction inversion explanation, exposure-normalised intensity surface, and deployment recommendations is in the <a href="#" onclick="switchTab('spread');return false;">📊 Spread Calc tab</a> under the "Layer 1" collapsible section.</p>
+<p><strong>Key numbers:</strong> 54.5M unique fills, 45.1% BUY adverse, 44.0% SELL adverse, 44.6% combined. Cap at p95≈77 fills/sec. BUY median: 21.22, SELL median: 20.55, Combined median: 44.39.</p>
+</div>
+</div>
+
+<!-- SECTION 15: CEX Lead Time -->
+<div class="collapsible" data-search="cex lead time latency adverse fills chainlink polymarket detection react architecture predict price 200ms">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§15. CEX Lead Time and the Limits of Real-Time Defence [EDITION 2 — FULL REWRITE] <span class="badge badge-green">95%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<h4>The Original Question</h4>
+<p>Can we detect regime shifts fast enough to pull quotes before adverse fills? Timing condition: Detection lag &lt; Adverse selection window duration.</p>
+<h4>The Answer: No Detectable Lead</h4>
+<p>25,016,767 adverse fills across 2,410 BTC 5-min markets. Strike-relative CEX-to-Polymarket timing.</p>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Median lead time</td><td>~200ms (0.19s)</td></tr>
+<tr><td>Mean lead time</td><td>0.37s</td></tr>
+<tr><td>p90 lead time</td><td>&lt;1s</td></tr>
+<tr><td>Fraction with lead &gt; 1s</td><td>5.2%</td></tr>
+<tr><td>Fraction with lead &gt; 3s</td><td>0.5%</td></tr>
+<tr><td>Fraction with lead &gt; 5s</td><td>0.1%</td></tr>
+<tr><td>No usable CEX warning (≤1s or MINIMAL)</td><td>94.8%</td></tr>
+</table>
+
+<h4>By Mechanism</h4>
+<table>
+<tr><th>Mechanism</th><th>Fraction</th><th>Median lead</th></tr>
+<tr><td>Threshold crossing (CEX crossed strike)</td><td>30%</td><td>0.20s</td></tr>
+<tr><td>Approach (CEX moved toward strike)</td><td>15%</td><td>0.18s</td></tr>
+<tr><td>Recession (CEX moved away from strike)</td><td>25%</td><td>0.18s</td></tr>
+<tr><td>Minimal (no detectable CEX signal)</td><td>30%</td><td>N/A</td></tr>
+</table>
+
+<h4>The MINIMAL Category (30%)</h4>
+<p>~30% of adverse fills have no detectable CEX signal in the 60s prior. Driven by time decay, order flow dynamics, or other non-CEX mechanisms. Even a perfect CEX detector operating at zero latency misses these entirely.</p>
+<p>Methodological note: MINIMAL classification uses noise threshold of $15.69 (median absolute change in |CEX − strike| over 60s). Threshold-sensitive but qualitative conclusion robust.</p>
+
+<h4>By Time-to-Resolution</h4>
+<p>Barely any difference. Near resolution (0-30s): 36% minimal, 0.22s median. Far (180-300s): 29% minimal, 0.19s median.</p>
+
+<h4>Why Directional CEX Analysis Initially Failed</h4>
+<p>First attempt measured signed CEX direction → 100% "no detectable lead." The relationship is nonlinear: BTC drop toward strike from above causes huge UP token price swings (uncertainty spikes). Resolution time decay drives convergence regardless. A tiny CEX move crossing the strike causes massive Polymarket move. Correct signal: CEX-to-strike <em>distance</em> change, not price <em>direction</em>.</p>
+
+<h4>What This Kills</h4>
+<ol>
+<li><strong>CEX-leading detector:</strong> Dead. 200ms ≈ network latency. Infeasible through Polymarket API.</li>
+<li><strong>"Fast circuit-breaker" paradigm:</strong> Dead. Adverse fills arrive simultaneously with CEX move.</li>
+<li><strong>Chainlink latency arbitrage narrative:</strong> Revised — it's a millisecond speed game, not a seconds detection problem.</li>
+</ol>
+
+<h4>What This Doesn't Kill</h4>
+<ol>
+<li><strong>Spread optimisation via environment classification</strong> — set spreads wider in dangerous (time,price) cells.</li>
+<li><strong>BOCPD/VR for slow spread adjustment</strong> — 10-30s cycle, adjusts for the next few minutes.</li>
+<li><strong>"Predict or die"</strong> — confirmed. Cannot react, must predict.</li>
+</ol>
+
+<h4>Revised Method Roles</h4>
+<table>
+<tr><th>Method</th><th>Original Role</th><th>Revised Role [Edition 2]</th></tr>
+<tr><td>CUSUM on PM logit returns</td><td>Fast circuit-breaker (3s)</td><td>Layer 4 reversion signal (82% reversal)</td></tr>
+<tr><td>BOCPD</td><td>Regime confirmation (10-15s)</td><td>Layer 2 slow adjustment (10-30s)</td></tr>
+<tr><td>VR z-statistic</td><td>Regime classification</td><td>Layer 2 slow adjustment (same, reframed)</td></tr>
+<tr><td>CEX-based CUSUM</td><td>Primary for silent markets</td><td>Demoted — ~200ms lead, no detection role</td></tr>
+<tr><td>Layer 1 static surface</td><td>N/A (new)</td><td>PRIMARY DEFENCE</td></tr>
+<tr><td>Layer 3 trade arrival</td><td>N/A (new)</td><td>Fastest feasible reactive signal</td></tr>
+</table>
+</div>
+</div>
+
+<!-- SECTION 16: STAR/LSTAR -->
+<div class="collapsible" data-search="star lstar estar smooth transition autoregressive logistic terasvirta chainlink drift oracle">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§16. Smooth Transition Models (STAR/LSTAR) <span class="badge badge-blue">80%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<p>Chainlink latency creates smooth transitions (10-30s), not sharp changepoints. STAR/LSTAR designed for this.</p>
+<h4>LSTAR for Prediction Markets</h4>
+<p>G(z_t; γ, c) = (1 + exp(−γ(z_t − c)))^{-1}. Transition variable z_t = CEX price distance from oracle threshold.</p>
+<ul>
+<li>As z_t decreases (approaching threshold): G transitions smoothly 0→1 (mean-reverting → trending)</li>
+<li>Speed parameter γ controls sharpness — large γ ≈ threshold model (nests SETAR)</li>
+<li>Applied in logit-domain returns</li>
+</ul>
+<h4>ESTAR Alternative</h4>
+<p>G = 1 − exp(−γ(z_t − c)²). Symmetric U-shaped transition. Appropriate when dynamics depend on distance in both directions.</p>
+<h4>Implementation</h4>
+<ol>
+<li>Fit offline on historical logit-return data from comparable markets</li>
+<li>Transition variable: oracle distance (underlying − threshold)</li>
+<li>Score in real-time: O(1) per tick (linear evaluation, fixed parameters)</li>
+<li>Use G(t) as regime signal input to spread formula alongside BOCPD</li>
+<li>LSTAR outperforms when Chainlink drift dominates; BOCPD better for abrupt jumps</li>
+</ol>
+<p><strong>References:</strong> Teräsvirta (1994) JASA 89(425). van Dijk, Teräsvirta &amp; Franses (2002) Econometric Reviews 21(1). Granger &amp; Teräsvirta (1993) OUP.</p>
+</div>
+</div>
+
+<!-- SECTION 17: Multi-Market Portfolio -->
+<div class="collapsible" data-search="multi-market portfolio regime detection cross-market correlation principal component shared macro signal">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§17. Multi-Market Portfolio Regime Detection <span class="badge badge-blue">80%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<h4>Opportunities</h4>
+<ul>
+<li><strong>Cross-market correlation:</strong> All BTC contracts in trending simultaneously. First principal component of logit-return changes is more reliable than single-market signal.</li>
+<li><strong>Regime signal pooling:</strong> BOCPD posterior from contract A updates priors for siblings with same underlying.</li>
+<li><strong>Computational scheduling:</strong> Shared underlying signal broadcast to all contracts; per-contract adjustments.</li>
+</ul>
+<h4>Implementation</h4>
+<ol>
+<li>Group by underlying (BTC, ETH, etc.)</li>
+<li>Compute shared "macro regime signal" — BOCPD/VR on underlying CEX price in logit-distance space</li>
+<li>Broadcast: trending → all contracts adjust γ up</li>
+<li>Contract-specific corrections (time-to-resolution, price level, liquidity)</li>
+<li>Monitor deviations — near-resolution contracts may diverge from macro</li>
+</ol>
+</div>
+</div>
+
+<!-- SECTION 18: Silent Markets -->
+<div class="collapsible" data-search="silent market zero trades cex fallback implied price defensive spread first fill handoff">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+§18. Silent Market Regime Detection (CEX-Based Fallback) [EDITION 2] <span class="badge badge-blue">80%</span> <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">[EDITION 2] CEX-based CUSUM demoted from "primary detection" — ~200ms lead provides no actionable reaction window. Primary defence is Layer 1 static surface using implied Polymarket price from CEX-to-strike distance.</div>
+<h4>The Problem (Quantified)</h4>
+<p>47.3% BTC and ~68% alt 5-min markets have zero trades during resolution. All trade-data methods inoperable. Yet MM has quotes outstanding.</p>
+<h4>Layer 1 Defence</h4>
+<pre><code>implied_price = calibrated_function(cex_distance_from_strike, time_to_resolution)
+intensity = A_table[time_to_resolution_bin][implied_price_bin]
+γ_eff = γ_base × min(intensity, cap) / median_intensity</code></pre>
+<h4>CEX Distance as Environment Variable (Not Detection Signal)</h4>
+<ul>
+<li>Far from strike: low probability of outcome change → lower γ</li>
+<li>Near strike: high uncertainty → higher γ</li>
+<li>Crossing strike: maximum danger → maximum γ</li>
+<li>Feeds into Layer 1 through implied price mapping and LSTAR (§16) transition variable</li>
+<li>Does NOT feed real-time detection — ~200ms lead, fills already arrived</li>
+</ul>
+<h4>Recommended Silent Market Protocol</h4>
+<ol>
+<li><strong>Pre-market:</strong> Set gamma via Layer 1 at implied price from CEX distance</li>
+<li><strong>During market:</strong> Update implied price every 1-5s. Re-index into A(t,p).</li>
+<li><strong>Near resolution:</strong> Surface naturally increases intensity in final seconds.</li>
+<li><strong>If trades begin (silent→active handoff):</strong>
+<ul>
+<li>(a) Maximum defensive spread for 5s [Note: "almost certainly informed" is hypothesis, not measured. First-fill adverse rates not compared against general population.]</li>
+<li>(b) Begin accumulating trade data for Layer 2</li>
+<li>(c) After 5s: CUSUM-only (no sample requirement) until n≥300 for VR or ≥50 for Hawkes</li>
+<li>(d) Once sufficient: activate full Layer 2 + Layer 3</li>
+</ul>
+</li>
+<li><strong>Post-resolution:</strong> Measure if silent markets were adversely selected consistent with surface. Feed back.</li>
+</ol>
+<h4>Exposure Quantification [OUTSTANDING]</h4>
+<p>How much total $ exposure sits in silent markets? If negligible, Section 18 is moot. If substantial, implied-price defence is critical. Track 2 outstanding work (1 day).</p>
+</div>
+</div>
+
+<!-- METHOD TAXONOMY -->
+<div class="collapsible" data-search="method taxonomy comparison table tier classical bayesian hmm modern offline detection delay false alarm computation">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+Method Taxonomy &amp; Comparative Analysis Table <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<table>
+<tr><th>Method</th><th>Detection Delay</th><th>False Alarm Control</th><th>Comp. Cost</th><th>Post-Change Assumption</th><th>Best For</th></tr>
+<tr><td colspan="6" style="background:var(--surface3);color:var(--accent);font-weight:bold">Tier 1: Classical</td></tr>
+<tr><td>VR Test (1988)</td><td>Rolling window</td><td>Lo-MacKinlay z-stat</td><td>O(k)</td><td>None (characterises)</td><td>Layer 2 trending/MR</td></tr>
+<tr><td>Hurst Exponent</td><td>Rolling window</td><td>CI</td><td>O(n log n)</td><td>None</td><td>Long-memory</td></tr>
+<tr><td>CUSUM (1954)</td><td>Asympt. optimal</td><td>ARL-controlled</td><td>O(1)</td><td>Known dists</td><td>Layer 4 reversion (82% reversal; NOT circuit-breaker)</td></tr>
+<tr><td>DAS-CUSUM (2024)</td><td>Near-optimal</td><td>Single threshold</td><td>O(w), w≈20</td><td>Gaussian, adaptive</td><td>Mean+variance changes in logit domain</td></tr>
+<tr><td colspan="6" style="background:var(--surface3);color:var(--accent);font-weight:bold">Tier 2: Bayesian Online</td></tr>
+<tr><td>BOCPD (2007)</td><td>Posterior-governed</td><td>Hazard rate</td><td>O(T_max)</td><td>Conjugate prior</td><td>Layer 2 slow adjustment</td></tr>
+<tr><td>Score-Driven BOCPD (2024)</td><td>Posterior-governed</td><td>Hazard rate</td><td>O(T)</td><td>Autocorr. order flow</td><td>Equity-style order flow (adapt for PM)</td></tr>
+<tr><td colspan="6" style="background:var(--surface3);color:var(--accent);font-weight:bold">Tier 3: HMMs</td></tr>
+<tr><td>Gaussian HMM</td><td>Forward alg lag</td><td>Transition probs</td><td>O(K²)</td><td>Gaussian emissions</td><td>Named regime labels (logit domain)</td></tr>
+<tr><td>Markov-Switching (1989)</td><td>Forward alg lag</td><td>Transition probs</td><td>O(K²)</td><td>Regime-switching</td><td>Joint mean+var regimes (logit domain)</td></tr>
+<tr><td colspan="6" style="background:var(--surface3);color:var(--accent);font-weight:bold">Tier 4: Modern Online</td></tr>
+<tr><td>FOCuS (2023)</td><td>Near-optimal</td><td>ARL-controlled</td><td>O(log n) exp; O(n) worst</td><td>Mean changes</td><td>Computational efficiency</td></tr>
+<tr><td>E-detectors (2023)</td><td>Near-optimal nonparam</td><td>Non-asymp ARL</td><td>O(1)-O(log n)</td><td>Sub-Gaussian</td><td>Fully nonparametric</td></tr>
+<tr><td>Kernel CUSUM (2023)</td><td>Increased sensitivity</td><td>Analytic ARL</td><td>O(1) recursive</td><td>Unknown (kernel)</td><td>Unknown post-change dist</td></tr>
+<tr><td colspan="6" style="background:var(--surface3);color:var(--accent);font-weight:bold">Tier 5: Offline / Smooth</td></tr>
+<tr><td>PELT (2012)</td><td>Globally optimal</td><td>O(n) avg</td><td>N/A (offline)</td><td>Statistical cost fn</td><td>Ground truth calibration</td></tr>
+<tr><td>LSTV* (2023)</td><td>Optimal piecewise vol</td><td>O(n log n)</td><td>N/A</td><td>Piecewise-constant vol</td><td>HF vol regime detection [CITATION: unverified]</td></tr>
+<tr><td>LSTAR (1994)</td><td>N/A (smooth)</td><td>N/A</td><td>O(n) per window</td><td>Logistic smooth transition</td><td>Chainlink latency drift</td></tr>
+</table>
+</div>
+</div>
+
+<!-- BACKTESTING FRAMEWORK -->
+<div class="collapsible" data-search="backtesting framework backtest fill simulation adverse selection terminal pnl markout baseline">
+<button class="collapse-btn" onclick="toggleCollapse(this)">
+Backtesting Framework <span class="arrow">▶</span>
+</button>
+<div class="collapse-body">
+<div class="alert alert-warn">CORRECTIONS: (1) "Microstructure simulation" must specify observable signatures. (2) Primary question changed: does environment classification improve markout PnL vs baseline (always-trending at 90.7% FPR)?</div>
+<h4>Why Standard Backtests Fail</h4>
+<ol>
+<li><strong>Fill logic non-trivial:</strong> Polymarket CLOB with discrete ticks. Queue position matters. "If price touches my quote, I'm filled" overstates fill rates.</li>
+<li><strong>Adverse selection dominant cost:</strong> 44.6% of fills adverse. Must capture fill direction.</li>
+<li><strong>Known terminal value:</strong> Contract pays $0 or $1. Fill at p=0.80 on YES that resolves YES costs exactly $0.20. <strong>Terminal PnL is the primary metric</strong> — cleaner than markout for binary markets.</li>
+</ol>
+<h4>Required Components</h4>
+<ol>
+<li><strong>Fill simulation:</strong> Minimum: last-in-queue (pessimistic). Better: reconstruct orderbook, model queue position.</li>
+<li><strong>Adverse selection measurement:</strong> 5s, 15s, and terminal markout per fill. Terminal PnL primary, markout diagnostic.</li>
+<li><strong>Gamma sensitivity:</strong> Full 4-layer at multiple γ_base values. Compute fills, spread, adverse rate, terminal PnL. Optimal γ_base maximises terminal PnL.</li>
+<li><strong>Baseline comparison:</strong> Null = current system at 90.7% FPR. Blocked cross-validation (train months 1-3, test month 4, etc.).</li>
+<li><strong>Layer decomposition:</strong> L1 only vs baseline → L1+L2 vs L1 → full stack vs L1+L2. Identify which layers contribute.</li>
+<li><strong>Silent market subsample:</strong> Separately evaluate the 47% with zero trades.</li>
+</ol>
+<h4>Computational Budget</h4>
+<table>
+<tr><th>Component</th><th>Per-tick</th><th>BTC peak (130 tps)</th><th>Alt (0.4 tps)</th></tr>
+<tr><td>Layer 1 lookup</td><td>O(1)</td><td>Negligible</td><td>Negligible</td></tr>
+<tr><td>Layer 2 VR (every 10-30s)</td><td>O(k)</td><td>~1 VR per 1,300-3,900 ticks</td><td>~1 per 4-12 ticks</td></tr>
+<tr><td>Layer 2 BOCPD</td><td>O(T_max)</td><td>39K-91K ops/sec</td><td>120-280 ops/sec</td></tr>
+<tr><td>Layer 3 rolling count</td><td>O(1)</td><td>Negligible</td><td>Negligible</td></tr>
+<tr><td>Layer 4 CUSUM</td><td>O(1)</td><td>Negligible</td><td>Negligible</td></tr>
+</table>
+<p>BOCPD is the bottleneck at BTC peak. ~91K evals/sec feasible with NumPy, not pure Python.</p>
+</div>
+</div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- TAB: REFERENCE (DATA, CONFIDENCE, NEXT STEPS, REFS)           -->
+<!-- ============================================================ -->
+<div id="tab-reference" class="tab-content">
+
+<div class="card">
+<h2>📋 Measured Empirical Parameters</h2>
+<p style="color:var(--text-muted)">All measured from Moirai's Polymarket BTC/alt 5-minute market data unless noted.</p>
+
+<h3>Trade Density</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Source</th><th>Status</th></tr>
+<tr><td>BTC trades/market (p50)</td><td>38,430</td><td>1,722 BTC markets</td><td>✅ Measured</td></tr>
+<tr><td>BTC trades/market (p10)</td><td>314</td><td>1,722 BTC markets</td><td>✅ Measured</td></tr>
+<tr><td>BTC trades/market (p90)</td><td>62,242</td><td>1,722 BTC markets</td><td>✅ Measured</td></tr>
+<tr><td>Alt trades/market (p50)</td><td>110-116</td><td>~339 each ETH/SOL/XRP</td><td>✅ Measured</td></tr>
+<tr><td>BTC w/ zero trades in resolution</td><td>47.3%</td><td>1,722 BTC markets</td><td>✅ Measured</td></tr>
+<tr><td>BTC resolution trades (conditional, p50)</td><td>7,084</td><td>~900 active BTC markets</td><td>✅ Measured</td></tr>
+</table>
+
+<h3>VR Calibration</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Details</th><th>Status</th></tr>
+<tr><td>VR validity (BTC, n≥300)</td><td>~100% lifetime / 52.2% resolution</td><td>k=30s</td><td>✅</td></tr>
+<tr><td>VR validity (alts, n≥300)</td><td>~31% lifetime / &lt;5% resolution</td><td>k=30s</td><td>✅</td></tr>
+<tr><td>Lo-MacKinlay SE at BTC p50</td><td>0.125</td><td>n=38,430, k=30</td><td>✅</td></tr>
+<tr><td>Lo-MacKinlay SE at BTC p10</td><td>0.45</td><td>n=314, k=30 (borderline)</td><td>✅</td></tr>
+<tr><td>Significance threshold</td><td>|z| &gt; 1.65</td><td>10% two-tailed</td><td>✅ Set</td></tr>
+</table>
+
+<h3>BOCPD Calibration</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Details</th><th>Status</th></tr>
+<tr><td>λ_active (hazard rate)</td><td>0.01 (1/100s)</td><td>Geomean of pen=2 (0.021) and pen=3 (0.006)</td><td>⚠ Needs validation</td></tr>
+<tr><td>λ_dormant</td><td>0.001 (1/1000s)</td><td>Design parameter</td><td>✅ Set</td></tr>
+<tr><td>PELT pen=2 median segment</td><td>47.8s</td><td>p10=2.4s, 8.6 CP/market</td><td>✅</td></tr>
+<tr><td>PELT pen=3 median segment</td><td>160.2s</td><td>p10=23.5s, 4.2 CP/market</td><td>✅</td></tr>
+<tr><td>Student-t df for logit returns</td><td>≈2.69</td><td>Hill + MLE. Infinite variance!</td><td>✅ NEW</td></tr>
+<tr><td>Hill tail index α</td><td>2.6</td><td>Right=2.3, Left=3.1 (asymmetric)</td><td>✅ NEW</td></tr>
+</table>
+
+<h3>CUSUM Calibration</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Details</th><th>Status</th></tr>
+<tr><td>Threshold h</td><td>3.0</td><td>Operating point on ROC</td><td>✅</td></tr>
+<tr><td>Detection delay at h=3.0</td><td>3.2s (median)</td><td>Measured on BTC data</td><td>✅</td></tr>
+<tr><td>Interception rate at h=3.0</td><td>87%</td><td>Against INVERTED adverse fills</td><td>⚠ Re-validate against v5</td></tr>
+<tr><td>FPR at h=3.0</td><td>58%</td><td>Held-out data</td><td>✅</td></tr>
+<tr><td>Reversal rate at trigger</td><td>82%</td><td>Within 5s, h=3.0, 300 BTC markets</td><td>✅ NEW</td></tr>
+</table>
+
+<h3>Adverse Selection (v5 Corrected)</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Details</th><th>Status</th></tr>
+<tr><td>Total unique fills</td><td>54.5M</td><td>UP-token only, deduped</td><td>✅ CORRECTED</td></tr>
+<tr><td>BUY adverse (aggregate)</td><td>45.1%</td><td>27.5M fills, maker-adverse</td><td>✅ CORRECTED</td></tr>
+<tr><td>SELL adverse (aggregate)</td><td>44.0%</td><td>27.0M fills, maker-adverse</td><td>✅ CORRECTED</td></tr>
+<tr><td>Combined adverse (aggregate)</td><td>44.6%</td><td>54.5M fills</td><td>✅ CORRECTED</td></tr>
+<tr><td>BUY adverse at p∈[0,0.1]</td><td>22.5-38.4%</td><td>Time-dependent</td><td>✅ CORRECTED</td></tr>
+<tr><td>BUY adverse at p∈[0.8,0.9]</td><td>56.0-71.5%</td><td>Time-dependent</td><td>✅ CORRECTED</td></tr>
+<tr><td>Top intensity cell</td><td>203.39 fills/s</td><td>180-300s × 0-0.1</td><td>✅ NEW</td></tr>
+<tr><td>Intensity cap (p95)</td><td>≈77 fills/s</td><td>Nearest-rank 76.88</td><td>✅ NEW</td></tr>
+<tr><td>Combined median intensity</td><td>44.39 fills/s</td><td>45 cells</td><td>✅ NEW</td></tr>
+<tr><td>BUY median intensity</td><td>21.22 fills/s</td><td>45 cells</td><td>✅ NEW</td></tr>
+<tr><td>SELL median intensity</td><td>20.55 fills/s</td><td>45 cells</td><td>✅ NEW</td></tr>
+</table>
+
+<h3>CEX Lead Time</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Details</th><th>Status</th></tr>
+<tr><td>Median lead</td><td>~200ms (0.19s)</td><td>25M adverse fills</td><td>✅ NEW</td></tr>
+<tr><td>Mean lead</td><td>0.37s</td><td>Right-skewed</td><td>✅ NEW</td></tr>
+<tr><td>Fraction ≤1s</td><td>94.8%</td><td>All mechanisms</td><td>✅ NEW</td></tr>
+<tr><td>MINIMAL (no CEX signal)</td><td>30%</td><td>No detectable precursor</td><td>✅ NEW</td></tr>
+</table>
+
+<h3>Baseline &amp; Timing</h3>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Details</th><th>Status</th></tr>
+<tr><td>Baseline FPR</td><td>90.7%</td><td>1,584,618 windows</td><td>✅ NEW</td></tr>
+<tr><td>Adverse timing: 80% accumulated</td><td>24.1s</td><td>16.7% at 5s, 32.7% at 10s, 48.9% at 15s</td><td>✅ CORRECTED</td></tr>
+<tr><td>Adverse timing: 90% accumulated</td><td>27.1s</td><td>v5 corrected direction</td><td>✅ CORRECTED</td></tr>
+<tr><td>Exact-zero logit returns</td><td>14.5%</td><td>Same-price fills</td><td>✅ NEW</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Confidence Summary</h2>
+<table>
+<tr><th>Finding / Component</th><th>Conf.</th><th>Key Caveats</th></tr>
+<tr><td>VR classifies regimes (BTC)</td><td><span class="badge badge-green">90%</span></td><td>n≥300 gate. 47% silent excluded.</td></tr>
+<tr><td>VR classifies regimes (alts)</td><td><span class="badge badge-yellow">70%</span></td><td>Structurally inapplicable at k=30.</td></tr>
+<tr><td>BOCPD detects changepoints</td><td><span class="badge badge-green">90%</span></td><td>Logit domain. Student-t df≈2.5-3.0. Verify package.</td></tr>
+<tr><td>BOCPD hazard rate calibration</td><td><span class="badge badge-blue">80%</span></td><td>Geomean of disagreeing estimates. PELT penalty not principled.</td></tr>
+<tr><td>Baseline FPR = 90.7%</td><td><span class="badge badge-green">95%</span></td><td>Specific to current CEX threshold test.</td></tr>
+<tr><td>Adverse timing: 80% at 24.1s</td><td><span class="badge badge-green">95%</span></td><td>BTC 5-min only. 16.7% at 5s.</td></tr>
+<tr><td>Tail: Hill α=2.6, df≈2.69</td><td><span class="badge badge-green">90%</span></td><td>Infinite variance — standard methods assume finite.</td></tr>
+<tr><td>CEX lead: ~200ms median</td><td><span class="badge badge-green">95%</span></td><td>Consistent across all mechanisms/time bins.</td></tr>
+<tr><td>CUSUM fires at peak (82%)</td><td><span class="badge badge-green">90%</span></td><td>5s horizon. Longer not characterised.</td></tr>
+<tr><td>v5 A(t,p) intensity surface</td><td><span class="badge badge-green">90%</span></td><td>Two extreme cells small exposure. Cap required.</td></tr>
+<tr><td>Layer 1 as primary defence</td><td><span class="badge badge-blue">85%</span></td><td>Not backtested against terminal PnL. Deploy BUY/SELL.</td></tr>
+<tr><td>Layer 2 VR/BOCPD adjustment</td><td><span class="badge badge-blue">85%</span></td><td>κ values uncalibrated. BOCPD df unverified.</td></tr>
+<tr><td>Layer 3 trade arrival</td><td><span class="badge badge-yellow">75%</span></td><td>Burst threshold undefined. Interaction untested.</td></tr>
+<tr><td>Layer 4 reversion</td><td><span class="badge badge-yellow">75%</span></td><td>Not backtested. Optional enhancement.</td></tr>
+<tr><td>Cartea-Jaimungal + A(t,p)</td><td><span class="badge badge-green">90%</span></td><td>γ direction now asymmetric. κ needs calibration.</td></tr>
+<tr><td>"Predict or die" confirmed</td><td><span class="badge badge-green">95%</span></td><td>Single team's experience. Market could change.</td></tr>
+<tr><td>Silent market defence</td><td><span class="badge badge-yellow">70%</span></td><td>Implied price calibration not built. Exposure unmeasured.</td></tr>
+<tr><td>Score-driven BOCPD for PM</td><td><span class="badge badge-blue">80%</span></td><td>Requires adaptation for PM order flow.</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Implementation Roadmap</h2>
+
+<h3>Track 1: Blocking (Must Complete Before Going Live)</h3>
+<table>
+<tr><th>Step</th><th>Task</th><th>Est.</th><th>Deps</th><th>Status</th></tr>
+<tr><td>1a</td><td><strong>Business decision: predict-price vs sub-200ms infrastructure</strong></td><td>1 day</td><td>None</td><td class="heat-high">DECISION REQUIRED</td></tr>
+<tr><td>1b</td><td><strong>Implement Layer 1</strong> — BUY/SELL lookup tables, cap=77, medians=21.22/20.55</td><td>2-3 days</td><td>1a</td><td>NOT STARTED</td></tr>
+<tr><td>1c</td><td><strong>Verify BOCPD package handles df &lt; 3</strong></td><td>0.5 day</td><td>None</td><td>NOT STARTED</td></tr>
+<tr><td>1d</td><td><strong>Implement Layer 2 VR</strong> — logit returns, |z|&gt;1.65, n≥300</td><td>1-2 days</td><td>None</td><td>NOT STARTED</td></tr>
+<tr><td>1e</td><td><strong>Implement Layer 2 BOCPD</strong> — Student-t, df≈2.5-3.0, λ=0.01/0.001</td><td>2-3 days</td><td>1c</td><td>NOT STARTED</td></tr>
+<tr><td>1f</td><td><strong>Calibrate κ_trend / κ_revert</strong> — grid search, markout PnL objective</td><td>3-5 days</td><td>1b,1d,1e</td><td>NOT STARTED</td></tr>
+<tr><td>1g</td><td><strong>Baseline comparison</strong> — L1 vs L1+L2 vs baseline (90.7% FPR)</td><td>2-3 days</td><td>1f</td><td>NOT STARTED</td></tr>
+</table>
+
+<h3>Track 2: Phase 2/3 Enhancements</h3>
+<table>
+<tr><th>Step</th><th>Task</th><th>Est.</th><th>Status</th></tr>
+<tr><td>2a</td><td>PELT penalty selection via elbow method (50+ unsubsampled markets)</td><td>3-5 days</td><td>NOT STARTED</td></tr>
+<tr><td>2b</td><td>Adverse fill mixture analysis (info vs speed vs noise)</td><td>2-3 days</td><td>NOT STARTED</td></tr>
+<tr><td>2c</td><td>Silent market exposure measurement</td><td>1 day</td><td>NOT STARTED</td></tr>
+<tr><td>2d</td><td>Implement Layer 3 trade arrival intensity</td><td>3-5 days</td><td>NOT STARTED</td></tr>
+<tr><td>2e</td><td>Implement Layer 4 CUSUM reversion</td><td>2-3 days</td><td>NOT STARTED</td></tr>
+<tr><td>2f</td><td>Implied price calibration for silent markets</td><td>2-3 days</td><td>NOT STARTED</td></tr>
+<tr><td>2g</td><td>PELT on unsubsampled markets (compression bias check)</td><td>1-2 days</td><td>NOT STARTED</td></tr>
+</table>
+
+<h3>Track 3: Performance Monitoring (Ongoing)</h3>
+<table>
+<tr><th>Step</th><th>Task</th><th>Est.</th><th>Status</th></tr>
+<tr><td>3a</td><td>Define monitoring time series (γ_eff, regime accuracy, adverse rate, markout)</td><td>1-2 days</td><td>NOT STARTED</td></tr>
+<tr><td>3b</td><td>Choose monitoring detector (changepoint on surface prediction error)</td><td>1-2 days</td><td>NOT STARTED</td></tr>
+<tr><td>3c</td><td>Set action thresholds (surface re-estimation, parameter recalibration, review)</td><td>1-2 days</td><td>NOT STARTED</td></tr>
+</table>
+
+<h3>Items Removed From Edition 1</h3>
+<ul>
+<li><strong>CUSUM as fast circuit-breaker:</strong> CEX lead ~200ms. Fires at peak. Repurposed as Layer 4 reversion.</li>
+<li><strong>"Measure detection lag vs adverse window":</strong> Measured. Answer: detection lag >> CEX lead. Wrong question.</li>
+<li><strong>VPIN &gt; 0.7:</strong> Replaced by PM-specific signed order imbalance (Phase 3).</li>
+<li><strong>D(t,p) = |2p-1|^α:</strong> Rejected (R² negative). Lookup table instead.</li>
+<li><strong>CUSUM circuit-breaker A/B test:</strong> Architecture invalidated. A/B: L1+L2 vs baseline.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Outstanding Work &amp; Open Questions</h2>
+
+<h3>Blocking (Track 1)</h3>
+<ol>
+<li><strong>BOCPD df &lt; 3 verification (1c).</strong> Package likely implements Gaussian conjugate (NIG). At df≈2.69, population variance infinite. Must verify Student-t likelihood with NIChi2 conjugate. Action: read source. If Gaussian → patch or switch.</li>
+<li><strong>κ_trend / κ_revert calibration (1f).</strong> No empirical basis. Grid: κ_trend ∈ {1.2, 1.5, 2.0, 3.0}, κ_revert ∈ {0.5, 0.7, 0.85, 1.0}. Optimise on held-out markout PnL.</li>
+</ol>
+
+<h3>Methodological (Track 2)</h3>
+<ol start="3">
+<li><strong>PELT penalty selection.</strong> λ=0.01 is geomean of 3.5× disagreement. Elbow/BIC on unsubsampled markets → confirm or revise. 80%→90% confidence.</li>
+<li><strong>Subsampling bias.</strong> 134/200 subsampled to 2,000. Compare 10-20 unsubsampled.</li>
+<li><strong>Adverse fill mixture.</strong> Lead time distribution tail (5-10s): information-based? Speed-based? Noise? Mixture model.</li>
+</ol>
+
+<h3>Architectural (Track 2/3)</h3>
+<ol start="6">
+<li><strong>Silent market exposure.</strong> If negligible → deprioritise §18. If substantial → CEX calibration critical.</li>
+<li><strong>Layer 3 burst threshold.</strong> Too sensitive = always widened. Too insensitive = too late. Calibrate on historical bursts.</li>
+<li><strong>Layer 4 reversion timing.</strong> 82% at 5s. Optimal tightened-spread window? 3s? 10s? 30s?</li>
+</ol>
+
+<h3>Theoretical (Phase 3)</h3>
+<ol start="9">
+<li><strong>Why does CUSUM fire at peak?</strong> Hypothesis: in binary market with known terminal value, large moves from fundamental create arb → quickly closed. CUSUM fires at maximum of path → mean-reverting process → contrarian signal. If true, implications beyond PM.</li>
+<li><strong>Chainlink latency arbitrage characterisation.</strong> 18-prompt investigation suite designed but not executed.</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Research Questions Addressed</h2>
+<ol>
+<li>Optimal online regime detection for short-horizon binary crypto markets?</li>
+<li>How should regime probabilities feed into spread optimisation (Cartea-Jaimungal)?</li>
+<li>Realised volatility estimators handling microstructure noise at tick frequencies?</li>
+<li>Order flow toxicity metrics — empirical limitations in prediction markets?</li>
+<li>Nonparametric extensions (Kernel CUSUM, e-detectors, FOCuS)?</li>
+<li>How do PM microstructure and bounded prices affect regime dynamics?</li>
+<li>Hawkes processes for regime shifts through order arrival clustering?</li>
+<li>Empirical performance comparisons between detection methods?</li>
+<li>DAS-CUSUM for simultaneous mean+variance changes?</li>
+<li>Computational budgets for tick-level online detection?</li>
+<li>[NEW] Logit domain transformation for bounded [0,1] PM prices?</li>
+<li>[NEW] End-of-life price convergence vs genuine trending?</li>
+<li>[NEW] Detection lag vs adverse selection timing window?</li>
+<li>[NEW] When do smooth transition models outperform sharp changepoints?</li>
+<li>[NEW] Multi-market portfolio-level regime detection?</li>
+<li>[EDITION 2] Empirical limits of real-time adverse selection defence?</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Full Reference List</h2>
+
+<h3>Foundational Market Making &amp; Microstructure</h3>
+<ul>
+<li>Avellaneda &amp; Stoikov (2008). "High-Frequency Trading in a Limit Order Book." QF 8(3), 217-224.</li>
+<li>Cartea, Jaimungal &amp; Penalva (2015). <em>Algorithmic and High-Frequency Trading.</em> CUP.</li>
+<li>Cartea &amp; Wang (2019). "Market Making with Alpha Signals." SSRN 3439440.</li>
+<li>Cartea, Donnelly &amp; Jaimungal (2017). "Algorithmic Trading with Model Uncertainty." SIAM JFM.</li>
+<li>Cartea, Jaimungal &amp; Ricci (2018). "Algorithmic Trading, Stochastic Control, and Mutually-Exciting Processes." SIAM Review 60(3), 673-703.</li>
+<li>Glosten &amp; Milgrom (1985). "Bid, Ask and Transaction Prices." JFE 14(1), 71-100.</li>
+<li>Kyle (1985). "Continuous Auctions and Insider Trading." Econometrica 53(6), 1315-1335.</li>
+</ul>
+
+<h3>Changepoint Detection</h3>
+<ul>
+<li>Adams &amp; MacKay (2007). "Bayesian Online Changepoint Detection." arXiv:0710.3742.</li>
+<li>Page (1954). "Continuous Inspection Schemes." Biometrika 41, 100-115.</li>
+<li>Killick, Fearnhead &amp; Eckley (2012). "Optimal Detection of Changepoints." JASA 107(500), 1590-1598.</li>
+<li>Romano et al. (2023). "Fast Online Changepoint Detection via Functional Pruning CUSUM." JMLR 24, 1-36.</li>
+<li>Shin, Ramdas &amp; Rinaldo (2023). "E-detectors." New England J. Stats in Data Science 2(2), 229-260.</li>
+<li>Wei &amp; Xie (2023). "Online Kernel CUSUM." arXiv:2211.15070.</li>
+<li>Ahad, Davenport &amp; Xie (2024). "Data-Adaptive Symmetric CUSUM." Sequential Analysis 43(1). [VERIFY CITATION]</li>
+</ul>
+
+<h3>Bayesian &amp; Score-Driven</h3>
+<ul>
+<li>Tsaknaki, Mazzarisi &amp; Lillo (2024). "Online Learning of Order Flow and Market Impact." QF 24(3-4), 307-322.</li>
+</ul>
+
+<h3>Regime Switching &amp; Smooth Transition</h3>
+<ul>
+<li>Hamilton (1989). "A New Approach to Nonstationary Time Series." Econometrica 57(2), 357-384.</li>
+<li>Teräsvirta (1994). "Smooth Transition Autoregressive Models." JASA 89(425), 208-218.</li>
+<li>van Dijk, Teräsvirta &amp; Franses (2002). "STAR Models Survey." Econometric Reviews 21(1), 1-47.</li>
+</ul>
+
+<h3>Variance Ratio &amp; Time Series</h3>
+<ul>
+<li>Lo &amp; MacKinlay (1988). "Stock Market Prices Do Not Follow Random Walks." RFS 1(1), 41-66.</li>
+<li>Firoozye (2025). "Trading Mid-Frequency and RV like a Pro." Blog post. [Not peer-reviewed]</li>
+</ul>
+
+<h3>Point Processes &amp; Hawkes</h3>
+<ul>
+<li>Hawkes (1971). "Spectra of Self-Exciting and Mutually Exciting Point Processes." Biometrika 58(1), 83-90.</li>
+<li>Bacry, Mastromatteo &amp; Muzy (2015). "Hawkes Processes in Finance." Market Microstructure &amp; Liquidity 1(1).</li>
+</ul>
+
+<h3>HMM &amp; Volatility</h3>
+<ul>
+<li>Balabhadra et al. (2023). "LSTV*: Optimal Detection of Piecewise-Constant Volatility." Working paper. [UNVERIFIED — no arXiv/journal]</li>
+<li>Barndorff-Nielsen et al. (2008). "Designing Realized Kernels." Econometrica 76(6), 1481-1536.</li>
+</ul>
+
+<h3>Binary Markets &amp; Prediction Markets</h3>
+<ul>
+<li>Manski (2006). "Interpreting the Predictions of Prediction Markets." Economics Letters 91, 425-429.</li>
+<li>Wolfers &amp; Zitzewitz (2004). "Prediction Markets." JEP 18(2), 107-126.</li>
+<li>Hanson (2003). "Combinatorial Information Market Design." ISF 5(1), 107-119.</li>
+<li>Othman et al. (2013). "A Practical Liquidity-Sensitive Automated Market Maker." EC '13.</li>
+<li>Chen &amp; Pennock (2010). "A Utility Framework for Bounded-Loss Market Makers." UAI 2010.</li>
+<li>Rothschild &amp; Sethi (2013). "Trading Strategies and Market Microstructure." Working paper.</li>
+<li>Dalen (2025). "Toward Black-Scholes for Prediction Markets." arXiv:2510.15205.</li>
+</ul>
+
+<h3>Volatility Estimation</h3>
+<ul>
+<li>Zhang, Mykland &amp; Aït-Sahalia (2005). "A Tale of Two Time Scales." JASA 100(472), 1394-1411.</li>
+<li>Andersen, Bollerslev &amp; Meddahi (2011). "Realised Volatility Forecasting." JoE 160, 220-234.</li>
+</ul>
+
+<h3>Order Flow Toxicity (Refuted)</h3>
+<ul>
+<li>Easley, Lopez de Prado &amp; O'Hara (2012). "Flow Toxicity." RFS 25(5), 1457-1493.</li>
+<li>Andersen &amp; Bondarenko (2014). "VPIN and the Flash Crash." JFM 17, 1-46.</li>
+<li>Andersen &amp; Bondarenko (2015). "Assessing Measures of Order Flow Toxicity." Review of Finance 19(1), 1-54.</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>Revision History</h2>
+<table>
+<tr><th>Edition</th><th>Key Changes</th></tr>
+<tr><td>Edition 1</td><td>Initial document. Detect-react architecture with CUSUM circuit-breaker.</td></tr>
+<tr><td>Edition 1 Corrected</td><td>Fixed VR thresholds, BOCPD complexity, hazard rate, D(t,p) rejection, VPIN. Added empirical calibration.</td></tr>
+<tr><td>Edition 2</td><td>Architectural pivot: predict-price. CEX ~200ms. CUSUM peak/reversal. v5 corrected surface. 4-layer architecture.</td></tr>
+<tr><td><strong>Edition 2.1 (Current)</strong></td><td>Hybrid corrections. Per-surface medians. Layer combining rule. 0-30s caveat. Terminal PnL as primary metric. All residual Edition 1 numbers replaced.</td></tr>
+</table>
+</div>
+
+</div>
+
+
+</main>
+
+<footer style="padding:24px 0;text-align:center;color:var(--text-muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:40px;">
+Moirai Research | Changepoint Detection Implementation Guide | Edition 2.1 FINAL | February 2026<br>
+Generated from source document. All data measured from Polymarket BTC/alt 5-minute markets.
+</footer>
+
+<script>
+// ==================== DATA ====================
+const TIME_LABELS = ['0-30s ⚠', '30-60s', '60-120s', '120-180s', '180-300s'];
+const PRICE_LABELS = ['0-0.1', '0.1-0.2', '0.2-0.3', '0.3-0.4', '0.4-0.6', '0.6-0.7', '0.7-0.8', '0.8-0.9', '0.9-1.0'];
+
+const DATA = {
+  combined: {
+    adverse: [
+      [29.5,53.7,55.6,52.5,53.7,57.2,57.3,53.7,29.3],
+      [37.5,55.0,55.3,55.7,52.4,53.7,54.0,55.8,39.0],
+      [39.8,51.5,52.0,48.8,48.4,50.5,50.0,50.4,39.6],
+      [35.8,45.6,45.8,45.4,46.8,45.2,45.8,45.7,39.0],
+      [39.4,40.5,42.6,41.6,42.9,42.6,41.3,41.3,38.4]
+    ],
+    intensity: [
+      [8.14,41.40,48.91,54.03,50.11,52.94,50.32,36.66,6.24],
+      [14.99,58.97,64.20,65.78,62.84,58.03,58.50,49.43,12.32],
+      [19.23,45.11,51.97,45.31,50.90,48.53,44.19,39.52,12.22],
+      [28.74,42.44,43.20,42.05,44.21,39.73,40.72,21.80,25.13],
+      [203.39,76.88,58.23,42.19,38.58,44.39,54.63,13.59,190.36]
+    ],
+    median: 44.39
+  },
+  buy: {
+    adverse: [
+      [25.3,38.2,45.9,47.7,54.6,65.8,69.1,71.5,39.9],
+      [22.5,32.4,39.5,48.1,50.5,58.0,63.3,70.1,59.8],
+      [27.2,33.7,41.9,45.6,48.7,56.6,59.8,65.9,61.9],
+      [28.9,32.9,37.5,40.3,47.1,48.9,51.8,58.9,60.7],
+      [38.4,37.4,41.0,40.9,43.2,46.5,48.2,56.0,65.7]
+    ],
+    intensity: null, // BUY-only intensity grid not in source doc; use combined as proxy
+    median: 21.22
+  },
+  sell: {
+    adverse: [
+      [34.2,66.8,63.6,57.2,52.8,47.6,41.9,32.3,20.4],
+      [58.3,74.4,68.8,62.2,54.3,48.8,42.7,36.6,24.2],
+      [63.9,69.4,61.7,52.1,48.2,44.0,39.1,34.5,27.2],
+      [65.4,64.8,55.6,50.9,46.5,41.6,40.0,35.5,32.3],
+      [70.5,54.9,46.6,43.0,42.6,40.2,38.1,37.4,36.7]
+    ],
+    intensity: null, // SELL-only intensity grid not in source doc
+    median: 20.55
+  }
+};
+
+const CAP = 77; // p95 intensity cap
+
+// ==================== TABS ====================
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const tab = document.getElementById('tab-' + id);
+  if (tab) {
+    tab.classList.add('active');
+    // Find and activate the corresponding button
+    const btns = document.querySelectorAll('.tab-btn');
+    const map = {quickstart:0, spread:1, monitor:2, extensions:3, explorer:4, research:5, reference:6};
+    if (map[id] !== undefined && btns[map[id]]) btns[map[id]].classList.add('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+// ==================== COLLAPSIBLES ====================
+function toggleCollapse(btn) {
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// ==================== SEARCH ====================
+function searchSections(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#tab-research .collapsible').forEach(c => {
+    if (!q) { c.style.display = ''; return; }
+    const searchable = (c.getAttribute('data-search') || '') + ' ' + c.textContent.toLowerCase();
+    c.style.display = searchable.includes(q) ? '' : 'none';
+  });
+}
+
+// ==================== EXPLORER ====================
+function updateExplorer() {
+  const surface = document.getElementById('exp-surface').value;
+  const ti = parseInt(document.getElementById('exp-time').value);
+  const pi = parseInt(document.getElementById('exp-price').value);
+  const gammaBase = parseFloat(document.getElementById('exp-gamma').value) || 1.0;
+  
+  const d = DATA[surface];
+  const adverseRate = d.adverse[ti][pi];
+  
+  // Intensity: use combined grid (BUY/SELL grids not in source doc)
+  const intensityGrid = DATA.combined.intensity;
+  const rawIntensity = intensityGrid[ti][pi];
+  const cappedIntensity = Math.min(rawIntensity, CAP);
+  const median = d.median;
+  const gammaMultiplier = cappedIntensity / median;
+  const gammaEff = gammaBase * gammaMultiplier;
+  
+  const timeLabel = TIME_LABELS[ti];
+  const priceLabel = PRICE_LABELS[pi];
+  
+  let caveats = [];
+  if (ti === 0) caveats.push('⚠ 0-30s row has smallest fill counts — consider fallback to time-aggregated rate');
+  if (rawIntensity > CAP) caveats.push('⚠ Raw intensity ' + rawIntensity.toFixed(1) + ' capped at ' + CAP);
+  if (surface !== 'combined') caveats.push('ℹ Using combined intensity grid (per-surface intensity grids not in source document)');
+  if ((pi === 8 && ti === 0) || (pi === 0 && ti === 0)) caveats.push('⚠ Anomalous cell — adverse rate likely artifact of small sample');
+  
+  const html = `
+    <div style="margin-bottom:12px;color:var(--text-muted)">
+      <strong>${surface.toUpperCase()}</strong> surface · ${timeLabel} · p ∈ [${priceLabel}]
+    </div>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="big-num">${gammaEff.toFixed(2)}</div>
+        <div class="label">γ_eff (at γ_base=${gammaBase})</div>
+      </div>
+      <div class="result-item">
+        <div class="big-num" style="color:${gammaMultiplier > 1.5 ? 'var(--danger)' : gammaMultiplier > 1 ? 'var(--warn)' : 'var(--accent2)'}">${gammaMultiplier.toFixed(2)}×</div>
+        <div class="label">γ multiplier</div>
+      </div>
+      <div class="result-item">
+        <div class="big-num" style="color:${adverseRate > 60 ? 'var(--danger)' : adverseRate > 45 ? 'var(--warn)' : 'var(--accent2)'}">${adverseRate}%</div>
+        <div class="label">Adverse rate</div>
+      </div>
+      <div class="result-item">
+        <div class="big-num" style="font-size:1.4rem">${cappedIntensity.toFixed(1)}</div>
+        <div class="label">Intensity (fills/sec${rawIntensity > CAP ? ', capped' : ''})</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:0.82rem;color:var(--text-muted)">
+      <strong>Formula:</strong> γ_eff = ${gammaBase} × min(${rawIntensity.toFixed(2)}, ${CAP}) / ${median} = ${gammaBase} × ${cappedIntensity.toFixed(2)} / ${median} = <strong>${gammaEff.toFixed(3)}</strong>
+    </div>
+    ${caveats.length ? '<div class="alert alert-warn" style="margin-top:12px">' + caveats.join('<br>') + '</div>' : ''}
+  `;
+  
+  document.getElementById('explorer-result').innerHTML = html;
+}
+
+function updateGrid() {
+  const metric = document.getElementById('grid-metric').value;
+  const surface = document.getElementById('grid-surface').value;
+  const d = DATA[surface];
+  
+  let values;
+  let formatter;
+  if (metric === 'adverse') {
+    values = d.adverse;
+    formatter = v => v.toFixed(1) + '%';
+  } else if (metric === 'intensity') {
+    values = DATA.combined.intensity; // always combined (only grid available)
+    formatter = v => v.toFixed(1);
+  } else { // gamma
+    const med = d.median;
+    values = DATA.combined.intensity.map(row => row.map(v => Math.min(v, CAP) / med));
+    formatter = v => v.toFixed(2) + '×';
+  }
+  
+  // Find min/max for heatmap
+  const flat = values.flat();
+  const vmin = Math.min(...flat);
+  const vmax = Math.max(...flat);
+  
+  function heatColor(v) {
+    const ratio = (v - vmin) / (vmax - vmin || 1);
+    if (ratio < 0.25) return 'heat-low';
+    if (ratio < 0.5) return 'heat-med';
+    if (ratio < 0.75) return 'heat-high';
+    return 'heat-extreme';
+  }
+  
+  let html = '<table><tr><th>Time \\ Price</th>';
+  PRICE_LABELS.forEach(p => html += '<th>' + p + '</th>');
+  html += '</tr>';
+  
+  for (let ti = 0; ti < 5; ti++) {
+    html += '<tr><td><strong>' + TIME_LABELS[ti] + '</strong></td>';
+    for (let pi = 0; pi < 9; pi++) {
+      const v = values[ti][pi];
+      html += '<td class="' + heatColor(v) + '" style="cursor:pointer" onclick="selectCell(' + ti + ',' + pi + ',\'' + surface + '\')">' + formatter(v) + '</td>';
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  
+  if (metric === 'intensity' && surface !== 'combined') {
+    html += '<div class="alert alert-info" style="margin-top:8px">Showing combined intensity grid — per-surface (' + surface.toUpperCase() + ') intensity not in source document.</div>';
+  }
+  
+  document.getElementById('grid-container').innerHTML = html;
+}
+
+function selectCell(ti, pi, surface) {
+  document.getElementById('exp-surface').value = surface;
+  document.getElementById('exp-time').value = ti;
+  document.getElementById('exp-price').value = pi;
+  updateExplorer();
+  // Scroll to explorer result
+  document.getElementById('explorer-result').scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', function() {
+  updateExplorer();
+  updateGrid();
+});
+</script>
+
+</body>
+</html>
