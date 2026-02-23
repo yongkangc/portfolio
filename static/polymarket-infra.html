@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Infrastructure × Institutional Adoption</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --accent: #4fc3f7;
+    --accent2: #ff7043;
+    --accent3: #66bb6a;
+    --bg: #0a0a0f;
+    --text: #e0e0e0;
+    --muted: #888;
+  }
+  .reveal { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .reveal .slides { text-align: left; }
+  .reveal h1, .reveal h2, .reveal h3 { font-weight: 700; color: #fff; text-transform: none; letter-spacing: -0.02em; }
+  .reveal h1 { font-size: 2.2em; }
+  .reveal h2 { font-size: 1.5em; margin-bottom: 0.6em; }
+  .reveal h3 { font-size: 1.15em; color: var(--accent); margin-bottom: 0.4em; }
+  .reveal p, .reveal li { font-size: 0.78em; line-height: 1.6; color: var(--text); }
+  .reveal ul { list-style: none; padding-left: 0; }
+  .reveal ul li { padding: 0.3em 0; padding-left: 1.4em; position: relative; }
+  .reveal ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  .reveal .slide-number { font-size: 12px; color: var(--muted); }
+  section.title-slide { text-align: center !important; }
+  section.title-slide h1 { font-size: 2.6em; margin-bottom: 0.2em; }
+  section.title-slide p { color: var(--muted); font-size: 0.9em; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; margin-top: 1em; }
+  .stat-box { background: rgba(79,195,247,0.08); border: 1px solid rgba(79,195,247,0.2); border-radius: 12px; padding: 1em 1.2em; }
+  .stat-box .number { font-size: 2em; font-weight: 800; color: var(--accent); line-height: 1.1; }
+  .stat-box .label { font-size: 0.65em; color: var(--muted); margin-top: 0.3em; }
+  .stat-box.warn { background: rgba(255,112,67,0.08); border-color: rgba(255,112,67,0.25); }
+  .stat-box.warn .number { color: var(--accent2); }
+  .stat-box.ok { background: rgba(102,187,106,0.08); border-color: rgba(102,187,106,0.25); }
+  .stat-box.ok .number { color: var(--accent3); }
+  .cascade { counter-reset: step; margin-top: 0.8em; }
+  .cascade li { padding-left: 2.2em !important; margin-bottom: 0.25em; counter-increment: step; }
+  .cascade li::before { content: counter(step) ''; background: var(--accent2); color: #000; font-weight: 800; font-size: 0.65em; width: 1.6em; height: 1.6em; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; left: 0; top: 0.35em; }
+  .highlight-box { background: rgba(255,112,67,0.1); border-left: 3px solid var(--accent2); padding: 0.6em 1em; border-radius: 0 8px 8px 0; margin: 0.8em 0; }
+  .highlight-box p { margin: 0; font-size: 0.75em; }
+  .timeline-item { display: flex; gap: 1em; margin-bottom: 0.6em; align-items: flex-start; }
+  .timeline-date { min-width: 5em; font-weight: 700; color: var(--accent); font-size: 0.7em; padding-top: 0.15em; }
+  .timeline-text { font-size: 0.7em; color: var(--text); line-height: 1.4; }
+  .check-list li::before { content: '✅'; font-size: 0.8em; }
+  .x-list li::before { content: '✗'; color: var(--accent2); }
+  .chart-container { height: 340px; margin-top: 0.5em; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; }
+  .pill { display: inline-block; background: rgba(79,195,247,0.15); color: var(--accent); padding: 0.15em 0.6em; border-radius: 100px; font-size: 0.65em; font-weight: 600; margin-right: 0.3em; }
+  .footnote { font-size: 0.55em; color: var(--muted); margin-top: 1.5em; }
+  .center-slide { text-align: center !important; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: TITLE -->
+<section class="title-slide" data-background-color="#0a0a0f">
+  <h1>Polymarket Infrastructure<br>× Institutional Adoption</h1>
+  <p style="margin-top: 0.6em; font-size: 0.75em; color: #666;">Infrastructure Considerations for Scaling Institutional Capital</p>
+</section>
+
+<!-- SLIDE 2: THE OPPORTUNITY -->
+<section data-background-color="#0a0a0f">
+  <h2>The Opportunity</h2>
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 1.5em;">
+    <div class="stat-box ok">
+      <div class="number" style="font-size: 1.4em;">Product ✓</div>
+      <div class="label">Market fit proven — 2024 election, 2025 growth</div>
+    </div>
+    <div class="stat-box warn">
+      <div class="number" style="font-size: 1.4em;">Infra ✗</div>
+      <div class="label">Fails under stress — when it matters most</div>
+    </div>
+    <div class="stat-box">
+      <div class="number" style="font-size: 1.4em;">Capital ⏸</div>
+      <div class="label">Institutional money waiting on the sidelines</div>
+    </div>
+  </div>
+  <p style="margin-top: 1.5em; color: var(--muted); font-size: 0.7em; text-align: center;">The gap isn't product. It's plumbing. And it's solvable.</p>
+</section>
+
+<!-- SLIDE 3: WHAT INSTITUTIONS EVALUATE -->
+<section data-background-color="#0a0a0f">
+  <h2>What Institutional Participants Evaluate</h2>
+  <ul style="margin-top: 1em;">
+    <li><strong>Execution reliability under stress</strong> — not average conditions</li>
+    <li><strong>Order cancellation guarantees</strong> — can I exit during volatility?</li>
+    <li><strong>Predictable transaction costs</strong> — not 15x spikes</li>
+    <li><strong>No single points of failure</strong> — in any layer of the stack</li>
+    <li><strong>Regulatory defensibility</strong> — infrastructure that doesn't create headlines</li>
+  </ul>
+  <div class="highlight-box" style="margin-top: 1em;">
+    <p><strong>The question:</strong> "Does it work when I need it most?" — not "Does it work on average?"</p>
+  </div>
+</section>
+
+<!-- SLIDE 4: JANUARY DATA — CHART -->
+<section data-background-color="#0a0a0f">
+  <h2>January 2026: Gas vs. Failure Rate</h2>
+  <div class="chart-container">
+    <canvas id="gasFailChart"></canvas>
+  </div>
+  <p class="footnote">Source: Polygonscan, Allium Analytics — public on-chain data. Polymarket CTFExchange + NegRiskCtfExchange contracts.</p>
+</section>
+
+<!-- SLIDE 5: THE SURPRISE — LOW GAS HIGH FAILURES -->
+<section data-background-color="#0a0a0f">
+  <h2>The Surprising Part</h2>
+  <h3>Low Gas ≠ Low Failures</h3>
+  <div class="stat-grid" style="margin-top: 1em;">
+    <div class="stat-box warn">
+      <div class="number">~18%</div>
+      <div class="label">Failure rate — Dec 29<br>Gas: only ~71 gwei</div>
+    </div>
+    <div class="stat-box warn">
+      <div class="number">~15%</div>
+      <div class="label">Failure rate — Dec 20–21<br>Gas: only ~197 gwei</div>
+    </div>
+    <div class="stat-box warn">
+      <div class="number">~14%</div>
+      <div class="label">Failure rate — Jan 12<br>Gas: only ~506 gwei</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">6</div>
+      <div class="label">Distinct outage events across different failure modes</div>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 0.8em;">
+    <p>Gas volatility is the headline. <strong>It's not the whole story.</strong> Fragility runs deeper — indexing pipelines, RPC outages, multi-sig infrastructure.</p>
+  </div>
+</section>
+
+<!-- SLIDE 6: OUTAGE TIMELINE -->
+<section data-background-color="#0a0a0f">
+  <h2>Infrastructure Outage Timeline</h2>
+  <h3>Dec 2025 – Jan 2026</h3>
+  <div style="margin-top: 0.8em;">
+    <div class="timeline-item">
+      <div class="timeline-date">Dec 10</div>
+      <div class="timeline-text"><span class="pill">Goldsky</span> Subgraph issues — 7.9% failure rate, gas normal (~162 gwei)</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Dec 17</div>
+      <div class="timeline-text"><span class="pill">Polygon RPC</span> Bor nodes stalled — 25% tx volume drop</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Dec 20–21</div>
+      <div class="timeline-text"><span class="pill">Goldsky</span> Mirror pipeline: 19-hour delay — 15.2% failure rate, gas only ~197 gwei</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Dec 29</div>
+      <div class="timeline-text"><span class="pill" style="background:rgba(255,112,67,0.15);color:var(--accent2);">Backend</span> 18% failure rate with ~71 gwei gas — NOT gas-related</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 5–6</div>
+      <div class="timeline-text"><span class="pill" style="background:rgba(255,112,67,0.15);color:var(--accent2);">Gas Spike</span> Maduro event: ~15x spike, 2,850+ gwei avg, 10,300+ gwei peak</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 12</div>
+      <div class="timeline-text"><span class="pill">Gnosis Safe</span> GS026 signature race — 1 bot caused 313 of 342 failures</div>
+    </div>
+  </div>
+  <p class="footnote">Additionally: Cloudflare outages Nov 18 (~6hr global) and Dec 5 (28% traffic affected).</p>
+</section>
+
+<!-- SLIDE 7: NOT GAS EXHAUSTION -->
+<section data-background-color="#0a0a0f">
+  <h2>The Failures Aren't Gas Exhaustion</h2>
+  <div class="two-col" style="margin-top: 1em;">
+    <div>
+      <div class="stat-box" style="text-align: center; margin-bottom: 1em;">
+        <div class="number">&lt; 5%</div>
+        <div class="label">of gas limit consumed before revert</div>
+      </div>
+      <p style="font-size: 0.72em; color: var(--muted);">~27,500 gas used out of 600,000 limit. These are early <code>require()</code> reverts from stale order state — not out-of-gas failures.</p>
+    </div>
+    <div>
+      <h3>What Actually Happens</h3>
+      <ul class="cascade">
+        <li>Backend submits matching tx</li>
+        <li>Confirmation delayed by congestion</li>
+        <li>Backend times out, retries with new nonce</li>
+        <li>Both transactions land on-chain</li>
+        <li>Second tx reverts — order already filled</li>
+        <li>Cancel attempts fail — state already moved</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: USER TRAP -->
+<section data-background-color="#0a0a0f">
+  <h2>How Users Get Trapped</h2>
+  <ul class="cascade" style="margin-top: 1em;">
+    <li>Gas spikes — relayer clogs <span style="color: var(--muted); font-size: 0.85em;">(100 tx/day hard cap per user)</span></li>
+    <li>Users told to "pay your own gas" — but don't hold POL</li>
+    <li>Gas estimation bug submits doomed transactions anyway</li>
+    <li>Users beg for POL in Discord — rescue transfers also fail</li>
+    <li><strong style="color: var(--accent2);">Completely trapped</strong> — can't cancel, can't exit, positions go to zero</li>
+  </ul>
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 1em;">
+    <div class="stat-box warn">
+      <div class="number" style="font-size: 1.6em;">~700</div>
+      <div class="label">Failed cancel attempts<br>(Dec–Jan total)</div>
+    </div>
+    <div class="stat-box warn">
+      <div class="number" style="font-size: 1.6em;">183</div>
+      <div class="label">Cancels attempted Jan 5–6<br>0 succeeded</div>
+    </div>
+    <div class="stat-box warn">
+      <div class="number" style="font-size: 1.6em;">$10.5M</div>
+      <div class="label">Disputed bets<br>(Guardian, Jan 7)</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: MONETIZATION PARADOX -->
+<section data-background-color="#0a0a0f">
+  <h2>The Monetization Paradox</h2>
+  <div class="two-col" style="margin-top: 1em;">
+    <div>
+      <h3>The Revenue Path</h3>
+      <ul>
+        <li>15-min crypto markets <span style="color:var(--accent3);">+ fees</span></li>
+        <li>5-min markets in trial</li>
+        <li>High-frequency = monetization</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color: var(--accent2);">The Problem</h3>
+      <ul class="x-list">
+        <li>Every settlement cycle → arb bots spike gas</li>
+        <li>Gas spikes hurt ALL markets (sports, politics)</li>
+        <li>5-min markets will make it 3x worse</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 1em;">
+    <p><strong>The thing that makes money is the thing that breaks the platform.</strong><br>
+    <span style="color: var(--muted);">On Polygon, scaling the monetization strategy degrades the entire user experience. $0.02 gas on $1 orders makes small trades unprofitable. Gas limit cuts (25M → 10M) break conversions on large events.</span></p>
+  </div>
+</section>
+
+<!-- SLIDE 10: WHY ARBITRUM ISN'T ENOUGH -->
+<section data-background-color="#0a0a0f">
+  <h2>Why Alternative L2s Don't Solve This</h2>
+  <div class="two-col" style="margin-top: 1em;">
+    <div>
+      <h3>Arbitrum</h3>
+      <ul>
+        <li>Lower base fees ✓ (~$0.004 transfer)</li>
+        <li>Faster blocks (~250ms) ✓</li>
+        <li style="color: var(--accent2);">Still spikes under load ✗</li>
+        <li style="color: var(--accent2);">No guaranteed inclusion ✗</li>
+        <li style="color: var(--accent2);">Sequencer stalled 3hrs (Dec '23) ✗</li>
+        <li style="color: var(--accent2);">Timeboost = auction, not guarantee ✗</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Others</h3>
+      <ul>
+        <li><strong>Optimism:</strong> $0.10–0.50/tx, centralized sequencer, 15–30 min finality</li>
+        <li><strong>Solana:</strong> Cheapest fees, but 7+ major outages (up to 19hrs). Not EVM.</li>
+        <li><strong>Hyperliquid:</strong> 200K orders/sec — but custom L1, 60% stake centralized, API outage Jul '25</li>
+      </ul>
+      <div class="highlight-box" style="margin-top: 0.6em;">
+        <p style="font-size: 0.68em;">No general-purpose L2 offers <strong>guaranteed inclusion during congestion</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: WHAT INSTITUTIONAL GRADE LOOKS LIKE -->
+<section data-background-color="#0a0a0f">
+  <h2>What Institutional-Grade Looks Like</h2>
+  <ul class="check-list" style="margin-top: 1em;">
+    <li><strong>Guaranteed inclusion</strong> — bounded time, regardless of congestion. Dedicated blockspace.</li>
+    <li><strong>Fast confirmation guarantees</strong> — sub-second, cryptographic commitment. No retry loops.</li>
+    <li><strong>Protocol-level cancellation</strong> — signed message, always honored. No gas auction.</li>
+    <li><strong>Stablecoin fees</strong> — pay in USDC, not native tokens. Or full fee sponsorship.</li>
+    <li><strong>Traffic isolation</strong> — high-freq markets don't contaminate sports/politics.</li>
+    <li><strong>Reduced middleware dependency</strong> — scheduling closer to protocol, not external pipelines.</li>
+  </ul>
+  <p style="margin-top: 1em; font-size: 0.7em; color: var(--muted);">Some newer infrastructure projects are building exactly these capabilities. Worth serious evaluation.</p>
+</section>
+
+<!-- SLIDE 12: REGULATORY DIMENSION -->
+<section data-background-color="#0a0a0f">
+  <h2>The Regulatory Dimension</h2>
+  <div style="margin-top: 1em;">
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 5–6</div>
+      <div class="timeline-text">Maduro event: users trapped, suspicious $32K→$400K+ bet reported by NPR</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 7</div>
+      <div class="timeline-text">Guardian: "$10.5M in disputed bets" — international press coverage</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 7</div>
+      <div class="timeline-text">@trader_53: "Gamblers left baffled…" — 2.9M views on X</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 9</div>
+      <div class="timeline-text"><strong>Rep. Titus:</strong> Formal letter demanding answers from Polymarket</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 9</div>
+      <div class="timeline-text"><strong>Rep. Torres:</strong> Insider trading bill targeting prediction markets introduced</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 12</div>
+      <div class="timeline-text">Golden Globes partnership backlash on X/Discord</div>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 0.8em;">
+    <p>Every infrastructure failure during a high-profile event creates regulatory surface area that makes institutional adoption harder.</p>
+  </div>
+</section>
+
+<!-- SLIDE 13: CLOSING -->
+<section class="center-slide" data-background-color="#0a0a0f">
+  <h2>Two Areas, One Goal</h2>
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 1.5em auto;">
+    <div class="stat-box">
+      <div class="number" style="font-size: 1.3em;">Infrastructure</div>
+      <div class="label">Gas, inclusion, cancellation, traffic isolation</div>
+    </div>
+    <div class="stat-box">
+      <div class="number" style="font-size: 1.3em;">SDK</div>
+      <div class="label">Developer experience & integration quality</div>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 1.5em; font-size: 0.85em; color: var(--text);">Solve these → unlock institutional capital at scale.</p>
+  <p style="text-align: center; font-size: 0.7em; color: var(--muted); margin-top: 1.5em;">Happy to go deeper on any of this.</p>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  controls: true,
+  controlsTutorial: false,
+  progress: true,
+  center: false,
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  width: 1280,
+  height: 720,
+  margin: 0.08
+});
+
+// Gas vs Failure Rate chart
+Reveal.on('slidechanged', event => {
+  if (event.currentSlide.querySelector('#gasFailChart') && !window._chartDone) {
+    window._chartDone = true;
+    const ctx = document.getElementById('gasFailChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan 1', 'Jan 5', 'Jan 6', 'Jan 7', 'Jan 8', 'Jan 12', 'Jan 14'],
+        datasets: [
+          {
+            label: 'Failure Rate (%)',
+            data: [0.96, 7.52, 9.45, 6.95, 4.51, 13.92, 9.79],
+            backgroundColor: 'rgba(255, 112, 67, 0.8)',
+            borderColor: 'rgba(255, 112, 67, 1)',
+            borderWidth: 1,
+            yAxisID: 'y',
+            order: 2
+          },
+          {
+            label: 'Avg Gas (gwei)',
+            data: [192, 2851, 2302, 904, 837, 506, 764],
+            type: 'line',
+            borderColor: 'rgba(79, 195, 247, 1)',
+            backgroundColor: 'rgba(79, 195, 247, 0.1)',
+            borderWidth: 3,
+            pointRadius: 5,
+            pointBackgroundColor: 'rgba(79, 195, 247, 1)',
+            fill: true,
+            tension: 0.3,
+            yAxisID: 'y1',
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { color: '#aaa', font: { size: 13 } } },
+          tooltip: {
+            backgroundColor: '#1a1a2e',
+            titleColor: '#fff',
+            bodyColor: '#ccc',
+            borderColor: '#333',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#888', font: { size: 12 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: {
+            position: 'left',
+            title: { display: true, text: 'Failure Rate (%)', color: 'rgba(255,112,67,0.8)', font: { size: 12 } },
+            ticks: { color: '#888', callback: v => v + '%' },
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            min: 0, max: 18
+          },
+          y1: {
+            position: 'right',
+            title: { display: true, text: 'Avg Gas (gwei)', color: 'rgba(79,195,247,0.8)', font: { size: 12 } },
+            ticks: { color: '#888' },
+            grid: { drawOnChartArea: false },
+            min: 0, max: 3500
+          }
+        }
+      }
+    });
+  }
+});
+
+// Initialize chart if starting on that slide
+Reveal.on('ready', event => {
+  if (event.currentSlide.querySelector('#gasFailChart')) {
+    Reveal.dispatchEvent({ type: 'slidechanged', currentSlide: event.currentSlide });
+  }
+});
+</script>
+</body>
+</html>
