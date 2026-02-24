@@ -78,14 +78,14 @@
     </div>
     <div class="stat-box warn">
       <div class="number" style="font-size: 1.3em;">Infra ✗</div>
-      <div class="label">Degrades under stress, during the moments that matter most.</div>
+      <div class="label">Observed reliability issues during high-demand periods.</div>
     </div>
     <div class="stat-box">
       <div class="number" style="font-size: 1.3em;">Capital ⏸</div>
       <div class="label">Institutional participation gated on infrastructure trust.</div>
     </div>
   </div>
-  <p style="margin-top: 1.2em; color: var(--muted); font-size: 0.68em; text-align: center;">The product-market fit is there. The infrastructure needs to catch up.</p>
+  <p style="margin-top: 1.2em; color: var(--muted); font-size: 0.68em; text-align: center;">Based on public on-chain data (Polygonscan, Allium), community reports, and SDK source code analysis.</p>
 </section>
 
 <!-- SLIDE 3: WHAT INSTITUTIONS EVALUATE -->
@@ -99,7 +99,7 @@
     <li><strong>Regulatory defensibility</strong> of the underlying infrastructure</li>
   </ul>
   <div class="note-box" style="margin-top: 0.8em;">
-    <p>The core question for institutional allocators: does this infrastructure perform reliably when it matters most, or only under normal conditions?</p>
+    <p>Institutional due diligence typically focuses on worst-case performance, not average conditions.</p>
   </div>
 </section>
 
@@ -257,11 +257,11 @@
 <!-- SLIDE 10: ALTERNATIVE L2s -->
 <section data-background-color="#0a0a0f">
   <h2>Alternative L2 Assessment</h2>
-  <div class="two-col" style="margin-top: 0.8em;">
+  <div class="two-col" style="margin-top: 0.6em;">
     <div>
       <h3>Arbitrum</h3>
       <ul>
-        <li>Lower base fees ✓ (~$0.004 transfer)</li>
+        <li>Lower base fees ✓ (~$0.004/transfer)</li>
         <li>Faster blocks (~250ms) ✓</li>
         <li style="color: var(--accent2);">Still spikes under load ✗</li>
         <li style="color: var(--accent2);">No guaranteed inclusion ✗</li>
@@ -272,13 +272,11 @@
     <div>
       <h3>Others</h3>
       <ul>
-        <li><strong>Optimism:</strong> $0.10-0.50/tx, centralized sequencer, 15-30 min finality</li>
-        <li><strong>Solana:</strong> Cheapest fees, but 7+ major outages (up to 19hrs). Not EVM compatible.</li>
-        <li><strong>Hyperliquid:</strong> 200K orders/sec, but custom L1, 60% stake centralized, API outage Jul '25</li>
+        <li><strong>Optimism:</strong> $0.10-0.50/tx, centralized seq., 15-30 min finality</li>
+        <li><strong>Solana:</strong> Cheapest fees, 7+ major outages (up to 19hrs), not EVM</li>
+        <li><strong>Hyperliquid:</strong> 200K orders/sec, custom L1, 60% stake centralized</li>
       </ul>
-      <div class="note-box" style="margin-top: 0.5em;">
-        <p style="font-size: 0.63em;">No general-purpose L2 currently offers <strong>guaranteed inclusion during congestion</strong>.</p>
-      </div>
+      <p style="font-size: 0.6em; color: var(--muted); margin-top: 0.4em;">No general-purpose L2 currently offers <strong style="color:var(--text);">guaranteed inclusion during congestion</strong>.</p>
     </div>
   </div>
 </section>
@@ -335,7 +333,7 @@
 <section class="center-slide" data-background-color="#0a0a0f">
   <p style="font-size: 0.75em; color: var(--muted); margin-bottom: 0.5em;">That covers the on-chain infrastructure side.</p>
   <h2>SDK Analysis</h2>
-  <p style="font-size: 0.8em; color: var(--text); margin-top: 0.8em;">Separate from the chain-level issues, we identified<br>a latency bottleneck in the SDK itself that<br>affects order placement across the ecosystem.</p>
+  <p style="font-size: 0.8em; color: var(--text); margin-top: 0.8em;">Separate from chain-level considerations, our profiling<br>surfaced a latency pattern in the SDK that<br>affects order placement across the ecosystem.</p>
 </section>
 
 <!-- SLIDE 14: SDK BOTTLENECK -->
@@ -395,49 +393,49 @@
 <!-- SLIDE 16: SDK RECOMMENDATIONS -->
 <section data-background-color="#0a0a0f">
   <h2>SDK Recommendations</h2>
-  <ul style="margin-top: 0.8em;">
-    <li><strong><code>build_with_params(tick_size, fee_rate, neg_risk)</code></strong>: zero-network-call build path for callers who already have market parameters</li>
-    <li><strong>Batch pre-warm API</strong>: warm caches for upcoming token_ids in a single call before markets go active</li>
-    <li><strong>Document the cache pre-warming pattern</strong>: <code>set_tick_size()</code>, <code>set_fee_rate_bps()</code>, <code>set_neg_risk()</code> exist as public methods but are not in integration guides</li>
-    <li><strong>Nonce management</strong>: expose nonce caching to reduce additional round-trips during signing</li>
+  <ul style="margin-top: 0.6em;">
+    <li><strong><code>build_with_params(tick_size, fee_rate, neg_risk)</code></strong>: zero-network-call build path for callers with known parameters</li>
+    <li><strong>Batch pre-warm API</strong>: warm caches for upcoming token_ids in a single call before market activation</li>
+    <li><strong>Document pre-warming</strong>: <code>set_tick_size()</code>, <code>set_fee_rate_bps()</code>, <code>set_neg_risk()</code> are public but not in integration guides</li>
+    <li><strong>Nonce management</strong>: expose nonce caching to reduce round-trips during signing</li>
   </ul>
-  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; margin-top: 0.6em;">
-    <div class="stat-box warn">
-      <div class="number" style="font-size: 1em;">Current: ~75ms</div>
-      <div class="label">56ms build + 19ms post (SDK overhead dominates)</div>
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; margin-top: 0.4em; gap: 0.6em;">
+    <div class="stat-box warn" style="padding: 0.5em 0.8em;">
+      <div class="number" style="font-size: 0.95em;">Current: ~75ms</div>
+      <div class="label">56ms build + 19ms post</div>
     </div>
-    <div class="stat-box ok">
-      <div class="number" style="font-size: 1em;">Achievable: ~20ms</div>
-      <div class="label">&lt;1ms build (cached) + 19ms post (network only)</div>
+    <div class="stat-box ok" style="padding: 0.5em 0.8em;">
+      <div class="number" style="font-size: 0.95em;">Achievable: ~20ms</div>
+      <div class="label">&lt;1ms build (cached) + 19ms post</div>
     </div>
   </div>
 </section>
 
 <!-- SLIDE 17: SDK ECOSYSTEM IMPACT -->
 <section data-background-color="#0a0a0f">
-  <h2>SDK Latency as an Ecosystem Constraint</h2>
-  <ul style="margin-top: 0.8em;">
+  <h2>Ecosystem Impact of SDK Latency</h2>
+  <ul style="margin-top: 0.6em;">
     <li><strong>Rust SDK:</strong> ~56ms build overhead across all Rust integrations</li>
-    <li><strong>Python SDK:</strong> ~2x slower, ~100ms+ build for institutions using Python</li>
-    <li><strong>15-min arb window:</strong> Opportunities last 100-200ms. 56ms of SDK overhead consumes a quarter of the window before order submission.</li>
-    <li><strong>Competitive signal:</strong> The top tier of low-latency traders will build custom SDKs. But the official SDK sets the performance floor for institutional market makers, quant funds, and professional arb teams evaluating the platform.</li>
+    <li><strong>Python SDK:</strong> ~2x slower, ~100ms+ build for Python-based integrations</li>
+    <li><strong>15-min arb window:</strong> Opportunities last 100-200ms; 56ms of SDK overhead consumes a quarter of the window before submission</li>
+    <li><strong>Adoption consideration:</strong> The official SDK's performance sets expectations for institutional market makers and quant teams evaluating the platform</li>
   </ul>
-  <div class="note-box" style="margin-top: 0.6em;">
-    <p><strong>Context on our work:</strong> We contributed to the Alloy primitives (Paradigm) that the SDK is built on, and are currently optimizing at the byte level, including nibbles comparison in payload construction via the nybbles crate. We've instrumented, profiled, and built workarounds for these bottlenecks in our own integration.</p>
+  <div class="note-box" style="margin-top: 0.4em;">
+    <p style="font-size: 0.63em;"><strong>Context on the work:</strong> Moirai Research has members that contributed to the Alloy primitives (Paradigm) that the SDK is built on, and are currently helping us understand SDK optimizations at the byte level, including nibbles comparison in payload construction via the nybbles crate. They've instrumented, profiled, and built workarounds for these bottlenecks in their own integrations.</p>
   </div>
 </section>
 
 <!-- SLIDE 18: CLOSING -->
 <section class="center-slide" data-background-color="#0a0a0f">
   <h2>Summary</h2>
-  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 1.2em auto;">
-    <div class="stat-box">
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 1.2em auto; align-items: stretch;">
+    <div class="stat-box" style="display: flex; flex-direction: column; justify-content: center; min-height: 6em;">
       <div class="number" style="font-size: 1.2em;">Infrastructure</div>
-      <div class="label">Gas, inclusion guarantees, cancellation, traffic isolation</div>
+      <div class="label">Gas, inclusion guarantees,<br>cancellation, traffic isolation</div>
     </div>
-    <div class="stat-box">
+    <div class="stat-box" style="display: flex; flex-direction: column; justify-content: center; min-height: 6em;">
       <div class="number" style="font-size: 1.2em;">SDK</div>
-      <div class="label">Build latency, cache architecture, developer experience</div>
+      <div class="label">Build latency, cache architecture,<br>developer experience</div>
     </div>
   </div>
   <p style="text-align: center; margin-top: 1.2em; font-size: 0.8em; color: var(--text);">Addressing these two areas would meaningfully reduce the barriers to institutional participation.</p>
