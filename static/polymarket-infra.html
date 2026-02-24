@@ -328,7 +328,7 @@
 <!-- SLIDE 13: SDK — THE BOTTLENECK -->
 <section data-background-color="#0a0a0f">
   <h2>SDK: The Hidden Latency Tax</h2>
-  <h3>What happens when you call <code>limit_order().build().await</code></h3>
+  <h3>Are you profiling your own SDK? Because we did.</h3>
   <div class="two-col" style="margin-top: 1em;">
     <div>
       <h3 style="color: var(--accent2);">The Build Step (~56ms avg)</h3>
@@ -404,16 +404,15 @@
 <!-- SLIDE 16: SDK — ECOSYSTEM IMPACT -->
 <section data-background-color="#0a0a0f">
   <h2>SDK Latency = Ecosystem Ceiling</h2>
-  <ul style="margin-top: 1em;">
+  <ul style="margin-top: 0.8em;">
     <li><strong>Rust SDK:</strong> ~56ms build overhead — affects all Rust integrations</li>
-    <li><strong>Python SDK:</strong> ~2× slower — ~100ms+ build overhead for every institution using Python</li>
-    <li><strong>15-min arb window:</strong> Opportunities exist for 100–200ms. 56ms of unnecessary SDK overhead is the difference between capturing and missing.</li>
-    <li><strong>Institutional market makers:</strong> Standard practice is to profile the full order path. This shows up immediately in any evaluation.</li>
+    <li><strong>Python SDK:</strong> ~2× slower — ~100ms+ build for every institution using Python</li>
+    <li><strong>15-min arb window:</strong> Opportunities exist for 100–200ms. 56ms overhead = quarter of the window gone before the order even submits.</li>
+    <li><strong>Serious low-latency traders</strong> build custom SDKs from scratch. But the official SDK ceiling determines whether the next tier — institutional MMs, quant funds, pro arb teams — commits capital here or elsewhere.</li>
   </ul>
-  <div class="highlight-box" style="margin-top: 1em;">
-    <p>The SDK's latency profile sets a performance ceiling for the entire ecosystem. Serious market makers who evaluate the SDK will see this — and factor it into whether to commit capital here vs. competing venues.</p>
+  <div style="margin-top: 0.8em; background: rgba(102,187,106,0.08); border-left: 3px solid var(--accent3); padding: 0.6em 1em; border-radius: 0 8px 8px 0;">
+    <p style="margin: 0; font-size: 0.72em;"><strong>Our depth:</strong> We built the Alloy primitives (Paradigm) the SDK depends on. Currently optimizing at assembly level — nibbles comparison in payload construction, byte-level encoding in the nybbles crate. We've already instrumented, profiled, and worked around every bottleneck.</p>
   </div>
-  <p style="margin-top: 0.8em; font-size: 0.7em; color: var(--muted);">We know this codebase — we've worked on the Alloy primitives (Paradigm) that the SDK is built on, and we're already optimizing at the assembly level.</p>
 </section>
 
 <!-- SLIDE 17: CLOSING -->
