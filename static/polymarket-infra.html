@@ -21,39 +21,41 @@
   .reveal .slides { text-align: left; }
   .reveal h1, .reveal h2, .reveal h3 { font-weight: 700; color: #fff; text-transform: none; letter-spacing: -0.02em; }
   .reveal h1 { font-size: 2.2em; }
-  .reveal h2 { font-size: 1.5em; margin-bottom: 0.6em; }
-  .reveal h3 { font-size: 1.15em; color: var(--accent); margin-bottom: 0.4em; }
-  .reveal p, .reveal li { font-size: 0.78em; line-height: 1.6; color: var(--text); }
+  .reveal h2 { font-size: 1.4em; margin-bottom: 0.5em; }
+  .reveal h3 { font-size: 1.05em; color: var(--accent); margin-bottom: 0.3em; }
+  .reveal p, .reveal li { font-size: 0.72em; line-height: 1.55; color: var(--text); }
   .reveal ul { list-style: none; padding-left: 0; }
-  .reveal ul li { padding: 0.3em 0; padding-left: 1.4em; position: relative; }
+  .reveal ul li { padding: 0.2em 0; padding-left: 1.4em; position: relative; }
   .reveal ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
   .reveal .slide-number { font-size: 12px; color: var(--muted); }
   section.title-slide { text-align: center !important; }
   section.title-slide h1 { font-size: 2.6em; margin-bottom: 0.2em; }
   section.title-slide p { color: var(--muted); font-size: 0.9em; }
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; margin-top: 1em; }
-  .stat-box { background: rgba(79,195,247,0.08); border: 1px solid rgba(79,195,247,0.2); border-radius: 12px; padding: 1em 1.2em; }
-  .stat-box .number { font-size: 2em; font-weight: 800; color: var(--accent); line-height: 1.1; }
-  .stat-box .label { font-size: 0.65em; color: var(--muted); margin-top: 0.3em; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; margin-top: 0.8em; }
+  .stat-box { background: rgba(79,195,247,0.08); border: 1px solid rgba(79,195,247,0.2); border-radius: 10px; padding: 0.7em 1em; }
+  .stat-box .number { font-size: 1.8em; font-weight: 800; color: var(--accent); line-height: 1.1; }
+  .stat-box .label { font-size: 0.6em; color: var(--muted); margin-top: 0.2em; }
   .stat-box.warn { background: rgba(255,112,67,0.08); border-color: rgba(255,112,67,0.25); }
   .stat-box.warn .number { color: var(--accent2); }
   .stat-box.ok { background: rgba(102,187,106,0.08); border-color: rgba(102,187,106,0.25); }
   .stat-box.ok .number { color: var(--accent3); }
-  .cascade { counter-reset: step; margin-top: 0.8em; }
-  .cascade li { padding-left: 2.2em !important; margin-bottom: 0.25em; counter-increment: step; }
-  .cascade li::before { content: counter(step) ''; background: var(--accent2); color: #000; font-weight: 800; font-size: 0.65em; width: 1.6em; height: 1.6em; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; left: 0; top: 0.35em; }
-  .highlight-box { background: rgba(255,112,67,0.1); border-left: 3px solid var(--accent2); padding: 0.6em 1em; border-radius: 0 8px 8px 0; margin: 0.8em 0; }
-  .highlight-box p { margin: 0; font-size: 0.75em; }
-  .timeline-item { display: flex; gap: 1em; margin-bottom: 0.6em; align-items: flex-start; }
-  .timeline-date { min-width: 5em; font-weight: 700; color: var(--accent); font-size: 0.7em; padding-top: 0.15em; }
-  .timeline-text { font-size: 0.7em; color: var(--text); line-height: 1.4; }
-  .check-list li::before { content: '✅'; font-size: 0.8em; }
+  .cascade { counter-reset: step; margin-top: 0.5em; }
+  .cascade li { padding-left: 2.2em !important; margin-bottom: 0.15em; counter-increment: step; }
+  .cascade li::before { content: counter(step) ''; background: var(--accent2); color: #000; font-weight: 800; font-size: 0.6em; width: 1.5em; height: 1.5em; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; left: 0; top: 0.3em; }
+  .highlight-box { background: rgba(255,112,67,0.08); border-left: 3px solid var(--accent2); padding: 0.5em 0.8em; border-radius: 0 8px 8px 0; margin: 0.6em 0; }
+  .highlight-box p { margin: 0; font-size: 0.68em; }
+  .timeline-item { display: flex; gap: 0.8em; margin-bottom: 0.45em; align-items: flex-start; }
+  .timeline-date { min-width: 5em; font-weight: 700; color: var(--accent); font-size: 0.65em; padding-top: 0.1em; }
+  .timeline-text { font-size: 0.65em; color: var(--text); line-height: 1.35; }
+  .check-list li::before { content: '✅'; font-size: 0.75em; }
   .x-list li::before { content: '✗'; color: var(--accent2); }
-  .chart-container { height: 340px; margin-top: 0.5em; }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; }
-  .pill { display: inline-block; background: rgba(79,195,247,0.15); color: var(--accent); padding: 0.15em 0.6em; border-radius: 100px; font-size: 0.65em; font-weight: 600; margin-right: 0.3em; }
-  .footnote { font-size: 0.55em; color: var(--muted); margin-top: 1.5em; }
+  .chart-container { height: 330px; margin-top: 0.3em; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em; }
+  .pill { display: inline-block; background: rgba(79,195,247,0.15); color: var(--accent); padding: 0.1em 0.5em; border-radius: 100px; font-size: 0.6em; font-weight: 600; margin-right: 0.2em; }
+  .footnote { font-size: 0.5em; color: var(--muted); margin-top: 1em; }
   .center-slide { text-align: center !important; }
+  .note-box { background: rgba(79,195,247,0.06); border-left: 3px solid rgba(79,195,247,0.3); padding: 0.5em 0.8em; border-radius: 0 8px 8px 0; margin: 0.6em 0; }
+  .note-box p { margin: 0; font-size: 0.68em; }
 </style>
 </head>
 <body>
@@ -63,41 +65,41 @@
 <!-- SLIDE 1: TITLE -->
 <section class="title-slide" data-background-color="#0a0a0f">
   <h1>Polymarket Infrastructure<br>× Institutional Adoption</h1>
-  <p style="margin-top: 0.6em; font-size: 0.75em; color: #666;">On-Chain Infrastructure & SDK — Two Barriers to Institutional Capital</p>
+  <p style="margin-top: 0.6em; font-size: 0.75em; color: #666;">On-Chain Infrastructure & SDK: Considerations for Institutional Capital</p>
 </section>
 
 <!-- SLIDE 2: THE OPPORTUNITY -->
 <section data-background-color="#0a0a0f">
   <h2>The Opportunity</h2>
-  <div class="stat-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 1.5em;">
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 1.2em;">
     <div class="stat-box ok">
-      <div class="number" style="font-size: 1.4em;">Product ✓</div>
-      <div class="label">Market fit proven — 2024 election, 2025 growth</div>
+      <div class="number" style="font-size: 1.3em;">Product ✓</div>
+      <div class="label">Market fit proven. 2024 election, 2025 growth.</div>
     </div>
     <div class="stat-box warn">
-      <div class="number" style="font-size: 1.4em;">Infra ✗</div>
-      <div class="label">Fails under stress — when it matters most</div>
+      <div class="number" style="font-size: 1.3em;">Infra ✗</div>
+      <div class="label">Degrades under stress, during the moments that matter most.</div>
     </div>
     <div class="stat-box">
-      <div class="number" style="font-size: 1.4em;">Capital ⏸</div>
-      <div class="label">Institutional money waiting on the sidelines</div>
+      <div class="number" style="font-size: 1.3em;">Capital ⏸</div>
+      <div class="label">Institutional participation gated on infrastructure trust.</div>
     </div>
   </div>
-  <p style="margin-top: 1.5em; color: var(--muted); font-size: 0.7em; text-align: center;">The gap isn't product. It's plumbing. And it's solvable.</p>
+  <p style="margin-top: 1.2em; color: var(--muted); font-size: 0.68em; text-align: center;">The product-market fit is there. The infrastructure needs to catch up.</p>
 </section>
 
 <!-- SLIDE 3: WHAT INSTITUTIONS EVALUATE -->
 <section data-background-color="#0a0a0f">
   <h2>What Institutional Participants Evaluate</h2>
-  <ul style="margin-top: 1em;">
-    <li><strong>Execution reliability under stress</strong> — not average conditions</li>
-    <li><strong>Order cancellation guarantees</strong> — can I exit during volatility?</li>
-    <li><strong>Predictable transaction costs</strong> — not 15x spikes</li>
-    <li><strong>No single points of failure</strong> — in any layer of the stack</li>
-    <li><strong>Regulatory defensibility</strong> — infrastructure that doesn't create headlines</li>
+  <ul style="margin-top: 0.8em;">
+    <li><strong>Execution reliability under stress</strong>, not just average conditions</li>
+    <li><strong>Order cancellation guarantees</strong> during volatility</li>
+    <li><strong>Predictable transaction costs</strong>, not 15x spikes during events</li>
+    <li><strong>No single points of failure</strong> across the full stack</li>
+    <li><strong>Regulatory defensibility</strong> of the underlying infrastructure</li>
   </ul>
-  <div class="highlight-box" style="margin-top: 1em;">
-    <p><strong>The question:</strong> "Does it work when I need it most?" — not "Does it work on average?"</p>
+  <div class="note-box" style="margin-top: 0.8em;">
+    <p>The core question for institutional allocators: does this infrastructure perform reliably when it matters most, or only under normal conditions?</p>
   </div>
 </section>
 
@@ -107,126 +109,131 @@
   <div class="chart-container">
     <canvas id="gasFailChart"></canvas>
   </div>
-  <p class="footnote">Source: Polygonscan, Allium Analytics — public on-chain data. Polymarket CTFExchange + NegRiskCtfExchange contracts.</p>
+  <p class="footnote">Source: Polygonscan, Allium Analytics. Polymarket CTFExchange + NegRiskCtfExchange contracts.</p>
 </section>
 
-<!-- SLIDE 5: THE SURPRISE — LOW GAS HIGH FAILURES -->
+<!-- SLIDE 5: LOW GAS HIGH FAILURES -->
 <section data-background-color="#0a0a0f">
-  <h2>The Surprising Part</h2>
-  <h3>Low Gas ≠ Low Failures</h3>
-  <div class="stat-grid" style="margin-top: 1em;">
+  <h2>Low Gas ≠ Low Failures</h2>
+  <div class="stat-grid" style="margin-top: 0.6em;">
     <div class="stat-box warn">
       <div class="number">~18%</div>
-      <div class="label">Failure rate — Dec 29<br>Gas: only ~71 gwei</div>
+      <div class="label">Failure rate, Dec 29. Gas: ~71 gwei.</div>
     </div>
     <div class="stat-box warn">
       <div class="number">~15%</div>
-      <div class="label">Failure rate — Dec 20–21<br>Gas: only ~197 gwei</div>
+      <div class="label">Failure rate, Dec 20-21. Gas: ~197 gwei.</div>
     </div>
     <div class="stat-box warn">
       <div class="number">~14%</div>
-      <div class="label">Failure rate — Jan 12<br>Gas: only ~506 gwei</div>
+      <div class="label">Failure rate, Jan 12. Gas: ~506 gwei.</div>
     </div>
     <div class="stat-box">
       <div class="number">6</div>
-      <div class="label">Distinct outage events across different failure modes</div>
+      <div class="label">Distinct outage events across different failure modes.</div>
     </div>
   </div>
-  <div class="highlight-box" style="margin-top: 0.8em;">
-    <p>Gas volatility is the headline. <strong>It's not the whole story.</strong> Fragility runs deeper — indexing pipelines, RPC outages, multi-sig infrastructure.</p>
+  <div class="highlight-box" style="margin-top: 0.5em;">
+    <p>Some of the worst failure rates occurred during low-gas periods. The fragility extends beyond gas volatility into indexing pipelines, RPC layer, and multi-sig infrastructure.</p>
   </div>
 </section>
 
 <!-- SLIDE 6: OUTAGE TIMELINE -->
 <section data-background-color="#0a0a0f">
   <h2>Infrastructure Outage Timeline</h2>
-  <h3>Dec 2025 – Jan 2026</h3>
-  <div style="margin-top: 0.8em;">
+  <h3 style="margin-bottom: 0.5em;">Dec 2025 – Jan 2026</h3>
+  <div>
     <div class="timeline-item">
       <div class="timeline-date">Dec 10</div>
-      <div class="timeline-text"><span class="pill">Goldsky</span> Subgraph issues — 7.9% failure rate, gas normal (~162 gwei)</div>
+      <div class="timeline-text"><span class="pill">Goldsky</span> Subgraph issues. 7.9% failure rate, gas normal (~162 gwei).</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Dec 17</div>
-      <div class="timeline-text"><span class="pill">Polygon RPC</span> Bor nodes stalled — 25% tx volume drop</div>
+      <div class="timeline-text"><span class="pill">Polygon RPC</span> Bor nodes stalled. 25% tx volume drop.</div>
     </div>
     <div class="timeline-item">
-      <div class="timeline-date">Dec 20–21</div>
-      <div class="timeline-text"><span class="pill">Goldsky</span> Mirror pipeline: 19-hour delay — 15.2% failure rate, gas only ~197 gwei</div>
+      <div class="timeline-date">Dec 20-21</div>
+      <div class="timeline-text"><span class="pill">Goldsky</span> Mirror pipeline: 19-hour delay. 15.2% failure rate at ~197 gwei.</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Dec 29</div>
-      <div class="timeline-text"><span class="pill" style="background:rgba(255,112,67,0.15);color:var(--accent2);">Backend</span> 18% failure rate with ~71 gwei gas — NOT gas-related</div>
+      <div class="timeline-text"><span class="pill" style="background:rgba(255,112,67,0.15);color:var(--accent2);">Backend</span> 18% failure rate at ~71 gwei. Not gas-related.</div>
     </div>
     <div class="timeline-item">
-      <div class="timeline-date">Jan 5–6</div>
-      <div class="timeline-text"><span class="pill" style="background:rgba(255,112,67,0.15);color:var(--accent2);">Gas Spike</span> Maduro event: ~15x spike, 2,850+ gwei avg, 10,300+ gwei peak</div>
+      <div class="timeline-date">Jan 5-6</div>
+      <div class="timeline-text"><span class="pill" style="background:rgba(255,112,67,0.15);color:var(--accent2);">Gas Spike</span> Maduro event. ~15x spike, 2,850+ gwei avg, 10,300+ peak.</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Jan 12</div>
-      <div class="timeline-text"><span class="pill">Gnosis Safe</span> GS026 signature race — 1 bot caused 313 of 342 failures</div>
+      <div class="timeline-text"><span class="pill">Gnosis Safe</span> GS026 signature race. 1 bot caused 313 of 342 failures.</div>
     </div>
   </div>
-  <p class="footnote">Additionally: Cloudflare outages Nov 18 (~6hr global) and Dec 5 (28% traffic affected).</p>
+  <p class="footnote">Additional: Cloudflare outages Nov 18 (~6hr global) and Dec 5 (28% traffic affected).</p>
 </section>
 
 <!-- SLIDE 7: NOT GAS EXHAUSTION -->
 <section data-background-color="#0a0a0f">
-  <h2>The Failures Aren't Gas Exhaustion</h2>
-  <div class="two-col" style="margin-top: 1em;">
+  <h2>Failure Mechanism: Not Gas Exhaustion</h2>
+  <div class="two-col" style="margin-top: 0.8em;">
     <div>
-      <div class="stat-box" style="text-align: center; margin-bottom: 1em;">
+      <div class="stat-box" style="text-align: center; margin-bottom: 0.8em;">
         <div class="number">&lt; 5%</div>
         <div class="label">of gas limit consumed before revert</div>
       </div>
-      <p style="font-size: 0.72em; color: var(--muted);">~27,500 gas used out of 600,000 limit. These are early <code>require()</code> reverts from stale order state — not out-of-gas failures.</p>
+      <p style="font-size: 0.68em; color: var(--muted);">~27,500 gas used out of 600,000 limit. Early <code>require()</code> reverts from stale order state, not out-of-gas failures.</p>
     </div>
     <div>
-      <h3>What Actually Happens</h3>
+      <h3>Failure Cascade</h3>
       <ul class="cascade">
         <li>Backend submits matching tx</li>
         <li>Confirmation delayed by congestion</li>
         <li>Backend times out, retries with new nonce</li>
         <li>Both transactions land on-chain</li>
-        <li>Second tx reverts — order already filled</li>
-        <li>Cancel attempts fail — state already moved</li>
+        <li>Second tx reverts (order already filled)</li>
+        <li>Cancel attempts fail (state already moved)</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 8: USER TRAP -->
+<!-- SLIDE 8: USER IMPACT -->
 <section data-background-color="#0a0a0f">
-  <h2>How Users Get Trapped</h2>
-  <ul class="cascade" style="margin-top: 1em;">
-    <li>Gas spikes — relayer clogs <span style="color: var(--muted); font-size: 0.85em;">(100 tx/day hard cap per user)</span></li>
-    <li>Users told to "pay your own gas" — but don't hold POL</li>
-    <li>Gas estimation bug submits doomed transactions anyway</li>
-    <li>Users beg for POL in Discord — rescue transfers also fail</li>
-    <li><strong style="color: var(--accent2);">Completely trapped</strong> — can't cancel, can't exit, positions go to zero</li>
-  </ul>
-  <div class="stat-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 1em;">
-    <div class="stat-box warn">
-      <div class="number" style="font-size: 1.6em;">~700</div>
-      <div class="label">Failed cancel attempts<br>(Dec–Jan total)</div>
+  <h2>User Impact: The Cancellation Problem</h2>
+  <div class="two-col" style="margin-top: 0.6em;">
+    <div>
+      <ul class="cascade">
+        <li>Gas spikes; relayer hits 100 tx/day cap</li>
+        <li>Users directed to pay own gas, but lack POL</li>
+        <li>Gas estimation bug submits failing txs anyway</li>
+        <li>Rescue POL transfers also fail during spikes</li>
+        <li>Users unable to cancel or exit positions</li>
+      </ul>
     </div>
-    <div class="stat-box warn">
-      <div class="number" style="font-size: 1.6em;">183</div>
-      <div class="label">Cancels attempted Jan 5–6<br>0 succeeded</div>
-    </div>
-    <div class="stat-box warn">
-      <div class="number" style="font-size: 1.6em;">$10.5M</div>
-      <div class="label">Disputed bets<br>(Guardian, Jan 7)</div>
+    <div>
+      <div class="stat-grid" style="grid-template-columns: 1fr;">
+        <div class="stat-box warn">
+          <div class="number" style="font-size: 1.5em;">~700</div>
+          <div class="label">Failed cancel attempts (Dec-Jan)</div>
+        </div>
+        <div class="stat-box warn">
+          <div class="number" style="font-size: 1.5em;">183 / 0</div>
+          <div class="label">Cancels attempted Jan 5-6 / succeeded</div>
+        </div>
+        <div class="stat-box warn">
+          <div class="number" style="font-size: 1.5em;">$10.5M</div>
+          <div class="label">Disputed bets (Guardian, Jan 7)</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 9: MONETIZATION PARADOX -->
+<!-- SLIDE 9: MONETIZATION TENSION -->
 <section data-background-color="#0a0a0f">
-  <h2>The Monetization Paradox</h2>
-  <div class="two-col" style="margin-top: 1em;">
+  <h2>The Monetization Tension</h2>
+  <div class="two-col" style="margin-top: 0.8em;">
     <div>
-      <h3>The Revenue Path</h3>
+      <h3>Revenue Path</h3>
       <ul>
         <li>15-min crypto markets <span style="color:var(--accent3);">+ fees</span></li>
         <li>5-min markets in trial</li>
@@ -234,24 +241,23 @@
       </ul>
     </div>
     <div>
-      <h3 style="color: var(--accent2);">The Problem</h3>
+      <h3 style="color: var(--accent2);">Infrastructure Constraint</h3>
       <ul class="x-list">
-        <li>Every settlement cycle → arb bots spike gas</li>
-        <li>Gas spikes hurt ALL markets (sports, politics)</li>
-        <li>5-min markets will make it 3x worse</li>
+        <li>Each settlement cycle triggers arb bot gas spikes</li>
+        <li>Spikes affect all markets (sports, politics)</li>
+        <li>5-min markets will increase congestion ~3x</li>
       </ul>
     </div>
   </div>
-  <div class="highlight-box" style="margin-top: 1em;">
-    <p><strong>The thing that makes money is the thing that breaks the platform.</strong><br>
-    <span style="color: var(--muted);">On Polygon, scaling the monetization strategy degrades the entire user experience. $0.02 gas on $1 orders makes small trades unprofitable. Gas limit cuts (25M → 10M) break conversions on large events.</span></p>
+  <div class="highlight-box" style="margin-top: 0.6em;">
+    <p>On Polygon, scaling the high-frequency monetization strategy directly degrades UX across the platform. $0.02 gas on $1 orders makes small trades unprofitable. Gas limit reductions (25M to 10M) caused conversion failures on large events.</p>
   </div>
 </section>
 
-<!-- SLIDE 10: WHY ARBITRUM ISN'T ENOUGH -->
+<!-- SLIDE 10: ALTERNATIVE L2s -->
 <section data-background-color="#0a0a0f">
-  <h2>Why Alternative L2s Don't Solve This</h2>
-  <div class="two-col" style="margin-top: 1em;">
+  <h2>Alternative L2 Assessment</h2>
+  <div class="two-col" style="margin-top: 0.8em;">
     <div>
       <h3>Arbitrum</h3>
       <ul>
@@ -266,177 +272,176 @@
     <div>
       <h3>Others</h3>
       <ul>
-        <li><strong>Optimism:</strong> $0.10–0.50/tx, centralized sequencer, 15–30 min finality</li>
-        <li><strong>Solana:</strong> Cheapest fees, but 7+ major outages (up to 19hrs). Not EVM.</li>
-        <li><strong>Hyperliquid:</strong> 200K orders/sec — but custom L1, 60% stake centralized, API outage Jul '25</li>
+        <li><strong>Optimism:</strong> $0.10-0.50/tx, centralized sequencer, 15-30 min finality</li>
+        <li><strong>Solana:</strong> Cheapest fees, but 7+ major outages (up to 19hrs). Not EVM compatible.</li>
+        <li><strong>Hyperliquid:</strong> 200K orders/sec, but custom L1, 60% stake centralized, API outage Jul '25</li>
       </ul>
-      <div class="highlight-box" style="margin-top: 0.6em;">
-        <p style="font-size: 0.68em;">No general-purpose L2 offers <strong>guaranteed inclusion during congestion</strong>.</p>
+      <div class="note-box" style="margin-top: 0.5em;">
+        <p style="font-size: 0.63em;">No general-purpose L2 currently offers <strong>guaranteed inclusion during congestion</strong>.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 11: WHAT INSTITUTIONAL GRADE LOOKS LIKE -->
+<!-- SLIDE 11: INFRASTRUCTURE REQUIREMENTS -->
 <section data-background-color="#0a0a0f">
-  <h2>What Institutional-Grade Looks Like</h2>
-  <ul class="check-list" style="margin-top: 1em;">
-    <li><strong>Guaranteed inclusion</strong> — bounded time, regardless of congestion. Dedicated blockspace.</li>
-    <li><strong>Fast confirmation guarantees</strong> — sub-second, cryptographic commitment. No retry loops.</li>
-    <li><strong>Protocol-level cancellation</strong> — signed message, always honored. No gas auction.</li>
-    <li><strong>Stablecoin fees</strong> — pay in USDC, not native tokens. Or full fee sponsorship.</li>
-    <li><strong>Traffic isolation</strong> — high-freq markets don't contaminate sports/politics.</li>
-    <li><strong>Reduced middleware dependency</strong> — scheduling closer to protocol, not external pipelines.</li>
+  <h2>Infrastructure Requirements for Institutional Participation</h2>
+  <ul class="check-list" style="margin-top: 0.8em;">
+    <li><strong>Guaranteed inclusion</strong> within bounded time, regardless of congestion</li>
+    <li><strong>Sub-second confirmation</strong> with cryptographic commitment, eliminating retry loops</li>
+    <li><strong>Protocol-level cancellation</strong> via signed message, independent of gas auctions</li>
+    <li><strong>Stablecoin fees</strong> or full fee sponsorship, removing native token dependency</li>
+    <li><strong>Traffic isolation</strong> between market types so high-freq activity does not affect other markets</li>
+    <li><strong>Reduced middleware dependency</strong> with scheduling closer to the protocol layer</li>
   </ul>
-  <p style="margin-top: 1em; font-size: 0.7em; color: var(--muted);">Some newer infrastructure projects are building exactly these capabilities. Worth serious evaluation.</p>
+  <p style="margin-top: 0.6em; font-size: 0.65em; color: var(--muted);">Several newer infrastructure projects are building these capabilities. Worth evaluating.</p>
 </section>
 
-<!-- SLIDE 12: REGULATORY DIMENSION -->
+<!-- SLIDE 12: REGULATORY CONTEXT -->
 <section data-background-color="#0a0a0f">
-  <h2>The Regulatory Dimension</h2>
-  <div style="margin-top: 1em;">
+  <h2>Regulatory Context</h2>
+  <div style="margin-top: 0.8em;">
     <div class="timeline-item">
-      <div class="timeline-date">Jan 5–6</div>
-      <div class="timeline-text">Maduro event: users trapped, suspicious $32K→$400K+ bet reported by NPR</div>
+      <div class="timeline-date">Jan 5-6</div>
+      <div class="timeline-text">Maduro event: users unable to exit. Suspicious $32K to $400K+ bet reported by NPR.</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Jan 7</div>
-      <div class="timeline-text">Guardian: "$10.5M in disputed bets" — international press coverage</div>
+      <div class="timeline-text">Guardian: "$10.5M in disputed bets." International coverage.</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Jan 7</div>
-      <div class="timeline-text">@trader_53: "Gamblers left baffled…" — 2.9M views on X</div>
+      <div class="timeline-text">@trader_53: "Gamblers left baffled..." (2.9M views on X)</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Jan 9</div>
-      <div class="timeline-text"><strong>Rep. Titus:</strong> Formal letter demanding answers from Polymarket</div>
+      <div class="timeline-text"><strong>Rep. Titus:</strong> Formal letter demanding answers from Polymarket.</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Jan 9</div>
-      <div class="timeline-text"><strong>Rep. Torres:</strong> Insider trading bill targeting prediction markets introduced</div>
+      <div class="timeline-text"><strong>Rep. Torres:</strong> Insider trading bill targeting prediction markets introduced.</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">Jan 12</div>
-      <div class="timeline-text">Golden Globes partnership backlash on X/Discord</div>
+      <div class="timeline-text">Golden Globes partnership backlash on X/Discord.</div>
     </div>
   </div>
-  <div class="highlight-box" style="margin-top: 0.8em;">
-    <p>Every infrastructure failure during a high-profile event creates regulatory surface area that makes institutional adoption harder.</p>
+  <div class="note-box" style="margin-top: 0.5em;">
+    <p>Infrastructure failures during high-profile events generate regulatory scrutiny, which in turn raises the bar for institutional participation.</p>
   </div>
 </section>
 
 <!-- SLIDE 13: TRANSITION -->
 <section class="center-slide" data-background-color="#0a0a0f">
-  <p style="font-size: 0.8em; color: var(--muted); margin-bottom: 0.5em;">That was the on-chain infrastructure side.</p>
-  <h2>Now: the SDK</h2>
-  <p style="font-size: 0.85em; color: var(--text); margin-top: 0.8em;">Even if you solve every infrastructure problem,<br>there's a latency bottleneck in the SDK itself<br>that affects every trader on the platform.</p>
+  <p style="font-size: 0.75em; color: var(--muted); margin-bottom: 0.5em;">That covers the on-chain infrastructure side.</p>
+  <h2>SDK Analysis</h2>
+  <p style="font-size: 0.8em; color: var(--text); margin-top: 0.8em;">Separate from the chain-level issues, we identified<br>a latency bottleneck in the SDK itself that<br>affects order placement across the ecosystem.</p>
 </section>
 
-<!-- SLIDE 14: SDK — THE BOTTLENECK -->
+<!-- SLIDE 14: SDK BOTTLENECK -->
 <section data-background-color="#0a0a0f">
-  <h2>SDK: The Hidden Latency Tax</h2>
-  <h3>Are you profiling your own SDK? Because we did.</h3>
-  <div class="two-col" style="margin-top: 1em;">
+  <h2>SDK: Order Build Latency</h2>
+  <h3>Profiling <code>limit_order().build().await</code></h3>
+  <div class="two-col" style="margin-top: 0.8em;">
     <div>
-      <h3 style="color: var(--accent2);">The Build Step (~56ms avg)</h3>
+      <h3 style="color: var(--accent2);">Build Step (~56ms avg)</h3>
       <ul class="cascade">
         <li><code>fee_rate_bps()</code> → HTTP GET <span style="color:var(--muted);">/fee-rate</span></li>
         <li><code>tick_size()</code> → HTTP GET <span style="color:var(--muted);">/tick-size</span></li>
         <li>Validation + order construction</li>
       </ul>
-      <p style="font-size: 0.68em; color: var(--muted); margin-top: 0.5em;">Up to 139ms on cold calls</p>
+      <p style="font-size: 0.63em; color: var(--muted); margin-top: 0.4em;">Up to 139ms on cold calls</p>
     </div>
     <div>
-      <h3 style="color: var(--accent3);">The Post Step (~19ms)</h3>
+      <h3 style="color: var(--accent3);">Post Step (~19ms)</h3>
       <ul>
-        <li>Actual REST API submission</li>
-        <li>The real work</li>
+        <li>REST API submission</li>
+        <li>The actual order placement</li>
       </ul>
-      <div class="stat-box warn" style="margin-top: 1em;">
-        <div class="number" style="font-size: 1.6em;">3×</div>
+      <div class="stat-box warn" style="margin-top: 0.8em;">
+        <div class="number" style="font-size: 1.5em;">3×</div>
         <div class="label">SDK overhead vs actual API call</div>
       </div>
     </div>
   </div>
+  <p class="footnote">Identified via Jaeger tracing. Confirmed by source code review (order_builder.rs, polymarket-client-sdk v0.4.1).</p>
 </section>
 
-<!-- SLIDE 14: SDK — CACHE MISMATCH -->
+<!-- SLIDE 15: CACHE MISMATCH -->
 <section data-background-color="#0a0a0f">
-  <h2>The Cache Architecture Mismatch</h2>
-  <div style="margin-top: 1em;">
-    <h3>The SDK has caching — but it doesn't match 15-min market access patterns</h3>
-    <div class="two-col" style="margin-top: 1em;">
-      <div>
-        <div class="stat-box" style="margin-bottom: 0.8em;">
-          <div class="number" style="font-size: 1.1em;">DashMap Cache</div>
-          <div class="label">tick_size, fee_rate, neg_risk are cached per token_id after first lookup</div>
-        </div>
-        <p style="font-size: 0.72em; color: var(--accent3);">✓ Second order for same token = cache hit = fast</p>
+  <h2>Cache Architecture Mismatch</h2>
+  <h3>The SDK caches per token_id, but 15-min markets rotate token_ids every cycle</h3>
+  <div class="two-col" style="margin-top: 0.8em;">
+    <div>
+      <div class="stat-box" style="margin-bottom: 0.6em;">
+        <div class="number" style="font-size: 1em;">DashMap Cache</div>
+        <div class="label">tick_size, fee_rate, neg_risk cached after first lookup per token_id</div>
       </div>
-      <div>
-        <div class="stat-box warn" style="margin-bottom: 0.8em;">
-          <div class="number" style="font-size: 1.1em;">15-Min Markets</div>
-          <div class="label">New token_ids every 15 minutes — cache is always cold for new markets</div>
-        </div>
-        <p style="font-size: 0.72em; color: var(--accent2);">✗ First order per market cycle = 2 HTTP round-trips</p>
+      <p style="font-size: 0.68em; color: var(--accent3);">✓ Repeat orders for same token = cache hit</p>
+    </div>
+    <div>
+      <div class="stat-box warn" style="margin-bottom: 0.6em;">
+        <div class="number" style="font-size: 1em;">15-Min Markets</div>
+        <div class="label">New token_ids every 15 minutes. Cache always cold at market open.</div>
       </div>
+      <p style="font-size: 0.68em; color: var(--accent2);">✗ First order per cycle = 2 HTTP round-trips</p>
     </div>
-    <div class="highlight-box" style="margin-top: 1em;">
-      <p>For the exact market type Polymarket is monetizing (high-frequency 15-min / 5-min), the SDK's cache never gets warm. Every market rotation forces cold HTTP calls on the hot path.</p>
-    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 0.5em;">
+    <p>For the market type driving monetization (15-min and 5-min), the cache resets every cycle. This is a structural mismatch between the caching strategy and the access pattern.</p>
   </div>
 </section>
 
-<!-- SLIDE 15: SDK — RECOMMENDATIONS -->
+<!-- SLIDE 16: SDK RECOMMENDATIONS -->
 <section data-background-color="#0a0a0f">
   <h2>SDK Recommendations</h2>
-  <ul style="margin-top: 1em;">
-    <li><strong><code>build_with_params(tick_size, fee_rate, neg_risk)</code></strong> — zero-network-call build path for callers who already know market parameters</li>
-    <li><strong>Batch pre-warm API</strong> — warm caches for a list of upcoming token_ids in a single call before markets go active</li>
-    <li><strong>Document the cache pre-warming pattern</strong> — <code>set_tick_size()</code>, <code>set_fee_rate_bps()</code>, <code>set_neg_risk()</code> exist but most users don't know about them</li>
-    <li><strong>Nonce management</strong> — expose nonce caching to eliminate another potential HTTP round-trip during order signing</li>
+  <ul style="margin-top: 0.8em;">
+    <li><strong><code>build_with_params(tick_size, fee_rate, neg_risk)</code></strong>: zero-network-call build path for callers who already have market parameters</li>
+    <li><strong>Batch pre-warm API</strong>: warm caches for upcoming token_ids in a single call before markets go active</li>
+    <li><strong>Document the cache pre-warming pattern</strong>: <code>set_tick_size()</code>, <code>set_fee_rate_bps()</code>, <code>set_neg_risk()</code> exist as public methods but are not in integration guides</li>
+    <li><strong>Nonce management</strong>: expose nonce caching to reduce additional round-trips during signing</li>
   </ul>
-  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; margin-top: 1em;">
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; margin-top: 0.6em;">
     <div class="stat-box warn">
-      <div class="number" style="font-size: 1.1em;">Today: ~75ms</div>
-      <div class="label">56ms build + 19ms post per order<br>(SDK overhead dominates)</div>
+      <div class="number" style="font-size: 1em;">Current: ~75ms</div>
+      <div class="label">56ms build + 19ms post (SDK overhead dominates)</div>
     </div>
     <div class="stat-box ok">
-      <div class="number" style="font-size: 1.1em;">Possible: ~20ms</div>
-      <div class="label">< 1ms build (cached) + 19ms post<br>(network is the only cost)</div>
+      <div class="number" style="font-size: 1em;">Achievable: ~20ms</div>
+      <div class="label">&lt;1ms build (cached) + 19ms post (network only)</div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 16: SDK — ECOSYSTEM IMPACT -->
+<!-- SLIDE 17: SDK ECOSYSTEM IMPACT -->
 <section data-background-color="#0a0a0f">
-  <h2>SDK Latency = Ecosystem Ceiling</h2>
+  <h2>SDK Latency as an Ecosystem Constraint</h2>
   <ul style="margin-top: 0.8em;">
-    <li><strong>Rust SDK:</strong> ~56ms build overhead — affects all Rust integrations</li>
-    <li><strong>Python SDK:</strong> ~2× slower — ~100ms+ build for every institution using Python</li>
-    <li><strong>15-min arb window:</strong> Opportunities exist for 100–200ms. 56ms overhead = quarter of the window gone before the order even submits.</li>
-    <li><strong>Serious low-latency traders</strong> build custom SDKs from scratch. But the official SDK ceiling determines whether the next tier — institutional MMs, quant funds, pro arb teams — commits capital here or elsewhere.</li>
+    <li><strong>Rust SDK:</strong> ~56ms build overhead across all Rust integrations</li>
+    <li><strong>Python SDK:</strong> ~2x slower, ~100ms+ build for institutions using Python</li>
+    <li><strong>15-min arb window:</strong> Opportunities last 100-200ms. 56ms of SDK overhead consumes a quarter of the window before order submission.</li>
+    <li><strong>Competitive signal:</strong> The top tier of low-latency traders will build custom SDKs. But the official SDK sets the performance floor for institutional market makers, quant funds, and professional arb teams evaluating the platform.</li>
   </ul>
-  <div style="margin-top: 0.8em; background: rgba(102,187,106,0.08); border-left: 3px solid var(--accent3); padding: 0.6em 1em; border-radius: 0 8px 8px 0;">
-    <p style="margin: 0; font-size: 0.72em;"><strong>Our depth:</strong> We built the Alloy primitives (Paradigm) the SDK depends on. Currently optimizing at assembly level — nibbles comparison in payload construction, byte-level encoding in the nybbles crate. We've already instrumented, profiled, and worked around every bottleneck.</p>
+  <div class="note-box" style="margin-top: 0.6em;">
+    <p><strong>Context on our work:</strong> We contributed to the Alloy primitives (Paradigm) that the SDK is built on, and are currently optimizing at the byte level, including nibbles comparison in payload construction via the nybbles crate. We've instrumented, profiled, and built workarounds for these bottlenecks in our own integration.</p>
   </div>
 </section>
 
-<!-- SLIDE 17: CLOSING -->
+<!-- SLIDE 18: CLOSING -->
 <section class="center-slide" data-background-color="#0a0a0f">
-  <h2>Two Areas, One Goal</h2>
-  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 1.5em auto;">
+  <h2>Summary</h2>
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 1.2em auto;">
     <div class="stat-box">
-      <div class="number" style="font-size: 1.3em;">Infrastructure</div>
-      <div class="label">Gas, inclusion, cancellation, traffic isolation</div>
+      <div class="number" style="font-size: 1.2em;">Infrastructure</div>
+      <div class="label">Gas, inclusion guarantees, cancellation, traffic isolation</div>
     </div>
     <div class="stat-box">
-      <div class="number" style="font-size: 1.3em;">SDK</div>
-      <div class="label">Latency, caching, developer experience</div>
+      <div class="number" style="font-size: 1.2em;">SDK</div>
+      <div class="label">Build latency, cache architecture, developer experience</div>
     </div>
   </div>
-  <p style="text-align: center; margin-top: 1.5em; font-size: 0.85em; color: var(--text);">Solve these → unlock institutional capital at scale.</p>
-  <p style="text-align: center; font-size: 0.7em; color: var(--muted); margin-top: 1.5em;">Happy to go deeper on any of this.</p>
+  <p style="text-align: center; margin-top: 1.2em; font-size: 0.8em; color: var(--text);">Addressing these two areas would meaningfully reduce the barriers to institutional participation.</p>
+  <p style="text-align: center; font-size: 0.68em; color: var(--muted); margin-top: 1em;">Happy to go deeper on any of this.</p>
 </section>
 
 </div>
@@ -455,10 +460,9 @@ Reveal.initialize({
   transitionSpeed: 'fast',
   width: 1280,
   height: 720,
-  margin: 0.08
+  margin: 0.06
 });
 
-// Gas vs Failure Rate chart
 Reveal.on('slidechanged', event => {
   if (event.currentSlide.querySelector('#gasFailChart') && !window._chartDone) {
     window._chartDone = true;
@@ -529,7 +533,6 @@ Reveal.on('slidechanged', event => {
   }
 });
 
-// Initialize chart if starting on that slide
 Reveal.on('ready', event => {
   if (event.currentSlide.querySelector('#gasFailChart')) {
     Reveal.dispatchEvent({ type: 'slidechanged', currentSlide: event.currentSlide });
