@@ -325,7 +325,98 @@
   </div>
 </section>
 
-<!-- SLIDE 13: CLOSING -->
+<!-- SLIDE 13: SDK — THE BOTTLENECK -->
+<section data-background-color="#0a0a0f">
+  <h2>SDK: The Hidden Latency Tax</h2>
+  <h3>What happens when you call <code>limit_order().build().await</code></h3>
+  <div class="two-col" style="margin-top: 1em;">
+    <div>
+      <h3 style="color: var(--accent2);">The Build Step (~56ms avg)</h3>
+      <ul class="cascade">
+        <li><code>fee_rate_bps()</code> → HTTP GET <span style="color:var(--muted);">/fee-rate</span></li>
+        <li><code>tick_size()</code> → HTTP GET <span style="color:var(--muted);">/tick-size</span></li>
+        <li>Validation + order construction</li>
+      </ul>
+      <p style="font-size: 0.68em; color: var(--muted); margin-top: 0.5em;">Up to 139ms on cold calls</p>
+    </div>
+    <div>
+      <h3 style="color: var(--accent3);">The Post Step (~19ms)</h3>
+      <ul>
+        <li>Actual REST API submission</li>
+        <li>The real work</li>
+      </ul>
+      <div class="stat-box warn" style="margin-top: 1em;">
+        <div class="number" style="font-size: 1.6em;">3×</div>
+        <div class="label">SDK overhead vs actual API call</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14: SDK — CACHE MISMATCH -->
+<section data-background-color="#0a0a0f">
+  <h2>The Cache Architecture Mismatch</h2>
+  <div style="margin-top: 1em;">
+    <h3>The SDK has caching — but it doesn't match 15-min market access patterns</h3>
+    <div class="two-col" style="margin-top: 1em;">
+      <div>
+        <div class="stat-box" style="margin-bottom: 0.8em;">
+          <div class="number" style="font-size: 1.1em;">DashMap Cache</div>
+          <div class="label">tick_size, fee_rate, neg_risk are cached per token_id after first lookup</div>
+        </div>
+        <p style="font-size: 0.72em; color: var(--accent3);">✓ Second order for same token = cache hit = fast</p>
+      </div>
+      <div>
+        <div class="stat-box warn" style="margin-bottom: 0.8em;">
+          <div class="number" style="font-size: 1.1em;">15-Min Markets</div>
+          <div class="label">New token_ids every 15 minutes — cache is always cold for new markets</div>
+        </div>
+        <p style="font-size: 0.72em; color: var(--accent2);">✗ First order per market cycle = 2 HTTP round-trips</p>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top: 1em;">
+      <p>For the exact market type Polymarket is monetizing (high-frequency 15-min / 5-min), the SDK's cache never gets warm. Every market rotation forces cold HTTP calls on the hot path.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 15: SDK — RECOMMENDATIONS -->
+<section data-background-color="#0a0a0f">
+  <h2>SDK Recommendations</h2>
+  <ul style="margin-top: 1em;">
+    <li><strong><code>build_with_params(tick_size, fee_rate, neg_risk)</code></strong> — zero-network-call build path for callers who already know market parameters</li>
+    <li><strong>Batch pre-warm API</strong> — warm caches for a list of upcoming token_ids in a single call before markets go active</li>
+    <li><strong>Document the cache pre-warming pattern</strong> — <code>set_tick_size()</code>, <code>set_fee_rate_bps()</code>, <code>set_neg_risk()</code> exist but most users don't know about them</li>
+    <li><strong>Nonce management</strong> — expose nonce caching to eliminate another potential HTTP round-trip during order signing</li>
+  </ul>
+  <div class="stat-grid" style="grid-template-columns: 1fr 1fr; margin-top: 1em;">
+    <div class="stat-box warn">
+      <div class="number" style="font-size: 1.1em;">Today: ~75ms</div>
+      <div class="label">56ms build + 19ms post per order<br>(SDK overhead dominates)</div>
+    </div>
+    <div class="stat-box ok">
+      <div class="number" style="font-size: 1.1em;">Possible: ~20ms</div>
+      <div class="label">< 1ms build (cached) + 19ms post<br>(network is the only cost)</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 16: SDK — ECOSYSTEM IMPACT -->
+<section data-background-color="#0a0a0f">
+  <h2>SDK Latency = Ecosystem Ceiling</h2>
+  <ul style="margin-top: 1em;">
+    <li><strong>Rust SDK:</strong> ~56ms build overhead — affects all Rust integrations</li>
+    <li><strong>Python SDK:</strong> ~2× slower — ~100ms+ build overhead for every institution using Python</li>
+    <li><strong>15-min arb window:</strong> Opportunities exist for 100–200ms. 56ms of unnecessary SDK overhead is the difference between capturing and missing.</li>
+    <li><strong>Institutional market makers:</strong> Standard practice is to profile the full order path. This shows up immediately in any evaluation.</li>
+  </ul>
+  <div class="highlight-box" style="margin-top: 1em;">
+    <p>The SDK's latency profile sets a performance ceiling for the entire ecosystem. Serious market makers who evaluate the SDK will see this — and factor it into whether to commit capital here vs. competing venues.</p>
+  </div>
+  <p style="margin-top: 0.8em; font-size: 0.7em; color: var(--muted);">We know this codebase — we've worked on the Alloy primitives (Paradigm) that the SDK is built on, and we're already optimizing at the assembly level.</p>
+</section>
+
+<!-- SLIDE 17: CLOSING -->
 <section class="center-slide" data-background-color="#0a0a0f">
   <h2>Two Areas, One Goal</h2>
   <div class="stat-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 1.5em auto;">
@@ -335,7 +426,7 @@
     </div>
     <div class="stat-box">
       <div class="number" style="font-size: 1.3em;">SDK</div>
-      <div class="label">Developer experience & integration quality</div>
+      <div class="label">Latency, caching, developer experience</div>
     </div>
   </div>
   <p style="text-align: center; margin-top: 1.5em; font-size: 0.85em; color: var(--text);">Solve these → unlock institutional capital at scale.</p>
